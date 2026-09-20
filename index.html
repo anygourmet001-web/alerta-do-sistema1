@@ -3,254 +3,284 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SISTEMA BIO-SCANNER</title>
+    <title>SISTEMA DE PANIFICAÇÃO CRÍTICA</title>
     <style>
+        :root {
+            --fire-glow: #f97316;
+            --bread-gold: #f59e0b;
+        }
+
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #0a0512;
+            background: #180802; /* Fundo escuro cor de forno a lenha */
             font-family: 'Arial Black', sans-serif;
             user-select: none;
             -webkit-user-select: none;
             touch-action: none;
         }
 
-        /* Container de Revelação do Fundo */
-        .container-revelado {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            z-index: 1;
-            background: radial-gradient(circle at 50% 50%, #2e1065, #090514);
-        }
-
-        .texto-sucesso {
-            width: 85%;
-            max-width: 450px;
-            padding: 30px;
-            background: rgba(255, 255, 255, 0.03);
-            border-radius: 24px;
-            box-shadow: 0 0 30px rgba(168, 85, 247, 0.2);
-            border: 1px solid rgba(168, 85, 247, 0.2);
-        }
-
-        h1 {
-            font-size: 2.2rem;
-            color: #ffffff;
-            line-height: 1.4;
-            margin: 0;
-            text-shadow: 0 0 10px #a855f7, 0 0 25px #ff007f;
-        }
-
-        h2 {
-            font-size: 3.5rem;
-            color: #eab308;
-            margin: 20px 0 0 0;
-            text-shadow: 0 0 15px #eab308;
-            animation: pulsar 0.5s infinite alternate;
-        }
-
-        /* Camada Interativa Superior (O Vidro Sujo) */
-        #canvas-raspadinha {
+        #game-canvas {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            z-index: 2;
-            cursor: pointer;
+            z-index: 1;
         }
 
-        /* Instrução Flutuante Tátil */
-        .instrucao-tatel {
+        .ambient-fire {
             position: absolute;
-            bottom: 10%;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 3;
-            color: #22d3ee;
-            font-size: 1.1rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-            text-shadow: 0 0 8px #0891b2;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 80%, rgba(249, 115, 22, 0.12), transparent 70%);
+            z-index: 2;
             pointer-events: none;
-            animation: piscarInstrucao 0.8s infinite alternate;
-            background: rgba(0,0,0,0.6);
-            padding: 12px 24px;
+        }
+
+        /* Card Inicial com Efeito Glassmorphism de Forno */
+        .game-card {
+            position: relative;
+            z-index: 3;
+            width: 85%;
+            max-width: 400px;
+            padding: 35px 25px;
+            background: rgba(36, 16, 5, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 28px;
+            border: 2px solid rgba(245, 158, 11, 0.4);
+            box-shadow: 0 0 40px rgba(249, 115, 22, 0.25);
+            text-align: center;
+            box-sizing: border-box;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        h1 {
+            font-size: 2.3rem;
+            color: #ffffff;
+            margin: 0 0 10px 0;
+            text-shadow: 0 0 15px var(--bread-gold);
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #ef4444;
+            margin: 0 0 20px 0;
+            text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+        }
+
+        .contador {
+            font-size: 1.1rem;
+            color: #cbd5e1;
+            font-family: sans-serif;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 16px;
             border-radius: 50px;
-            border: 1px solid #0891b2;
+            display: inline-block;
+            border: 1px solid rgba(245, 158, 11, 0.2);
+        }
+
+        /* Estado de Vitória Modificado por JS */
+        .vitoria h1 {
+            color: #fde047 !important;
+            text-shadow: 0 0 20px #eab308 !important;
+            font-size: 2.1rem;
+        }
+        .vitoria h2 {
+            color: #ffffff !important;
+            font-size: 2.6rem !important;
+            text-shadow: 0 0 15px #f97316 !important;
+            animation: pulsar 0.4s infinite alternate;
+            margin-top: 15px;
         }
 
         @keyframes pulsar {
-            0% { transform: scale(0.97); }
-            100% { transform: scale(1.03); }
-        }
-
-        @keyframes piscarInstrucao {
-            0% { opacity: 0.3; transform: translateX(-50%) scale(0.95); }
-            100% { opacity: 1; transform: translateX(-50%) scale(1.05); }
+            0% { transform: scale(0.96); }
+            100% { transform: scale(1.04); }
         }
     </style>
 </head>
 <body>
 
-    <!-- O que fica escondido por baixo -->
-    <div class="container-revelado">
-        <div class="texto-sucesso">
-            <h1>Se beleza fosse merda,<br>tu tava toda...</h1>
-            <h2>CAGADA! 💩✨😅</h2>
+    <canvas id="game-canvas"></canvas>
+    <div class="ambient-fire"></div>
+
+    <div style="position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 3;">
+        <div class="game-card" id="painel">
+            <h1>Teu pai é<br>padeiro? 🥖🤔</h1>
+            <h2 id="subtitulo">⚠️ Forno instável! ⚠️</h2>
+            <div class="contador" id="placar">Pegue 3 roscas na tela: 0/3</div>
         </div>
     </div>
 
-    <!-- O vidro embaçado/sujo interativo para passar o dedo -->
-    <canvas id="canvas-raspadinha"></canvas>
-    <div class="instrucao-tatel" id="instrucao">👇 Use o dedo para limpar a tela 🧼</div>
-
     <script>
-        const canvas = document.getElementById('canvas-raspadinha');
+        const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
-        const instrucao = document.getElementById('instrucao');
-        let desenhando = false;
-        let pixelsLimpos = 0;
-        let jogoGanho = false;
+        const painel = document.getElementById('painel');
+        const subtitulo = document.getElementById('subtitulo');
+        const placar = document.getElementById('placar');
 
-        function inicializarCanvas() {
+        let objetos = [];
+        let particulas = [];
+        let cliques = 0;
+        let finalizado = false;
+        const emojis = ['🍩', '🥖', '🥐', '🥯'];
+
+        function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            
-            // Desenha a camada de "sujeira/fumaça" realista
-            ctx.fillStyle = '#1e1b4b'; // Cor base escura
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            
-            // Adiciona texturas e manchas de fumaça via código
-            for (let i = 0; i < 40; i++) {
-                let x = Math.random() * canvas.width;
-                let y = Math.random() * canvas.height;
-                let r = Math.random() * 80 + 40;
-                let grad = ctx.createRadialGradient(x, y, 0, x, y, r);
-                grad.addColorStop(0, 'rgba(115, 115, 115, 0.4)');
-                grad.addColorStop(1, 'transparent');
-                ctx.fillStyle = grad;
-                ctx.beginPath();
-                ctx.arc(x, y, r, 0, Math.PI * 2);
-                ctx.fill();
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        // Classe de Física dos Alimentos caindo
+        class Alimento {
+            constructor() {
+                this.x = Math.random() * (canvas.width - 60) + 30;
+                this.y = -50;
+                this.size = Math.random() * 15 + 35;
+                this.speedY = Math.random() * 3 + 2;
+                this.speedX = (Math.random() - 0.5) * 4;
+                this.angle = Math.random() * Math.PI;
+                this.spin = (Math.random() - 0.5) * 0.05;
+                this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
+                this.clicado = false;
             }
-
-            // Texto de erro na camada superior
-            ctx.font = '900 1.5rem sans-serif';
-            ctx.fillStyle = '#ef4444';
-            ctx.textAlign = 'center';
-            ctx.fillText('⚠️ BIOMETRIA BORRADA', canvas.width / 2, canvas.height / 2 - 20);
-            ctx.font = '600 1rem sans-serif';
-            ctx.fillStyle = '#a3a3a3';
-            ctx.fillText('Limpe o sensor óptico para ler', canvas.width / 2, canvas.height / 2 + 15);
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX;
+                this.angle += this.spin;
+                
+                // Colisão simples nas paredes laterais
+                if (this.x < 15 || this.x > canvas.width - 40) this.speedX *= -1;
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.font = `${this.size}px Arial`;
+                ctx.textAlign = 'center';
+                ctx.textBaseline = 'middle';
+                ctx.fillText(this.emoji, 0, 0);
+                ctx.restore();
+            }
         }
 
-        // Configuração mecânica do toque e do rastro do dedo (Scratch)
-        function obterPosicaoToque(e) {
-            let t = e.touches ? e.touches[0] : e;
-            return { x: t.clientX, y: t.clientY };
+        class Faisca {
+            constructor(x, y) {
+                this.x = x;
+                this.y = y;
+                this.size = Math.random() * 4 + 2;
+                this.speedX = (Math.random() - 0.5) * 12;
+                this.speedY = (Math.random() - 0.5) * 12;
+                this.color = Math.random() > 0.4 ? '#f97316' : '#f59e0b';
+                this.life = 40;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                this.life--;
+            }
+            draw() {
+                ctx.fillStyle = this.color;
+                ctx.globalAlpha = this.life / 40;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.globalAlpha = 1.0;
+            }
         }
 
-        function comecarLimpar(e) {
-            desenhando = true;
-            limparRastro(e);
-            tocarSomBeep(440, 0.05); // Pequeno feedback tátil sonoro de início
-        }
-
-        function pararLimpar() {
-            desenhando = false;
-            ctx.beginPath();
-            if (!jogoGanho) checarPorcentagemLimpa();
-        }
-
-        function limparRastro(e) {
-            if (!desenhando || jogoGanho) return;
-            e.preventDefault();
-            
-            let pos = obterPosicaoToque(e);
-            
-            // Corta a camada escura criando transparência (efeito borracha/limpeza)
-            ctx.globalCompositeOperation = 'destination-out';
-            ctx.lineWidth = 65; // Tamanho do rastro do dedo
-            ctx.lineCap = 'round';
-            ctx.lineJoin = 'round';
-            
-            ctx.lineTo(pos.x, pos.y);
-            ctx.stroke();
-            ctx.beginPath();
-            ctx.moveTo(pos.x, pos.y);
-        }
-
-        // Sintetizador de Áudio Nativo para criar som de vitória sem arquivos extras
-        function tocarSomBeep(frequencia, duracao) {
+        function som(f, d) {
             try {
-                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-                osc.frequency.value = frequencia;
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + duracao);
-                osc.start();
-                osc.stop(audioCtx.currentTime + duracao);
-            } catch(err) {}
+                let ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = ctxAudio.createOscillator();
+                let gain = ctxAudio.createGain();
+                osc.connect(gain); gain.connect(ctxAudio.destination);
+                osc.frequency.value = f;
+                gain.gain.setValueAtTime(0.08, ctxAudio.currentTime);
+                osc.start(); osc.stop(ctxAudio.currentTime + d);
+            } catch(e) {}
         }
 
-        // Calcula dinamicamente o quanto da tela já foi limpo
-        function checarPorcentagemLimpa() {
-            let imgData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-            let totalPixels = imgData.data.length / 4;
-            let pixelsTransparentes = 0;
+        // Detecção mecânica de cliques nas roscas flutuantes
+        function processarClique(clientX, clientY) {
+            if (finalizado) return;
             
-            // Checa a transparência pulando pixels para não travar o celular
-            for (let i = 3; i < imgData.data.length; i += 32) {
-                if (imgData.data[i] === 0) {
-                    pixelsTransparentes += 8;
+            for (let i = objetos.length - 1; i >= 0; i--) {
+                let obj = objetos[i];
+                let dist = Math.hypot(clientX - obj.x, clientY - obj.y);
+                
+                if (dist < 45 && obj.emoji === '🍩') {
+                    // Explode faíscas ao capturar a rosca
+                    for(let p=0; p<15; p++) particulas.push(new Faisca(obj.x, obj.y));
+                    objetos.splice(i, 1);
+                    cliques++;
+                    som(600, 0.08);
+                    
+                    if (cliques < 3) {
+                        placar.innerText = `Pegue 3 roscas na tela: ${cliques}/3`;
+                    } else {
+                        vitoriaGeral();
+                    }
+                    break;
                 }
             }
-            
-            let porcentagem = (pixelsTransparentes / totalPixels) * 100;
-            
-            // Se limpou mais da metade, limpa o resto automaticamente com efeito de festa
-            if (porcentagem > 45) {
-                jogoGanho = true;
-                instrucao.style.display = 'none';
-                canvas.style.transition = 'opacity 0.8s ease';
-                canvas.style.opacity = '0';
-                
-                // Melodia de sucesso gerada via código
-                tocarSomBeep(523.25, 0.15); // Dó
-                setTimeout(() => tocarSomBeep(659.25, 0.15), 150); // Mi
-                setTimeout(() => tocarSomBeep(783.99, 0.3), 300); // Sol
-                
-                setTimeout(() => {
-                    canvas.remove();
-                }, 800);
-            }
         }
 
-        // Eventos para Celular (Touch) e PC (Mouse)
-        canvas.addEventListener('mousedown', comecarLimpar);
-        canvas.addEventListener('mousemove', limparRastro);
-        window.addEventListener('mouseup', pararLimpar);
+        function vitoriaGeral() {
+            finalizado = true;
+            placar.style.display = 'none';
+            subtitulo.style.display = 'none';
+            painel.classList.add('vitoria');
+            
+            // Troca o texto da interface dinamicamente com animação
+            painel.querySelector('h1').innerText = "Porque eu queria saber...";
+            
+            setTimeout(() => {
+                let h2 = document.createElement('h2');
+                h2.innerText = "SE ELE QUEIMA A ROSCA! 🍩🔥🤣";
+                painel.appendChild(h2);
+                
+                // Sons cômicos de revelação
+                som(440, 0.15);
+                setTimeout(() => som(554.37, 0.15), 150);
+                setTimeout(() => som(659.25, 0.4), 300);
+                
+                // Super explosão de faíscas no meio do card
+                let rect = painel.getBoundingClientRect();
+                for(let k=0; k<80; k++) {
+                    particulas.push(new Faisca(rect.left + rect.width/2, rect.top + rect.height/2));
+                }
+            }, 600);
+        }
 
-        canvas.addEventListener('touchstart', comecarLimpar, { passive: false });
-        canvas.addEventListener('touchmove', limparRastro, { passive: false });
-        window.addEventListener('touchend', pararLimpar);
+        // Listeners táteis rápidos para o minijogo
+        window.addEventListener('touchstart', (e) => {
+            processarClique(e.touches[0].clientX, e.touches[0].clientY);
+        });
+        window.addEventListener('mousedown', (e) => {
+            processarClique(e.clientX, e.clientY);
+        });
 
-        window.addEventListener('resize', inicializarCanvas);
-        inicializarCanvas();
-    </script>
-</body>
-</html>
+        function gameLoop() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            
+            if (!finalizado && objetos.length < 15 && Math.random() < 0.04) {
+                objetos.push(new Alimento());
+            }
+
+            for (let i = objetos.length - 1; i >= 0; i--) {
+                objetos[i].update();
+                objetos[i].draw();
+                if (objetos[i].y > canvas.height + 50) objetos.splice(i, 1);
+            }
+
+            for (let i = particulas.length - 1; i >= 0; i--) {
+                particulas[i].update();
+                particulas[i].draw();
