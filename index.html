@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Declaração do Sistema</title>
+    <title>Aviso de Força Maior</title>
     <style>
         body {
-            background: linear-gradient(135deg, #1e0b1c, #4c0519, #831843); /* Fundo romântico escuro */
+            background: linear-gradient(135deg, #2c1a11, #4a2c11, #1a0f0a); /* Fundo temático marrom escuro */
             color: #fff;
             font-family: 'Arial Black', sans-serif;
             display: flex;
@@ -20,8 +20,8 @@
             position: relative;
         }
 
-        /* Container de corações flutuantes */
-        .coracoes-bg {
+        /* Chuva de elementos cômicos no fundo */
+        .chuva-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,104 +31,80 @@
             z-index: 1;
         }
 
-        .coracao-css {
+        .elemento-queda {
             position: absolute;
-            display: block;
-            width: 20px;
-            height: 20px;
-            background-color: #f43f5e;
-            transform: rotate(-45deg);
-            bottom: -50px;
-            animation: subir 6s linear infinite;
+            top: -50px;
+            font-size: 2rem;
+            animation: cair 4s linear infinite;
+            user-select: none;
         }
 
-        .coracao-css::before,
-        .coracao-css::after {
-            content: "";
-            position: absolute;
-            width: 20px;
-            height: 20px;
-            background-color: #f43f5e;
-            border-radius: 50%;
-        }
-
-        .coracao-css::before {
-            top: -10px;
-            left: 0;
-        }
-
-        .coracao-css::after {
-            top: 0;
-            left: 10px;
-        }
-
-        /* Configuração de posições e tempos diferentes para os corações */
-        .c1 { left: 10%; animation-duration: 5s; animation-delay: 0s; scale: 0.8; }
-        .c2 { left: 30%; animation-duration: 7s; animation-delay: 2s; scale: 1.2; background-color: #ec4899; }
-        .c2::before, .c2::after { background-color: #ec4899; }
-        .c3 { left: 55%; animation-duration: 6s; animation-delay: 1s; scale: 1; }
-        .c4 { left: 75%; animation-duration: 8s; animation-delay: 3s; scale: 1.5; background-color: #f43f5e; }
-        .c5 { left: 90%; animation-duration: 5s; animation-delay: 0.5s; scale: 0.7; background-color: #fda4af; }
-        .c5::before, .c5::after { background-color: #fda4af; }
+        /* Configuração de tempos e posições diferentes para a queda */
+        .e1 { left: 15%; animation-duration: 3.5s; animation-delay: 0s; }
+        .e2 { left: 35%; animation-duration: 5s; animation-delay: 1.5s; font-size: 2.5rem; }
+        .e3 { left: 55%; animation-duration: 4s; animation-delay: 0.5s; }
+        .e4 { left: 75%; animation-duration: 4.5s; animation-delay: 2s; font-size: 3rem; }
+        .e5 { left: 85%; animation-duration: 3s; animation-delay: 1s; }
 
         /* Conteúdo principal */
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: pulsar 1s ease-in-out infinite alternate;
+            animation: balancar 0.5s ease-in-out infinite alternate;
         }
 
         h1 {
-            font-size: 4rem;
-            color: #fff;
-            text-shadow: 0 0 10px #f43f5e, 0 0 30px #f43f5e;
+            font-size: 3.5rem;
+            color: #d7ccc8;
+            text-shadow: 0 0 15px #8d6e63, 0 0 30px #5d4037;
             margin: 0;
         }
 
-        span {
-            font-size: 5rem;
-            display: block;
+        h2 {
+            font-size: 2.2rem;
+            color: #ffb74d; /* Laranja de aviso */
             margin-top: 15px;
+            text-shadow: 0 0 10px rgba(255, 183, 77, 0.5);
         }
 
         /* Animações */
-        @keyframes subir {
+        @keyframes cair {
             0% {
-                transform: translateY(0) rotate(-45deg);
+                transform: translateY(0) rotate(0deg);
                 opacity: 0;
             }
             10% {
-                opacity: 0.8;
+                opacity: 1;
             }
             90% {
-                opacity: 0.8;
+                opacity: 1;
             }
             100% {
-                transform: translateY(-110vh) rotate(-45deg);
+                transform: translateY(110vh) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        @keyframes pulsar {
-            0% { transform: scale(1); }
-            100% { transform: scale(1.05); }
+        @keyframes balancar {
+            0% { transform: rotate(-2deg); }
+            100% { transform: rotate(2deg); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Corações Gerados por CSS flutuando no fundo -->
-    <div class="coracoes-bg">
-        <div class="coracao-css c1"></div>
-        <div class="coracao-css c2"></div>
-        <div class="coracao-css c3"></div>
-        <div class="coracao-css c4"></div>
-        <div class="coracao-css c5"></div>
+    <!-- Chuva de emojis caindo no fundo -->
+    <div class="chuva-bg">
+        <div class="elemento-queda e1">💩</div>
+        <div class="elemento-queda e2">🧻</div>
+        <div class="elemento-queda e3">💩</div>
+        <div class="elemento-queda e4">🧻</div>
+        <div class="elemento-queda e5">💩</div>
     </div>
 
     <div class="conteudo">
-        <h1>Te Amoooo</h1>
-        <span>❤️🥰❤️</span>
+        <h1>Fui Cagar!</h1>
+        <h2>Me dá 5 minutinhos ⏳🚪</h2>
     </div>
 
 </body>
