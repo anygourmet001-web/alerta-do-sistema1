@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALERTA DO SISTEMA</title>
+    <title>Recadinho do Sistema</title>
     <style>
         body {
-            background-color: black;
-            color: red;
+            background: linear-gradient(135deg, #0f172a, #1e1b4b, #311042); /* Céu noturno em degradê */
+            color: #f8fafc;
             font-family: 'Arial Black', sans-serif;
             display: flex;
             flex-direction: column;
@@ -18,24 +18,60 @@
             overflow: hidden;
             text-align: center;
         }
+
+        /* Ilustração da Lua em CSS */
+        .lua-container {
+            position: relative;
+            width: 120px;
+            height: 120px;
+            margin-bottom: 20px;
+            animation: flutuar 3s ease-in-out infinite alternate;
+        }
+        .lua {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            box-shadow: 25px 25px 0 0 #fde047; /* Cria o formato de lua crescente amarela */
+            transform: rotate(-15deg);
+        }
+
+        /* Mensagens principais */
         h1 {
-            font-size: 3rem;
-            animation: piscar 0.5s infinite alternate;
+            font-size: 3.2rem;
+            color: #f472b6; /* Rosa fofinho */
+            text-shadow: 2px 2px 10px rgba(244, 114, 182, 0.5);
+            margin: 10px 0;
+            animation: piscar 0.8s infinite alternate;
         }
         h2 {
-            font-size: 2.2rem;
-            color: yellow;
-            animation: piscar 0.5s infinite alternate;
-            animation-delay: 0.25s;
+            font-size: 2.4rem;
+            color: #38bdf8; /* Azul claro suave */
+            text-shadow: 2px 2px 10px rgba(56, 189, 248, 0.5);
+            margin: 10px 0;
+            animation: piscar 0.8s infinite alternate;
+            animation-delay: 0.4s;
         }
+
+        /* Animações */
         @keyframes piscar {
-            0% { opacity: 1; }
-            100% { opacity: 0; }
+            0% { opacity: 1; transform: scale(1); }
+            100% { opacity: 0.4; transform: scale(0.98); }
+        }
+        @keyframes flutuar {
+            0% { transform: translateY(0px) rotate(-15deg); }
+            100% { transform: translateY(-15px) rotate(-5deg); }
         }
     </style>
 </head>
 <body>
-    <h1>⚠️ ALERTA !! ⚠️</h1>
-    <h2>Calma Bebê, Não é virus !!</h2>
+
+    <!-- Ilustração Visual da Lua de Sono -->
+    <div class="lua-container">
+        <div class="lua"></div>
+    </div>
+
+    <h1>😻 Gatinhaaa !! 😻</h1>
+    <h2>Vamo mimi ? 💤✨</h2>
+
 </body>
 </html>
