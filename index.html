@@ -1,376 +1,1048 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-<title>A PERERECA DA ANA — OPERAÇÃO SAPOCAOS</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+<meta name="theme-color" content="#08110d">
+<title>🐸 A PERERECA DA ANA — SAPOCAOS DEFINITIVO</title>
 <style>
 :root{
-  --bg:#07100d;--panel:#101c17;--panel2:#15251e;--lime:#b7ff63;--pink:#ff6fb5;
-  --yellow:#ffe66d;--cyan:#63e8ff;--red:#ff5d6c;--white:#f5fff7;--muted:#9ab0a4;
+  --bg:#050a08;
+  --panel:#0d1913;
+  --panel2:#13241b;
+  --line:#ffffff18;
+  --text:#f3fff7;
+  --muted:#a5b8ac;
+  --lime:#b8ff66;
+  --yellow:#ffe36e;
+  --pink:#ff73b7;
+  --cyan:#66e8ff;
+  --red:#ff6170;
+  --orange:#ffae62;
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);font-family:system-ui,-apple-system,Segoe UI,sans-serif;color:var(--white)}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif}
 body{touch-action:none}
 button{font:inherit}
-#app{position:fixed;inset:0;overflow:hidden;background:
- radial-gradient(circle at 20% 20%,#173b27 0,transparent 28%),
- radial-gradient(circle at 80% 80%,#32172c 0,transparent 28%),#07100d}
-#stars,#rain,#fx{position:absolute;inset:0;pointer-events:none}
-#stars{opacity:.55}
-#noise{position:absolute;inset:0;opacity:.035;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}
-#top{
- position:absolute;z-index:20;left:10px;right:10px;top:10px;display:flex;gap:8px;align-items:stretch;
+button:focus{outline:2px solid #b8ff6670;outline-offset:2px}
+#app{
+  position:fixed;inset:0;overflow:hidden;
+  background:
+    radial-gradient(circle at 15% 15%,#164a2c 0,transparent 28%),
+    radial-gradient(circle at 90% 85%,#411b3b 0,transparent 30%),
+    linear-gradient(145deg,#07100b,#030705);
 }
-.stat{background:#0b1712d9;border:1px solid #ffffff18;border-radius:15px;padding:7px 10px;min-width:95px;box-shadow:0 8px 30px #0005;backdrop-filter:blur(8px)}
-.stat b{display:block;font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:1px}
-.stat span{font-size:18px;font-weight:900}
-#scorebox{margin-left:auto}
-#main{position:absolute;z-index:5;inset:70px 12px 12px;display:grid;grid-template-columns:minmax(0,1.35fr) minmax(280px,.65fr);gap:12px}
-#stage{
- position:relative;overflow:hidden;border:1px solid #ffffff14;border-radius:25px;
- background:linear-gradient(145deg,#10231aee,#0a1511ee);box-shadow:0 25px 80px #0008;
+#stars,#fx{position:absolute;inset:0;pointer-events:none}
+#noise{
+  position:absolute;inset:0;pointer-events:none;opacity:.025;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.75' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
-#side{display:flex;flex-direction:column;gap:10px;min-height:0}
-.panel{background:#0c1813e8;border:1px solid #ffffff12;border-radius:20px;padding:13px;box-shadow:0 18px 50px #0006;backdrop-filter:blur(10px)}
-#mission{font-size:14px;line-height:1.35}
-#mission strong{color:var(--lime)}
-#log{flex:1;overflow:auto;font-size:12px;line-height:1.4;color:#c8d9cf}
-.logline{padding:6px 0;border-bottom:1px dashed #ffffff0d}
-#controls{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+#hud{
+  position:absolute;z-index:50;left:10px;right:10px;top:9px;
+  display:flex;gap:7px;align-items:stretch;pointer-events:none
+}
+.stat{
+  min-width:94px;padding:6px 10px;border:1px solid var(--line);border-radius:15px;
+  background:#09140fe8;backdrop-filter:blur(12px);box-shadow:0 10px 35px #0007
+}
+.stat b{display:block;font-size:9px;color:var(--muted);letter-spacing:1px;text-transform:uppercase}
+.stat span{font-size:18px;font-weight:1000}
+#hudScore{margin-left:auto}
+#game{
+  position:absolute;z-index:5;inset:67px 10px 10px;
+  display:grid;grid-template-columns:minmax(0,1.55fr) minmax(270px,.65fr);gap:10px
+}
+#world{
+  position:relative;overflow:hidden;border-radius:25px;border:1px solid var(--line);
+  background:linear-gradient(145deg,#0d2117eF,#08120deF);
+  box-shadow:0 25px 90px #0009
+}
+#scene{
+  position:absolute;inset:0;overflow:hidden
+}
+#sceneTitle{
+  position:absolute;z-index:5;left:24px;right:24px;top:21px;pointer-events:none
+}
+#sceneTitle .eyebrow{color:var(--yellow);font-size:11px;font-weight:1000;letter-spacing:2px}
+#sceneTitle h1{font-size:clamp(27px,4.6vw,56px);line-height:.92;margin:4px 0 8px;letter-spacing:-2.5px;text-shadow:0 8px 35px #000}
+#sceneTitle p{max-width:740px;color:#bfd0c5;font-size:14px;line-height:1.45;margin:0}
+#sidebar{display:flex;flex-direction:column;gap:9px;min-height:0}
+.panel{
+  background:#09150ff0;border:1px solid var(--line);border-radius:19px;padding:12px;
+  box-shadow:0 15px 45px #0007;backdrop-filter:blur(10px)
+}
+.panelTitle{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--yellow);font-weight:1000}
+#objective{font-size:14px;line-height:1.4;margin-top:4px}
+#actions{display:grid;grid-template-columns:1fr 1fr;gap:7px}
 .action{
- border:1px solid #ffffff18;background:linear-gradient(180deg,#1c3227,#102119);color:white;border-radius:14px;
- padding:12px 8px;font-weight:800;cursor:pointer;box-shadow:0 5px 0 #06100b;transition:.12s;touch-action:manipulation
+  border:1px solid #ffffff16;background:linear-gradient(#193225,#0d1d15);
+  color:var(--text);border-radius:13px;padding:11px 7px;font-weight:900;cursor:pointer;
+  box-shadow:0 4px 0 #020603;transition:.1s;touch-action:manipulation
 }
-.action:active{transform:translateY(3px);box-shadow:0 2px 0 #06100b}
-.action.hot{border-color:#b7ff6344}
-.action.bad{border-color:#ff5d6c44}
-#title{
- position:absolute;z-index:4;left:24px;top:22px;right:24px;pointer-events:none
-}
-#title h1{margin:0;font-size:clamp(25px,4vw,54px);line-height:.95;letter-spacing:-2px;text-shadow:0 5px 30px #000}
-#title p{margin:9px 0;color:#c4d8ca;max-width:680px}
-#arena{position:absolute;inset:0;overflow:hidden}
-.frog{
- position:absolute;width:82px;height:68px;display:grid;place-items:center;font-size:54px;cursor:pointer;
- filter:drop-shadow(0 10px 10px #0008);user-select:none;z-index:8;
-}
-.frog .tag{position:absolute;top:-18px;white-space:nowrap;font-size:10px;color:#dfffc8;background:#0c1711dd;border:1px solid #ffffff18;padding:3px 6px;border-radius:8px}
-.target,.danger,.item,.cloud,.boy{
- position:absolute;display:grid;place-items:center;user-select:none;cursor:pointer;
-}
-.target{font-size:65px;width:80px;height:80px;z-index:10;filter:drop-shadow(0 8px 12px #000)}
-.danger{font-size:55px;width:70px;height:70px;z-index:9}
-.item{font-size:44px;width:60px;height:60px;z-index:7}
-.cloud{font-size:48px;opacity:.65}
-.boy{font-size:55px;width:70px;height:70px;z-index:11}
+.action:active{transform:translateY(3px);box-shadow:0 1px 0 #020603}
+.action.hot{border-color:#b8ff6650}
+.action.warn{border-color:#ff617050}
+#inventory{display:flex;flex-wrap:wrap;gap:5px;margin-top:7px}
+.itemBadge{padding:5px 7px;border:1px solid #ffffff12;background:#ffffff07;border-radius:10px;font-size:11px}
+#journal{flex:1;min-height:120px;overflow:auto}
+.log{font-size:11px;line-height:1.4;padding:6px 0;border-bottom:1px dashed #ffffff0e;color:#c9d6ce}
 #dialog{
- position:absolute;z-index:40;left:50%;bottom:25px;transform:translateX(-50%);
- width:min(760px,calc(100% - 30px));background:#0b1611f4;border:1px solid #ffffff1c;
- border-radius:22px;padding:16px;box-shadow:0 25px 90px #000b;display:none
+  position:absolute;z-index:30;left:50%;bottom:20px;transform:translateX(-50%);
+  width:min(780px,calc(100% - 30px));padding:16px;
+  background:#08120ff5;border:1px solid #ffffff20;border-radius:22px;
+  box-shadow:0 25px 100px #000b;display:none
 }
-#dialog .who{font-size:12px;font-weight:900;color:var(--yellow);text-transform:uppercase;letter-spacing:1px}
-#dialog .big{font-size:22px;font-weight:950;margin:3px 0 6px}
-#dialog .txt{color:#c9d8cf;line-height:1.45}
-#choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:12px}
-.choice{border:1px solid #ffffff16;background:#15251ddf;color:white;border-radius:13px;padding:12px;text-align:left;cursor:pointer}
-.choice:hover{border-color:#b7ff6366}
-#mini{
- position:absolute;z-index:35;inset:0;background:#050a08dd;display:none;align-items:center;justify-content:center;padding:20px
+#speaker{font-size:10px;font-weight:1000;letter-spacing:1.6px;color:var(--yellow);text-transform:uppercase}
+#dialogTitle{font-size:22px;font-weight:1000;margin:4px 0}
+#dialogText{color:#cbd8d0;line-height:1.48;font-size:14px}
+#choices{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:11px}
+.choice{
+  border:1px solid #ffffff15;background:#12231add;color:#fff;border-radius:13px;
+  padding:11px;text-align:left;cursor:pointer;min-height:48px
 }
-#miniCard{width:min(850px,96vw);height:min(650px,92vh);background:#0c1813f5;border:1px solid #ffffff18;border-radius:25px;box-shadow:0 30px 100px #000;position:relative;overflow:hidden}
-#miniHead{height:76px;padding:13px 18px;border-bottom:1px solid #ffffff10;display:flex;align-items:center;gap:12px}
-#miniTitle{font-size:20px;font-weight:950}
-#miniHint{font-size:12px;color:var(--muted)}
-#timer{margin-left:auto;font-weight:950;color:var(--yellow);font-size:22px}
-#miniArena{position:absolute;left:0;right:0;top:76px;bottom:0;overflow:hidden}
-#miniMsg{position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);text-align:center;font-weight:950;font-size:24px;text-shadow:0 5px 20px #000;pointer-events:none;width:90%}
-.progress{position:absolute;left:20px;right:20px;bottom:16px;height:10px;background:#ffffff0d;border-radius:99px;overflow:hidden;z-index:50}
-.progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lime),var(--yellow),var(--pink));transition:.15s}
-#intro,#end{
- position:absolute;z-index:100;inset:0;background:#050a08f5;display:flex;align-items:center;justify-content:center;padding:18px
+.choice:hover{border-color:#b8ff6666}
+#toast{
+  position:absolute;z-index:90;top:84px;left:50%;transform:translate(-50%,-18px);
+  padding:10px 14px;background:#09150ff5;border:1px solid #ffffff1d;border-radius:14px;
+  box-shadow:0 15px 50px #0009;opacity:0;pointer-events:none;transition:.18s;font-weight:900
 }
-.modal{width:min(820px,96vw);max-height:90vh;overflow:auto;background:linear-gradient(145deg,#10221a,#0b1511);border:1px solid #ffffff18;border-radius:30px;padding:26px;box-shadow:0 40px 120px #000}
-.modal h2{font-size:clamp(30px,5vw,62px);line-height:.92;margin:0 0 12px;letter-spacing:-2px}
-.modal p{color:#c5d7cc;line-height:1.5}
-.bigbtn{border:0;border-radius:16px;padding:15px 20px;background:linear-gradient(135deg,#b7ff63,#68dc7b);color:#07100d;font-weight:1000;cursor:pointer;box-shadow:0 7px 0 #315d32;margin-top:10px}
-.badge{display:inline-block;padding:6px 9px;border-radius:99px;background:#ffffff0b;border:1px solid #ffffff12;margin:3px;font-size:12px}
-.toast{position:absolute;z-index:90;left:50%;top:90px;transform:translateX(-50%) translateY(-15px);background:#0c1813f2;border:1px solid #ffffff1c;padding:11px 15px;border-radius:14px;opacity:0;transition:.2s;pointer-events:none;font-weight:800;box-shadow:0 15px 50px #0008}
-.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-.particle{position:absolute;pointer-events:none;z-index:70;font-size:20px;animation:pop .8s ease-out forwards}
-@keyframes pop{0%{transform:translate(0,0) scale(.6);opacity:1}100%{transform:translate(var(--dx),var(--dy)) scale(1.5);opacity:0}}
-@keyframes hop{0%,100%{transform:translateY(0) rotate(-2deg)}50%{transform:translateY(-18px) rotate(5deg)}}
+#toast.show{opacity:1;transform:translate(-50%,0)}
+.particle{
+  position:absolute;z-index:80;pointer-events:none;font-size:20px;
+  animation:particle .85s ease-out forwards
+}
+@keyframes particle{0%{opacity:1;transform:translate(0,0) scale(.7)}100%{opacity:0;transform:translate(var(--dx),var(--dy)) scale(1.5)}}
+@keyframes hop{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-16px) rotate(4deg)}}
+@keyframes wobble{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
 @keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-7px)}75%{transform:translateX(7px)}}
 .hop{animation:hop .7s infinite}
-.shake{animation:shake .18s infinite}
-@media(max-width:850px){
- #main{grid-template-columns:1fr;inset:62px 8px 8px}
- #side{display:none}
- #title{top:15px;left:16px}
- #title p{font-size:12px}
- #top{left:6px;right:6px}
- .stat{min-width:72px;padding:5px 7px}.stat b{font-size:9px}.stat span{font-size:15px}
+.wobble{animation:wobble .5s infinite}
+.shake{animation:shake .15s infinite}
+.frog{
+  position:absolute;width:84px;height:74px;display:grid;place-items:center;
+  font-size:55px;z-index:12;cursor:pointer;user-select:none;filter:drop-shadow(0 10px 12px #0009)
+}
+.frog small{
+  position:absolute;top:-17px;white-space:nowrap;background:#07100de8;border:1px solid #ffffff16;
+  border-radius:8px;padding:3px 6px;font-size:9px;color:#dfffc8
+}
+.sceneObj{
+  position:absolute;display:grid;place-items:center;user-select:none;cursor:pointer
+}
+#miniLayer{
+  position:absolute;z-index:70;inset:0;display:none;align-items:center;justify-content:center;
+  background:#020604eF;padding:18px
+}
+#miniCard{
+  position:relative;width:min(900px,97vw);height:min(680px,94vh);overflow:hidden;
+  border:1px solid #ffffff1b;border-radius:25px;background:#09150ff8;
+  box-shadow:0 35px 130px #000
+}
+#miniHeader{
+  position:absolute;z-index:10;left:0;right:0;top:0;height:77px;
+  padding:12px 17px;border-bottom:1px solid #ffffff10;
+  display:flex;align-items:center;gap:12px;background:#07110cf0
+}
+#miniName{font-size:19px;font-weight:1000}
+#miniHint{font-size:11px;color:var(--muted);margin-top:2px}
+#miniTimer{margin-left:auto;font-size:23px;font-weight:1000;color:var(--yellow)}
+#miniArena{position:absolute;inset:77px 0 0;overflow:hidden}
+#miniMessage{
+  position:absolute;z-index:30;left:50%;top:50%;transform:translate(-50%,-50%);
+  width:90%;text-align:center;font-size:25px;font-weight:1000;text-shadow:0 6px 25px #000;
+  pointer-events:none
+}
+#progress{
+  position:absolute;z-index:50;left:20px;right:20px;bottom:14px;height:9px;
+  border-radius:99px;background:#ffffff0b;overflow:hidden
+}
+#progress i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--lime),var(--yellow),var(--pink));transition:.12s}
+.miniButton{
+  position:absolute;border:1px solid #ffffff17;background:#ffffff08;color:#fff;
+  border-radius:17px;cursor:pointer;touch-action:manipulation;box-shadow:0 8px 25px #0006
+}
+#intro,#ending,#errorScreen{
+  position:absolute;z-index:200;inset:0;background:#020604f8;display:flex;align-items:center;justify-content:center;padding:18px
+}
+.modal{
+  width:min(900px,96vw);max-height:91vh;overflow:auto;padding:27px;border-radius:29px;
+  background:linear-gradient(145deg,#10251a,#08120e);border:1px solid #ffffff1d;
+  box-shadow:0 45px 140px #000
+}
+.modal h2{font-size:clamp(32px,5.4vw,68px);line-height:.91;letter-spacing:-3px;margin:7px 0 14px}
+.modal p{color:#c5d5cc;line-height:1.52}
+.badges{display:flex;flex-wrap:wrap;gap:5px}
+.badge{display:inline-block;padding:6px 8px;border-radius:99px;background:#ffffff08;border:1px solid #ffffff12;font-size:11px}
+.bigButton{
+  border:0;background:linear-gradient(135deg,#b8ff66,#69df7c);color:#07100b;
+  font-weight:1000;border-radius:15px;padding:14px 19px;margin-top:8px;cursor:pointer;
+  box-shadow:0 6px 0 #315c32
+}
+.bigButton:active{transform:translateY(3px);box-shadow:0 2px 0 #315c32}
+.endGrid{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin:12px 0}
+.endStat{padding:11px;border:1px solid #ffffff12;border-radius:13px;background:#ffffff06}
+.endStat b{display:block;font-size:10px;color:var(--muted);text-transform:uppercase}
+.endStat span{font-size:21px;font-weight:1000}
+#ending{display:none}
+#errorScreen{display:none}
+#errorBox{font-family:ui-monospace,monospace;color:#ffb8c0;background:#160a0d;border:1px solid #ff617055;padding:15px;border-radius:16px;white-space:pre-wrap;max-height:50vh;overflow:auto}
+@media(max-width:860px){
+  #game{grid-template-columns:1fr;inset:62px 7px 7px}
+  #sidebar{display:none}
+  #sceneTitle{left:16px;top:14px}
+  #sceneTitle p{font-size:12px}
+  .stat{min-width:68px;padding:5px 7px}.stat b{font-size:8px}.stat span{font-size:15px}
+  #hud{left:5px;right:5px;gap:4px}
+  #dialog{bottom:12px;width:calc(100% - 16px);padding:13px}
+  #choices{grid-template-columns:1fr}
+  #dialogText{font-size:13px}
 }
 </style>
 </head>
 <body>
 <div id="app">
- <canvas id="stars"></canvas><div id="rain"></div><div id="fx"></div><div id="noise"></div>
- <div id="top">
-  <div class="stat"><b>Perereca</b><span id="frogHP">100%</span></div>
-  <div class="stat"><b>Caos</b><span id="chaos">0</span></div>
-  <div class="stat"><b>Coragem</b><span id="brave">50</span></div>
-  <div class="stat" id="scorebox"><b>Pontos</b><span id="score">0</span></div>
- </div>
- <div id="main">
-  <section id="stage">
-   <div id="title"><h1>🐸 A PERERECA DA ANA</h1><p>OPERAÇÃO SAPOCAOS — uma aventura absurda de resgate, travessuras, meninos malvados, um rádio quebrado e absolutamente nenhum adulto responsável.</p></div>
-   <div id="arena"></div>
-   <div id="dialog">
-    <div class="who" id="who"></div><div class="big" id="big"></div><div class="txt" id="txt"></div><div id="choices"></div>
-   </div>
-  </section>
-  <aside id="side">
-   <div class="panel" id="mission"><strong>MISSÃO ATUAL</strong><div id="missionText">Salvar a pequena criatura mais arteira da cidade.</div></div>
-   <div class="panel" id="controls">
-    <button class="action hot" onclick="petFrog()">🐸 Fazer carinho</button>
-    <button class="action" onclick="feedFrog()">🍉 Dar melancia</button>
-    <button class="action" onclick="whistle()">📣 Assobiar</button>
-    <button class="action bad" onclick="panic()">🚨 Entrar em pânico</button>
-   </div>
-   <div class="panel" style="flex:1;min-height:120px"><strong style="font-size:12px;color:var(--yellow)">DIÁRIO DO DESASTRE</strong><div id="log"></div></div>
-  </aside>
- </div>
- <div id="mini">
-  <div id="miniCard">
-   <div id="miniHead"><div><div id="miniTitle"></div><div id="miniHint"></div></div><div id="timer"></div></div>
-   <div id="miniArena"></div><div id="miniMsg"></div><div class="progress"><i id="prog"></i></div>
-  </div>
- </div>
- <div id="toast" class="toast"></div>
+<canvas id="stars"></canvas>
+<div id="fx"></div>
+<div id="noise"></div>
 
- <div id="intro">
-  <div class="modal">
-   <div class="badge">🐸 JOGO 100% INTERATIVO</div><div class="badge">🤣 HUMOR ABSURDO</div><div class="badge">⚠️ CONSEQUÊNCIAS IDIOTAS</div>
-   <h2>ANA TEM UM PROBLEMA.<br>A PERERECA SUMIU.</h2>
-   <p>
-    A pequena perereca de estimação da Ana é uma criatura completamente sem noção:
-    foge, rouba comida, aperta campainhas, entra em lugares proibidos e aparentemente
-    possui um diploma em causar confusão.
-   </p>
-   <p>
-    Um grupo de meninos malvados tentou capturá-la para fazer uma pegadinha cruel.
-    Agora Ana precisa atravessar a cidade, investigar pistas, pilotar coisas que não deveriam
-    ser pilotadas e tomar decisões. <b>O problema é que quase toda decisão pode dar errado de uma maneira completamente diferente.</b>
-   </p>
-   <p style="color:#ffe66d"><b>Observação:</b> as piadas de “perereca” aqui são trocadilhos com o nome do bichinho e situações absurdas; a criatura é tratada como animal de estimação, sem conteúdo sexual envolvendo o animal.</p>
-   <button class="bigbtn" onclick="startGame()">🐸 COMEÇAR O SAPOCAOS</button>
+<div id="hud">
+  <div class="stat"><b>Perereca</b><span id="hudFrog">100%</span></div>
+  <div class="stat"><b>Caos</b><span id="hudChaos">0</span></div>
+  <div class="stat"><b>Coragem</b><span id="hudBrave">50</span></div>
+  <div class="stat" id="hudScore"><b>Pontos</b><span id="hudScoreValue">0</span></div>
+</div>
+
+<div id="game">
+  <section id="world">
+    <div id="scene">
+      <div id="sceneTitle">
+        <div class="eyebrow" id="sceneEyebrow">OPERAÇÃO SAPOCAOS</div>
+        <h1 id="sceneH1">🐸 A PERERECA DA ANA</h1>
+        <p id="sceneP">A aventura mais desnecessariamente complicada da história dos bichinhos de estimação.</p>
+      </div>
+      <div id="sceneObjects"></div>
+    </div>
+
+    <div id="dialog">
+      <div id="speaker"></div>
+      <div id="dialogTitle"></div>
+      <div id="dialogText"></div>
+      <div id="choices"></div>
+    </div>
+  </section>
+
+  <aside id="sidebar">
+    <div class="panel">
+      <div class="panelTitle">Missão atual</div>
+      <div id="objective">Salvar a perereca.</div>
+    </div>
+    <div class="panel">
+      <div class="panelTitle">Botões absolutamente necessários</div>
+      <div id="actions">
+        <button class="action hot" onclick="actionPet()">🐸 Carinho</button>
+        <button class="action" onclick="actionFood()">🍉 Melancia</button>
+        <button class="action" onclick="actionWhistle()">📣 Assobio</button>
+        <button class="action warn" onclick="actionPanic()">🚨 Pânico</button>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panelTitle">Bolso da heroína</div>
+      <div id="inventory"></div>
+    </div>
+    <div class="panel" id="journal">
+      <div class="panelTitle">Diário do desastre</div>
+      <div id="journalList"></div>
+    </div>
+  </aside>
+</div>
+
+<div id="miniLayer">
+  <div id="miniCard">
+    <div id="miniHeader">
+      <div>
+        <div id="miniName">MINIJOGO</div>
+        <div id="miniHint">Faça alguma coisa.</div>
+      </div>
+      <div id="miniTimer"></div>
+    </div>
+    <div id="miniArena"></div>
+    <div id="miniMessage"></div>
+    <div id="progress"><i id="progressBar"></i></div>
   </div>
- </div>
- <div id="end"><div class="modal"><div class="badge">🏁 OPERAÇÃO ENCERRADA</div><h2 id="endTitle"></h2><p id="endText"></p><div id="endStats"></div><button class="bigbtn" onclick="location.reload()">🔁 JOGAR DE NOVO</button></div></div>
+</div>
+
+<div id="toast"></div>
+
+<div id="intro">
+  <div class="modal">
+    <div class="badges">
+      <span class="badge">🐸 15+ ATOS</span>
+      <span class="badge">🎮 VÁRIOS MINIJOGOS</span>
+      <span class="badge">🤣 HUMOR ABSURDO</span>
+      <span class="badge">📱 ANDROID</span>
+      <span class="badge">💥 CONSEQUÊNCIAS</span>
+    </div>
+    <h2>ANA TEM UM PROBLEMA.<br>A PERERECA FUGIU.</h2>
+    <p>
+      A perereca de estimação da Ana é pequena, verde e completamente sem educação.
+      Ela rouba meias, foge de casa, entra em gavetas, aperta botões proibidos e já foi
+      vista tentando negociar uma melancia com um papagaio.
+    </p>
+    <p>
+      Só que hoje aconteceu algo pior: um grupo de <b>marmanjos trapaceiros</b> decidiu
+      capturá-la para fazer uma pegadinha. Ana virou heroína e vai atrás dela.
+      O problema é que os marmanjos são tão incompetentes que cada armadilha parece ter
+      sido projetada por um liquidificador com diploma.
+    </p>
+    <p style="color:#ffe36e">
+      <b>Importante:</b> a perereca é um animal de estimação e a história não sexualiza
+      o animal. Os trocadilhos são com o nome “perereca”, confusões de linguagem e
+      situações adultas absurdas entre personagens humanos.
+    </p>
+    <button class="bigButton" onclick="Game.start()">🐸 COMEÇAR O SAPOCAOS DEFINITIVO</button>
+  </div>
+</div>
+
+<div id="ending">
+  <div class="modal">
+    <div class="badges"><span class="badge">🏁 OPERAÇÃO CONCLUÍDA</span><span class="badge" id="endingBadge">🐸</span></div>
+    <h2 id="endingTitle">FIM</h2>
+    <p id="endingText"></p>
+    <div class="endGrid" id="endingStats"></div>
+    <div id="endingAchievements"></div>
+    <button class="bigButton" onclick="location.reload()">🔁 JOGAR DE NOVO</button>
+  </div>
+</div>
+
+<div id="errorScreen">
+  <div class="modal">
+    <h2>😵 DEU RUIM NO CÓDIGO</h2>
+    <p>O jogo detectou um erro JavaScript em vez de deixar a tela misteriosamente vazia.</p>
+    <div id="errorBox"></div>
+    <button class="bigButton" onclick="location.reload()">🔄 RECARREGAR</button>
+  </div>
 </div>
 
 <script>
 'use strict';
-const $=id=>document.getElementById(id);
-const A=$('arena'), MA=$('miniArena');
-const S={frog:100,chaos:0,brave:50,score:0,act:0,items:0,misses:0,found:0,coins:17,combo:0,flags:{},ach:[],running:false};
-const rand=(a,b)=>Math.floor(Math.random()*(b-a+1))+a;
-const clamp=(x,a,b)=>Math.max(a,Math.min(b,x));
-function beep(freq=440,d=.06){
- try{const c=new (AudioContext||webkitAudioContext)(),o=c.createOscillator(),g=c.createGain();o.frequency.value=freq;o.type='square';g.gain.value=.035;o.connect(g);g.connect(c.destination);o.start();g.gain.exponentialRampToValueAtTime(.001,c.currentTime+d);o.stop(c.currentTime+d)}catch(e){}
-}
-function buzz(n=20){if(navigator.vibrate)navigator.vibrate(n)}
-function fx(x,y,chars='✨🐸🤣',n=14){
- for(let i=0;i<n;i++){let p=document.createElement('div');p.className='particle';p.textContent=chars[rand(0,chars.length-1)];p.style.left=x+'px';p.style.top=y+'px';p.style.setProperty('--dx',rand(-130,130)+'px');p.style.setProperty('--dy',rand(-130,70)+'px');$('fx').appendChild(p);setTimeout(()=>p.remove(),850)}
-}
-function toast(t){let e=$('toast');e.textContent=t;e.classList.add('show');setTimeout(()=>e.classList.remove('show'),1800)}
-function log(t){let d=document.createElement('div');d.className='logline';d.textContent=t;$('log').prepend(d)}
-function ch(k,v){S[k]=k==='frog'?clamp(S[k]+v,0,100):S[k]+v;update()}
-function update(){$('frogHP').textContent=S.frog+'%';$('chaos').textContent=S.chaos;$('brave').textContent=S.brave;$('score').textContent=S.score}
-function ach(t){if(!S.ach.includes(t)){S.ach.push(t);toast('🏆 '+t);ch('score',25)}}
-function mission(t){$('missionText').textContent=t}
-function clearArena(){A.innerHTML=''}
-function dialogue(who,big,txt,opts){
- $('who').textContent=who;$('big').textContent=big;$('txt').textContent=txt;
- const c=$('choices');c.innerHTML='';
- opts.forEach(o=>{let b=document.createElement('button');b.className='choice';b.textContent=o.t;b.onclick=o.a;c.appendChild(b)});
- $('dialog').style.display='block'
-}
-function closeDialog(){$('dialog').style.display='none'}
-function startGame(){ $('intro').style.display='none';S.running=true;act1(); }
-function petFrog(){ch('score',2);ch('brave',1);toast('🐸 A perereca fez “prrrr” e roubou sua meia.');log('Você tentou fazer carinho. Ela levou sua meia.');}
-function feedFrog(){ch('score',4);ch('chaos',2);toast('🍉 Ela comeu e saiu correndo com a casca.');log('A perereca recebeu melancia e ganhou energia para a bagunça.');}
-function whistle(){ch('score',3);ch('chaos',1);toast('📣 Ela respondeu de dentro de uma gaveta.');log('Assobio estratégico: localização desconhecida, dignidade perdida.');}
-function panic(){ch('chaos',8);ch('brave',-5);toast('🚨 PÂNICO! A perereca também entrou em pânico.');log('Você entrou em pânico. A perereca achou emocionante.');}
 
-function act1(){
- S.act=1;mission('Descobrir para onde a perereca fugiu.');
- clearArena();
- for(let i=0;i<7;i++)spawnFrog(rand(5,90),rand(25,80),i===2);
- dialogue('ANA','CADÊ MINHA PERERECA?!','A sala está uma bagunça. Há pegadas minúsculas, uma melancia mordida e um bilhete escrito com letra de quem claramente nunca respeitou margem de caderno.',[
-  {t:'🔎 Investigar as pegadas',a:()=>{ch('score',10);ch('brave',5);act2()}},
-  {t:'🍉 Seguir o rastro da melancia',a:()=>{ch('chaos',5);ch('score',12);act2()}},
-  {t:'📺 Perguntar à televisão',a:()=>{ch('chaos',12);log('A televisão não respondeu, mas começou a dar propaganda de colchão.');act2()}}
- ]);
+/* =========================================================
+   UTILITÁRIOS
+========================================================= */
+const $ = id => document.getElementById(id);
+const rand = (a,b) => Math.floor(Math.random()*(b-a+1))+a;
+const clamp = (v,a,b) => Math.max(a,Math.min(b,v));
+
+function beep(freq=440,duration=.06,type='square'){
+  try{
+    const AC=window.AudioContext||window.webkitAudioContext;
+    if(!AC)return;
+    const c=new AC(),o=c.createOscillator(),g=c.createGain();
+    o.type=type;o.frequency.value=freq;o.connect(g);g.connect(c.destination);
+    g.gain.value=.035;o.start();
+    g.gain.exponentialRampToValueAtTime(.001,c.currentTime+duration);
+    o.stop(c.currentTime+duration);
+  }catch(e){}
 }
-function spawnFrog(x,y,real=false){
- let f=document.createElement('div');f.className='frog hop';f.style.left=x+'%';f.style.top=y+'%';f.innerHTML='🐸<span class="tag">'+(real?'É ELA!':'suspeita')+'</span>';
- f.onclick=()=>{fx(innerWidth*x/100,innerHeight*y/100,'🐸🍉✨',10);beep(620,.05);if(real){S.found++;ch('score',30);ch('frog',8);ach('ENCONTROU A PERERECA');toast('🐸 PEGOU! ...não, ela pulou na sua cabeça.');setTimeout(act2,500)}else{S.misses++;ch('chaos',4);ch('score',2);toast('🐸 Era uma decoração de jardim.');f.remove()}};
- A.appendChild(f);
+function buzz(ms=18){
+  try{if(navigator.vibrate)navigator.vibrate(ms)}catch(e){}
 }
-function act2(){
- S.act=2;clearArena();mission('Investigar o bilhete e descobrir quem está perseguindo a perereca.');
- dialogue('BILHETE MISTERIOSO','“PEGAMOS A PERERECA. VENHA SOZINHA.”','Ana olha para o papel. No verso existe um desenho de um menino malvado, três pontos de interrogação e uma lista de compras que termina em “2 kg de batata”.',[
-  {t:'🕵️ Ir ao endereço',a:()=>{ch('brave',8);act3()}},
-  {t:'🥔 Investigar as batatas',a:()=>{ch('chaos',7);ch('score',15);log('As batatas não tinham relação nenhuma. Porém uma parecia ter formato de cachorro.');act3()}},
-  {t:'📞 Ligar para o número do bilhete',a:()=>{ch('chaos',10);toast('📞 Atendeu uma pizzaria.');act3()}}
- ]);
+function fx(x,y,chars='✨🐸🤣',n=16){
+  const root=$('fx');
+  for(let i=0;i<n;i++){
+    const p=document.createElement('div');
+    p.className='particle';
+    p.textContent=chars[rand(0,chars.length-1)];
+    p.style.left=x+'px';p.style.top=y+'px';
+    p.style.setProperty('--dx',rand(-150,150)+'px');
+    p.style.setProperty('--dy',rand(-130,100)+'px');
+    root.appendChild(p);
+    setTimeout(()=>p.remove(),900);
+  }
 }
-function act3(){
- S.act=3;mission('Atravessar o beco sem deixar os meninos encontrarem a perereca.');
- clearArena();
- dialogue('BECO DOS PROBLEMAS','TEM ALGUMA COISA ESTRANHA AQUI...','Ana escuta risadas. A perereca está escondida em algum lugar. Há caixas, latas e uma máquina de refrigerante que claramente não deveria estar ali.',[
-  {t:'📦 Vasculhar caixas',a:()=>miniBoxes()},
-  {t:'🥤 Comprar refrigerante',a:()=>{ch('coins',-3);ch('chaos',5);miniBoxes()}},
-  {t:'🧹 Fingir que é faxineira',a:()=>{ch('brave',10);ch('score',20);miniBoxes()}}
- ]);
+let toastTimer=0;
+function toast(text){
+  const t=$('toast');t.textContent=text;t.classList.add('show');
+  clearTimeout(toastTimer);toastTimer=setTimeout(()=>t.classList.remove('show'),1800);
 }
-function miniOpen(title,hint){
- $('mini').style.display='flex';$('miniTitle').textContent=title;$('miniHint').textContent=hint;$('miniMsg').textContent='';$('timer').textContent='';$('prog').style.width='0%';MA.innerHTML='';
+function log(text){
+  const d=document.createElement('div');d.className='log';d.textContent=text;
+  $('journalList').prepend(d);
 }
-function miniClose(){ $('mini').style.display='none';MA.innerHTML=''; }
-function miniBoxes(){
- closeDialog();miniOpen('📦 OPERAÇÃO CAIXA SUSPEITA','Encontre a caixa que faz “croac”. Mas algumas caixas fazem barulhos completamente idiotas.');
- let goal=rand(1,9),done=false;
- for(let i=1;i<=9;i++){let b=document.createElement('div');b.className='item';b.textContent=['📦','🧺','🗑️'][rand(0,2)];b.style.left=rand(5,88)+'%';b.style.top=rand(8,80)+'%';b.onclick=()=>{
-   if(done)return;
-   if(i===goal){done=true;fx(b.offsetLeft,b.offsetTop,'🐸🥔🤣',25);ch('score',35);ch('brave',10);ch('chaos',2);miniClose();dialogue('DENTRO DA CAIXA','A PERERECA ESTAVA AQUI!','...mas ela saiu pela parte de trás e deixou um recibo de sorvete. Isso não ajuda em absolutamente nada.',[{t:'➡️ Continuar',a:()=>act4()}])}
-   else{ch('chaos',4);ch('score',3);b.classList.add('shake');toast(['❌ Só tinha uma vassoura','❌ Um tênis solitário','❌ Três colheres','❌ Um pato de borracha'][rand(0,3)]);}
- };MA.appendChild(b)}
+function setScene(eyebrow,title,subtitle){
+  $('sceneEyebrow').textContent=eyebrow;
+  $('sceneH1').textContent=title;
+  $('sceneP').textContent=subtitle;
 }
-function act4(){
- S.act=4;mission('Perseguir o carrinho dos meninos malvados.');
- clearArena();
- dialogue('RUA PRINCIPAL','O CARRINHO DO MAL','Os meninos fugiram em um carrinho de supermercado. A perereca está no banco de trás, usando um óculos escuro que ela aparentemente roubou de alguém.',[
-  {t:'🏃 Correr atrás',a:()=>miniChase()},
-  {t:'🛒 Pegar outro carrinho',a:()=>miniChase()},
-  {t:'🧠 Fazer uma estratégia',a:()=>{ch('brave',12);ch('chaos',3);miniChase()}}
- ]);
+function setObjective(text){$('objective').textContent=text}
+function clearObjects(){$('sceneObjects').innerHTML=''}
+function closeDialog(){$('dialog').style.display='none'}
+function openDialog(speaker,title,text,choices){
+  $('speaker').textContent=speaker;
+  $('dialogTitle').textContent=title;
+  $('dialogText').textContent=text;
+  const box=$('choices');box.innerHTML='';
+  choices.forEach(c=>{
+    const b=document.createElement('button');
+    b.className='choice';b.textContent=c.label;
+    b.onclick=()=>{beep(520,.05);c.action()};
+    box.appendChild(b);
+  });
+  $('dialog').style.display='block';
 }
-function miniChase(){
- closeDialog();miniOpen('🏃 PERSEGUIÇÃO ABSURDA','Arraste a heroína para pegar a 🛒. Evite as 🥬 e as cascas de banana.');
- let px=12,py=55,tx=75,ty=35,t=35,done=false;
- const p=document.createElement('div');p.className='target';p.textContent='🦸';p.style.left=px+'%';p.style.top=py+'%';
- const cart=document.createElement('div');cart.className='target';cart.textContent='🛒';cart.style.left=tx+'%';cart.style.top=ty+'%';MA.append(p,cart);
- for(let i=0;i<10;i++){let d=document.createElement('div');d.className='danger';d.textContent=['🍌','🥬','🧅','🧦'][rand(0,3)];d.style.left=rand(5,88)+'%';d.style.top=rand(15,78)+'%';d.onclick=()=>{ch('frog',-4);ch('chaos',3);toast('💥 VOCÊ TROPEÇOU EM ALGO QUE NINGUÉM EXPLICA.');};MA.appendChild(d)}
- function move(e){let r=MA.getBoundingClientRect();let x=(e.clientX-r.left)/r.width*100,y=(e.clientY-r.top)/r.height*100;p.style.left=clamp(x,2,90)+'%';p.style.top=clamp(y,12,85)+'%';if(Math.hypot(x-tx,y-ty)<9&&!done){done=true;ch('score',45);ch('brave',12);fx(r.width*.75,r.height*.35,'🐸🛒💥',35);miniClose();act5()}}
- MA.onpointermove=move;MA.onpointerdown=move;
- let it=setInterval(()=>{t--; $('timer').textContent=t+'s'; tx=clamp(tx+rand(-4,4),8,88);ty=clamp(ty+rand(-4,4),15,82);cart.style.left=tx+'%';cart.style.top=ty+'%';if(t<=0&&!done){clearInterval(it);done=true;ch('frog',-12);ch('chaos',12);miniClose();act5()}},1000);
+function miniOpen(name,hint){
+  $('miniLayer').style.display='flex';
+  $('miniName').textContent=name;
+  $('miniHint').textContent=hint;
+  $('miniTimer').textContent='';
+  $('miniMessage').textContent='';
+  $('progressBar').style.width='0%';
+  $('miniArena').innerHTML='';
 }
-function act5(){
- S.act=5;mission('Descobrir o esconderijo secreto da gangue.');
- clearArena();
- dialogue('O GALPÃO','A GANGUE TEM UM PLANO','Os meninos malvados deixaram um quadro cheio de setas. Uma seta aponta para o norte. Outra aponta para a geladeira. Uma terceira aponta para um desenho de uma coxinha.',[
-  {t:'🧭 Seguir o norte',a:()=>miniMemory()},
-  {t:'🧊 Abrir a geladeira',a:()=>{ch('chaos',8);toast('🧊 Só tinha um limão com CPF.');miniMemory()}},
-  {t:'🥟 Seguir a coxinha',a:()=>{ch('score',15);miniMemory()}}
- ]);
+function miniClose(){
+  $('miniLayer').style.display='none';
+  $('miniArena').innerHTML='';
+  $('miniArena').onpointermove=null;
+  $('miniArena').onpointerdown=null;
 }
-function miniMemory(){
- closeDialog();miniOpen('🧠 MEMÓRIA DO SAPO','Observe a sequência de símbolos e repita. A cada rodada, o jogo fica mais absurdo.');
- let seq=[],input=[],round=0;
- const symbols=['🐸','🍉','🥔','🧦','🛒','🦆'];
- function roundStart(){input=[];seq.push(symbols[rand(0,symbols.length-1)]);MA.innerHTML='';$('miniMsg').textContent='Memorize! Rodada '+(round+1);seq.forEach((s,i)=>setTimeout(()=>{if(S.act!==5)return;let q=document.createElement('div');q.style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);font-size:100px';q.textContent=s;MA.appendChild(q);setTimeout(()=>q.remove(),350)},i*500));setTimeout(()=>buttons(),seq.length*500+400)}
- function buttons(){MA.innerHTML='';$('miniMsg').textContent='Sua vez!';symbols.forEach((s,i)=>{let b=document.createElement('button');b.textContent=s;b.style.cssText='position:absolute;left:'+(12+(i%3)*29)+'%;top:'+(20+Math.floor(i/3)*35)+'%;font-size:44px;background:#ffffff08;border:1px solid #ffffff16;border-radius:18px;padding:12px;';b.onclick=()=>{input.push(s);beep(300+i*60,.04);if(s!==seq[input.length-1]){ch('chaos',6);ch('frog',-3);toast('❌ A perereca desaprovou sua memória.');miniClose();act6();return}if(input.length===seq.length){round++;ch('score',10);if(round>=5){ch('brave',18);ch('score',40);ach('MEMÓRIA DE SAPO');miniClose();act6()}else setTimeout(roundStart,300)}};MA.appendChild(b)})}
- roundStart();
+function progress(v){$('progressBar').style.width=clamp(v,0,100)+'%'}
+function endDelay(fn,ms=450){setTimeout(fn,ms)}
+
+/* =========================================================
+   ESTADO
+========================================================= */
+const State={
+  frog:100,
+  chaos:0,
+  brave:50,
+  score:0,
+  act:0,
+  misses:0,
+  rescues:0,
+  coins:30,
+  combo:0,
+  inventory:[],
+  achievements:[],
+  flags:{},
+  miniWins:0,
+  miniFails:0,
+  prankLevel:0,
+  running:false
+};
+
+const Inventory={
+  add(item){
+    if(!State.inventory.includes(item)){
+      State.inventory.push(item);
+      renderInventory();
+      log('🎒 Pegou: '+item);
+    }
+  },
+  has(item){return State.inventory.includes(item)}
+};
+
+function change(key,amount){
+  if(!(key in State))return;
+  State[key]+=amount;
+  if(key==='frog')State[key]=clamp(State[key],0,100);
+  updateHUD();
 }
-function act6(){
- S.act=6;mission('Invadir o esconderijo sem acionar o alarme mais idiota do país.');
- clearArena();
- dialogue('PORTA SECRETA','“NÃO ENTRE. TEM UM PATO.”','A placa não explica nada. Atrás da porta, há um corredor com sensores. E um pato.',[
-  {t:'🥷 Passar agachada',a:()=>miniLaser()},
-  {t:'🦆 Conversar com o pato',a:()=>{ch('chaos',15);miniLaser()}},
-  {t:'🚪 Bater educadamente',a:()=>{ch('brave',5);miniLaser()}}
- ]);
+function addAchievement(name){
+  if(State.achievements.includes(name))return;
+  State.achievements.push(name);
+  change('score',35);
+  toast('🏆 '+name);
+  buzz([20,30,50]);
 }
-function miniLaser(){
- closeDialog();miniOpen('🚨 CORREDOR DOS SENSORES','Arraste 🦸 até 🐸. Não toque nos lasers vermelhos. O pato não ajuda.');
- let done=false, x=8,y=82,goalX=85,goalY=18;
- const hero=document.createElement('div');hero.className='target';hero.textContent='🦸';hero.style.left=x+'%';hero.style.top=y+'%';
- const goal=document.createElement('div');goal.className='target';goal.textContent='🐸';goal.style.left=goalX+'%';goal.style.top=goalY+'%';MA.append(hero,goal);
- for(let i=0;i<7;i++){let l=document.createElement('div');l.style.cssText='position:absolute;height:5px;background:#ff5d6caa;box-shadow:0 0 14px #ff5d6c;left:'+rand(5,60)+'%;top:'+rand(15,82)+'%;width:'+rand(20,45)+'%;transform:rotate('+rand(-25,25)+'deg)';MA.appendChild(l)}
- function move(e){let r=MA.getBoundingClientRect();x=(e.clientX-r.left)/r.width*100;y=(e.clientY-r.top)/r.height*100;hero.style.left=clamp(x,2,90)+'%';hero.style.top=clamp(y,10,88)+'%';if(Math.hypot(x-goalX,y-goalY)<8&&!done){done=true;ch('score',50);ch('brave',15);fx(r.width*.85,r.height*.18,'🐸🎉🦆',40);miniClose();act7()}}
- MA.onpointermove=move;MA.onpointerdown=move;
+function updateHUD(){
+  $('hudFrog').textContent=State.frog+'%';
+  $('hudChaos').textContent=State.chaos;
+  $('hudBrave').textContent=State.brave;
+  $('hudScoreValue').textContent=State.score;
 }
-function act7(){
- S.act=7;mission('Descobrir quem está por trás do plano.');
- clearArena();
- dialogue('SALA DE REUNIÕES DOS MALVADOS','A REUNIÃO MAIS BURRA DO MUNDO','Você escuta: “Plano A: pegar a perereca. Plano B: fingir que o Plano A era um trabalho escolar.” Um menino segura um mapa de uma pizzaria.',[
-  {t:'🎭 Se disfarçar de professora',a:()=>{ch('score',30);act8()}},
-  {t:'🍕 Fingir que é entregadora',a:()=>{ch('chaos',5);ch('score',25);act8()}},
-  {t:'📢 Gritar “POLÍCIA DO SAPO!”',a:()=>{ch('chaos',18);ch('brave',12);act8()}}
- ]);
+function renderInventory(){
+  const box=$('inventory');box.innerHTML='';
+  if(!State.inventory.length){
+    box.innerHTML='<span class="itemBadge">Nada. Ana está despreparada.</span>';
+    return;
+  }
+  State.inventory.forEach(x=>{
+    const s=document.createElement('span');s.className='itemBadge';s.textContent=x;box.appendChild(s);
+  });
 }
-function act8(){
- S.act=8;mission('Resgatar a perereca da gaiola e não destruir o prédio.');
- closeDialog();miniOpen('🔐 GAIOLA DO CAOS','Gire os quatro discos até formar o símbolo correto. Cada erro acorda um pato.');
- let vals=[0,0,0,0],target=[2,4,1,3],errors=0;
- const box=document.createElement('div');box.style.cssText='position:absolute;left:50%;top:45%;transform:translate(-50%,-50%);display:grid;grid-template-columns:repeat(4,1fr);gap:12px;width:80%';
- vals.forEach((v,i)=>{let b=document.createElement('button');b.style.cssText='font-size:50px;background:#ffffff08;color:white;border:1px solid #ffffff18;border-radius:18px;padding:20px';b.textContent='0';b.onclick=()=>{vals[i]=(vals[i]+1)%5;b.textContent=vals[i];beep(250+i*70,.04);if(vals.every((x,j)=>x===target[j])){ch('score',70);ch('brave',20);ach('ARROMBOU A GAIOLA');miniClose();act9()}else if(vals.reduce((a,x,j)=>a+(x!==target[j]),0)<=1){toast('🔥 QUASE! O PATO ESTÁ NERVOSO.')}};box.appendChild(b)});MA.appendChild(box);
- let duck=document.createElement('div');duck.style.cssText='position:absolute;bottom:30px;left:50%;font-size:50px';duck.textContent='🦆';MA.appendChild(duck);
+
+/* =========================================================
+   AÇÕES LATERAIS
+========================================================= */
+function actionPet(){
+  change('score',2);change('brave',1);
+  log('🐸 Ana tentou fazer carinho. A perereca roubou uma meia.');
+  toast('🐸 CARINHO ACEITO. MEIA CONFISCADA.');
 }
-function act9(){
- S.act=9;mission('A perereca escapou. Agora ela está pilotando um carrinho de limpeza.');
- clearArena();
- dialogue('FUGA FINAL','ELA ROUBOU O CARRINHO','A perereca saiu da gaiola, apertou um botão e agora está dirigindo. Ninguém sabe como. Ninguém quer saber.',[
-  {t:'🏎️ Perseguir',a:()=>miniCatch()},
-  {t:'🍉 Oferecer melancia',a:()=>{ch('chaos',6);miniCatch()}},
-  {t:'🎺 Tocar música de vitória',a:()=>{ch('score',15);ch('chaos',8);miniCatch()}}
- ]);
+function actionFood(){
+  change('score',4);change('chaos',2);
+  log('🍉 Melancia entregue. A perereca agora tem energia para 47 novas besteiras.');
+  toast('🍉 Ela comeu e saiu correndo com a casca.');
 }
-function miniCatch(){
- closeDialog();miniOpen('🏎️ PERERECA TURBO','Toque na perereca 18 vezes. Ela muda de lugar e deixa pegadinhas.');
- let hits=0,t=25,done=false;
- function frog(){let f=document.createElement('div');f.className='target';f.textContent='🐸';f.style.left=rand(5,88)+'%';f.style.top=rand(12,82)+'%';f.onclick=()=>{if(done)return;hits++;ch('score',5);buzz(10);fx(f.offsetLeft,f.offsetTop,'🐸💨🍉',6);f.remove();$('prog').style.width=(hits/18*100)+'%';if(hits>=18){done=true;ch('brave',25);ch('frog',10);ach('PEGOU A PERERECA TURBO');miniClose();act10()}else setTimeout(frog,120)}};frog();
- for(let i=0;i<12;i++){let d=document.createElement('div');d.className='danger';d.textContent=['💨','🍌','🧦','🧻'][rand(0,3)];d.style.left=rand(5,90)+'%';d.style.top=rand(10,85)+'%';d.onclick=()=>{ch('frog',-2);ch('chaos',2);toast('💥 PEGADINHA!');};MA.appendChild(d)}
- let it=setInterval(()=>{t--;$('timer').textContent=t+'s';if(t<=0&&!done){clearInterval(it);done=true;ch('frog',-18);ch('chaos',15);miniClose();act10()}},1000);
+function actionWhistle(){
+  change('score',3);change('chaos',1);
+  log('📣 Ana assobiou. A resposta veio de dentro de uma gaveta.');
+  toast('📣 “CROAC!” — localização: completamente errada.');
 }
-function act10(){
- S.act=10;mission('Último problema: os meninos voltaram com um plano ainda mais idiota.');
- clearArena();
- dialogue('CHEFÃO DOS MENINOS','“VAMOS FAZER UMA ARMADILHA INFALÍVEL!”','A armadilha é um balde amarrado em um barbante. Ao lado existe um manual de 84 páginas explicando como puxar o barbante.',[
-  {t:'✂️ Cortar o barbante',a:()=>boss()},
-  {t:'📖 Ler o manual inteiro',a:()=>{ch('chaos',20);ch('score',10);boss()}},
-  {t:'🪣 Colocar o balde na cabeça do chefe',a:()=>{ch('score',50);ch('chaos',12);boss()}}
- ]);
+function actionPanic(){
+  change('chaos',8);change('brave',-4);
+  log('🚨 Ana entrou em pânico. A perereca achou divertido.');
+  toast('🚨 PÂNICO! A perereca também entrou em pânico.');
 }
-function boss(){
- closeDialog();miniOpen('👑 CHEFÃO: O MENINO DO PLANO','Toque no 🪣 para derrubar o plano. Evite acertar a 🐸.');
- let hp=0,t=35,done=false;
- const boss=document.createElement('div');boss.className='target';boss.textContent='🪣';MA.appendChild(boss);
- const frog=document.createElement('div');frog.className='target';frog.textContent='🐸';MA.appendChild(frog);
- function move(){boss.style.left=rand(5,88)+'%';boss.style.top=rand(10,80)+'%';frog.style.left=rand(5,88)+'%';frog.style.top=rand(10,80)+'%'}
- move();let mv=setInterval(move,450);
- boss.onclick=()=>{if(done)return;hp++;ch('score',4);$('prog').style.width=(hp/20*100)+'%';fx(boss.offsetLeft,boss.offsetTop,'🪣💥🤣',3);if(hp>=20){done=true;clearInterval(mv);clearInterval(ti);ch('brave',30);ach('PLANO INFALÍVEL: FALHOU');miniClose();finale()}};
- frog.onclick=()=>{ch('frog',-5);ch('chaos',5);toast('🐸 NÃO ACERTE A PERERECA!');buzz(50)};
- let ti=setInterval(()=>{t--;$('timer').textContent=t+'s';if(t<=0&&!done){done=true;clearInterval(mv);clearInterval(ti);ch('frog',-20);ch('chaos',18);miniClose();finale()}},1000);
+
+/* =========================================================
+   MINI-GAME 1 — CAÇA À PERERECA
+========================================================= */
+function miniFrogHunt(next){
+  closeDialog();miniOpen('🐸 TESTE 1 — CAÇA À PERERECA','Clique somente na perereca verdadeira. As outras são pegadinhas ridículas.');
+  let real=rand(0,11),done=false,found=0;
+  for(let i=0;i<12;i++){
+    const f=document.createElement('div');
+    f.className='frog '+(i===real?'hop':'');
+    f.style.left=rand(4,88)+'%';f.style.top=rand(15,80)+'%';
+    f.innerHTML='🐸<small>'+(['suspeita','suspeita','suspeita','provável'][rand(0,3)])+'</small>';
+    f.onclick=()=>{
+      if(done)return;
+      if(i===real){
+        done=true;found++;
+        change('score',45);change('brave',8);change('frog',5);State.rescues++;
+        addAchievement('OLHO DE SAPO');
+        fx(f.offsetLeft+30,f.offsetTop+30,'🐸🍉✨',30);buzz([20,30,40]);
+        miniClose();openDialog('ANA','PEGUEI!','A perereca estava escondida atrás de uma planta. Ela olhou para Ana com uma expressão que dizia: “isso foi desnecessariamente dramático”.',[{label:'➡️ Continuar a confusão',action:next}]);
+      }else{
+        change('chaos',5);change('score',3);State.misses++;
+        f.classList.add('shake');toast(['❌ Era um sapo de brinquedo.','❌ Era um adesivo.','❌ Era um abajur em formato de sapo.','❌ Era uma pessoa usando pantufa de sapo.'][rand(0,3)]);
+        beep(150,.07,'sawtooth');
+      }
+    };
+    $('miniArena').appendChild(f);
+  }
 }
-function finale(){
- let rank;
- if(S.frog>=85 && S.chaos<35)rank='🐸 GUARDIÃ OFICIAL DA PERERECA';
- else if(S.frog>=65)rank='🏆 HEROÍNA DO SAPOCAOS';
- else if(S.chaos>=80)rank='💥 DESTRUIDORA DE PLANOS';
- else rank='🤣 SOBREVIVENTE DO INCIDENTE MAIS DESNECESSÁRIO DO ANO';
- $('endTitle').textContent=rank;
- $('endText').textContent='A perereca está segura. Os meninos fugiram. O carrinho de limpeza foi aposentado. O pato pediu transferência. E Ana descobriu uma coisa importante: às vezes salvar um bichinho exige coragem, reflexo, estratégia e uma quantidade preocupante de melancia.';
- $('endStats').innerHTML='<div class="badge">🐸 Perereca: '+S.frog+'%</div><div class="badge">💥 Caos: '+S.chaos+'</div><div class="badge">🦸 Coragem: '+S.brave+'</div><div class="badge">⭐ Pontos: '+S.score+'</div><div class="badge">🏅 Conquistas: '+S.ach.length+'</div>';
- $('end').style.display='flex';
+
+/* =========================================================
+   MINI-GAME 2 — PISTA DE COISAS SEM SENTIDO
+========================================================= */
+function miniClue(next){
+  closeDialog();miniOpen('🕵️ TESTE 2 — O INVESTIGADOR DE COXINHA','Arraste os objetos até a área de investigação. Só 5 são pistas; o resto é pura palhaçada.');
+  const arena=$('miniArena');
+  const target=document.createElement('div');
+  target.style.cssText='position:absolute;right:8%;bottom:18%;width:170px;height:130px;border:2px dashed #ffe36e66;border-radius:25px;display:grid;place-items:center;font-size:42px';
+  target.textContent='🔎';
+  arena.appendChild(target);
+  const objects=['🍉','🥔','🧦','🛒','🦆','🍕','🧻','🧹','📻','🧢','🪥','🧸'];
+  let good=0,drag=null,offset={x:0,y:0},finished=false;
+  objects.forEach((emoji,i)=>{
+    const el=document.createElement('div');el.className='miniButton';
+    el.textContent=emoji;el.style.width='62px';el.style.height='62px';
+    el.style.fontSize='35px';el.style.left=rand(3,82)+'%';el.style.top=rand(8,70)+'%';
+    const isGood=[0,2,3,4,6][i];
+    el.dataset.good=isGood?'1':'0';
+    el.onpointerdown=e=>{
+      drag=el;el.setPointerCapture?.(e.pointerId);
+      offset.x=e.clientX-el.getBoundingClientRect().left;
+      offset.y=e.clientY-el.getBoundingClientRect().top;
+    };
+    el.onpointermove=e=>{
+      if(drag!==el)return;
+      const r=arena.getBoundingClientRect();
+      el.style.left=clamp((e.clientX-r.left-offset.x)/r.width*100,0,92)+'%';
+      el.style.top=clamp((e.clientY-r.top-offset.y)/r.height*100,5,82)+'%';
+    };
+    el.onpointerup=()=>{
+      if(drag!==el)return;drag=null;
+      const a=el.getBoundingClientRect(),b=target.getBoundingClientRect();
+      const hit=a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
+      if(hit){
+        if(el.dataset.good==='1'){
+          good++;change('score',8);progress(good/5*100);el.remove();toast('🔎 PISTA ACEITA.');
+          if(good>=5&&!finished){
+            finished=true;change('brave',10);addAchievement('DETETIVE DE COXINHA');miniClose();next();
+          }
+        }else{
+          change('chaos',6);change('score',-2);toast('🤣 ISSO NÃO É UMA PISTA. É UM OBJETO.');
+          el.style.left=rand(3,82)+'%';el.style.top=rand(8,70)+'%';
+        }
+      }
+    };
+    arena.appendChild(el);
+  });
 }
-const canvas=$('stars'),ctx=canvas.getContext('2d');let stars=[];
-function resize(){canvas.width=innerWidth*devicePixelRatio;canvas.height=innerHeight*devicePixelRatio;ctx.setTransform(devicePixelRatio,0,0,devicePixelRatio,0,0);stars=Array.from({length:90},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*1.7+.3,v:Math.random()*.4+.1}))}
-function starsLoop(){ctx.clearRect(0,0,innerWidth,innerHeight);ctx.fillStyle='#ffffff';for(const s of stars){s.y+=s.v;if(s.y>innerHeight)s.y=0;ctx.globalAlpha=.15+s.r/3;ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,7);ctx.fill()}requestAnimationFrame(starsLoop)}
-addEventListener('resize',resize);resize();starsLoop();
+
+/* =========================================================
+   MINI-GAME 3 — CARRINHO TURBO
+========================================================= */
+function miniCart(next){
+  closeDialog();miniOpen('🛒 TESTE 3 — CARRINHO TURBO','Arraste 🦸 até 🐸. Evite banana, cebola e a nota fiscal voadora.');
+  const arena=$('miniArena');
+  const hero=document.createElement('div'),frog=document.createElement('div');
+  hero.className='miniButton';hero.textContent='🦸';hero.style.cssText+='width:70px;height:70px;font-size:45px;left:7%;top:70%';
+  frog.className='miniButton';frog.textContent='🐸';frog.style.cssText+='width:75px;height:75px;font-size:50px;left:78%;top:18%';
+  arena.append(hero,frog);
+  const hazards=[];
+  ['🍌','🧅','🧦','🧻','🧾','🛴','🥬','🪣'].forEach(e=>{
+    const h=document.createElement('div');h.style.cssText='position:absolute;font-size:38px;left:'+rand(8,88)+'%;top:'+rand(12,82)+'%;z-index:3';h.textContent=e;
+    h.onclick=()=>{change('frog',-4);change('chaos',3);toast('💥 Ana tropeçou em '+e);};arena.appendChild(h);hazards.push(h);
+  });
+  let t=30,done=false;
+  function move(e){
+    const r=arena.getBoundingClientRect();
+    const x=clamp((e.clientX-r.left)/r.width*100,3,90);
+    const y=clamp((e.clientY-r.top)/r.height*100,10,86);
+    hero.style.left=x+'%';hero.style.top=y+'%';
+    const a=hero.getBoundingClientRect(),b=frog.getBoundingClientRect();
+    if(a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top&&!done){
+      done=true;clearInterval(timer);change('score',55);change('brave',14);addAchievement('PILOTA PROFISSIONAL DE CARRINHO');
+      fx(a.left,a.top,'🛒🐸💨',35);miniClose();next();
+    }
+  }
+  arena.onpointermove=move;arena.onpointerdown=move;
+  const timer=setInterval(()=>{
+    t--; $('miniTimer').textContent=t+'s';
+    if(t<=0&&!done){
+      done=true;clearInterval(timer);change('frog',-15);change('chaos',12);State.miniFails++;
+      miniClose();toast('💨 O carrinho foi mais rápido que a dignidade.');next();
+    }
+  },1000);
+}
+
+/* =========================================================
+   MINI-GAME 4 — MEMÓRIA DO ABSURDO
+========================================================= */
+function miniMemory(next){
+  closeDialog();miniOpen('🧠 TESTE 4 — MEMÓRIA DO ABSURDO','Memorize a sequência. A cada rodada entra uma coisa ainda mais sem sentido.');
+  const symbols=['🐸','🍉','🥔','🧦','🦆','🛒','🧻','🍕'];
+  let sequence=[],round=0,input=[],locked=true;
+  function show(){
+    input=[];locked=true;$('miniArena').innerHTML='';
+    sequence.push(symbols[rand(0,symbols.length-1)]);
+    $('miniMessage').textContent='MEMORIZE A SEQUÊNCIA — RODADA '+(round+1);
+    sequence.forEach((s,i)=>{
+      setTimeout(()=>{
+        if(!State.running)return;
+        const x=document.createElement('div');x.style.cssText='position:absolute;left:50%;top:47%;transform:translate(-50%,-50%);font-size:110px';x.textContent=s;
+        $('miniArena').appendChild(x);setTimeout(()=>x.remove(),390);
+      },i*480);
+    });
+    setTimeout(draw,sequence.length*480+400);
+  }
+  function draw(){
+    locked=false;$('miniArena').innerHTML='';$('miniMessage').textContent='SUA VEZ!';
+    symbols.forEach((s,i)=>{
+      const b=document.createElement('button');b.className='miniButton';b.textContent=s;
+      b.style.cssText+='width:78px;height:78px;font-size:42px;left:'+(8+(i%4)*23)+'%;top:'+(15+Math.floor(i/4)*48)+'%';
+      b.onclick=()=>{
+        if(locked)return;
+        input.push(s);beep(300+i*40,.04);
+        if(s!==sequence[input.length-1]){
+          locked=true;change('chaos',8);change('frog',-4);State.miniFails++;
+          toast('❌ A memória virou purê de batata.');
+          miniClose();next();return;
+        }
+        if(input.length===sequence.length){
+          round++;change('score',12);progress(round/5*100);
+          if(round>=5){
+            locked=true;change('brave',20);addAchievement('CÉREBRO DE PERERECA');miniClose();next();
+          }else{setTimeout(show,400)}
+        }
+      };
+      $('miniArena').appendChild(b);
+    });
+  }
+  show();
+}
+
+/* =========================================================
+   MINI-GAME 5 — LASER DO PATO
+========================================================= */
+function miniLaser(next){
+  closeDialog();miniOpen('🚨 TESTE 5 — CORREDOR DO PATO','Leve 🦸 até 🐸 sem tocar nos lasers. O pato não é um obstáculo; ele só está ali julgando.');
+  const arena=$('miniArena');
+  const hero=document.createElement('div'),goal=document.createElement('div');
+  hero.className='miniButton';hero.textContent='🦸';hero.style.cssText+='width:72px;height:72px;font-size:45px;left:5%;top:78%';
+  goal.className='miniButton';goal.textContent='🐸';goal.style.cssText+='width:75px;height:75px;font-size:50px;left:84%;top:15%';
+  arena.append(hero,goal);
+  for(let i=0;i<8;i++){
+    const l=document.createElement('div');
+    l.style.cssText='position:absolute;left:'+rand(4,60)+'%;top:'+rand(16,82)+'%;width:'+rand(25,48)+'%;height:5px;background:#ff6170;box-shadow:0 0 15px #ff6170;transform:rotate('+rand(-28,28)+'deg)';
+    arena.appendChild(l);
+  }
+  const duck=document.createElement('div');duck.style.cssText='position:absolute;right:5%;bottom:7%;font-size:60px';duck.textContent='🦆';arena.appendChild(duck);
+  let hit=false;
+  function move(e){
+    const r=arena.getBoundingClientRect(),x=clamp((e.clientX-r.left)/r.width*100,2,90),y=clamp((e.clientY-r.top)/r.height*100,10,88);
+    hero.style.left=x+'%';hero.style.top=y+'%';
+    const hr=hero.getBoundingClientRect();
+    for(const l of Array.from(arena.children)){
+      if(l===hero||l===goal||l===duck)continue;
+      const rr=l.getBoundingClientRect();
+      if(hr.left<rr.right&&hr.right>rr.left&&hr.top<rr.bottom&&hr.bottom>rr.top){
+        if(!hit){hit=true;change('frog',-10);change('chaos',10);toast('🚨 LASER! O pato está decepcionado.');buzz(100);setTimeout(()=>{miniClose();next()},400)}
+        return;
+      }
+    }
+    const gr=goal.getBoundingClientRect();
+    if(hr.left<gr.right&&hr.right>gr.left&&hr.top<gr.bottom&&hr.bottom>gr.top&&!hit){
+      hit=true;change('score',60);change('brave',18);addAchievement('NÃO FOI O PATO');fx(gr.left,gr.top,'🐸🦆✨',35);miniClose();next();
+    }
+  }
+  arena.onpointermove=move;arena.onpointerdown=move;
+}
+
+/* =========================================================
+   MINI-GAME 6 — CAIXA-FORTE
+========================================================= */
+function miniSafe(next){
+  closeDialog();miniOpen('🔐 TESTE 6 — COFRE DOS ADULTOS RESPONSÁVEIS','Gire os discos até a sequência correta. Há pistas escondidas no cenário.');
+  const arena=$('miniArena');
+  const target=[2,0,4,1];
+  let values=[0,0,0,0],done=false;
+  const clue=document.createElement('div');
+  clue.style.cssText='position:absolute;left:8%;top:12%;right:8%;text-align:center;color:#cbd8d0;font-size:15px';
+  clue.innerHTML='PISTA: <b style="color:#ffe36e">🍉 = 2</b> &nbsp; <b style="color:#ffe36e">🧦 = 0</b> &nbsp; <b style="color:#ffe36e">🦆 = 4</b> &nbsp; <b style="color:#ffe36e">🥔 = 1</b>';
+  arena.appendChild(clue);
+  const wrap=document.createElement('div');wrap.style.cssText='position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);display:grid;grid-template-columns:repeat(4,1fr);gap:10px;width:82%';
+  values.forEach((v,i)=>{
+    const b=document.createElement('button');b.className='miniButton';b.style.position='relative';b.style.width='100%';b.style.height='115px';b.style.fontSize='55px';b.textContent='0';
+    b.onclick=()=>{
+      values[i]=(values[i]+1)%5;b.textContent=values[i];beep(240+i*60,.05);
+      if(values.every((x,j)=>x===target[j])&&!done){
+        done=true;change('score',80);change('brave',22);Inventory.add('🔑 Chave do cofre');addAchievement('ARROMBADORA DE COFRE');fx(innerWidth/2,innerHeight/2,'🔓🐸💥',50);miniClose();next();
+      }
+    };wrap.appendChild(b);
+  });
+  arena.appendChild(wrap);
+  const note=document.createElement('div');note.style.cssText='position:absolute;left:50%;bottom:15%;transform:translateX(-50%);font-size:50px';note.textContent='🍉 🧦 🦆 🥔';arena.appendChild(note);
+}
+
+/* =========================================================
+   MINI-GAME 7 — PONTARIA DO BALDE
+========================================================= */
+function miniBucket(next){
+  closeDialog();miniOpen('🥊 TESTE 7 — O BALDE MAIS DRAMÁTICO DO BRASIL','Toque no balde 22 vezes. Não acerte a perereca. O balde está muito convencido.');
+  const arena=$('miniArena');
+  let hits=0,t=32,done=false;
+  const bucket=document.createElement('div'),frog=document.createElement('div');
+  bucket.className='miniButton';bucket.textContent='🪣';bucket.style.cssText+='width:88px;height:88px;font-size:60px';
+  frog.className='miniButton';frog.textContent='🐸';frog.style.cssText+='width:88px;height:88px;font-size:58px';
+  arena.append(bucket,frog);
+  function move(){
+    bucket.style.left=rand(4,88)+'%';bucket.style.top=rand(12,80)+'%';
+    frog.style.left=rand(4,88)+'%';frog.style.top=rand(12,80)+'%';
+  }
+  move();
+  const mv=setInterval(move,470);
+  bucket.onclick=()=>{
+    if(done)return;hits++;change('score',5);buzz(10);progress(hits/22*100);
+    fx(bucket.offsetLeft+30,bucket.offsetTop+30,'🪣💥🤣',3);
+    if(hits>=22){
+      done=true;clearInterval(mv);clearInterval(timer);change('brave',25);addAchievement('BALDE DE RESPEITO');miniClose();next();
+    }
+  };
+  frog.onclick=()=>{if(done)return;change('frog',-6);change('chaos',5);toast('🐸 EI! O ALVO ERA O BALDE!');buzz(60)};
+  const timer=setInterval(()=>{
+    t--; $('miniTimer').textContent=t+'s';
+    if(t<=0&&!done){
+      done=true;clearInterval(mv);clearInterval(timer);State.miniFails++;change('frog',-18);change('chaos',15);miniClose();next();
+    }
+  },1000);
+}
+
+/* =========================================================
+   MINI-GAME 8 — FUGA DA PERERECA TURBO
+========================================================= */
+function miniTurbo(next){
+  closeDialog();miniOpen('🏎️ TESTE 8 — PERERECA TURBO','Toque na perereca 20 vezes. Ela aprendeu a usar um carrinho de limpeza.');
+  const arena=$('miniArena');let hits=0,t=34,done=false;
+  function spawn(){
+    const f=document.createElement('button');f.className='miniButton';f.textContent='🐸';
+    f.style.cssText+='width:86px;height:86px;font-size:58px;left:'+rand(3,88)+'%;top:'+rand(10,82)+'%';
+    f.onclick=()=>{
+      if(done)return;hits++;change('score',6);buzz(8);progress(hits/20*100);fx(f.offsetLeft+30,f.offsetTop+30,'🐸💨🍉',5);f.remove();
+      if(hits>=20){
+        done=true;clearInterval(timer);change('brave',28);change('frog',8);addAchievement('PEGOU A TURBO');miniClose();next();
+      }else setTimeout(spawn,90);
+    };
+    arena.appendChild(f);
+  }
+  for(let i=0;i<5;i++)spawn();
+  const timer=setInterval(()=>{
+    t--;$('miniTimer').textContent=t+'s';
+    if(t<=0&&!done){
+      done=true;clearInterval(timer);change('frog',-20);change('chaos',18);State.miniFails++;miniClose();next();
+    }
+  },1000);
+}
+
+/* =========================================================
+   HISTÓRIA — ATO 1
+========================================================= */
+const Story={
+  start(){
+    setScene('ATO 1 — O CHAMADO','🐸 A PERERECA DA ANA','A aventura começa com uma meia desaparecida, uma melancia mordida e uma vizinha que ouviu “croac” às 03:17.');
+    setObjective('Descobrir onde a perereca foi parar.');
+    clearObjects();
+    for(let i=0;i<8;i++){
+      const f=document.createElement('div');f.className='frog '+(i===3?'hop':'');
+      f.style.left=rand(4,88)+'%';f.style.top=rand(27,82)+'%';
+      f.innerHTML='🐸<small>talvez seja ela</small>';
+      f.onclick=()=>{change('chaos',4);change('score',3);toast('🤣 Era um enfeite de jardim.');f.remove()};
+      $('sceneObjects').appendChild(f);
+    }
+    openDialog('ANA','CADÊ MINHA PERERECA?!',
+      'A casa parece ter sido assaltada por uma criatura de 200 gramas com especialização em causar problemas. Há três pistas: pegadas, melancia e uma meia pendurada no ventilador.',
+      [
+        {label:'🔎 Seguir as pegadas',action:()=>{change('brave',6);change('score',10);Story.act2()}},
+        {label:'🍉 Seguir a melancia',action:()=>{change('chaos',5);change('score',12);Story.act2()}},
+        {label:'🧦 Investigar a meia no ventilador',action:()=>{change('chaos',9);change('score',15);Inventory.add('🧦 Meia suspeita');Story.act2()}}
+      ]);
+  },
+
+  act2(){
+    State.act=2;
+    setScene('ATO 2 — A PISTA','📻 O RÁDIO DA VERDADE','Uma mensagem misteriosa chegou pelo rádio. O problema é que o rádio está sintonizado numa estação que só toca notícias sobre pastel.');
+    setObjective('Descobrir quem deixou a mensagem.');
+    clearObjects();
+    const radio=document.createElement('div');radio.className='sceneObj wobble';radio.textContent='📻';radio.style.cssText+='left:45%;top:40%;font-size:110px';$('sceneObjects').appendChild(radio);
+    openDialog('RÁDIO','“PEGAMOS A PERERECA.”','Uma voz masculina anuncia o sequestro. Depois pergunta se Ana sabe onde comprar uma sandália tamanho 43. Claramente são profissionais.',[
+      {label:'🕵️ Rastrear o sinal',action:()=>miniClue(Story.act3)},
+      {label:'📞 Responder pelo rádio',action:()=>{change('chaos',10);toast('📻 “Quem fala?” — “É o rapaz da sandália.”');miniClue(Story.act3)}},
+      {label:'🥟 Perguntar do pastel',action:()=>{change('score',20);change('chaos',8);miniClue(Story.act3)}}
+    ]);
+  },
+
+  act3(){
+    State.act=3;
+    setScene('ATO 3 — O BECO','🛒 O CARRINHO DO MAL','Os marmanjos fugiram em um carrinho de supermercado. A perereca está no banco de trás usando óculos escuros.');
+    setObjective('Alcançar o carrinho antes que ele entre no estacionamento.');
+    openDialog('ANA','ESSE CARRINHO TEM MOTOR?!','Ninguém sabe. Só sabem que ele está muito rápido e que o motorista não possui habilitação para dirigir supermercado.',[
+      {label:'🏃 Correr atrás',action:()=>miniCart(Story.act4)},
+      {label:'🛒 Roubar outro carrinho',action:()=>{change('chaos',7);miniCart(Story.act4)}},
+      {label:'🧠 Criar uma estratégia',action:()=>{change('brave',10);miniCart(Story.act4)}}
+    ]);
+  },
+
+  act4(){
+    State.act=4;
+    setScene('ATO 4 — O GALPÃO','🥔 A REUNIÃO MAIS BURRA','Você chegou ao esconderijo. Os marmanjos discutem um plano escrito numa folha de caderno escolar.');
+    setObjective('Descobrir o plano dos marmanjos.');
+    clearObjects();
+    openDialog('MARMANJO #1','“PLANO A: BATATA.”','Marmando #1 aponta para uma batata. Marmando #2 aponta para um mapa. Marmando #3 está tentando abrir uma garrafa usando uma colher. O nível de ameaça é questionável.',[
+      {label:'🥔 Falar sobre a batata',action:()=>{change('score',25);Story.act5()}},
+      {label:'🗺️ Roubar o mapa',action:()=>{Inventory.add('🗺️ Mapa amassado');change('brave',8);Story.act5()}},
+      {label:'🥄 Ajudar com a garrafa',action:()=>{change('chaos',14);toast('🥄 A colher quebrou.');Story.act5()}}
+    ]);
+  },
+
+  act5(){
+    State.act=5;
+    setScene('ATO 5 — A GAIOLA','🔐 A GAIOLA DOS MARMANJOS','A perereca está presa numa gaiola improvisada. Há um cadeado, três discos e um pato de borracha fiscalizando tudo.');
+    setObjective('Abrir a gaiola sem assustar a perereca.');
+    openDialog('ANA','A GAIOLA','A fechadura tem uma pista: 🍉 🧦 🦆 🥔. Isso parece um código. Ou o cardápio mais estranho do país.',[
+      {label:'🔐 Tentar abrir o cofre',action:()=>miniSafe(Story.act6)},
+      {label:'🦆 Perguntar ao pato',action:()=>{change('chaos',12);toast('🦆 O pato respondeu “quack”.');miniSafe(Story.act6)}},
+      {label:'🧨 Dar um susto no cadeado',action:()=>{change('brave',8);change('chaos',8);miniSafe(Story.act6)}}
+    ]);
+  },
+
+  act6(){
+    State.act=6;
+    setScene('ATO 6 — FUGA','🐸 ELA ESCAPOU','A gaiola abriu. A perereca fugiu imediatamente. Ana ficou parada. O pato também. O silêncio durou dois segundos.');
+    setObjective('Acompanhar a fuga.');
+    openDialog('PERERECA','“CROAC.”','Ela roubou um carrinho de limpeza e acelerou pelo corredor. Os marmanjos gritaram: “PEGA!”. Ana respondeu: “VOCÊS QUE CRIARAM ESSA SITUAÇÃO!”.',[
+      {label:'🏎️ Perseguir',action:()=>miniTurbo(Story.act7)},
+      {label:'🍉 Oferecer melancia',action:()=>{change('chaos',7);miniTurbo(Story.act7)}},
+      {label:'🎺 Tocar música de vitória',action:()=>{change('score',20);change('chaos',10);miniTurbo(Story.act7)}}
+    ]);
+  },
+
+  act7(){
+    State.act=7;
+    setScene('ATO 7 — O CORREDOR','🚨 O PATO SABE DEMAIS','A perereca entrou numa área cheia de sensores. O pato, misteriosamente, conhece a senha.');
+    setObjective('Passar pelos sensores.');
+    openDialog('PATO','QUACK.','Você não entende pato. Mas o pato olha para você, olha para a porta e depois olha para o próprio pé. Isso parece uma pista de altíssimo nível.',[
+      {label:'🥷 Passar pelos lasers',action:()=>miniLaser(Story.act8)},
+      {label:'🦆 Confiar no pato',action:()=>{change('brave',15);miniLaser(Story.act8)}},
+      {label:'🚪 Bater na porta',action:()=>{change('chaos',10);miniLaser(Story.act8)}}
+    ]);
+  },
+
+  act8(){
+    State.act=8;
+    setScene('ATO 8 — O LABORATÓRIO','🧠 O CÉREBRO DA PERERECA','Os marmanjos montaram um computador que aparentemente usa uma calculadora de bolso como processador.');
+    setObjective('Descobrir a sequência que desativa o computador.');
+    openDialog('COMPUTADOR','“VOCÊ NÃO É ROBÔ.”','O computador exige um teste de memória. Se Ana errar, ele imprime uma nota fiscal de 84 metros de papel.',[
+      {label:'🧠 Fazer o teste',action:()=>miniMemory(Story.act9)},
+      {label:'🖨️ Deixar imprimir',action:()=>{change('chaos',15);toast('🧾 A nota fiscal tem 84 metros.');miniMemory(Story.act9)}},
+      {label:'🔌 Desligar na tomada',action:()=>{change('brave',10);change('score',20);miniMemory(Story.act9)}}
+    ]);
+  },
+
+  act9(){
+    State.act=9;
+    setScene('ATO 9 — A ARMADILHA','🪣 O PLANO INFALÍVEL','Os marmanjos construíram uma armadilha com um balde, barbante, três cadeiras e uma placa escrito “NÃO PUXAR”.');
+    setObjective('Desarmar a armadilha sem destruir a perereca.');
+    openDialog('MARMANJO #2','“DESSA VEZ É INFALÍVEL.”','Ana olha para a armadilha. Depois olha para os marmanjos. Depois olha para o pato. O pato parece estar se segurando para não rir.',[
+      {label:'✂️ Cortar o barbante',action:()=>miniBucket(Story.act10)},
+      {label:'🪣 Colocar o balde no chefe',action:()=>{change('score',35);change('chaos',12);miniBucket(Story.act10)}},
+      {label:'📖 Ler o manual de 84 páginas',action:()=>{change('chaos',20);miniBucket(Story.act10)}}
+    ]);
+  },
+
+  act10(){
+    State.act=10;
+    setScene('ATO 10 — O TELHADO','🌙 A PERERECA NO TELHADO','A perereca chegou ao telhado. Os marmanjos também. Ana também. O pato não foi convidado, mas apareceu.');
+    setObjective('Salvar a perereca do último plano dos marmanjos.');
+    clearObjects();
+    const moon=document.createElement('div');moon.className='sceneObj';moon.textContent='🌙';moon.style.cssText+='right:8%;top:10%;font-size:100px';$('sceneObjects').appendChild(moon);
+    const frog=document.createElement('div');frog.className='frog hop';frog.style.cssText+='left:45%;top:55%';frog.innerHTML='🐸<small>“não me coloca em confusão”</small>';frog.onclick=()=>{change('score',15);toast('🐸 Ela quase caiu, mas fingiu que era parte do plano.');};$('sceneObjects').appendChild(frog);
+    openDialog('ANA','ÚLTIMA ARMADILHA','O chefe dos marmanjos anuncia: “AGORA VOCÊS NÃO ESCAPAM!”. Atrás dele existe uma placa de “saída” claramente apontando para uma escada.',[
+      {label:'🦸 Enfrentar os marmanjos',action:()=>Story.act11()},
+      {label:'🚪 Apontar a saída',action:()=>{change('score',30);change('chaos',10);Story.act11()}},
+      {label:'🤣 Começar a rir',action:()=>{change('chaos',20);change('brave',10);Story.act11()}}
+    ]);
+  },
+
+  act11(){
+    State.act=11;
+    setScene('ATO 11 — CHEFÃO','👑 O MARMANJO DO PLANO INFALÍVEL','O chefe segura um balde e anuncia que seu plano é “cientificamente perfeito”. Nenhum cientista foi consultado.');
+    setObjective('Derrotar o plano final.');
+    openDialog('CHEFÃO','“VOCÊ NÃO VAI PASSAR!”','Ele joga o balde para cima, erra completamente, e o balde volta na própria cabeça. Mesmo assim, ele insiste que foi proposital.',[
+      {label:'🥊 Atacar o plano',action:()=>miniBucket(Story.act12)},
+      {label:'🪣 Esperar o balde cair',action:()=>{change('score',25);miniBucket(Story.act12)}},
+      {label:'🎭 Aplaudir',action:()=>{change('chaos',15);change('score',20);miniBucket(Story.act12)}}
+    ]);
+  },
+
+  act12(){
+    State.act=12;
+    setScene('ATO 12 — DECISÃO FINAL','🐸 A ÚLTIMA DECISÃO','A perereca está segura. Os marmanjos estão derrotados. Só falta decidir o que fazer com a quantidade absurda de coisas que aconteceram.');
+    setObjective('Escolher o destino final da operação.');
+    openDialog('ANA','E AGORA?','Você tem três opções. Nenhuma delas é sensata. Exatamente como todo o resto desta aventura.',[
+      {label:'🏠 Levar a perereca para casa',action:()=>Story.finish('home')},
+      {label:'🍉 Fazer uma festa da melancia',action:()=>Story.finish('party')},
+      {label:'🦆 Dar o comando ao pato',action:()=>Story.finish('duck')}
+    ]);
+  },
+
+  finish(type){
+    closeDialog();
+    let title,text,badge;
+    if(type==='home'){
+      title='🐸 GUARDIÃ OFICIAL DA PERERECA';
+      text='Ana voltou para casa com a perereca. Ela fechou a porta, guardou a melancia e jurou que nunca mais entraria num galpão onde existisse um pato de borracha. Cinco minutos depois, a perereca apertou a campainha por dentro.';
+      badge='🏠 FINAL TRANQUILO (MAIS OU MENOS)';
+    }else if(type==='party'){
+      title='🍉 IMPERATRIZ DO SAPOCAOS';
+      text='Ana transformou o resgate numa festa. Os marmanjos foram obrigados a pagar a melancia. O pato virou DJ. A perereca roubou o microfone. Ninguém entendeu nada, mas todo mundo considerou um sucesso.';
+      badge='🎉 FINAL MELANCIA SUPREMA';
+    }else{
+      title='🦆 O PATO ASSUMIU O COMANDO';
+      text='Ana entregou a liderança ao pato. Foi uma decisão questionável. O pato imediatamente abriu uma empresa de segurança, contratou a perereca como gerente de travessuras e proibiu carrinhos de supermercado.';
+      badge='🦆 FINAL CORPORATIVO DO PATO';
+    }
+    if(State.frog>=85)addAchievement('PERERECA PROTEGIDA');
+    if(State.chaos>=80)addAchievement('CAOS EM NÍVEL INDUSTRIAL');
+    if(State.score>=400)addAchievement('RISADA DE 400 PONTOS');
+    if(State.miniWins>=5)addAchievement('MESTRA DOS MINIJOGOS');
+
+    $('endingBadge').textContent=badge;
+    $('endingTitle').textContent=title;
+    $('endingText').textContent=text;
+    $('endingStats').innerHTML=
+      '<div class="endStat"><b>Perereca</b><span>'+State.frog+'%</span></div>'+
+      '<div class="endStat"><b>Caos</b><span>'+State.chaos+'</span></div>'+
+      '<div class="endStat"><b>Coragem</b><span>'+State.brave+'</span></div>'+
+      '<div class="endStat"><b>Pontos</b><span>'+State.score+'</span></div>'+
+      '<div class="endStat"><b>Resgates</b><span>'+State.rescues+'</span></div>'+
+      '<div class="endStat"><b>Erros</b><span>'+State.miniFails+'</span></div>';
+
+    const ach=$('endingAchievements');
+    ach.innerHTML='<div class="panelTitle">Conquistas desbloqueadas</div>';
+    if(!State.achievements.length){
+      ach.innerHTML+='<p style="color:#a5b8ac">Nenhuma. A perereca está julgando.</p>';
+    }else{
+      State.achievements.forEach(a=>{
+        const s=document.createElement('span');s.className='badge';s.textContent='🏆 '+a;ach.appendChild(s);
+      });
+    }
+    $('ending').style.display='flex';
+    State.running=false;
+    buzz([60,80,120]);beep(660,.1);setTimeout(()=>beep(880,.12),120);
+  }
+};
+
+/* =========================================================
+   BRIDGE / ATOS
+========================================================= */
+Story.act1=Story.start;
+
+function startAlias(){Story.start()}
+
+/* =========================================================
+   GAME CONTROLLER
+========================================================= */
+const Game={
+  start(){
+    $('intro').style.display='none';
+    $('ending').style.display='none';
+    State.running=true;
+    updateHUD();renderInventory();
+    log('🐸 OPERAÇÃO SAPOCAOS INICIADA.');
+    log('📌 Regra nº 1: ninguém sabe exatamente o que está acontecendo.');
+    Story.start();
+  }
+};
+
+/* =========================================================
+   CANVAS DE ESTRELAS
+========================================================= */
+const canvas=$('stars'),ctx=canvas.getContext('2d');
+let stars=[];
+function resizeStars(){
+  const dpr=Math.max(1,Math.min(2,window.devicePixelRatio||1));
+  canvas.width=innerWidth*dpr;canvas.height=innerHeight*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  stars=Array.from({length:95},()=>({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:.3+Math.random()*1.6,v:.08+Math.random()*.35}));
+}
+function animateStars(){
+  ctx.clearRect(0,0,innerWidth,innerHeight);
+  for(const s of stars){
+    s.y+=s.v;if(s.y>innerHeight)s.y=0;
+    ctx.globalAlpha=.12+s.r*.13;ctx.fillStyle='#fff';
+    ctx.beginPath();ctx.arc(s.x,s.y,s.r,0,Math.PI*2);ctx.fill();
+  }
+  requestAnimationFrame(animateStars);
+}
+window.addEventListener('resize',resizeStars);
+resizeStars();animateStars();
+
+/* =========================================================
+   ERROS — NÃO DEIXAR A TELA FINAL FICAR VAZIA
+========================================================= */
+window.addEventListener('error',function(e){
+  console.error(e.error||e.message);
+  const screen=$('errorScreen');
+  if(!screen)return;
+  $('errorBox').textContent=String(e.message||e.error||'Erro desconhecido')+'\n\nLinha: '+(e.lineno||'?');
+  screen.style.display='flex';
+});
+window.addEventListener('unhandledrejection',function(e){
+  const screen=$('errorScreen');
+  if(!screen)return;
+  $('errorBox').textContent='Promise rejeitada:\n'+String(e.reason||'erro desconhecido');
+  screen.style.display='flex';
+});
+
+/* =========================================================
+   INICIALIZAÇÃO
+========================================================= */
+updateHUD();
+renderInventory();
 </script>
 </body>
 </html>
