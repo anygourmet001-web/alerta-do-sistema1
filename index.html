@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🚨 ALERTA GERAL DO SISTEMA 🚨</title>
+    <title>🦴 ALERTA DE BEDROCK 🦴</title>
     <style>
         :root {
-            --neon-pink: #ff007f;
-            --neon-blue: #00f0ff;
-            --neon-purple: #9d4edd;
+            --stone-orange: #f97316;
+            --stone-yellow: #eab308;
+            --cave-dark: #1c1917;
         }
 
         body, html {
@@ -17,15 +17,15 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #0a0512;
-            font-family: 'Montserrat', 'Arial Black', sans-serif;
+            background: #1c1917; /* Fundo cor de caverna profunda */
+            font-family: 'Impact', 'Arial Black', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Fundo com efeito de partículas e degradê animado */
-        #particle-canvas {
+        /* Sistema de partículas (Pedras, Ossos e Faíscas) */
+        #cave-canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -34,115 +34,145 @@
             z-index: 1;
         }
 
-        .background-glow {
+        .ambient-glow {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(157, 78, 221, 0.15), transparent 60%);
+            background: radial-gradient(circle at 50% 50%, rgba(249, 115, 22, 0.15), transparent 70%);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* Card Interface Premium Glassmorphism */
-        .premium-card {
+        /* Card Interface Cave-Glassmorphism */
+        .cave-card {
             position: relative;
             z-index: 3;
             width: 85%;
             max-width: 400px;
-            padding: 35px 25px;
-            background: rgba(15, 10, 25, 0.65);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 24px;
-            border: 2px solid rgba(255, 0, 127, 0.4);
-            box-shadow: 0 0 40px rgba(157, 78, 221, 0.25), inset 0 0 20px rgba(0, 240, 255, 0.1);
+            padding: 40px 25px;
+            background: rgba(28, 25, 23, 0.75);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 28px;
+            border: 3px solid rgba(249, 115, 22, 0.5);
+            box-shadow: 0 0 40px rgba(249, 115, 22, 0.3), inset 0 0 20px rgba(234, 179, 8, 0.1);
             text-align: center;
-            animation: flutuarCard 4s ease-in-out infinite alternate;
+            animation: flutuarCard 3.5s ease-in-out infinite alternate;
         }
 
-        /* Ícone de Alerta Neon */
-        .neon-icon {
-            font-size: 3.5rem;
-            margin-bottom: 15px;
-            animation: vibrarIcone 0.3s linear infinite alternate;
-            display: inline-block;
-            filter: drop-shadow(0 0 10px var(--neon-pink));
+        /* Ilustração do Tacape/Clava em CSS */
+        .clava-visual {
+            width: 40px;
+            height: 80px;
+            background: linear-gradient(to bottom, #78350f, #451a03);
+            border-radius: 20px 20px 10px 10px;
+            margin: 0 auto 20px auto;
+            position: relative;
+            transform: rotate(15deg);
+            animation: balancarClava 0.6s ease-in-out infinite alternate;
+            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
+        }
+        .clava-visual::after {
+            content: '🦴';
+            position: absolute;
+            font-size: 1.2rem;
+            top: 20px;
+            left: 8px;
         }
 
-        /* Tipografia Customizada de Alto Impacto */
+        /* Tipografia de Impacto Pré-Histórico */
         h1 {
-            font-size: 2.2rem;
+            font-size: 2.8rem;
             color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin: 0 0 10px 0;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 20px var(--neon-pink);
+            letter-spacing: 1px;
+            margin: 0;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 25px var(--stone-orange);
+            line-height: 1.1;
         }
 
         h2 {
-            font-size: 1.8rem;
-            color: var(--neon-blue);
-            margin: 0 0 25px 0;
-            letter-spacing: 1px;
-            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6);
-            font-weight: 900;
+            font-size: 1.4rem;
+            color: var(--stone-yellow);
+            margin: 15px 0 30px 0;
+            font-family: sans-serif;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
         }
 
-        /* Botão Interativo Premium */
-        .premium-button {
-            background: linear-gradient(45deg, var(--neon-pink), var(--neon-purple));
+        /* Botão Primitivo Premium */
+        .cave-button {
+            background: linear-gradient(45deg, var(--stone-orange), #dc2626);
             color: white;
             border: none;
-            padding: 15px 30px;
-            font-size: 1.1rem;
+            padding: 16px 30px;
+            font-size: 1.2rem;
             font-weight: bold;
             text-transform: uppercase;
-            border-radius: 50px;
+            border-radius: 16px;
             cursor: pointer;
-            box-shadow: 0 0 20px var(--neon-pink);
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
+            transition: all 0.2s ease;
             width: 100%;
             letter-spacing: 1px;
         }
 
-        .premium-button:active {
-            transform: scale(0.95);
-            box-shadow: 0 0 35px var(--neon-blue);
+        .cave-button:active {
+            transform: scale(0.96);
+            box-shadow: 0 0 25px var(--stone-yellow);
         }
 
-        /* Animações Avançadas */
+        /* Tela balançando (Terremoto) */
+        .terremoto {
+            animation: tremerTela 0.3s linear infinite !important;
+        }
+
+        /* Animações */
         @keyframes flutuarCard {
-            0% { transform: translateY(0px) rotate(0deg); }
-            100% { transform: translateY(-15px) rotate(1deg); border-color: var(--neon-blue); box-shadow: 0 0 50px rgba(0, 240, 255, 0.25); }
+            0% { transform: translateY(0px); }
+            100% { transform: translateY(-12px); border-color: var(--stone-yellow); box-shadow: 0 0 50px rgba(234, 179, 8, 0.3); }
         }
 
-        @keyframes vibrarIcone {
-            0% { transform: scale(1) rotate(-3deg); }
-            100% { transform: scale(1.08) rotate(3deg); }
+        @keyframes balancarClava {
+            0% { transform: rotate(10deg); }
+            100% { transform: rotate(35deg); }
+        }
+
+        @keyframes tremerTela {
+            0% { transform: translate(2px, 1px) rotate(0deg); }
+            10deg { transform: translate(-1px, -2px) rotate(-1deg); }
+            20% { transform: translate(-3px, 0px) rotate(1deg); }
+            30% { transform: translate(0px, 2px) rotate(0deg); }
+            40% { transform: translate(1px, -1px) rotate(1deg); }
+            50% { transform: translate(-1px, 2px) rotate(-1deg); }
+            60% { transform: translate(-3px, 1px) rotate(0deg); }
+            70% { transform: translate(2px, 1px) rotate(-1deg); }
+            80% { transform: translate(-1px, -1px) rotate(1deg); }
+            90% { transform: translate(2px, 2px) rotate(0deg); }
+            100% { transform: translate(1px, -2px) rotate(-1deg); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Sistema de Partículas Avançado em segundo plano -->
-    <canvas id="particle-canvas"></canvas>
-    <div class="background-glow"></div>
+    <!-- Canvas de Partículas Rústicas -->
+    <canvas id="cave-canvas"></canvas>
+    <div class="ambient-glow"></div>
 
-    <!-- Interface Premium -->
-    <div class="premium-card">
-        <div class="neon-icon">🔥🛑</div>
-        <h1>Meu marido</h1>
-        <h2>n quer me dar! 😩👿</h2>
-        <button class="premium-button" onclick="gerarExplosao()">Reclamar com ele! ⚡</button>
+    <!-- Interface Premium Flintstones -->
+    <div class="cave-card" id="main-card">
+        <div class="clava-visual"></div>
+        <h1>IABA DABA<br>DUUUUU!</h1>
+        <h2>YABBA DABBA DOO! 🍖🦖</h2>
+        <button class="cave-button" onclick="dispararTerremoto()">Gritar junto! 📢</button>
     </div>
 
     <script>
-        // SCRIPT DE PARTÍCULAS INTERATIVAS (CANVAS)
-        const canvas = document.getElementById('particle-canvas');
+        const canvas = document.getElementById('cave-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
+        const emojis = ['🪨', '🦴', '🔥', '✨'];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -151,61 +181,73 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class Particle {
+        class CaveParticle {
             constructor(x, y, isExplosion = false) {
                 this.x = x || Math.random() * canvas.width;
-                this.y = y || (isExplosion ? y : canvas.height + 20);
-                this.size = Math.random() * (isExplosion ? 6 : 3) + 1;
-                this.speedX = isExplosion ? (Math.random() - 0.5) * 8 : (Math.random() - 0.5) * 1.5;
-                this.speedY = isExplosion ? (Math.random() - 0.5) * 8 : -Math.random() * 2 - 0.5;
-                this.color = isExplosion 
-                    ? (Math.random() > 0.5 ? '#ff007f' : '#00f0ff') 
-                    : `rgba(${Math.random() > 0.5 ? '255,0,127' : '0,240,255'}, ${Math.random() * 0.4 + 0.2})`;
-                this.life = isExplosion ? 40 : 100;
+                this.y = y || (isExplosion ? y : canvas.height + 30);
+                this.isText = !isExplosion && Math.random() < 0.3;
+                this.char = emojis[Math.floor(Math.random() * emojis.length)];
+                this.size = isExplosion ? Math.random() * 5 + 2 : (this.isText ? Math.random() * 12 + 12 : Math.random() * 3 + 1);
+                this.speedX = isExplosion ? (Math.random() - 0.5) * 12 : (Math.random() - 0.5) * 1;
+                this.speedY = isExplosion ? (Math.random() - 0.5) * 12 : -Math.random() * 1.5 - 0.5;
+                this.color = Math.random() > 0.5 ? '#f97316' : '#eab308';
+                this.life = isExplosion ? 35 : 120;
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (this.size > 0.1) this.size -= 0.04;
+                if (this.size > 0.2 && !this.isText) this.size -= 0.03;
                 this.life--;
             }
             draw() {
-                ctx.fillStyle = this.color;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, Math.max(0, this.size), 0, Math.PI * 2);
-                ctx.fill();
+                if (this.isText) {
+                    ctx.font = `${this.size}px Arial`;
+                    ctx.globalAlpha = Math.max(0, this.life / 120);
+                    ctx.fillText(this.char, this.x, this.y);
+                    ctx.globalAlpha = 1.0;
+                } else {
+                    ctx.fillStyle = this.color;
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, Math.max(0, this.size), 0, Math.PI * 2);
+                    ctx.fill();
+                }
             }
         }
 
-        function initParticles() {
-            if (particles.length < 60 && Math.random() < 0.1) {
-                particles.push(new Particle());
+        function spawnAmbient() {
+            if (particles.length < 40 && Math.random() < 0.08) {
+                particles.push(new CaveParticle());
             }
         }
 
-        function animate() {
+        function drawLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            initParticles();
+            spawnAmbient();
             for (let i = particles.length - 1; i >= 0; i--) {
                 particles[i].update();
                 particles[i].draw();
-                if (particles[i].life <= 0 || particles[i].size <= 0) {
-                    particles.splice(i, 1);
-                }
+                if (particles[i].life <= 0) particles.splice(i, 1);
             }
-            requestAnimationFrame(animate);
+            requestAnimationFrame(drawLoop);
         }
-        animate();
+        drawLoop();
 
-        // Efeito de explosão de fogos digitais ao tocar no botão interativo
-        function gerarExplosao() {
-            const rect = document.querySelector('.premium-button').getBoundingClientRect();
+        // Efeito interativo de terremoto com chuva de fragmentos
+        function dispararTerremoto() {
+            const card = document.getElementById('main-card');
+            card.classList.add('terremoto');
+            
+            const rect = card.getBoundingClientRect();
             const posX = rect.left + rect.width / 2;
             const posY = rect.top + rect.height / 2;
-            
-            for(let i=0; i<40; i++) {
-                particles.push(new Particle(posX, posY, true));
+
+            for(let i = 0; i < 50; i++) {
+                particles.push(new CaveParticle(posX, posY, true));
             }
+
+            setTimeout(() => {
+                card.classList.remove('terremoto');
+            }, 600);
         }
     </script>
 </body>
