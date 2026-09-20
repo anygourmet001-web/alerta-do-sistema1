@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mundo Invertido Detectado</title>
+    <title>Aviso do Sistema</title>
     <style>
         body {
-            background: linear-gradient(180deg, #000000, #1a0202, #000000); /* Clima do Mundo Invertido */
+            background: linear-gradient(135deg, #110419, #28042a, #0b0214); /* Fundo neon escuro moderno */
             color: #fff;
-            font-family: 'ITC Benguiat', 'Arial Black', sans-serif; /* Fonte inspirada na série */
+            font-family: 'Arial Black', sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -20,8 +20,8 @@
             position: relative;
         }
 
-        /* Partículas flutuantes do Mundo Invertido (Cinzas) */
-        .cinzas-bg {
+        /* Chuva de emojis subindo no fundo */
+        .elementos-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,86 +31,69 @@
             z-index: 1;
         }
 
-        .particula {
+        .elemento-subida {
             position: absolute;
-            width: 6px;
-            height: 6px;
-            background: rgba(255, 68, 68, 0.4);
-            border-radius: 50%;
-            bottom: -20px;
-            animation: flutuarCinza 6s linear infinite;
-            filter: blur(1px);
+            bottom: -60px;
+            font-size: 2.5rem;
+            animation: subir 4s linear infinite;
+            user-select: none;
         }
 
-        /* Posições variadas para o efeito das partículas */
-        .p1 { left: 15%; animation-duration: 5s; animation-delay: 0s; width: 4px; height: 4px; }
-        .p2 { left: 40%; animation-duration: 7s; animation-delay: 2s; width: 8px; height: 8px; background: rgba(255, 255, 255, 0.2); }
-        .p3 { left: 60%; animation-duration: 6s; animation-delay: 1s; }
-        .p4 { left: 80%; animation-duration: 8s; animation-delay: 3s; width: 5px; height: 5px; }
+        /* Configuração de posições e tempos para o efeito */
+        .e1 { left: 12%; animation-duration: 3.2s; animation-delay: 0s; }
+        .e2 { left: 38%; animation-duration: 5s; animation-delay: 1s; font-size: 3.5rem; }
+        .e3 { left: 55%; animation-duration: 4.2s; animation-delay: 0.3s; }
+        .e4 { left: 78%; animation-duration: 4.8s; animation-delay: 2s; font-size: 3rem; }
+        .e5 { left: 90%; animation-duration: 3.5s; animation-delay: 0.7s; }
 
-        /* Conteúdo em Néon Vermelho Marcante */
+        /* Conteúdo principal com brilho */
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: pulsarLogo 1.5s ease-in-out infinite alternate;
+            animation: pulsar 0.7s ease-in-out infinite alternate;
         }
 
         h1 {
-            font-size: 3.5rem;
-            text-transform: uppercase;
-            color: #000;
-            letter-spacing: 4px;
-            margin: 0;
-            /* Efeito de contorno néon vermelho clássico da abertura */
-            -webkit-text-stroke: 2px #ff1111;
-            text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000, 0 0 40px #880000;
-        }
-
-        h2 {
-            font-size: 2rem;
+            font-size: 4.5rem;
             color: #ffffff;
-            font-family: sans-serif;
-            font-weight: 300;
+            text-shadow: 0 0 10px #a855f7, 0 0 30px #d946ef, 0 0 50px #a855f7;
+            margin: 0;
             letter-spacing: 2px;
-            margin-top: 20px;
-            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
         }
 
         /* Animações */
-        @keyframes flutuarCinza {
+        @keyframes subir {
             0% {
-                transform: translateY(0) translateX(0) scale(1);
+                transform: translateY(0) rotate(0deg) scale(0.8);
                 opacity: 0;
             }
-            50% {
-                opacity: 0.8;
-                transform: translateY(-50vh) translateX(20px) scale(1.2);
-            }
+            15% { opacity: 1; }
+            85% { opacity: 1; }
             100% {
-                transform: translateY(-110vh) translateX(-20px) scale(0.8);
+                transform: translateY(-110vh) rotate(25deg) scale(1.1);
                 opacity: 0;
             }
         }
 
-        @keyframes pulsarLogo {
-            0% { transform: scale(0.98); filter: brightness(0.9); }
-            100% { transform: scale(1.02); filter: brightness(1.2); }
+        @keyframes pulsar {
+            0% { transform: scale(0.96); filter: brightness(0.9); }
+            100% { transform: scale(1.04); filter: brightness(1.1); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Partículas do Mundo Invertido flutuando no fundo -->
-    <div class="cinzas-bg">
-        <div class="particula p1"></div>
-        <div class="particula p2"></div>
-        <div class="particula p3"></div>
-        <div class="particula p4"></div>
+    <!-- Elementos subindo em segundo plano -->
+    <div class="elementos-bg">
+        <div class="elemento-subida e1">🍆</div>
+        <div class="elemento-subida e2">🔥</div>
+        <div class="elemento-subida e3">🍆</div>
+        <div class="elemento-subida e4">😏</div>
+        <div class="elemento-subida e5">🔥</div>
     </div>
 
     <div class="conteudo">
-        <h1>Stranger<br>Things</h1>
-        <h2>Cuidado com o Vecna hoje... 🟥🐙</h2>
+        <h1>Pauzão! 👑</h1>
     </div>
 
 </body>
