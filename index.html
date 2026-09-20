@@ -3,9 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Dorama — Seu Destino</title>
+
+<title>Abordagem da Confeiteira</title>
 
 <style>
+
 *{
     box-sizing:border-box;
     margin:0;
@@ -22,38 +24,46 @@ html,body{
 
 body{
     background:
-        radial-gradient(circle at 50% 20%, #ffe8f1 0%, transparent 35%),
-        linear-gradient(145deg,#170b1f,#3b102e,#120914);
+        radial-gradient(circle at 50% 15%,rgba(255,120,170,.25),transparent 35%),
+        linear-gradient(145deg,#210b15,#4b1225,#12070d);
     color:white;
-    position:relative;
 }
+
+/* PARTICULAS */
 
 #particles{
     position:fixed;
     inset:0;
     pointer-events:none;
     overflow:hidden;
+    z-index:1;
 }
 
-.petal{
+.particle{
     position:absolute;
     top:-40px;
-    font-size:20px;
     animation:fall linear forwards;
-    opacity:.9;
+    opacity:.8;
 }
 
 @keyframes fall{
-    0%{
-        transform:translateY(-50px) rotate(0deg);
+    from{
+        transform:translateY(-40px) rotate(0deg);
         opacity:0;
     }
-    10%{opacity:1;}
-    100%{
-        transform:translateY(110vh) rotate(720deg);
-        opacity:.15;
+
+    10%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateY(110vh) rotate(500deg);
+        opacity:0;
     }
 }
+
+
+/* TELAS */
 
 .screen{
     width:100%;
@@ -61,21 +71,18 @@ body{
     display:flex;
     justify-content:center;
     align-items:center;
-    padding:22px;
+    padding:18px;
     position:relative;
-    z-index:2;
+    z-index:5;
 }
 
 .card{
-    width:min(430px,100%);
-    min-height:560px;
+    width:min(440px,100%);
+    min-height:580px;
+
+    padding:28px 22px;
+
     border-radius:30px;
-    padding:30px 24px;
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
 
     background:
         linear-gradient(
@@ -84,162 +91,520 @@ body{
             rgba(255,255,255,.035)
         );
 
-    border:1px solid rgba(255,255,255,.18);
+    border:1px solid rgba(255,255,255,.16);
+
     box-shadow:
-        0 30px 80px rgba(0,0,0,.55),
+        0 30px 90px rgba(0,0,0,.55),
         inset 0 1px 0 rgba(255,255,255,.12);
 
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
+
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
 }
 
-.kdrama{
-    font-size:14px;
-    letter-spacing:5px;
-    text-transform:uppercase;
-    color:#ffc8dd;
-    margin-bottom:18px;
+.hidden{
+    display:none !important;
+}
+
+
+/* INICIO */
+
+.alert{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+
+    padding:8px 15px;
+
+    border-radius:30px;
+
+    background:rgba(255,60,110,.12);
+
+    border:1px solid rgba(255,100,150,.25);
+
+    color:#ffb4cd;
+
+    font-size:12px;
+    font-weight:bold;
+
+    letter-spacing:2px;
+
+    margin-bottom:22px;
+}
+
+.emojiBig{
+    font-size:78px;
+
+    margin-bottom:15px;
+
+    filter:
+        drop-shadow(0 0 18px rgba(255,70,140,.45));
+
+    animation:
+        pulse 1.5s infinite;
+}
+
+@keyframes pulse{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    50%{
+        transform:scale(1.08);
+    }
+
 }
 
 .title{
-    font-size:42px;
+    font-size:39px;
     line-height:1.02;
+
     font-weight:900;
-    margin-bottom:16px;
+
+    margin-bottom:17px;
 
     text-shadow:
-        0 0 15px rgba(255,126,180,.35);
+        0 0 20px rgba(255,100,160,.25);
 }
 
 .subtitle{
-    font-size:17px;
-    line-height:1.5;
-    color:#f4dfe9;
+    color:#f5dce6;
+
+    font-size:16px;
+
+    line-height:1.55;
+
     margin-bottom:28px;
-}
-
-.heart{
-    font-size:72px;
-    margin-bottom:20px;
-    animation:heartbeat 1.3s infinite;
-    filter:drop-shadow(0 0 15px rgba(255,80,150,.7));
-}
-
-@keyframes heartbeat{
-    0%,100%{transform:scale(1);}
-    15%{transform:scale(1.14);}
-    30%{transform:scale(1);}
-    45%{transform:scale(1.08);}
-    60%{transform:scale(1);}
 }
 
 button{
     width:100%;
-    max-width:330px;
-    border:none;
-    border-radius:18px;
-    padding:17px 20px;
-    margin:8px 0;
+    max-width:340px;
 
-    font-size:17px;
+    border:0;
+
+    border-radius:18px;
+
+    padding:17px 18px;
+
+    margin:7px 0;
+
+    font-size:16px;
+
     font-weight:800;
+
     color:white;
 
-    background:linear-gradient(135deg,#ff4f91,#a92d68);
+    background:
+        linear-gradient(
+            135deg,
+            #ff4d8b,
+            #b92762
+        );
 
     box-shadow:
-        0 10px 30px rgba(255,55,140,.3),
-        inset 0 1px 0 rgba(255,255,255,.2);
+        0 10px 30px rgba(255,50,130,.25),
+        inset 0 1px 0 rgba(255,255,255,.18);
+
+    transition:.15s;
 
     cursor:pointer;
-    transition:.18s;
 }
 
 button:active{
-    transform:scale(.95);
+    transform:scale(.94);
 }
 
-.choice{
-    background:rgba(255,255,255,.09);
-    border:1px solid rgba(255,255,255,.13);
+
+/* JOGO */
+
+.gameTop{
+    width:100%;
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    margin-bottom:15px;
 }
 
-.choice:hover{
-    background:rgba(255,255,255,.15);
+.badge{
+    padding:8px 12px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.08);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    font-size:11px;
+
+    letter-spacing:1px;
+
+    color:#ffd2e1;
 }
 
-.hidden{
-    display:none!important;
+.score{
+    font-size:14px;
+
+    font-weight:bold;
+
+    color:#ffd2e1;
 }
 
-.question{
-    font-size:27px;
-    line-height:1.2;
-    font-weight:800;
-    margin-bottom:25px;
+.instruction{
+    font-size:22px;
+
+    font-weight:900;
+
+    margin-bottom:5px;
+}
+
+.instructionSmall{
+    font-size:14px;
+
+    color:#dcbac8;
+
+    margin-bottom:18px;
+}
+
+.arena{
+
+    width:100%;
+    max-width:380px;
+
+    height:340px;
+
+    position:relative;
+
+    overflow:hidden;
+
+    border-radius:24px;
+
+    background:
+        linear-gradient(
+            180deg,
+            rgba(255,255,255,.08),
+            rgba(255,255,255,.025)
+        );
+
+    border:1px solid rgba(255,255,255,.12);
+
+    box-shadow:
+        inset 0 0 35px rgba(0,0,0,.3);
+
+    touch-action:none;
+}
+
+.item{
+
+    position:absolute;
+
+    font-size:45px;
+
+    cursor:pointer;
+
+    user-select:none;
+
+    -webkit-user-select:none;
+
+    transition:transform .12s;
+
+    filter:
+        drop-shadow(0 6px 8px rgba(0,0,0,.3));
+
+    animation:
+        appear .25s ease;
+}
+
+.item:active{
+    transform:scale(1.3);
+}
+
+@keyframes appear{
+
+    from{
+        transform:scale(0);
+        opacity:0;
+    }
+
+    to{
+        transform:scale(1);
+        opacity:1;
+    }
+
+}
+
+.enemy{
+
+    position:absolute;
+
+    padding:8px 12px;
+
+    border-radius:14px;
+
+    background:rgba(20,5,10,.85);
+
+    border:1px solid rgba(255,120,160,.2);
+
+    color:#ffd5e2;
+
+    font-size:11px;
+
+    font-weight:bold;
+
+    white-space:nowrap;
+
+    animation:
+        enemyMove 2.5s linear forwards;
+
+}
+
+@keyframes enemyMove{
+
+    from{
+        transform:translateX(110%);
+        opacity:0;
+    }
+
+    10%{
+        opacity:1;
+    }
+
+    90%{
+        opacity:1;
+    }
+
+    to{
+        transform:translateX(-150%);
+        opacity:0;
+    }
+
 }
 
 .progress{
     width:100%;
-    max-width:330px;
+    max-width:380px;
+
     height:6px;
+
+    margin-top:15px;
+
     border-radius:10px;
-    background:rgba(255,255,255,.12);
-    margin-bottom:25px;
+
     overflow:hidden;
+
+    background:rgba(255,255,255,.1);
 }
 
 .progressBar{
-    height:100%;
+
     width:0%;
-    background:linear-gradient(90deg,#ff5c9d,#ffd0e2);
-    transition:.5s;
+
+    height:100%;
+
+    background:
+        linear-gradient(
+            90deg,
+            #ff4b8a,
+            #ffd0df
+        );
+
+    transition:.3s;
 }
 
-.resultEmoji{
-    font-size:80px;
+
+/* FINAL */
+
+.finalEmoji{
+
+    font-size:78px;
+
     margin-bottom:15px;
-    animation:pop .6s ease;
+
+    animation:
+        finalPop .7s ease;
 }
 
-@keyframes pop{
-    0%{transform:scale(.2);opacity:0}
-    70%{transform:scale(1.15)}
-    100%{transform:scale(1)}
+@keyframes finalPop{
+
+    0%{
+        transform:scale(.2) rotate(-20deg);
+        opacity:0;
+    }
+
+    70%{
+        transform:scale(1.15) rotate(8deg);
+    }
+
+    100%{
+        transform:scale(1) rotate(0);
+        opacity:1;
+    }
+
 }
 
-.resultTitle{
+.finalTitle{
+
     font-size:34px;
+
     font-weight:900;
-    margin-bottom:15px;
+
+    line-height:1.05;
+
+    margin-bottom:18px;
 }
 
-.resultText{
-    font-size:17px;
-    line-height:1.55;
-    color:#f5dfe9;
-    margin-bottom:25px;
-}
+.finalText{
 
-.doramaBadge{
-    padding:9px 16px;
-    border-radius:30px;
-    background:rgba(255,255,255,.09);
-    border:1px solid rgba(255,255,255,.15);
-    color:#ffd1e3;
-    font-size:13px;
+    font-size:16px;
+
+    line-height:1.6;
+
+    color:#f3dce6;
+
     margin-bottom:22px;
 }
 
+.priceBox{
+
+    width:100%;
+
+    max-width:330px;
+
+    padding:16px;
+
+    border-radius:20px;
+
+    background:rgba(255,255,255,.07);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    margin-bottom:20px;
+}
+
+.priceLine{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin:7px 0;
+
+    font-weight:bold;
+}
+
+.red{
+    color:#ff8fb5;
+}
+
+.gold{
+    color:#ffd48a;
+}
+
+.total{
+
+    border-top:1px solid rgba(255,255,255,.1);
+
+    margin-top:10px;
+
+    padding-top:10px;
+
+    color:white;
+
+    font-size:18px;
+}
+
+
+/* MENSAGENS */
+
+.popup{
+
+    position:fixed;
+
+    left:50%;
+
+    top:50%;
+
+    transform:
+        translate(-50%,-50%)
+        scale(.8);
+
+    width:min(330px,85%);
+
+    padding:22px;
+
+    border-radius:22px;
+
+    text-align:center;
+
+    background:
+        rgba(30,5,15,.94);
+
+    border:1px solid rgba(255,120,170,.3);
+
+    box-shadow:
+        0 20px 80px rgba(0,0,0,.6);
+
+    z-index:100;
+
+    opacity:0;
+
+    pointer-events:none;
+
+    transition:.25s;
+}
+
+.popup.show{
+
+    opacity:1;
+
+    transform:
+        translate(-50%,-50%)
+        scale(1);
+}
+
+.popupEmoji{
+
+    font-size:42px;
+
+    margin-bottom:10px;
+}
+
+.popupText{
+
+    font-size:16px;
+
+    line-height:1.45;
+
+    font-weight:bold;
+}
+
 .flash{
-    animation:flash .45s;
+    animation:flash .35s;
 }
 
 @keyframes flash{
-    0%{filter:brightness(1)}
-    50%{filter:brightness(2)}
-    100%{filter:brightness(1)}
+
+    0%,100%{
+        filter:brightness(1);
+    }
+
+    50%{
+        filter:brightness(2.5);
+    }
+
 }
+
 </style>
 </head>
 
@@ -249,354 +614,802 @@ button:active{
 
 <div class="screen">
 
-    <!-- INÍCIO -->
-    <div class="card" id="start">
 
-        <div class="heart">💗</div>
+<!-- ================= INÍCIO ================= -->
 
-        <div class="kdrama">
-            K-DRAMA EXPERIENCE
-        </div>
+<div class="card" id="start">
 
-        <div class="title">
-            Seu destino<br>
-            de dorama
-        </div>
+    <div class="alert">
+        🚨 ABORDAGEM DETECTADA
+    </div>
 
-        <div class="subtitle">
-            Prepare o coração...<br>
-            algumas escolhas podem mudar<br>
-            completamente essa história. 👀
-        </div>
+    <div class="emojiBig">
+        🍓🍫
+    </div>
 
-        <button onclick="startGame()">
-            🎬 COMEÇAR O DORAMA
-        </button>
+    <div class="title">
+        VOCÊ FOI<br>
+        ABORDADO!
+    </div>
+
+    <div class="subtitle">
+
+        Você estava andando tranquilamente pela rua...
+
+        <br><br>
+
+        Até encontrar uma confeiteira
+        com <b>morangos cravejados</b>
+        e <b>brigadeiros</b>.
+
+        👀
 
     </div>
 
+    <button onclick="startGame()">
+        🚨 ENFRENTAR A ABORDAGEM
+    </button>
 
-    <!-- JOGO -->
-    <div class="card hidden" id="game">
+</div>
 
-        <div class="doramaBadge" id="badge">
-            EPISÓDIO 1
+
+<!-- ================= JOGO ================= -->
+
+<div class="card hidden" id="game">
+
+    <div class="gameTop">
+
+        <div class="badge">
+            OPERAÇÃO DOCINHO
         </div>
 
-        <div class="progress">
-            <div class="progressBar" id="progress"></div>
+        <div class="score">
+            🍓 <span id="score">0</span>
         </div>
-
-        <div class="question" id="question">
-            Você está andando pela rua...
-        </div>
-
-        <div id="choices"></div>
 
     </div>
 
+    <div class="instruction">
+        PEGUE OS DOCES!
+    </div>
 
-    <!-- RESULTADO -->
-    <div class="card hidden" id="result">
+    <div class="instructionSmall">
+        Mas cuidado com os pedidos dos clientes... 😂
+    </div>
 
-        <div class="resultEmoji" id="resultEmoji">
-            💕
-        </div>
+    <div class="arena" id="arena"></div>
 
-        <div class="resultTitle" id="resultTitle">
-            Seu dorama começou!
-        </div>
-
-        <div class="resultText" id="resultText">
-            ...
-        </div>
-
-        <div class="doramaBadge" id="resultBadge">
-            FINAL DO EPISÓDIO
-        </div>
-
-        <button onclick="restart()">
-            🔄 ASSISTIR DE NOVO
-        </button>
-
+    <div class="progress">
+        <div class="progressBar" id="progress"></div>
     </div>
 
 </div>
 
+
+<!-- ================= FINAL ================= -->
+
+<div class="card hidden" id="final">
+
+    <div class="finalEmoji">
+        👑🍓🍫
+    </div>
+
+    <div class="finalTitle">
+        ABORDAGEM<br>
+        CONCLUÍDA!
+    </div>
+
+    <div class="finalText">
+
+        Você conseguiu sobreviver
+        à abordagem da confeiteira.
+
+        <br><br>
+
+        Mas descobriu uma coisa...
+
+        <br><br>
+
+        <b>
+        Ela não queria seu dinheiro.
+        Ela queria era te vender doce. 😂
+        </b>
+
+    </div>
+
+    <div class="priceBox">
+
+        <div class="priceLine">
+            <span>🍓 Morango cravejado</span>
+            <span class="red">R$ 15</span>
+        </div>
+
+        <div class="priceLine">
+            <span>🍫 Brigadeiro</span>
+            <span class="gold">R$ 12</span>
+        </div>
+
+        <div class="priceLine total">
+            <span>💰 Levou os dois</span>
+            <span>R$ 27</span>
+        </div>
+
+    </div>
+
+    <button onclick="restart()">
+        🔄 SER ABORDADO NOVAMENTE
+    </button>
+
+</div>
+
+</div>
+
+
+<!-- POPUP -->
+
+<div class="popup" id="popup">
+
+    <div class="popupEmoji" id="popupEmoji">
+        😂
+    </div>
+
+    <div class="popupText" id="popupText">
+        ...
+    </div>
+
+</div>
+
+
 <script>
 
-const particles = document.getElementById("particles");
 
-const emojis = [
-    "🌸","🌸","💗","💕","✨","💮","💖","🌷"
+/* =========================================================
+   PARTICULAS
+========================================================= */
+
+const particleContainer =
+    document.getElementById("particles");
+
+const particleEmojis = [
+    "🍓",
+    "🍫",
+    "✨",
+    "💗",
+    "🍬",
+    "🌸"
 ];
 
-function createPetal(){
+function createParticle(){
 
-    const el = document.createElement("div");
+    const p =
+        document.createElement("div");
 
-    el.className="petal";
+    p.className="particle";
 
-    el.textContent =
-        emojis[Math.floor(Math.random()*emojis.length)];
+    p.textContent =
+        particleEmojis[
+            Math.floor(
+                Math.random() *
+                particleEmojis.length
+            )
+        ];
 
-    el.style.left =
+    p.style.left =
         Math.random()*100+"vw";
 
-    el.style.fontSize =
-        (14+Math.random()*18)+"px";
+    p.style.fontSize =
+        (13+Math.random()*18)+"px";
 
-    el.style.animationDuration =
+    p.style.animationDuration =
         (5+Math.random()*7)+"s";
 
-    el.style.animationDelay =
-        Math.random()*2+"s";
-
-    particles.appendChild(el);
+    particleContainer.appendChild(p);
 
     setTimeout(()=>{
-        el.remove();
-    },14000);
+        p.remove();
+    },13000);
 }
 
-setInterval(createPetal,350);
+setInterval(createParticle,450);
 
-for(let i=0;i<12;i++){
-    setTimeout(createPetal,i*200);
+for(let i=0;i<15;i++){
+
+    setTimeout(
+        createParticle,
+        i*180
+    );
+
 }
 
 
-const perguntas = [
+/* =========================================================
+   VARIÁVEIS DO JOGO
+========================================================= */
 
-{
-    pergunta:"Você está andando pela rua quando um oppa esbarra em você. O que você faz?",
-    opcoes:[
-        ["😳 Fico olhando pra ele sem conseguir falar","romance"],
-        ["😂 Dou risada e sigo andando","comedia"],
-        ["🔥 Olho de volta e digo: 'Foi de propósito?'","ousada"]
-    ]
-},
+const arena =
+    document.getElementById("arena");
 
-{
-    pergunta:"Ele aparece novamente no mesmo lugar no dia seguinte...",
-    opcoes:[
-        ["💕 Acho que o destino está tentando dizer alguma coisa","romance"],
-        ["👀 Começo a investigar quem ele é","misterio"],
-        ["😂 Já considero isso o começo de um dorama","comedia"]
-    ]
-},
+const scoreElement =
+    document.getElementById("score");
 
-{
-    pergunta:"Ele pergunta: 'Você acredita em destino?'",
-    opcoes:[
-        ["💗 Sim... talvez você seja meu destino","romance"],
-        ["😏 Depende. O que você está planejando?","ousada"],
-        ["😂 Só se tiver 16 episódios","comedia"]
-    ]
-},
+const progressBar =
+    document.getElementById("progress");
 
-{
-    pergunta:"Ele segura sua mão e diz que precisa contar um segredo...",
-    opcoes:[
-        ["🥹 Escuto atentamente","romance"],
-        ["👀 'Agora fiquei curiosa...'","misterio"],
-        ["🔥 'Só se o segredo for interessante'","ousada"]
-    ]
-}
+let score=0;
 
-];
+let objetivo=10;
 
-let perguntaAtual=0;
-let escolhas=[];
+let gameRunning=false;
+
+let itemTimer;
+
+let enemyTimer;
+
+
+/* =========================================================
+   INICIAR
+========================================================= */
 
 function startGame(){
 
-    document.getElementById("start").classList.add("hidden");
-    document.getElementById("game").classList.remove("hidden");
+    document
+        .getElementById("start")
+        .classList.add("hidden");
 
-    perguntaAtual=0;
-    escolhas=[];
+    document
+        .getElementById("final")
+        .classList.add("hidden");
 
-    mostrarPergunta();
+    document
+        .getElementById("game")
+        .classList.remove("hidden");
+
+    score=0;
+
+    scoreElement.textContent="0";
+
+    progressBar.style.width="0%";
+
+    gameRunning=true;
+
+    arena.innerHTML="";
+
+    criarItens();
+
+    criarInimigos();
+
 }
 
-function mostrarPergunta(){
 
-    const p=perguntas[perguntaAtual];
+/* =========================================================
+   CRIAR DOCES
+========================================================= */
 
-    document.getElementById("question").textContent=p.pergunta;
+function criarItens(){
 
-    document.getElementById("badge").textContent=
-        "EPISÓDIO "+(perguntaAtual+1);
+    if(!gameRunning)
+        return;
 
-    document.getElementById("progress").style.width=
-        ((perguntaAtual)/perguntas.length*100)+"%";
+    const item =
+        document.createElement("div");
 
-    const container=document.getElementById("choices");
+    item.className="item";
 
-    container.innerHTML="";
+    const tipo =
+        Math.random() < .5
+        ? "🍓"
+        : "🍫";
 
-    p.opcoes.forEach(opcao=>{
+    item.textContent=tipo;
 
-        const btn=document.createElement("button");
+    const arenaWidth =
+        arena.clientWidth;
 
-        btn.className="choice";
+    const arenaHeight =
+        arena.clientHeight;
 
-        btn.textContent=opcao[0];
+    item.style.left =
+        (15+
+        Math.random()*
+        (arenaWidth-65))+"px";
 
-        btn.onclick=()=>{
+    item.style.top =
+        (15+
+        Math.random()*
+        (arenaHeight-70))+"px";
 
-            escolhas.push(opcao[1]);
 
-            btn.classList.add("flash");
+    item.addEventListener(
+        "pointerdown",
+        function(e){
 
-            if(navigator.vibrate){
-                navigator.vibrate(35);
+            e.preventDefault();
+
+            pegarDoce(item,tipo);
+
+        },
+        {passive:false}
+    );
+
+
+    arena.appendChild(item);
+
+
+    setTimeout(()=>{
+
+        if(item.parentNode)
+            item.remove();
+
+    },2600);
+
+
+    itemTimer =
+        setTimeout(
+            criarItens,
+            500
+        );
+
+}
+
+
+/* =========================================================
+   PEGAR DOCE
+========================================================= */
+
+function pegarDoce(item,tipo){
+
+    if(!gameRunning)
+        return;
+
+    score++;
+
+    scoreElement.textContent=score;
+
+    progressBar.style.width =
+        Math.min(
+            score/objetivo*100,
+            100
+        )+"%";
+
+    item.classList.add("flash");
+
+    if(navigator.vibrate){
+
+        navigator.vibrate(35);
+
+    }
+
+    criarExplosao(
+        item,
+        tipo
+    );
+
+    item.remove();
+
+
+    /* FRASES ALEATÓRIAS */
+
+    const frases=[
+
+        "Pegou! Agora vende. 😂",
+
+        "Esse já tem dono! 👀",
+
+        "R$15 entrando no caixa! 💰",
+
+        "Esse morango não escapa! 🍓",
+
+        "Brigadeiro capturado! 🍫",
+
+        "A confeiteira aprovou! 👑",
+
+        "Mais um cliente abordado! 😂"
+
+    ];
+
+    if(
+        score===3 ||
+        score===6 ||
+        score===9
+    ){
+
+        mostrarPopup(
+            "🍓",
+            frases[
+                Math.floor(
+                    Math.random()*
+                    frases.length
+                )
+            ]
+        );
+
+    }
+
+
+    if(score>=objetivo){
+
+        finalizar();
+
+    }
+
+}
+
+
+/* =========================================================
+   CLIENTES / INIMIGOS
+========================================================= */
+
+const pedidos=[
+
+    "Moça, tem desconto? 😂",
+
+    "Faz por R$10? 😭",
+
+    "Tem como entregar? 👀",
+
+    "É só um pouquinho... 🤏",
+
+    "Moça, separa 20 pra mim!",
+
+    "Tem como fazer pra agora? 🚨",
+
+    "Vi mais barato na internet! 🤡",
+
+    "Se eu levar 3 dá desconto? 😂",
+
+    "Moça, aceita fiado? 💀",
+
+    "Faz um brigadeiro só? 👀"
+
+];
+
+
+function criarInimigos(){
+
+    if(!gameRunning)
+        return;
+
+    const enemy =
+        document.createElement("div");
+
+    enemy.className="enemy";
+
+    enemy.textContent=
+        pedidos[
+            Math.floor(
+                Math.random()*
+                pedidos.length
+            )
+        ];
+
+    enemy.style.top =
+        (20+
+        Math.random()*280)+"px";
+
+    arena.appendChild(enemy);
+
+    setTimeout(()=>{
+
+        enemy.remove();
+
+    },2700);
+
+
+    enemyTimer =
+        setTimeout(
+            criarInimigos,
+            1800
+        );
+
+}
+
+
+/* =========================================================
+   EXPLOSÃO
+========================================================= */
+
+function criarExplosao(item,tipo){
+
+    const rect =
+        item.getBoundingClientRect();
+
+    const symbols =
+        tipo==="🍓"
+        ? ["🍓","✨","💗"]
+        : ["🍫","✨","🤎"];
+
+    for(let i=0;i<7;i++){
+
+        const p =
+            document.createElement("div");
+
+        p.textContent =
+            symbols[
+                Math.floor(
+                    Math.random()*
+                    symbols.length
+                )
+            ];
+
+        p.style.position="fixed";
+
+        p.style.left =
+            rect.left+"px";
+
+        p.style.top =
+            rect.top+"px";
+
+        p.style.fontSize="18px";
+
+        p.style.zIndex="200";
+
+        p.style.pointerEvents="none";
+
+        document.body.appendChild(p);
+
+        const x =
+            (Math.random()*120)-60;
+
+        const y =
+            (Math.random()*120)-60;
+
+        p.animate(
+
+            [
+                {
+                    transform:"translate(0,0) scale(1)",
+                    opacity:1
+                },
+
+                {
+                    transform:
+                        `translate(${x}px,${y}px) scale(.4)`,
+                    opacity:0
+                }
+
+            ],
+
+            {
+                duration:700,
+                easing:"ease-out"
             }
 
-            setTimeout(()=>{
+        );
 
-                perguntaAtual++;
+        setTimeout(()=>{
+            p.remove();
+        },700);
 
-                if(perguntaAtual>=perguntas.length){
+    }
 
-                    mostrarResultado();
+}
 
-                }else{
 
-                    mostrarPergunta();
+/* =========================================================
+   POPUP
+========================================================= */
+
+let popupTimeout;
+
+function mostrarPopup(emoji,texto){
+
+    const popup =
+        document.getElementById("popup");
+
+    document.getElementById(
+        "popupEmoji"
+    ).textContent=emoji;
+
+    document.getElementById(
+        "popupText"
+    ).textContent=texto;
+
+    popup.classList.add("show");
+
+    clearTimeout(popupTimeout);
+
+    popupTimeout =
+        setTimeout(()=>{
+
+            popup.classList.remove("show");
+
+        },1100);
+
+}
+
+
+/* =========================================================
+   FINAL
+========================================================= */
+
+function finalizar(){
+
+    gameRunning=false;
+
+    clearTimeout(itemTimer);
+
+    clearTimeout(enemyTimer);
+
+    setTimeout(()=>{
+
+        document
+            .getElementById("game")
+            .classList.add("hidden");
+
+        document
+            .getElementById("final")
+            .classList.remove("hidden");
+
+        explosaoFinal();
+
+        if(navigator.vibrate){
+
+            navigator.vibrate([
+                70,
+                50,
+                70,
+                100
+            ]);
+
+        }
+
+    },450);
+
+}
+
+
+/* =========================================================
+   EXPLOSÃO FINAL
+========================================================= */
+
+function explosaoFinal(){
+
+    const symbols=[
+
+        "🍓",
+        "🍫",
+        "💰",
+        "✨",
+        "😂",
+        "💗",
+        "🍬"
+
+    ];
+
+    for(let i=0;i<35;i++){
+
+        const p =
+            document.createElement("div");
+
+        p.textContent =
+            symbols[
+                Math.floor(
+                    Math.random()*
+                    symbols.length
+                )
+            ];
+
+        p.style.position="fixed";
+
+        p.style.left="50%";
+
+        p.style.top="50%";
+
+        p.style.fontSize =
+            (16+Math.random()*25)+"px";
+
+        p.style.zIndex="200";
+
+        p.style.pointerEvents="none";
+
+        document.body.appendChild(p);
+
+        const x =
+            (Math.random()*700)-350;
+
+        const y =
+            (Math.random()*900)-450;
+
+        p.animate(
+
+            [
+
+                {
+                    transform:
+                        "translate(-50%,-50%) scale(.2)",
+                    opacity:0
+                },
+
+                {
+                    transform:
+                        `translate(
+                            calc(-50% + ${x}px),
+                            calc(-50% + ${y}px)
+                        )
+                        scale(1)
+                        rotate(${Math.random()*700}deg)`,
+
+                    opacity:1
+
+                },
+
+                {
+                    transform:
+                        `translate(
+                            calc(-50% + ${x*1.3}px),
+                            calc(-50% + ${y*1.3}px)
+                        )
+                        scale(.5)
+                        rotate(${Math.random()*1000}deg)`,
+
+                    opacity:0
 
                 }
 
-            },180);
+            ],
 
-        };
+            {
 
-        container.appendChild(btn);
+                duration:
+                    1200+
+                    Math.random()*800,
 
-    });
-}
+                easing:"cubic-bezier(.2,.7,.2,1)"
 
+            }
 
-function mostrarResultado(){
+        );
 
-    document.getElementById("game").classList.add("hidden");
-    document.getElementById("result").classList.remove("hidden");
+        setTimeout(()=>{
+            p.remove();
+        },2200);
 
-    let contagem={
-        romance:0,
-        comedia:0,
-        ousada:0,
-        misterio:0
-    };
-
-    escolhas.forEach(e=>{
-        contagem[e]++;
-    });
-
-    let tipo=
-        Object.keys(contagem)
-        .sort((a,b)=>contagem[b]-contagem[a])[0];
-
-    const resultados={
-
-        romance:{
-            emoji:"💗",
-            titulo:"VOCÊ É A PROTAGONISTA!",
-            texto:
-            "Seu dorama seria aquele romance que começa devagar... com olhares demorados, encontros por acaso e uma trilha sonora que faz qualquer pessoa suspirar. 🌸<br><br>O problema é que o oppa já percebeu que está apaixonado. 👀",
-            badge:"ROMANCE • 16 EPISÓDIOS"
-        },
-
-        comedia:{
-            emoji:"😂",
-            titulo:"ROM-COM LIBERADA!",
-            texto:
-            "No seu dorama ninguém consegue ficar sério por mais de cinco minutos. 😂<br><br>Você tropeça, ele ri, vocês brigam, fazem as pazes... e inexplicavelmente terminam apaixonados.",
-            badge:"COMÉDIA ROMÂNTICA"
-        },
-
-        ousada:{
-            emoji:"🔥",
-            titulo:"VOCÊ QUEBROU O ROTEIRO!",
-            texto:
-            "A protagonista aqui não espera o oppa tomar iniciativa. 😏🔥<br><br>O roteiro tinha uma história planejada... mas você simplesmente decidiu improvisar.",
-            badge:"ROMANCE • PROTAGONISTA PERIGOSA"
-        },
-
-        misterio:{
-            emoji:"👀",
-            titulo:"DORAMA DE MISTÉRIO!",
-            texto:
-            "Tem alguma coisa estranha acontecendo. 👀<br><br>Você percebe detalhes que ninguém percebe e começa a descobrir que aquele encontro talvez não tenha sido por acaso...",
-            badge:"MISTÉRIO • ROMANCE"
-        }
-
-    };
-
-    const r=resultados[tipo];
-
-    document.getElementById("resultEmoji").textContent=r.emoji;
-    document.getElementById("resultTitle").textContent=r.titulo;
-    document.getElementById("resultText").innerHTML=r.texto;
-    document.getElementById("resultBadge").textContent=r.badge;
-
-    if(navigator.vibrate){
-        navigator.vibrate([60,40,100]);
     }
 
-    explosao();
-
 }
 
 
-function explosao(){
-
-    for(let i=0;i<25;i++){
-
-        const el=document.createElement("div");
-
-        el.textContent=
-            emojis[Math.floor(Math.random()*emojis.length)];
-
-        el.style.position="fixed";
-        el.style.left="50%";
-        el.style.top="50%";
-        el.style.fontSize=(15+Math.random()*20)+"px";
-        el.style.pointerEvents="none";
-        el.style.zIndex="10";
-
-        const x=(Math.random()*600-300);
-        const y=(Math.random()*900-450);
-
-        el.style.transition="transform 1.2s ease, opacity 1.2s ease";
-
-        document.body.appendChild(el);
-
-        requestAnimationFrame(()=>{
-
-            el.style.transform=
-                `translate(${x}px,${y}px) rotate(${Math.random()*720}deg)`;
-
-            el.style.opacity="0";
-
-        });
-
-        setTimeout(()=>el.remove(),1300);
-    }
-}
-
+/* =========================================================
+   RECOMEÇAR
+========================================================= */
 
 function restart(){
 
-    document.getElementById("result").classList.add("hidden");
-    document.getElementById("game").classList.remove("hidden");
+    document
+        .getElementById("final")
+        .classList.add("hidden");
 
-    perguntaAtual=0;
-    escolhas=[];
+    document
+        .getElementById("start")
+        .classList.remove("hidden");
 
-    mostrarPergunta();
+    arena.innerHTML="";
+
+    score=0;
+
+    progressBar.style.width="0%";
+
 }
+
+
+/* =========================================================
+   IMPEDIR SCROLL DURANTE O JOGO
+========================================================= */
+
+document.addEventListener(
+    "touchmove",
+    function(e){
+
+        if(gameRunning){
+
+            e.preventDefault();
+
+        }
+
+    },
+    {passive:false}
+);
+
 
 </script>
 
