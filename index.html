@@ -6,7 +6,7 @@
     <title>Hora do Doce</title>
     <style>
         body {
-            background: linear-gradient(135deg, #ffe4e6, #fbcfe8, #f472b6); /* Fundo rosa morango fofinho */
+            background: linear-gradient(135deg, #ffe4e6, #fbcfe8, #f472b6);
             color: #fff;
             font-family: 'Arial Black', sans-serif;
             display: flex;
@@ -20,7 +20,7 @@
             position: relative;
         }
 
-        /* Chuva de doces e morangos no fundo */
+        /* Elementos flutuantes no fundo */
         .doces-bg {
             position: absolute;
             top: 0;
@@ -39,35 +39,94 @@
             user-select: none;
         }
 
-        .d1 { left: 12%; animation-duration: 4s; animation-delay: 0s; }
-        .d2 { left: 35%; animation-duration: 5.5s; animation-delay: 1.5s; font-size: 3.2rem; }
-        .d3 { left: 58%; animation-duration: 4.8s; animation-delay: 0.5s; }
-        .d4 { left: 78%; animation-duration: 5.2s; animation-delay: 2.2s; font-size: 3.5rem; }
-        .d5 { left: 91%; animation-duration: 3.8s; animation-delay: 1s; }
+        .d1 { left: 12%; animation-duration: 4s; }
+        .d2 { left: 35%; animation-duration: 5.5s; font-size: 3.2rem; }
+        .d3 { left: 58%; animation-duration: 4.8s; }
+        .d4 { left: 78%; animation-duration: 5.2s; font-size: 3.5rem; }
+        .d5 { left: 91%; animation-duration: 3.8s; }
 
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: pulsarMeme 1s ease-in-out infinite alternate;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
             padding: 15px;
             max-width: 90%;
         }
 
-        /* Estilo do GIF - Agora puxando localmente */
-        .meme-gif {
-            width: 250px;
-            border: 6px solid #fff;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(219, 39, 119, 0.4);
-            margin-bottom: 20px;
+        /* ILUSTRAÇÃO DO BOLO EM CSS */
+        .bolo-container {
+            width: 200px;
+            height: 160px;
+            position: relative;
+            margin-bottom: 30px;
+            animation: flutuar 2s ease-in-out infinite alternate;
         }
 
+        .cobertura {
+            width: 160px;
+            height: 40px;
+            background: #f43f5e;
+            border-radius: 20px 20px 0 0;
+            position: absolute;
+            bottom: 60px;
+            left: 20px;
+            z-index: 4;
+            box-shadow: 0 6px 0 #db2777;
+        }
+
+        .recheio {
+            width: 160px;
+            height: 20px;
+            background: #fdf2e9;
+            position: absolute;
+            bottom: 40px;
+            left: 20px;
+            z-index: 3;
+        }
+
+        .massa {
+            width: 160px;
+            height: 40px;
+            background: #b45309;
+            border-radius: 0 0 10px 10px;
+            position: absolute;
+            bottom: 0;
+            left: 20px;
+            z-index: 2;
+        }
+
+        .morango-topo {
+            width: 34px;
+            height: 34px;
+            background: #dc2626;
+            border-radius: 50% 50% 50% 50% / 40% 40% 60% 60%;
+            position: absolute;
+            bottom: 100px;
+            left: 83px;
+            z-index: 5;
+            transform: rotate(-45deg);
+            animation: pulsarMorango 0.6s infinite alternate;
+        }
+
+        .morango-topo::after {
+            content: '';
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            background: #16a34a;
+            border-radius: 50%;
+            top: -2px;
+            left: -2px;
+        }
+
+        /* Textos */
         h1 {
             font-size: 2.5rem;
             color: #ffffff;
             text-shadow: 0 4px 10px #db2777, 0 0 20px #db2777;
             margin: 5px 0;
-            line-height: 1.2;
         }
 
         h2 {
@@ -77,6 +136,7 @@
             margin: 10px 0;
         }
 
+        /* Animações */
         @keyframes subirDoce {
             0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
             15% { opacity: 0.9; }
@@ -84,9 +144,14 @@
             100% { transform: translateY(-110vh) rotate(360deg) scale(1.1); opacity: 0; }
         }
 
-        @keyframes pulsarMeme {
-            0% { transform: scale(0.97); }
-            100% { transform: scale(1.03); }
+        @keyframes flutuar {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
+        }
+
+        @keyframes pulsarMorango {
+            0% { transform: scale(1) rotate(-45deg); }
+            100% { transform: scale(1.1) rotate(-45deg); }
         }
     </style>
 </head>
@@ -101,8 +166,13 @@
     </div>
 
     <div class="conteudo">
-        <!-- Tag corrigida apontando para o arquivo que está na sua pasta -->
-        <img class="meme-gif" src="gatinho.gif" alt="Bolo de Morango">
+        <!-- Ilustração em código pura e estável -->
+        <div class="bolo-container">
+            <div class="morango-topo"></div>
+            <div class="cobertura"></div>
+            <div class="recheio"></div>
+            <div class="massa"></div>
+        </div>
         
         <h1>Hummmm... 🍓</h1>
         <h2>Bolo de muranguu! 🍰✨</h2>
