@@ -2,1590 +2,1532 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
 
-<meta
-    name="viewport"
-    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
->
-
-<title>Teste da Dorameira</title>
+<title>🌸 Dorama Scanner Premium</title>
 
 <style>
+:root{
+    --pink:#f472b6;
+    --pink2:#fb7185;
+    --light:#fce7f3;
+    --gold:#fbbf24;
+    --purple:#a855f7;
+    --dark:#09030b;
+}
 
 *{
     box-sizing:border-box;
-    margin:0;
-    padding:0;
     -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
+    margin:0;
+    padding:0;
     width:100%;
     height:100%;
     overflow:hidden;
+    background:#09030b;
+    font-family:Arial,Helvetica,sans-serif;
+    user-select:none;
+    -webkit-user-select:none;
+    touch-action:none;
 }
 
 body{
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-
-    color:#fff;
-
-    background:
-        radial-gradient(
-            circle at 50% 0%,
-            rgba(255,100,170,.30),
-            transparent 38%
-        ),
-        radial-gradient(
-            circle at 10% 80%,
-            rgba(130,70,255,.18),
-            transparent 30%
-        ),
-        linear-gradient(
-            145deg,
-            #110814,
-            #2a102b,
-            #100710
-        );
+    position:relative;
 }
 
+/* CANVAS */
 
-/* =========================================================
-   FUNDO
-========================================================= */
-
-#background{
-    position:fixed;
-    inset:0;
-    overflow:hidden;
-    pointer-events:none;
-    z-index:0;
-}
-
-.float{
+#canvas{
     position:absolute;
-
-    top:-60px;
-
-    opacity:.65;
-
-    animation:
-        fall linear forwards;
-}
-
-@keyframes fall{
-
-    0%{
-        transform:
-            translateY(-50px)
-            rotate(0deg);
-
-        opacity:0;
-    }
-
-    10%{
-        opacity:.8;
-    }
-
-    100%{
-        transform:
-            translateY(110vh)
-            rotate(600deg);
-
-        opacity:0;
-    }
-}
-
-
-/* =========================================================
-   CONTAINER
-========================================================= */
-
-.screen{
+    inset:0;
     width:100%;
     height:100%;
+    z-index:1;
+}
 
+/* FUNDO CINEMATOGRÁFICO */
+
+.background{
+    position:absolute;
+    inset:0;
+    z-index:0;
+    overflow:hidden;
+    background:
+        radial-gradient(circle at 50% 25%,rgba(244,114,182,.22),transparent 30%),
+        radial-gradient(circle at 15% 80%,rgba(168,85,247,.15),transparent 35%),
+        radial-gradient(circle at 90% 70%,rgba(251,191,36,.08),transparent 30%),
+        linear-gradient(145deg,#080208,#1b0819 50%,#070208);
+}
+
+.glow{
+    position:absolute;
+    width:55vw;
+    height:55vw;
+    border-radius:50%;
+    filter:blur(80px);
+    opacity:.18;
+    animation:flutuarGlow 7s ease-in-out infinite alternate;
+}
+
+.glow.one{
+    background:#f472b6;
+    top:-20%;
+    left:-20%;
+}
+
+.glow.two{
+    background:#8b5cf6;
+    right:-20%;
+    bottom:-20%;
+    animation-delay:2s;
+}
+
+@keyframes flutuarGlow{
+    from{transform:translate(0,0) scale(1)}
+    to{transform:translate(40px,-30px) scale(1.15)}
+}
+
+/* INTERFACE */
+
+.interface{
+    position:absolute;
+    inset:0;
+    z-index:10;
     display:flex;
     align-items:center;
     justify-content:center;
-
-    padding:16px;
-
-    position:relative;
-
-    z-index:2;
+    pointer-events:none;
+    padding:20px;
 }
 
 .card{
-
-    width:min(440px,100%);
-
-    min-height:600px;
-
-    max-height:calc(100vh - 32px);
-
-    padding:25px 21px;
-
+    width:min(88vw,430px);
+    min-height:280px;
+    padding:32px 24px;
     border-radius:32px;
 
-    display:flex;
-    flex-direction:column;
+    background:linear-gradient(
+        145deg,
+        rgba(40,12,38,.78),
+        rgba(14,5,16,.72)
+    );
 
-    align-items:center;
-    justify-content:center;
+    border:1px solid rgba(255,255,255,.15);
+
+    box-shadow:
+        0 25px 80px rgba(0,0,0,.55),
+        0 0 45px rgba(244,114,182,.18),
+        inset 0 1px 0 rgba(255,255,255,.12);
+
+    backdrop-filter:blur(22px);
+    -webkit-backdrop-filter:blur(22px);
 
     text-align:center;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(255,255,255,.13),
-            rgba(255,255,255,.035)
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,.16);
-
-    box-shadow:
-        0 35px 100px
-        rgba(0,0,0,.65),
-
-        inset 0 1px 0
-        rgba(255,255,255,.12);
-
-    backdrop-filter:blur(18px);
-    -webkit-backdrop-filter:blur(18px);
-
-    overflow:hidden;
-}
-
-.hidden{
-    display:none !important;
-}
-
-
-/* =========================================================
-   INÍCIO
-========================================================= */
-
-.korean{
-
-    font-size:30px;
-
-    margin-bottom:8px;
-
-    opacity:.9;
-}
-
-.smallTitle{
-
-    color:#ffb8d5;
-
-    font-size:11px;
-
-    font-weight:800;
-
-    letter-spacing:4px;
-
-    margin-bottom:18px;
-}
-
-.mainTitle{
-
-    font-size:40px;
-
-    line-height:1;
-
-    font-weight:900;
-
-    margin-bottom:17px;
-
-    text-shadow:
-        0 0 25px
-        rgba(255,80,160,.35);
-}
-
-.intro{
-
-    color:#ead5e2;
-
-    font-size:15px;
-
-    line-height:1.55;
-
-    max-width:340px;
-
-    margin-bottom:25px;
-}
-
-.hero{
-
-    font-size:75px;
-
-    margin-bottom:15px;
-
-    animation:
-        heartbeat 1.4s infinite;
-}
-
-@keyframes heartbeat{
-
-    0%,100%{
-        transform:scale(1);
-    }
-
-    15%{
-        transform:scale(1.12);
-    }
-
-    30%{
-        transform:scale(1);
-    }
-
-    45%{
-        transform:scale(1.07);
-    }
-
-}
-
-
-/* =========================================================
-   BOTÕES
-========================================================= */
-
-button{
-
-    width:100%;
-
-    max-width:350px;
-
-    border:0;
-
-    border-radius:17px;
-
-    padding:16px 15px;
-
-    margin:6px 0;
-
-    color:#fff;
-
-    font-size:15px;
-
-    font-weight:800;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ff4d91,
-            #a82c70
-        );
-
-    box-shadow:
-        0 9px 25px
-        rgba(255,50,140,.22),
-
-        inset 0 1px 0
-        rgba(255,255,255,.2);
-
-    cursor:pointer;
+    pointer-events:auto;
 
     transition:
-        transform .15s,
-        background .15s;
+        transform .5s cubic-bezier(.17,.89,.32,1.3),
+        opacity .5s ease,
+        box-shadow .5s ease;
 }
 
-button:active{
-
-    transform:scale(.94);
-
+.card.pulse{
+    animation:cardPulse .45s ease;
 }
 
-.answer{
-
-    background:
-        rgba(255,255,255,.075);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    text-align:left;
-
-    padding:15px 16px;
+@keyframes cardPulse{
+    0%{transform:scale(1)}
+    45%{transform:scale(1.045)}
+    100%{transform:scale(1)}
 }
 
-.answer:hover{
+/* CORAÇÃO */
 
-    background:
-        rgba(255,255,255,.13);
+.heart{
+    width:58px;
+    height:58px;
+    margin:0 auto 30px;
+    position:relative;
+    transform:rotate(-45deg);
+    background:linear-gradient(135deg,#fb7185,#ec4899);
+    filter:
+        drop-shadow(0 0 15px rgba(244,114,182,.7))
+        drop-shadow(0 0 35px rgba(244,114,182,.25));
+    animation:heartBeat 1.05s infinite;
 }
 
-
-/* =========================================================
-   JOGO
-========================================================= */
-
-.top{
-
-    width:100%;
-
-    display:flex;
-
-    justify-content:space-between;
-
-    align-items:center;
-
-    margin-bottom:13px;
+.heart:before,
+.heart:after{
+    content:"";
+    position:absolute;
+    width:58px;
+    height:58px;
+    border-radius:50%;
+    background:inherit;
 }
 
-.episode{
-
-    padding:7px 11px;
-
-    border-radius:20px;
-
-    background:
-        rgba(255,255,255,.08);
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
-
-    color:#ffc5da;
-
-    font-size:10px;
-
-    font-weight:bold;
-
-    letter-spacing:1px;
+.heart:before{
+    top:-29px;
+    left:0;
 }
 
-.score{
-
-    font-size:13px;
-
-    color:#ffd1e1;
-
-    font-weight:bold;
+.heart:after{
+    left:29px;
+    top:0;
 }
 
-.progress{
-
-    width:100%;
-
-    height:5px;
-
-    background:
-        rgba(255,255,255,.1);
-
-    border-radius:10px;
-
-    overflow:hidden;
-
-    margin-bottom:20px;
+@keyframes heartBeat{
+    0%,100%{transform:rotate(-45deg) scale(.92)}
+    50%{transform:rotate(-45deg) scale(1.08)}
 }
 
-.progressBar{
+/* TEXTOS */
 
-    width:0%;
-
-    height:100%;
-
-    background:
-        linear-gradient(
-            90deg,
-            #ff4f91,
-            #ffd0e2
-        );
-
-    transition:.4s;
-}
-
-.questionEmoji{
-
-    font-size:47px;
-
-    margin-bottom:10px;
-}
-
-.question{
-
-    font-size:23px;
-
-    line-height:1.2;
-
+.badge{
+    display:inline-block;
+    padding:7px 13px;
+    border-radius:30px;
+    background:rgba(244,114,182,.1);
+    border:1px solid rgba(244,114,182,.25);
+    color:#f9a8d4;
+    font-size:11px;
     font-weight:900;
-
-    margin-bottom:20px;
-
-    max-width:390px;
+    letter-spacing:2px;
+    margin-bottom:15px;
 }
 
-.answers{
-
-    width:100%;
-
-    max-width:350px;
+h1{
+    margin:0;
+    color:white;
+    font-size:clamp(27px,8vw,40px);
+    line-height:1.05;
+    font-weight:900;
+    text-shadow:
+        0 0 15px rgba(244,114,182,.65),
+        0 0 35px rgba(244,114,182,.25);
 }
 
+.subtitle{
+    margin:13px 0 22px;
+    color:#fce7f3;
+    font-size:15px;
+    line-height:1.5;
+    font-weight:700;
+}
 
-/* =========================================================
-   FEEDBACK
-========================================================= */
+.counter{
+    display:inline-block;
+    padding:11px 20px;
+    border-radius:999px;
+    color:#fff;
+    font-size:13px;
+    font-weight:900;
+    background:rgba(0,0,0,.35);
+    border:1px solid rgba(255,255,255,.1);
+}
 
-.feedback{
+.counter strong{
+    color:#f9a8d4;
+}
 
-    position:fixed;
+/* TELA INICIAL */
 
-    left:50%;
-    top:50%;
-
-    width:min(350px,86%);
-
-    padding:25px 20px;
-
-    border-radius:25px;
-
-    transform:
-        translate(-50%,-50%)
-        scale(.75);
-
-    opacity:0;
-
-    pointer-events:none;
+.startScreen{
+    position:absolute;
+    inset:0;
+    z-index:30;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
 
     background:
-        rgba(24,6,20,.97);
+        radial-gradient(circle at 50% 40%,rgba(244,114,182,.18),transparent 35%),
+        rgba(5,1,7,.55);
 
-    border:
-        1px solid
-        rgba(255,120,180,.35);
+    backdrop-filter:blur(8px);
+    -webkit-backdrop-filter:blur(8px);
+
+    transition:opacity .7s ease,visibility .7s ease;
+}
+
+.startScreen.hidden{
+    opacity:0;
+    visibility:hidden;
+    pointer-events:none;
+}
+
+.startCard{
+    width:min(90vw,430px);
+    padding:35px 25px;
+    text-align:center;
+    border-radius:32px;
+
+    background:rgba(25,7,23,.82);
+    border:1px solid rgba(244,114,182,.35);
 
     box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.7);
+        0 30px 90px rgba(0,0,0,.6),
+        0 0 50px rgba(244,114,182,.2);
 
-    z-index:100;
-
-    transition:.25s;
-
-    text-align:center;
+    backdrop-filter:blur(25px);
 }
 
-.feedback.show{
-
-    opacity:1;
-
-    transform:
-        translate(-50%,-50%)
-        scale(1);
+.startEmoji{
+    font-size:60px;
+    display:block;
+    margin-bottom:15px;
+    filter:drop-shadow(0 0 15px rgba(244,114,182,.5));
+    animation:flutuar 2s ease-in-out infinite;
 }
 
-.feedbackEmoji{
-
-    font-size:55px;
-
-    margin-bottom:10px;
+@keyframes flutuar{
+    0%,100%{transform:translateY(0)}
+    50%{transform:translateY(-9px)}
 }
 
-.feedbackTitle{
-
-    font-size:22px;
-
-    font-weight:900;
-
-    margin-bottom:9px;
+.startCard h2{
+    margin:0;
+    color:white;
+    font-size:26px;
 }
 
-.feedbackText{
-
+.startCard p{
+    color:#fbcfe8;
     font-size:14px;
-
-    line-height:1.5;
-
-    color:#e8d2df;
-}
-
-
-/* =========================================================
-   RESULTADO
-========================================================= */
-
-.resultEmoji{
-
-    font-size:82px;
-
-    margin-bottom:13px;
-
-    animation:
-        resultPop .7s ease;
-}
-
-@keyframes resultPop{
-
-    0%{
-        transform:
-            scale(.1)
-            rotate(-30deg);
-
-        opacity:0;
-    }
-
-    70%{
-        transform:
-            scale(1.15)
-            rotate(8deg);
-    }
-
-    100%{
-        transform:
-            scale(1)
-            rotate(0);
-
-        opacity:1;
-    }
-}
-
-.resultTitle{
-
-    font-size:31px;
-
-    line-height:1.05;
-
-    font-weight:900;
-
-    margin-bottom:14px;
-}
-
-.resultScore{
-
-    display:inline-block;
-
-    padding:8px 16px;
-
-    border-radius:30px;
-
-    background:
-        rgba(255,255,255,.08);
-
-    border:
-        1px solid
-        rgba(255,255,255,.12);
-
-    color:#ffc5da;
-
-    font-size:13px;
-
-    font-weight:bold;
-
-    margin-bottom:17px;
-}
-
-.resultText{
-
-    font-size:15px;
-
     line-height:1.55;
-
-    color:#ead7e1;
-
-    max-width:350px;
-
-    margin-bottom:20px;
+    margin:13px 0 24px;
 }
 
-.quote{
-
-    padding:15px;
-
+.startButton{
+    border:0;
     width:100%;
-
-    max-width:350px;
-
+    padding:17px;
     border-radius:18px;
-
-    background:
-        rgba(255,255,255,.06);
-
-    border-left:
-        3px solid
-        #ff5b9c;
-
-    color:#ffd9e7;
-
-    font-size:14px;
-
-    line-height:1.45;
-
-    margin-bottom:20px;
+    color:white;
+    font-size:15px;
+    font-weight:900;
+    letter-spacing:.5px;
+    background:linear-gradient(135deg,#ec4899,#8b5cf6);
+    box-shadow:
+        0 10px 30px rgba(236,72,153,.35),
+        inset 0 1px rgba(255,255,255,.3);
+    cursor:pointer;
+    touch-action:manipulation;
 }
 
+.startButton:active{
+    transform:scale(.96);
+}
 
-/* =========================================================
-   CONFETES
-========================================================= */
+/* MENSAGEM FINAL */
 
-.confetti{
-
-    position:fixed;
-
-    left:50%;
-    top:50%;
-
+.final{
+    opacity:0;
+    transform:scale(.75);
     pointer-events:none;
-
-    z-index:200;
-
-    font-size:20px;
 }
 
+.final.show{
+    opacity:1;
+    transform:scale(1);
+}
+
+.final h1{
+    font-size:clamp(28px,8vw,39px);
+}
+
+.final .love{
+    color:#f9a8d4;
+    font-size:clamp(21px,6vw,30px);
+    font-weight:900;
+    line-height:1.2;
+    margin-top:15px;
+    text-shadow:
+        0 0 15px rgba(244,114,182,.8),
+        0 0 35px rgba(244,114,182,.4);
+}
+
+.final .small{
+    margin-top:15px;
+    color:#fce7f3;
+    font-size:13px;
+    line-height:1.5;
+}
+
+/* FLASH */
+
+.flash{
+    position:fixed;
+    inset:0;
+    z-index:50;
+    background:white;
+    opacity:0;
+    pointer-events:none;
+}
+
+.flash.active{
+    animation:flash .7s ease;
+}
+
+@keyframes flash{
+    0%{opacity:0}
+    15%{opacity:.85}
+    100%{opacity:0}
+}
+
+/* MENSAGEM FLUTUANTE */
+
+.hitText{
+    position:fixed;
+    z-index:60;
+    pointer-events:none;
+    color:white;
+    font-size:18px;
+    font-weight:900;
+    text-shadow:0 3px 15px rgba(0,0,0,.8);
+    animation:hitUp .8s ease forwards;
+}
+
+@keyframes hitUp{
+    0%{
+        opacity:0;
+        transform:translate(-50%,0) scale(.6);
+    }
+    20%{
+        opacity:1;
+        transform:translate(-50%,-10px) scale(1.15);
+    }
+    100%{
+        opacity:0;
+        transform:translate(-50%,-80px) scale(1);
+    }
+}
+
+/* MARCADOR SUPERIOR */
+
+.topInfo{
+    position:absolute;
+    z-index:12;
+    top:max(16px,env(safe-area-inset-top));
+    left:50%;
+    transform:translateX(-50%);
+    padding:8px 14px;
+    border-radius:999px;
+    background:rgba(10,2,10,.55);
+    border:1px solid rgba(255,255,255,.1);
+    color:#fce7f3;
+    font-size:11px;
+    font-weight:900;
+    letter-spacing:1px;
+    opacity:0;
+    transition:opacity .5s;
+    pointer-events:none;
+}
+
+.topInfo.show{
+    opacity:1;
+}
+
+/* FINALIZAÇÃO */
+
+.card.finished{
+    border-color:rgba(251,191,36,.65);
+    box-shadow:
+        0 0 80px rgba(244,114,182,.45),
+        0 0 140px rgba(251,191,36,.15),
+        inset 0 0 40px rgba(244,114,182,.08);
+}
 </style>
 </head>
 
-
 <body>
 
-
-<div id="background"></div>
-
-
-<div class="screen">
-
-
-<!-- =======================================================
-     TELA INICIAL
-======================================================= -->
-
-<div class="card" id="start">
-
-    <div class="korean">
-        💕 한류 💕
-    </div>
-
-    <div class="smallTitle">
-        TESTE DEFINITIVO
-    </div>
-
-    <div class="hero">
-        🎬💗
-    </div>
-
-    <div class="mainTitle">
-        VOCÊ É MESMO<br>
-        UMA DORAMEIRA?
-    </div>
-
-    <div class="intro">
-
-        10 perguntas.
-
-        <br>
-
-        Alguns dos doramas mais famosos.
-
-        <br><br>
-
-        E uma avaliação completamente
-        <b>científica e confiável</b>
-        sobre o nível da sua doença. 😂
-
-    </div>
-
-    <button onclick="startQuiz()">
-        🎬 COMEÇAR O TESTE
-    </button>
-
+<div class="background">
+    <div class="glow one"></div>
+    <div class="glow two"></div>
 </div>
 
+<canvas id="canvas"></canvas>
 
-<!-- =======================================================
-     QUIZ
-======================================================= -->
+<div class="topInfo" id="topInfo">
+    💗 MODO DORAMEIRA ATIVADO
+</div>
 
-<div class="card hidden" id="quiz">
+<div class="interface">
 
-    <div class="top">
+    <div class="card" id="card">
 
-        <div class="episode" id="episode">
-            EPISÓDIO 1
+        <div class="heart" id="heart"></div>
+
+        <div class="badge">DORAMA SCANNER PREMIUM</div>
+
+        <h1 id="title">
+            Capture os<br>
+            3 Clichês
+        </h1>
+
+        <div class="subtitle" id="subtitle">
+            Se você realmente entende de dorama...<br>
+            sabe exatamente o que precisa tocar.
         </div>
 
-        <div class="score">
-            💗 <span id="score">0</span> pts
+        <div class="counter" id="counter">
+            Clichês capturados:
+            <strong>0 / 3</strong>
+        </div>
+
+        <div class="final" id="final">
+            <div class="love">
+                VOCÊ É O MEU<br>
+                CLICHÊ PERFEITO! 🌸❤️
+            </div>
+
+            <div class="small">
+                Entre todos os doramas do mundo,<br>
+                eu escolheria viver o meu com você. 🇰🇷💕
+            </div>
         </div>
 
     </div>
-
-
-    <div class="progress">
-
-        <div
-            class="progressBar"
-            id="progressBar">
-        </div>
-
-    </div>
-
-
-    <div
-        class="questionEmoji"
-        id="questionEmoji">
-        🎬
-    </div>
-
-
-    <div
-        class="question"
-        id="question">
-    </div>
-
-
-    <div
-        class="answers"
-        id="answers">
-    </div>
-
 </div>
 
+<div class="startScreen" id="startScreen">
 
-<!-- =======================================================
-     RESULTADO
-======================================================= -->
+    <div class="startCard">
 
-<div class="card hidden" id="result">
+        <span class="startEmoji">🌸🇰🇷</span>
 
-    <div
-        class="resultEmoji"
-        id="resultEmoji">
-        👑
+        <h2>ACESSO BLOQUEADO</h2>
+
+        <p>
+            O sistema detectou uma verdadeira
+            <b>dorameira</b> neste aparelho.
+            <br><br>
+            Para liberar uma mensagem secreta,
+            você precisa capturar os
+            <b>3 clichês clássicos de dorama.</b>
+        </p>
+
+        <button class="startButton" id="startButton">
+            🎬 COMEÇAR O DORAMA
+        </button>
+
     </div>
-
-    <div
-        class="resultTitle"
-        id="resultTitle">
-    </div>
-
-    <div
-        class="resultScore"
-        id="resultScore">
-    </div>
-
-    <div
-        class="resultText"
-        id="resultText">
-    </div>
-
-    <div
-        class="quote"
-        id="quote">
-    </div>
-
-    <button onclick="restart()">
-        🔄 FAZER O TESTE NOVAMENTE
-    </button>
-
 </div>
 
-
-</div>
-
-
-<!-- =======================================================
-     FEEDBACK
-======================================================= -->
-
-<div
-    class="feedback"
-    id="feedback">
-
-    <div
-        class="feedbackEmoji"
-        id="feedbackEmoji">
-        😂
-    </div>
-
-    <div
-        class="feedbackTitle"
-        id="feedbackTitle">
-    </div>
-
-    <div
-        class="feedbackText"
-        id="feedbackText">
-    </div>
-
-</div>
-
+<div class="flash" id="flash"></div>
 
 <script>
+/* =========================================================
+   DORAMA SCANNER PREMIUM
+   MOTOR DE JOGO
+========================================================= */
+
+const canvas = document.getElementById("canvas");
+const ctx = canvas.getContext("2d");
+
+const card = document.getElementById("card");
+const startScreen = document.getElementById("startScreen");
+const startButton = document.getElementById("startButton");
+
+const title = document.getElementById("title");
+const subtitle = document.getElementById("subtitle");
+const counter = document.getElementById("counter");
+const heart = document.getElementById("heart");
+const final = document.getElementById("final");
+const flash = document.getElementById("flash");
+const topInfo = document.getElementById("topInfo");
+
+let W = 0;
+let H = 0;
+
+let rodando = false;
+let finalizado = false;
+let acertos = 0;
+
+let elementos = [];
+let particulas = [];
+let petalas = [];
+let estrelas = [];
+
+let audioCtx = null;
+
+const CLICHES = [
+    {
+        emoji:"☂️",
+        nome:"O GUARDA-CHUVA",
+        frase:"CLICHÊ DE CHUVA DETECTADO! ☂️"
+    },
+    {
+        emoji:"🤒",
+        nome:"A GRIPE",
+        frase:"NÍVEL DE FEBRE DORAMEIRA: 100%! 🤒"
+    },
+    {
+        emoji:"🚗",
+        nome:"O CARRO EM CÂMERA LENTA",
+        frase:"CÂMERA LENTA ATIVADA! 🚗💨"
+    }
+];
+
+function resize(){
+    const dpr = Math.min(window.devicePixelRatio || 1,2);
+
+    W = window.innerWidth;
+    H = window.innerHeight;
+
+    canvas.width = W * dpr;
+    canvas.height = H * dpr;
+
+    canvas.style.width = W + "px";
+    canvas.style.height = H + "px";
+
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+}
+
+window.addEventListener("resize",resize);
+resize();
 
 
 /* =========================================================
-   FUNDO ANIMADO
+   AUDIO
 ========================================================= */
 
-const background =
-    document.getElementById("background");
+function iniciarAudio(){
 
-const backgroundItems = [
-    "🌸",
-    "💕",
-    "✨",
-    "💗",
-    "🎬",
-    "☂️",
-    "🌙",
-    "💮"
-];
+    if(!audioCtx){
+        const AudioContext =
+            window.AudioContext ||
+            window.webkitAudioContext;
 
-function createFloat(){
+        if(AudioContext){
+            audioCtx = new AudioContext();
+        }
+    }
+
+    if(audioCtx && audioCtx.state === "suspended"){
+        audioCtx.resume();
+    }
+}
+
+function tocarNota(freq,duracao=.2,volume=.07){
+
+    if(!audioCtx) return;
+
+    try{
+
+        const osc = audioCtx.createOscillator();
+        const gain = audioCtx.createGain();
+
+        osc.type = "sine";
+
+        osc.frequency.setValueAtTime(
+            freq,
+            audioCtx.currentTime
+        );
+
+        gain.gain.setValueAtTime(
+            volume,
+            audioCtx.currentTime
+        );
+
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            audioCtx.currentTime + duracao
+        );
+
+        osc.connect(gain);
+        gain.connect(audioCtx.destination);
+
+        osc.start();
+        osc.stop(audioCtx.currentTime + duracao);
+
+    }catch(e){}
+}
+
+function acordeFinal(){
+
+    tocarNota(523.25,.35,.08);
+
+    setTimeout(()=>{
+        tocarNota(659.25,.35,.08);
+    },120);
+
+    setTimeout(()=>{
+        tocarNota(783.99,.45,.09);
+    },240);
+
+    setTimeout(()=>{
+        tocarNota(1046.50,.8,.07);
+    },420);
+}
+
+
+/* =========================================================
+   VIBRAÇÃO
+========================================================= */
+
+function vibrar(padrao){
+
+    try{
+        if(navigator.vibrate){
+            navigator.vibrate(padrao);
+        }
+    }catch(e){}
+}
+
+
+/* =========================================================
+   ELEMENTO CLICÁVEL
+========================================================= */
+
+class Cliche{
+
+    constructor(){
+
+        this.tipo =
+            CLICHES[
+                Math.floor(
+                    Math.random()*CLICHES.length
+                )
+            ];
+
+        this.x =
+            Math.random()*(W-100)+50;
+
+        this.y =
+            -80;
+
+        this.size =
+            Math.random()*14+55;
+
+        this.vy =
+            Math.random()*1.5+2.1;
+
+        this.vx =
+            (Math.random()-.5)*1.5;
+
+        this.angle =
+            Math.random()*Math.PI*2;
+
+        this.spin =
+            (Math.random()-.5)*.025;
+
+        this.life = true;
+    }
+
+    update(){
+
+        this.y += this.vy;
+
+        this.x += this.vx;
+
+        this.angle += this.spin;
+
+        if(this.x < 45){
+            this.x = 45;
+            this.vx *= -1;
+        }
+
+        if(this.x > W-45){
+            this.x = W-45;
+            this.vx *= -1;
+        }
+    }
+
+    draw(){
+
+        ctx.save();
+
+        ctx.translate(this.x,this.y);
+
+        ctx.rotate(this.angle);
+
+        /* aura */
+
+        ctx.shadowColor = "rgba(244,114,182,.75)";
+        ctx.shadowBlur = 22;
+
+        ctx.font =
+            `${this.size}px Arial`;
+
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+
+        ctx.fillText(
+            this.tipo.emoji,
+            0,
+            0
+        );
+
+        ctx.restore();
+    }
+}
+
+
+/* =========================================================
+   PARTÍCULAS
+========================================================= */
+
+class Particula{
+
+    constructor(x,y,explosao=true){
+
+        this.x=x;
+        this.y=y;
+
+        this.vx =
+            (Math.random()-.5)*
+            (explosao ? 12 : 3);
+
+        this.vy =
+            (Math.random()-.5)*
+            (explosao ? 12 : 3);
+
+        this.size =
+            Math.random()*4+2;
+
+        this.life = 1;
+
+        this.decay =
+            Math.random()*.025+.018;
+
+        this.tipo =
+            Math.random() > .5
+            ? "★"
+            : "✦";
+    }
+
+    update(){
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        this.vy += .12;
+
+        this.life -= this.decay;
+    }
+
+    draw(){
+
+        ctx.save();
+
+        ctx.globalAlpha =
+            Math.max(0,this.life);
+
+        ctx.fillStyle =
+            Math.random()>.5
+            ? "#f9a8d4"
+            : "#fbbf24";
+
+        ctx.font =
+            `${this.size*3}px Arial`;
+
+        ctx.textAlign="center";
+
+        ctx.fillText(
+            this.tipo,
+            this.x,
+            this.y
+        );
+
+        ctx.restore();
+    }
+}
+
+
+/* =========================================================
+   PÉTALA SAKURA
+========================================================= */
+
+class Petala{
+
+    constructor(x=null,y=null,explosao=false){
+
+        this.x =
+            x === null
+            ? Math.random()*W
+            : x;
+
+        this.y =
+            y === null
+            ? -20
+            : y;
+
+        this.w =
+            Math.random()*7+5;
+
+        this.h =
+            Math.random()*10+7;
+
+        this.vx =
+            explosao
+            ? (Math.random()-.5)*13
+            : (Math.random()-.5)*1.2;
+
+        this.vy =
+            explosao
+            ? (Math.random()-.5)*13
+            : Math.random()*2+1;
+
+        this.angle =
+            Math.random()*Math.PI;
+
+        this.spin =
+            (Math.random()-.5)*.08;
+
+        this.life = 1;
+
+        this.explosao = explosao;
+    }
+
+    update(){
+
+        this.x += this.vx;
+        this.y += this.vy;
+
+        this.angle += this.spin;
+
+        if(!this.explosao){
+
+            this.vx +=
+                Math.sin(this.y/40)*.015;
+
+        }else{
+
+            this.vy += .12;
+
+            this.life -= .012;
+        }
+    }
+
+    draw(){
+
+        ctx.save();
+
+        ctx.translate(
+            this.x,
+            this.y
+        );
+
+        ctx.rotate(this.angle);
+
+        ctx.globalAlpha =
+            this.explosao
+            ? Math.max(0,this.life)
+            : .85;
+
+        ctx.fillStyle =
+            Math.random()>.5
+            ? "#f9a8d4"
+            : "#f472b6";
+
+        ctx.beginPath();
+
+        ctx.ellipse(
+            0,
+            0,
+            this.w,
+            this.h,
+            0,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        ctx.restore();
+    }
+}
+
+
+/* =========================================================
+   ESTRELAS
+========================================================= */
+
+function criarEstrelas(){
+
+    estrelas=[];
+
+    for(let i=0;i<70;i++){
+
+        estrelas.push({
+
+            x:Math.random()*W,
+            y:Math.random()*H,
+
+            r:Math.random()*1.5+.3,
+
+            alpha:
+                Math.random()*.7+.2,
+
+            speed:
+                Math.random()*.015+.005
+        });
+    }
+}
+
+function desenharEstrelas(){
+
+    for(const s of estrelas){
+
+        s.alpha += s.speed;
+
+        if(s.alpha>1 || s.alpha<.2){
+            s.speed *= -1;
+        }
+
+        ctx.save();
+
+        ctx.globalAlpha=s.alpha;
+
+        ctx.fillStyle="#fff";
+
+        ctx.beginPath();
+
+        ctx.arc(
+            s.x,
+            s.y,
+            s.r,
+            0,
+            Math.PI*2
+        );
+
+        ctx.fill();
+
+        ctx.restore();
+    }
+}
+
+criarEstrelas();
+
+
+/* =========================================================
+   TEXTO FLUTUANTE
+========================================================= */
+
+function mostrarTexto(x,y,texto){
 
     const el =
         document.createElement("div");
 
-    el.className="float";
+    el.className="hitText";
 
-    el.textContent =
-        backgroundItems[
-            Math.floor(
-                Math.random() *
-                backgroundItems.length
-            )
-        ];
+    el.innerText=texto;
 
-    el.style.left =
-        Math.random()*100+"vw";
+    el.style.left=x+"px";
+    el.style.top=y+"px";
 
-    el.style.fontSize =
-        (13+Math.random()*18)+"px";
-
-    el.style.animationDuration =
-        (5+Math.random()*8)+"s";
-
-    background.appendChild(el);
-
-    setTimeout(
-        ()=>el.remove(),
-        14000
-    );
-}
-
-setInterval(
-    createFloat,
-    420
-);
-
-for(let i=0;i<15;i++){
-
-    setTimeout(
-        createFloat,
-        i*180
-    );
-
-}
-
-
-/* =========================================================
-   PERGUNTAS
-========================================================= */
-
-const questions = [
-
-{
-    emoji:"🔴",
-
-    question:
-    "Em Round 6, qual número identifica o protagonista Seong Gi-hun?",
-
-    options:[
-        ["456",true,"Essa é a identificação do jogador Seong Gi-hun. 🎯"],
-        ["001",false,"Esse número pertence ao personagem conhecido como Jogador 001."],
-        ["218",false,"Esse é o número associado a Cho Sang-woo."],
-        ["067",false,"Esse número pertence a Kang Sae-byeok."]
-    ]
-},
-
-
-{
-    emoji:"💍",
-
-    question:
-    "Em Rainha das Lágrimas, qual é a relação entre Hong Hae-in e Baek Hyun-woo no início da história?",
-
-    options:[
-        ["Eles são casados",true,"Exatamente: Hae-in e Hyun-woo começam a história como marido e mulher."],
-        ["Eles são irmãos",false,"Eles não são irmãos; a relação central entre os dois é conjugal."],
-        ["Eles são colegas de faculdade",false,"A relação deles não é apresentada dessa forma."],
-        ["Eles são rivais políticos",false,"O conflito entre eles é pessoal e familiar, não uma disputa política."]
-    ]
-},
-
-
-{
-    emoji:"✈️",
-
-    question:
-    "Em Pousando no Amor, onde Yoon Se-ri acaba depois de um acidente de parapente?",
-
-    options:[
-        ["Coreia do Norte",true,"Sim. O acidente leva Se-ri para território norte-coreano."],
-        ["Japão",false,"O acidente não leva Se-ri para o Japão."],
-        ["China",false,"A história principal do acidente não se passa na China."],
-        ["Tailândia",false,"A localização central dessa situação é outra."]
-    ]
-},
-
-
-{
-    emoji:"💄",
-
-    question:
-    "Em Beleza Verdadeira, qual habilidade Lim Ju-kyung usa para transformar sua aparência?",
-
-    options:[
-        ["Maquiagem",true,"A maquiagem é justamente um elemento central da transformação de Ju-kyung."],
-        ["Feitiçaria",false,"Apesar de alguns doramas terem fantasia, essa não é a explicação para a transformação dela."],
-        ["Cirurgia plástica",false,"A transformação apresentada na história está ligada à maquiagem."],
-        ["Um aplicativo de edição",false,"A mudança de aparência não acontece por meio de um aplicativo."]
-    ]
-},
-
-
-{
-    emoji:"📱",
-
-    question:
-    "Em Pretendente Surpresa, qual é a situação que coloca Shin Ha-ri em um encontro que não era originalmente dela?",
-
-    options:[
-        ["Ela vai no lugar da amiga",true,"Ha-ri aceita substituir a amiga em um encontro às cegas."],
-        ["Ela perde uma aposta",false,"A situação nasce de uma substituição, não de uma aposta."],
-        ["Ela é contratada pela empresa",false,"A situação não começa como uma contratação profissional."],
-        ["Ela troca de identidade com a irmã",false,"Não é uma troca de identidade com uma irmã."]
-    ]
-},
-
-
-{
-    emoji:"⚔️",
-
-    question:
-    "Em Alquimia das Almas, o que torna a história tão literalmente complicada para os personagens?",
-
-    options:[
-        ["Troca de almas entre corpos",true,"A magia da história permite que almas mudem de corpo, criando boa parte da confusão."],
-        ["Viagem para outro planeta",false,"A fantasia é ambientada em um mundo próprio, mas não envolve viagem para outro planeta."],
-        ["Viagem no tempo para o futuro",false,"O elemento central não é uma viagem temporal ao futuro."],
-        ["Clonagem dos personagens",false,"Clonagem não é o mecanismo fantástico central da história."]
-    ]
-},
-
-
-{
-    emoji:"⚖️",
-
-    question:
-    "Em Uma Advogada Extraordinária, qual é a profissão de Woo Young-woo?",
-
-    options:[
-        ["Advogada",true,"Sim. Woo Young-woo trabalha como advogada e atua em casos jurídicos."],
-        ["Médica",false,"Ela não é médica; sua profissão é ligada ao Direito."],
-        ["Promotora",false,"Ela atua como advogada, não como promotora."],
-        ["Professora",false,"Ela não exerce a profissão de professora na história."]
-    ]
-},
-
-
-{
-    emoji:"🧟",
-
-    question:
-    "Em All of Us Are Dead, onde os estudantes ficam presos durante o início do surto?",
-
-    options:[
-        ["Na escola",true,"O grupo de estudantes fica preso na escola durante o apocalipse zumbi."],
-        ["Em um aeroporto",false,"O local central inicial é a escola."],
-        ["Em um shopping",false,"O shopping não é o cenário principal dessa situação."],
-        ["Em um hospital",false,"O grupo não começa preso em um hospital."]
-    ]
-},
-
-
-{
-    emoji:"👠",
-
-    question:
-    "Em Rainha das Lágrimas, Hong Hae-in pertence a uma poderosa família empresarial conhecida como qual grupo?",
-
-    options:[
-        ["Queens Group",true,"Hae-in é herdeira do Queens Group."],
-        ["Hyundai Group",false,"Hyundai é um conglomerado real, mas não é o grupo fictício da personagem."],
-        ["Samsung Group",false,"Samsung é uma empresa real e não o grupo familiar fictício da trama."],
-        ["Mirae Group",false,"Mirae não é o nome do grupo empresarial da família de Hae-in."]
-    ]
-},
-
-
-{
-    emoji:"💘",
-
-    question:
-    "Qual destas situações é praticamente uma regra não escrita dos doramas românticos?",
-
-    options:[
-        ["Dois personagens se apaixonarem depois de uma sequência absurda de coincidências",true,"Esse recurso é extremamente comum nas comédias e romances de K-dramas."],
-        ["O casal resolver tudo no primeiro episódio",false,"Isso acabaria com boa parte do drama antes de começar."],
-        ["Ninguém esconder sentimentos durante a história",false,"Mal-entendidos e sentimentos não ditos são justamente recursos frequentes do gênero."],
-        ["Todos os personagens tomarem decisões sensatas",false,"Se todos fossem sensatos, metade dos episódios simplesmente não existiria. 😂"]
-    ]
-}
-
-];
-
-
-/* =========================================================
-   ESTADO
-========================================================= */
-
-let currentQuestion=0;
-
-let score=0;
-
-let locked=false;
-
-
-/* =========================================================
-   ELEMENTOS
-========================================================= */
-
-const start =
-    document.getElementById("start");
-
-const quiz =
-    document.getElementById("quiz");
-
-const result =
-    document.getElementById("result");
-
-const question =
-    document.getElementById("question");
-
-const questionEmoji =
-    document.getElementById("questionEmoji");
-
-const answers =
-    document.getElementById("answers");
-
-const scoreElement =
-    document.getElementById("score");
-
-const episode =
-    document.getElementById("episode");
-
-const progressBar =
-    document.getElementById("progressBar");
-
-
-/* =========================================================
-   INICIAR
-========================================================= */
-
-function startQuiz(){
-
-    start.classList.add("hidden");
-
-    result.classList.add("hidden");
-
-    quiz.classList.remove("hidden");
-
-    currentQuestion=0;
-
-    score=0;
-
-    locked=false;
-
-    scoreElement.textContent="0";
-
-    showQuestion();
-
-}
-
-
-/* =========================================================
-   MOSTRAR PERGUNTA
-========================================================= */
-
-function showQuestion(){
-
-    locked=false;
-
-    const q =
-        questions[currentQuestion];
-
-    questionEmoji.textContent =
-        q.emoji;
-
-    question.textContent =
-        q.question;
-
-    episode.textContent =
-        "EPISÓDIO "+
-        (currentQuestion+1)+
-        " / "+
-        questions.length;
-
-    progressBar.style.width =
-        (
-            currentQuestion /
-            questions.length *
-            100
-        )+"%";
-
-    answers.innerHTML="";
-
-
-    q.options.forEach(
-        (option,index)=>{
-
-            const btn =
-                document.createElement("button");
-
-            btn.className="answer";
-
-            btn.textContent =
-                option[0];
-
-            btn.addEventListener(
-                "pointerdown",
-                function(e){
-
-                    e.preventDefault();
-
-                    chooseAnswer(
-                        index,
-                        option
-                    );
-
-                },
-                {passive:false}
-            );
-
-            answers.appendChild(btn);
-
-        }
-    );
-
-}
-
-
-/* =========================================================
-   RESPONDER
-========================================================= */
-
-function chooseAnswer(
-    index,
-    option
-){
-
-    if(locked)
-        return;
-
-    locked=true;
-
-    const correct =
-        option[1];
-
-    if(correct){
-
-        score++;
-
-        scoreElement.textContent =
-            score;
-
-        showFeedback(
-            "💗",
-            "ACERTOU!",
-            option[2]
-        );
-
-    }else{
-
-        showFeedback(
-            "😂",
-            "A DORAMEIRA VACILOU!",
-            option[3]
-        );
-
-    }
-
-    if(navigator.vibrate){
-
-        navigator.vibrate(
-            correct
-            ? [40]
-            : [30,40,30]
-        );
-
-    }
-
+    document.body.appendChild(el);
 
     setTimeout(()=>{
-
-        currentQuestion++;
-
-        if(
-            currentQuestion >=
-            questions.length
-        ){
-
-            finishQuiz();
-
-        }else{
-
-            showQuestion();
-
-        }
-
-    },1250);
-
+        el.remove();
+    },900);
 }
 
 
 /* =========================================================
-   FEEDBACK
+   EXPLOSÃO
 ========================================================= */
 
-let feedbackTimer;
+function explosao(x,y){
 
-function showFeedback(
-    emoji,
-    title,
-    text
-){
+    for(let i=0;i<24;i++){
 
-    const box =
-        document.getElementById("feedback");
+        particulas.push(
+            new Particula(x,y,true)
+        );
+    }
 
-    document.getElementById(
-        "feedbackEmoji"
-    ).textContent=emoji;
+    for(let i=0;i<8;i++){
 
-    document.getElementById(
-        "feedbackTitle"
-    ).textContent=title;
-
-    document.getElementById(
-        "feedbackText"
-    ).textContent=text;
-
-    box.classList.add("show");
-
-    clearTimeout(feedbackTimer);
-
-    feedbackTimer =
-        setTimeout(()=>{
-
-            box.classList.remove("show");
-
-        },1050);
-
+        petalas.push(
+            new Petala(x,y,true)
+        );
+    }
 }
 
 
 /* =========================================================
-   RESULTADO
+   TOQUE / CLIQUE
 ========================================================= */
 
-function finishQuiz(){
+function verificarToque(x,y){
 
-    quiz.classList.add("hidden");
-
-    result.classList.remove("hidden");
-
-    progressBar.style.width="100%";
-
-
-    let data;
-
-
-    if(score>=9){
-
-        data={
-
-            emoji:"👑🔥",
-
-            title:
-            "VOCÊ NÃO ASSISTE DORAMA...",
-
-            score:
-            score+" / "+questions.length+
-            " — NÍVEL: LENDÁRIA",
-
-            text:
-            "Você não é uma simples dorameira. Você já está em um nível em que provavelmente reconhece o protagonista pelo olhar, sabe quando vai acontecer o beijo antes da trilha sonora e já desconfia do personagem bonzinho desde o episódio 2. 😂",
-
-            quote:
-            "⚠️ DIAGNÓSTICO: caso avançado.<br><br>Recomendação médica: mais um episódio.<br><br>Possíveis efeitos colaterais: madrugada, olheiras e gritos para a televisão."
-        };
-
+    if(!rodando || finalizado){
+        return;
     }
 
-    else if(score>=7){
+    for(let i=elementos.length-1;i>=0;i--){
 
-        data={
+        const item =
+            elementos[i];
 
-            emoji:"💗🎬",
+        const distancia =
+            Math.hypot(
+                x-item.x,
+                y-item.y
+            );
 
-            title:
-            "DORAMEIRA PROFISSIONAL",
+        /*
+          Área de toque generosa.
+          O emoji visual pode ser ~60px,
+          mas o toque aceita até ~80px.
+        */
 
-            score:
-            score+" / "+questions.length+
-            " — RESPEITÁVEL",
+        if(distancia < 78){
 
-            text:
-            "Você sabe das coisas! Talvez ainda não consiga prever todos os plot twists, mas já sabe que quando o protagonista fala 'precisamos conversar'... alguma desgraça vem aí. 😂",
+            const indice=i;
 
-            quote:
-            "Seu nível atual permite recomendar doramas para outras pessoas sem responsabilidade alguma sobre as noites de sono delas."
-        };
+            elementos.splice(
+                indice,
+                1
+            );
 
-    }
+            acertos++;
 
-    else if(score>=5){
+            explosao(
+                item.x,
+                item.y
+            );
 
-        data={
+            vibrar(
+                acertos===3
+                ? [40,40,100]
+                : 35
+            );
 
-            emoji:"😂🍿",
+            card.classList.remove("pulse");
 
-            title:
-            "DORAMEIRA EM TREINAMENTO",
+            /*
+              Força o navegador a
+              reiniciar a animação.
+            */
 
-            score:
-            score+" / "+questions.length+
-            " — TEM POTENCIAL",
+            void card.offsetWidth;
 
-            text:
-            "Você conhece alguns clássicos, mas ainda precisa cumprir algumas horas de estágio na Netflix. Relaxa: ninguém nasce sabendo diferenciar o segundo protagonista do verdadeiro amor da protagonista. 😂",
+            card.classList.add("pulse");
 
-            quote:
-            "Missão recomendada: escolher um dorama famoso, começar 'só o primeiro episódio' e aparecer 6 horas depois perguntando por que está amanhecendo."
-        };
+            mostrarTexto(
+                item.x,
+                item.y,
+                item.tipo.frase
+            );
 
-    }
-
-    else{
-
-        data={
-
-            emoji:"😭📺",
-
-            title:
-            "VOCÊ PRECISA DE AJUDA!",
-
-            score:
-            score+" / "+questions.length+
-            " — SITUAÇÃO DELICADA",
-
-            text:
-            "Tem alguém aí que claramente precisa passar mais tempo vendo dorama. 😂 Mas não se preocupe: o tratamento é simples e completamente indolor.",
-
-            quote:
-            "💊 PRESCRIÇÃO:<br><br>1 episódio por noite.<br>Se houver recaída, assistir mais 3.<br>Se terminar a temporada de madrugada... não nos responsabilizamos."
-        };
-
-    }
-
-
-    document.getElementById(
-        "resultEmoji"
-    ).textContent =
-        data.emoji;
-
-    document.getElementById(
-        "resultTitle"
-    ).textContent =
-        data.title;
-
-    document.getElementById(
-        "resultScore"
-    ).textContent =
-        data.score;
-
-    document.getElementById(
-        "resultText"
-    ).textContent =
-        data.text;
-
-    document.getElementById(
-        "quote"
-    ).innerHTML =
-        data.quote;
-
-
-    createConfetti();
-
-
-    if(navigator.vibrate){
-
-        navigator.vibrate([
-            70,
-            50,
-            100,
-            50,
-            150
-        ]);
-
-    }
-
-}
-
-
-/* =========================================================
-   CONFETES
-========================================================= */
-
-function createConfetti(){
-
-    const symbols=[
-        "💗",
-        "🌸",
-        "✨",
-        "😂",
-        "🎬",
-        "💕",
-        "🍿",
-        "🇰🇷"
-    ];
-
-    for(
-        let i=0;
-        i<40;
-        i++
-    ){
-
-        const c =
-            document.createElement("div");
-
-        c.className="confetti";
-
-        c.textContent =
-            symbols[
-                Math.floor(
-                    Math.random()*
-                    symbols.length
-                )
+            const notas=[
+                523.25,
+                659.25,
+                783.99
             ];
 
-        const x =
-            Math.random()*700-350;
+            tocarNota(
+                notas[acertos-1],
+                .25,
+                .08
+            );
 
-        const y =
-            Math.random()*900-450;
+            atualizarPlacar();
 
-        document.body.appendChild(c);
+            if(acertos>=3){
 
-        c.animate(
-
-            [
-
-                {
-                    transform:
-                        "translate(-50%,-50%) scale(.2)",
-                    opacity:0
-                },
-
-                {
-                    transform:
-                        `translate(
-                            calc(-50% + ${x}px),
-                            calc(-50% + ${y}px)
-                        )
-                        scale(1)
-                        rotate(360deg)`,
-
-                    opacity:1
-                },
-
-                {
-                    transform:
-                        `translate(
-                            calc(-50% + ${x*1.2}px),
-                            calc(-50% + ${y*1.3}px)
-                        )
-                        scale(.5)
-                        rotate(720deg)`,
-
-                    opacity:0
-                }
-
-            ],
-
-            {
-
-                duration:
-                    1300+
-                    Math.random()*900,
-
-                easing:
-                    "cubic-bezier(.2,.7,.2,1)"
+                finalizarDorama();
 
             }
 
-        );
+            break;
+        }
+    }
+}
 
-        setTimeout(
-            ()=>c.remove(),
-            2400
-        );
+
+/* =========================================================
+   PLACAR
+========================================================= */
+
+function atualizarPlacar(){
+
+    counter.innerHTML =
+        `Clichês capturados:
+         <strong>${acertos} / 3</strong>`;
+
+    if(acertos===1){
+
+        subtitle.innerHTML =
+            "Primeiro clichê capturado! ☂️<br>"+
+            "A história está começando...";
 
     }
 
+    if(acertos===2){
+
+        subtitle.innerHTML =
+            "DOIS! 🤒<br>"+
+            "Só falta o clichê mais cinematográfico...";
+
+    }
 }
 
 
 /* =========================================================
-   RECOMEÇAR
+   FINAL
 ========================================================= */
 
-function restart(){
+function finalizarDorama(){
 
-    result.classList.add("hidden");
+    finalizado=true;
 
-    start.classList.remove("hidden");
+    /*
+      Flash cinematográfico
+    */
 
-    currentQuestion=0;
+    flash.classList.remove("active");
 
-    score=0;
+    void flash.offsetWidth;
 
-    scoreElement.textContent="0";
+    flash.classList.add("active");
 
-    progressBar.style.width="0%";
+    vibrar([
+        40,
+        50,
+        60,
+        80,
+        120
+    ]);
 
+    /*
+      Para os clichês
+    */
+
+    elementos=[];
+
+    /*
+      Troca interface
+    */
+
+    setTimeout(()=>{
+
+        heart.style.display="none";
+
+        document.querySelector(".badge").style.display="none";
+
+        title.innerHTML =
+            "E no fim...<br>eu descobri. 🌸";
+
+        subtitle.style.display="none";
+
+        counter.style.display="none";
+
+        final.classList.add("show");
+
+        card.classList.add("finished");
+
+        acordeFinal();
+
+    },450);
+
+
+    /*
+      Grande explosão central
+    */
+
+    setTimeout(()=>{
+
+        const rect =
+            card.getBoundingClientRect();
+
+        const cx =
+            rect.left+
+            rect.width/2;
+
+        const cy =
+            rect.top+
+            rect.height/2;
+
+        for(let i=0;i<130;i++){
+
+            petalas.push(
+                new Petala(
+                    cx,
+                    cy,
+                    true
+                )
+            );
+        }
+
+        for(let i=0;i<80;i++){
+
+            particulas.push(
+                new Particula(
+                    cx,
+                    cy,
+                    true
+                )
+            );
+        }
+
+    },500);
+
+    /*
+      Chuva gigantesca
+    */
+
+    setTimeout(()=>{
+
+        for(let i=0;i<100;i++){
+
+            petalas.push(
+                new Petala()
+            );
+        }
+
+    },900);
 }
 
 
 /* =========================================================
-   BLOQUEIO DE SCROLL
+   LOOP PRINCIPAL
 ========================================================= */
+
+function loop(){
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+    desenharEstrelas();
+
+
+    /*
+      Cria clichês
+    */
+
+    if(
+        rodando &&
+        !finalizado &&
+        elementos.length<7 &&
+        Math.random()<.035
+    ){
+
+        elementos.push(
+            new Cliche()
+        );
+    }
+
+
+    /*
+      Atualiza clichês
+    */
+
+    for(
+        let i=elementos.length-1;
+        i>=0;
+        i--
+    ){
+
+        const item=
+            elementos[i];
+
+        item.update();
+        item.draw();
+
+        if(
+            item.y >
+            H+100
+        ){
+
+            elementos.splice(
+                i,
+                1
+            );
+        }
+    }
+
+
+    /*
+      Pétalas ambiente
+    */
+
+    if(
+        rodando &&
+        petalas.length<100 &&
+        Math.random()<.08
+    ){
+
+        petalas.push(
+            new Petala()
+        );
+    }
+
+
+    /*
+      Atualiza pétalas
+    */
+
+    for(
+        let i=petalas.length-1;
+        i>=0;
+        i--
+    ){
+
+        const p=
+            petalas[i];
+
+        p.update();
+        p.draw();
+
+        if(
+            p.y>H+60 ||
+            p.life<=0
+        ){
+
+            petalas.splice(
+                i,
+                1
+            );
+        }
+    }
+
+
+    /*
+      Partículas
+    */
+
+    for(
+        let i=particulas.length-1;
+        i>=0;
+        i--
+    ){
+
+        const p=
+            particulas[i];
+
+        p.update();
+        p.draw();
+
+        if(
+            p.life<=0
+        ){
+
+            particulas.splice(
+                i,
+                1
+            );
+        }
+    }
+
+    requestAnimationFrame(loop);
+}
+
+loop();
+
+
+/* =========================================================
+   INICIAR JOGO
+========================================================= */
+
+function iniciarJogo(e){
+
+    if(e){
+        e.preventDefault();
+    }
+
+    iniciarAudio();
+
+    rodando=true;
+
+    startScreen.classList.add("hidden");
+
+    topInfo.classList.add("show");
+
+    vibrar(25);
+
+    /*
+      Primeira onda de clichês
+    */
+
+    setTimeout(()=>{
+        elementos.push(new Cliche());
+    },500);
+
+    setTimeout(()=>{
+        elementos.push(new Cliche());
+    },1100);
+
+    setTimeout(()=>{
+        elementos.push(new Cliche());
+    },1700);
+}
+
+
+/*
+  Pointer Events:
+  funciona com toque Android,
+  mouse e caneta.
+*/
+
+startButton.addEventListener(
+    "pointerdown",
+    iniciarJogo,
+    {
+        passive:false
+    }
+);
+
+
+/*
+  Área inteira do jogo.
+*/
 
 document.addEventListener(
-    "touchmove",
+    "pointerdown",
     function(e){
 
         if(
-            !quiz.classList.contains("hidden")
+            !rodando ||
+            finalizado
         ){
-
-            e.preventDefault();
-
+            return;
         }
 
+        verificarToque(
+            e.clientX,
+            e.clientY
+        );
+
+    },
+    {
+        passive:false
+    }
+);
+
+
+/*
+  Impede menu de contexto
+*/
+
+document.addEventListener(
+    "contextmenu",
+    e=>e.preventDefault()
+);
+
+
+/*
+  Impede scroll/bounce
+*/
+
+document.addEventListener(
+    "touchmove",
+    e=>{
+        if(rodando){
+            e.preventDefault();
+        }
     },
     {
         passive:false
