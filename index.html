@@ -4,305 +4,955 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>SISTEMA DE ANÁLISE DE IMPACTO</title>
+
     <style>
         :root {
             --lizard-green: #22c55e;
             --neon-pink: #ff007f;
             --neon-blue: #00f0ff;
+            --dark: #090514;
         }
 
-        body, html {
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #090514;
-            font-family: 'Arial Black', sans-serif;
+            background: var(--dark);
+            font-family: Arial, Helvetica, sans-serif;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
             touch-action: none;
         }
 
         #game-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: fixed;
+            inset: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
         }
 
-        /* Interface Principal */
-        .painel-container {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
+        /* Fundo */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(circle at 20% 20%, rgba(34,197,94,.12), transparent 30%),
+                radial-gradient(circle at 80% 80%, rgba(255,0,127,.12), transparent 35%),
+                radial-gradient(circle at 50% 50%, rgba(0,240,255,.05), transparent 55%),
+                #090514;
             pointer-events: none;
         }
 
-        .game-card {
-            pointer-events: auto;
-            width: 85%;
-            max-width: 400px;
-            padding: 30px 20px;
-            background: rgba(15, 10, 25, 0.75);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 28px;
-            border: 2px solid rgba(34, 197, 94, 0.3);
-            box-shadow: 0 0 30px rgba(34, 197, 94, 0.15);
-            text-align: center;
-            box-sizing: border-box;
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        /* Linhas decorativas nas bordas */
+        .wall {
+            position: fixed;
+            z-index: 2;
+            pointer-events: none;
+            opacity: .45;
         }
 
-        h1 {
-            font-size: 2.2rem;
-            color: #ffffff;
-            margin: 0 0 10px 0;
-            text-shadow: 0 0 15px var(--lizard-green);
-            line-height: 1.2;
+        .wall.top {
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #00f0ff, transparent);
+            box-shadow: 0 0 15px #00f0ff;
         }
 
-        h2 {
-            font-size: 1.4rem;
-            color: #e2e8f0;
-            font-family: sans-serif;
-            margin: 0 0 15px 0;
+        .wall.bottom {
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, transparent, #ff007f, transparent);
+            box-shadow: 0 0 15px #ff007f;
         }
 
-        .contador {
-            font-size: 1rem;
-            color: #cbd5e1;
-            font-family: sans-serif;
-            background: rgba(0,0,0,0.5);
-            padding: 8px 16px;
-            border-radius: 50px;
-            display: inline-block;
-            border: 1px solid rgba(34, 197, 94, 0.2);
+        .wall.left {
+            top: 0;
+            left: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #22c55e, transparent);
+            box-shadow: 0 0 15px #22c55e;
         }
 
-        /* Objeto Arremessável (Lagartixa) */
-        #lagartixa-token {
-            position: absolute;
-            width: 75px;
-            height: 75px;
-            font-size: 3.8rem;
+        .wall.right {
+            top: 0;
+            right: 0;
+            width: 4px;
+            height: 100%;
+            background: linear-gradient(180deg, transparent, #ff007f, transparent);
+            box-shadow: 0 0 15px #ff007f;
+        }
+
+        /* Interface */
+        .painel-container {
+            position: fixed;
+            inset: 0;
             display: flex;
             justify-content: center;
             align-items: center;
+            z-index: 3;
+            pointer-events: none;
+            padding: 20px;
+        }
+
+        .game-card {
+            width: 86%;
+            max-width: 410px;
+            padding: 30px 22px;
+            background: rgba(15, 10, 25, .78);
+            backdrop-filter: blur(15px);
+            -webkit-backdrop-filter: blur(15px);
+            border-radius: 28px;
+            border: 2px solid rgba(34,197,94,.35);
+            box-shadow:
+                0 0 30px rgba(34,197,94,.15),
+                inset 0 0 30px rgba(255,255,255,.025);
+            text-align: center;
+            pointer-events: none;
+            transition: .5s cubic-bezier(.175,.885,.32,1.275);
+        }
+
+        h1 {
+            font-family: Arial Black, Arial, sans-serif;
+            font-size: 2.15rem;
+            line-height: 1.12;
+            color: #fff;
+            margin: 0 0 12px;
+            text-shadow:
+                0 0 10px rgba(34,197,94,.8),
+                0 0 25px rgba(34,197,94,.35);
+        }
+
+        h2 {
+            font-family: Arial Black, Arial, sans-serif;
+            font-size: 1.35rem;
+            line-height: 1.2;
+            color: #e2e8f0;
+            margin: 0 0 18px;
+        }
+
+        .contador {
+            display: inline-block;
+            padding: 9px 17px;
+            border-radius: 50px;
+            color: #cbd5e1;
+            background: rgba(0,0,0,.45);
+            border: 1px solid rgba(34,197,94,.25);
+            font-size: .95rem;
+            font-weight: bold;
+        }
+
+        /* Lagartixa */
+        #lagartixa-token {
+            position: fixed;
+            width: 76px;
+            height: 76px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 3.8rem;
+            z-index: 10;
             cursor: grab;
-            z-index: 4;
-            user-select: none;
             touch-action: none;
-            filter: drop-shadow(0 0 10px var(--lizard-green));
+            user-select: none;
+            -webkit-user-select: none;
+            -webkit-touch-callout: none;
+            filter:
+                drop-shadow(0 0 7px rgba(34,197,94,.9))
+                drop-shadow(0 0 18px rgba(34,197,94,.4));
+            transform-origin: center;
+            will-change: transform, left, top;
         }
 
         #lagartixa-token:active {
             cursor: grabbing;
-            filter: drop-shadow(0 0 20px var(--neon-blue));
+        }
+
+        /* Indicador de arraste */
+        .instrucao {
+            position: fixed;
+            bottom: 34px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            color: rgba(255,255,255,.5);
+            font-size: .78rem;
+            text-align: center;
+            pointer-events: none;
+            width: 90%;
         }
 
         /* Vitória */
         .vitoria {
             border-color: var(--neon-pink) !important;
-            box-shadow: 0 0 50px rgba(255, 0, 127, 0.4) !important;
-        }
-        .vitoria h1 {
-            color: #ffffff !important;
-            text-shadow: 0 0 20px var(--neon-pink), 0 0 40px #9d4edd !important;
-            font-size: 2.5rem !important;
-            animation: balancar 0.3s infinite alternate;
-        }
-        .vitoria h2 {
-            color: #00f0ff !important;
-            font-size: 2rem !important;
-            font-family: 'Arial Black', sans-serif;
-            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6) !important;
-            margin-top: 15px;
+            box-shadow:
+                0 0 30px rgba(255,0,127,.45),
+                0 0 70px rgba(157,78,221,.25),
+                inset 0 0 35px rgba(255,0,127,.08) !important;
+            animation: cardPulse .8s infinite alternate;
         }
 
-        @keyframes balancar {
-            0% { transform: rotate(-2deg) scale(0.98); }
-            100% { transform: rotate(2deg) scale(1.02); }
+        .vitoria h1 {
+            color: #fff !important;
+            font-size: 2.35rem !important;
+            text-shadow:
+                0 0 15px #ff007f,
+                0 0 35px #9d4edd !important;
+        }
+
+        .vitoria h2 {
+            color: #00f0ff !important;
+            font-size: 1.75rem !important;
+            text-shadow:
+                0 0 10px #00f0ff,
+                0 0 25px rgba(0,240,255,.5) !important;
+        }
+
+        @keyframes cardPulse {
+            from {
+                transform: scale(.98);
+            }
+            to {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Flash de impacto */
+        #flash {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            background: rgba(0,240,255,.35);
+            pointer-events: none;
+            opacity: 0;
+        }
+
+        #flash.ativo {
+            animation: flashImpacto .18s ease-out;
+        }
+
+        @keyframes flashImpacto {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Tremor da tela */
+        .shake {
+            animation: shake .18s linear;
+        }
+
+        @keyframes shake {
+            0%   { transform: translate(0,0); }
+            20%  { transform: translate(-5px,3px); }
+            40%  { transform: translate(5px,-3px); }
+            60%  { transform: translate(-4px,-2px); }
+            80%  { transform: translate(4px,2px); }
+            100% { transform: translate(0,0); }
         }
     </style>
 </head>
+
 <body>
 
     <canvas id="game-canvas"></canvas>
 
-    <!-- Token da Lagartixa que ela vai arrastar e tacar na parede -->
+    <div class="wall top"></div>
+    <div class="wall bottom"></div>
+    <div class="wall left"></div>
+    <div class="wall right"></div>
+
+    <div id="flash"></div>
+
     <div id="lagartixa-token">🦎</div>
 
     <div class="painel-container">
         <div class="game-card" id="painel">
-            <h1 id="titulo">Me joga na<br>parede...</h1>
-            <h2 id="subtitulo">Arremesse a lagartixa nas bordas!</h2>
-            <div class="contador" id="placar">Pancadas na parede: 0/3</div>
+
+            <h1 id="titulo">
+                Me joga na<br>parede...
+            </h1>
+
+            <h2 id="subtitulo">
+                Arraste a lagartixa<br>
+                e arremesse nas bordas!
+            </h2>
+
+            <div class="contador" id="placar">
+                Pancadas na parede: 0/3
+            </div>
+
         </div>
     </div>
 
+    <div class="instrucao" id="instrucao">
+        🦎 Segure, arraste e solte com força contra a parede
+    </div>
+
     <script>
-        const canvas = document.getElementById('game-canvas');
-        const ctx = canvas.getContext('2d');
-        const token = document.getElementById('lagartixa-token');
-        const painel = document.getElementById('painel');
-        const placar = document.getElementById('placar');
-        const subtitulo = document.getElementById('subtitulo');
+        const canvas = document.getElementById("game-canvas");
+        const ctx = canvas.getContext("2d");
+
+        const token = document.getElementById("lagartixa-token");
+        const painel = document.getElementById("painel");
+        const placar = document.getElementById("placar");
+        const subtitulo = document.getElementById("subtitulo");
+        const instrucao = document.getElementById("instrucao");
+        const flash = document.getElementById("flash");
 
         let particulas = [];
         let impactos = 0;
         let finalizado = false;
-        let flashColor = null;
 
-        // Propriedades físicas da Lagartixa
-        let physics = {
-            x: window.innerWidth / 2 - 37,
-            y: window.innerHeight * 0.7,
+        const physics = {
+            x: 0,
+            y: 0,
+
             vx: 0,
             vy: 0,
-            isDragging: false,
+
+            width: 76,
+            height: 76,
+
+            gravity: 0.42,
+            bounce: 0.72,
+
+            dragging: false,
+
             lastX: 0,
             lastY: 0,
-            width: 75,
-            height: 75,
-            bounce: 0.75,
-            gravity: 0.4
+
+            impactCooldown: 0
         };
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            if(!physics.isDragging && !finalizado) {
+
+            if (!physics.dragging && !finalizado) {
                 physics.x = canvas.width / 2 - physics.width / 2;
-                physics.y = canvas.height * 0.75;
+                physics.y = canvas.height * 0.70;
             }
         }
-        window.addEventListener('resize', resize);
+
+        window.addEventListener("resize", resize);
         resize();
 
-        // Posiciona a lagartixa inicialmente
-        token.style.left = physics.x + 'px';
-        token.style.top = physics.y + 'px';
+        function posicionarToken() {
+            token.style.left = physics.x + "px";
+            token.style.top = physics.y + "px";
+        }
 
-        class Brilho {
-            constructor(x, y, color) {
+        posicionarToken();
+
+        /* =========================
+           PARTÍCULAS
+        ========================= */
+
+        class Particula {
+
+            constructor(x, y, cor) {
+
                 this.x = x;
                 this.y = y;
-                this.size = Math.random() * 5 + 2;
-                this.vx = (Math.random() - 0.5) * 14;
-                this.vy = (Math.random() - 0.5) * 14;
-                this.color = color || '#22c55e';
-                this.life = 40;
+
+                this.vx = (Math.random() - .5) * 15;
+                this.vy = (Math.random() - .5) * 15;
+
+                this.tamanho = Math.random() * 5 + 2;
+
+                this.cor = cor;
+
+                this.vida = 45;
             }
+
             update() {
+
                 this.x += this.vx;
                 this.y += this.vy;
-                this.vy += 0.2; // Leve gravidade nas faíscas
-                this.life--;
+
+                this.vy += .22;
+
+                this.vx *= .98;
+
+                this.vida--;
             }
+
             draw() {
-                ctx.fillStyle = this.color;
-                ctx.globalAlpha = this.life / 40;
+
+                ctx.save();
+
+                ctx.globalAlpha = this.vida / 45;
+
+                ctx.fillStyle = this.cor;
+
                 ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+
+                ctx.arc(
+                    this.x,
+                    this.y,
+                    this.tamanho,
+                    0,
+                    Math.PI * 2
+                );
+
                 ctx.fill();
-                ctx.globalAlpha = 1.0;
+
+                ctx.restore();
             }
         }
 
-        function som(f, d, tipo="sine") {
-            try {
-                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = tipo;
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.frequency.value = f;
-                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
-                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + d);
-                osc.start(); osc.stop(audioCtx.currentTime + d);
-            } catch(e) {}
+        function criarParticulas(x, y, quantidade = 25) {
+
+            for (let i = 0; i < quantidade; i++) {
+
+                const cores = [
+                    "#00f0ff",
+                    "#22c55e",
+                    "#ff007f",
+                    "#ffffff"
+                ];
+
+                const cor =
+                    cores[Math.floor(Math.random() * cores.length)];
+
+                particulas.push(
+                    new Particula(x, y, cor)
+                );
+            }
         }
 
-        // Lógica de arrastar e soltar (Touch & Mouse)
-        function startDrag(e) {
+        /* =========================
+           SOM
+        ========================= */
+
+        let audioCtx = null;
+
+        function iniciarAudio() {
+
+            if (!audioCtx) {
+
+                try {
+
+                    audioCtx =
+                        new (window.AudioContext ||
+                        window.webkitAudioContext)();
+
+                } catch (e) {}
+            }
+
+            if (audioCtx &&
+                audioCtx.state === "suspended") {
+
+                audioCtx.resume();
+            }
+        }
+
+        function somImpacto() {
+
+            try {
+
+                iniciarAudio();
+
+                if (!audioCtx) return;
+
+                const osc =
+                    audioCtx.createOscillator();
+
+                const gain =
+                    audioCtx.createGain();
+
+                osc.type = "triangle";
+
+                osc.frequency.setValueAtTime(
+                    190,
+                    audioCtx.currentTime
+                );
+
+                osc.frequency.exponentialRampToValueAtTime(
+                    70,
+                    audioCtx.currentTime + .14
+                );
+
+                gain.gain.setValueAtTime(
+                    .12,
+                    audioCtx.currentTime
+                );
+
+                gain.gain.exponentialRampToValueAtTime(
+                    .01,
+                    audioCtx.currentTime + .14
+                );
+
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+
+                osc.start();
+
+                osc.stop(
+                    audioCtx.currentTime + .14
+                );
+
+            } catch (e) {}
+        }
+
+        function somVitoria() {
+
+            try {
+
+                iniciarAudio();
+
+                if (!audioCtx) return;
+
+                const notas = [
+                    440,
+                    554.37,
+                    659.25,
+                    880
+                ];
+
+                notas.forEach((nota, i) => {
+
+                    setTimeout(() => {
+
+                        const osc =
+                            audioCtx.createOscillator();
+
+                        const gain =
+                            audioCtx.createGain();
+
+                        osc.type = "sine";
+
+                        osc.frequency.value = nota;
+
+                        gain.gain.setValueAtTime(
+                            .09,
+                            audioCtx.currentTime
+                        );
+
+                        gain.gain.exponentialRampToValueAtTime(
+                            .01,
+                            audioCtx.currentTime + .3
+                        );
+
+                        osc.connect(gain);
+                        gain.connect(audioCtx.destination);
+
+                        osc.start();
+
+                        osc.stop(
+                            audioCtx.currentTime + .3
+                        );
+
+                    }, i * 110);
+
+                });
+
+            } catch (e) {}
+        }
+
+        /* =========================
+           VIBRAÇÃO
+        ========================= */
+
+        function vibrar(duracao = 80) {
+
+            if ("vibrate" in navigator) {
+
+                try {
+                    navigator.vibrate(duracao);
+                } catch (e) {}
+            }
+        }
+
+        /* =========================
+           ARRASTAR
+        ========================= */
+
+        function obterCoordenadas(e) {
+
+            if (e.touches && e.touches.length > 0) {
+
+                return {
+                    x: e.touches[0].clientX,
+                    y: e.touches[0].clientY
+                };
+            }
+
+            return {
+                x: e.clientX,
+                y: e.clientY
+            };
+        }
+
+        function iniciarArraste(e) {
+
             if (finalizado) return;
-            physics.isDragging = true;
-            let pageX = e.touches ? e.touches[0].pageX : e.pageX;
-            let pageY = e.touches ? e.touches[0].pageY : e.pageY;
-            physics.lastX = pageX;
-            physics.lastY = pageY;
+
+            iniciarAudio();
+
+            const pos =
+                obterCoordenadas(e);
+
+            physics.dragging = true;
+
             physics.vx = 0;
             physics.vy = 0;
+
+            physics.lastX = pos.x;
+            physics.lastY = pos.y;
+
+            token.style.cursor = "grabbing";
+
+            e.preventDefault?.();
         }
 
-        function doDrag(e) {
-            if (!physics.isDragging || finalizado) return;
-            let pageX = e.touches ? e.touches[0].pageX : e.pageX;
-            let pageY = e.touches ? e.touches[0].pageY : e.pageY;
+        function moverArraste(e) {
 
-            physics.x = pageX - physics.width / 2;
-            physics.y = pageY - physics.height / 2;
+            if (!physics.dragging || finalizado) return;
 
-            // Calcula velocidade com base no movimento do dedo
-            physics.vx = pageX - physics.lastX;
-            physics.vy = pageY - physics.lastY;
+            const pos =
+                obterCoordenadas(e);
 
-            physics.lastX = pageX;
-            physics.lastY = pageY;
+            physics.x =
+                pos.x - physics.width / 2;
 
-            token.style.left = physics.x + 'px';
-            token.style.top = physics.y + 'px';
+            physics.y =
+                pos.y - physics.height / 2;
+
+            physics.vx =
+                pos.x - physics.lastX;
+
+            physics.vy =
+                pos.y - physics.lastY;
+
+            physics.lastX = pos.x;
+            physics.lastY = pos.y;
+
+            posicionarToken();
+
+            e.preventDefault?.();
         }
 
-        function endDrag() {
-            if(!physics.isDragging) return;
-            physics.isDragging = false;
+        function terminarArraste() {
+
+            if (!physics.dragging) return;
+
+            physics.dragging = false;
+
+            token.style.cursor = "grab";
+
+            /*
+             * Multiplicamos um pouco a velocidade do arremesso
+             * para tornar o lançamento mais perceptível.
+             */
+            physics.vx *= 1.25;
+            physics.vy *= 1.25;
         }
 
-        token.addEventListener('touchstart', startDrag, {passive: true});
-        window.addEventListener('touchmove', doDrag, {passive: false});
-        window.addEventListener('touchend', endDrag);
+        token.addEventListener(
+            "touchstart",
+            iniciarArraste,
+            { passive: false }
+        );
 
-        token.addEventListener('mousedown', startDrag);
-        window.addEventListener('mousemove', doDrag);
-        window.addEventListener('mouseup', endDrag);
+        window.addEventListener(
+            "touchmove",
+            moverArraste,
+            { passive: false }
+        );
 
-        function computarImpacto(x, y) {
-            impactos++;
-            flashColor = 'rgba(0, 240, 255, 0.25)';
-            setTimeout(() => { flashColor = null; }, 100);
-            
-            som(180, 0.15, 'triangle'); // Som de baque surdo
-            
-            for(let i=0; i<20; i++) {
-                particulas.push(new Brilho(x, y, '#00f0ff'));
+        window.addEventListener(
+            "touchend",
+            terminarArraste,
+            { passive: false }
+        );
+
+        token.addEventListener(
+            "mousedown",
+            iniciarArraste
+        );
+
+        window.addEventListener(
+            "mousemove",
+            moverArraste
+        );
+
+        window.addEventListener(
+            "mouseup",
+            terminarArraste
+        );
+
+        /* =========================
+           IMPACTO
+        ========================= */
+
+        function registrarImpacto(x, y) {
+
+            if (physics.impactCooldown > 0) {
+                return;
             }
 
+            physics.impactCooldown = 12;
+
+            impactos++;
+
+            criarParticulas(
+                x,
+                y,
+                30
+            );
+
+            somImpacto();
+
+            vibrar(70);
+
+            flash.classList.remove("ativo");
+
+            void flash.offsetWidth;
+
+            flash.classList.add("ativo");
+
+            document.body.classList.remove("shake");
+
+            void document.body.offsetWidth;
+
+            document.body.classList.add("shake");
+
             if (impactos < 3) {
-                placar.innerText = `Pancadas na parede: ${impactos}/3`;
+
+                placar.innerText =
+                    `Pancadas na parede: ${impactos}/3`;
+
             } else {
+
                 vitoriaGeral();
             }
         }
 
+        /* =========================
+           VITÓRIA
+        ========================= */
+
         function vitoriaGeral() {
+
             finalizado = true;
-            physics.vx = 0; physics.vy = 0;
-            token.remove();
-            placar.style.display = 'none';
-            subtitulo.style.display = 'none';
-            painel.classList.add('vitoria');
-            
-            painel.querySelector('h1').innerHTML = "ME JOGA NA PAREDE...";
-            
+
+            physics.vx = 0;
+            physics.vy = 0;
+
+            token.style.display = "none";
+
+            placar.style.display = "none";
+
+            subtitulo.style.display = "none";
+
+            instrucao.style.display = "none";
+
+            painel.classList.add("vitoria");
+
+            document.getElementById("titulo").innerHTML =
+                "ME JOGA NA<br>PAREDE...";
+
             setTimeout(() => {
-                let h2 = document.createElement('h2');
+
+                const h2 =
+                    document.createElement("h2");
+
+                h2.innerText =
+                    "E ME CHAMA DE LAGARTIXA! 🦎💚🔥";
+
+                painel.appendChild(h2);
+
+                somVitoria();
+
+                vibrar([80, 50, 120]);
+
+                const centroX =
+                    window.innerWidth / 2;
+
+                const centroY =
+                    window.innerHeight / 2;
+
+                criarParticulas(
+                    centroX,
+                    centroY,
+                    120
+                );
+
+            }, 450);
+        }
+
+        /* =========================
+           FÍSICA
+        ========================= */
+
+        function atualizarFisica() {
+
+            if (finalizado) return;
+
+            if (physics.impactCooldown > 0) {
+                physics.impactCooldown--;
+            }
+
+            if (!physics.dragging) {
+
+                physics.vy += physics.gravity;
+
+                physics.x += physics.vx;
+                physics.y += physics.vy;
+
+                physics.vx *= .995;
+
+                /*
+                 * Parede esquerda
+                 */
+                if (physics.x <= 0) {
+
+                    physics.x = 0;
+
+                    if (Math.abs(physics.vx) > 4) {
+
+                        registrarImpacto(
+                            physics.x,
+                            physics.y + physics.height / 2
+                        );
+                    }
+
+                    physics.vx =
+                        Math.abs(physics.vx) *
+                        physics.bounce;
+                }
+
+                /*
+                 * Parede direita
+                 */
+                if (
+                    physics.x + physics.width >=
+                    canvas.width
+                ) {
+
+                    physics.x =
+                        canvas.width -
+                        physics.width;
+
+                    if (Math.abs(physics.vx) > 4) {
+
+                        registrarImpacto(
+                            physics.x + physics.width,
+                            physics.y + physics.height / 2
+                        );
+                    }
+
+                    physics.vx =
+                        -Math.abs(physics.vx) *
+                        physics.bounce;
+                }
+
+                /*
+                 * Teto
+                 */
+                if (physics.y <= 0) {
+
+                    physics.y = 0;
+
+                    if (Math.abs(physics.vy) > 4) {
+
+                        registrarImpacto(
+                            physics.x + physics.width / 2,
+                            physics.y
+                        );
+                    }
+
+                    physics.vy =
+                        Math.abs(physics.vy) *
+                        physics.bounce;
+                }
+
+                /*
+                 * Chão
+                 */
+                if (
+                    physics.y + physics.height >=
+                    canvas.height
+                ) {
+
+                    physics.y =
+                        canvas.height -
+                        physics.height;
+
+                    if (Math.abs(physics.vy) > 4) {
+
+                        registrarImpacto(
+                            physics.x + physics.width / 2,
+                            physics.y + physics.height
+                        );
+                    }
+
+                    physics.vy =
+                        -Math.abs(physics.vy) *
+                        physics.bounce;
+                }
+
+                posicionarToken();
+            }
+        }
+
+        /* =========================
+           LOOP
+        ========================= */
+
+        function loop() {
+
+            ctx.clearRect(
+                0,
+                0,
+                canvas.width,
+                canvas.height
+            );
+
+            atualizarFisica();
+
+            for (
+                let i = particulas.length - 1;
+                i >= 0;
+                i--
+            ) {
+
+                particulas[i].update();
+
+                particulas[i].draw();
+
+                if (particulas[i].vida <= 0) {
+
+                    particulas.splice(i, 1);
+                }
+            }
+
+            requestAnimationFrame(loop);
+        }
+
+        loop();
+
+    </script>
+
+</body>
+</html>
