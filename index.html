@@ -528,47 +528,162 @@ function miniFrogHunt(next){
    MINI-GAME 2 — PISTA DE COISAS SEM SENTIDO
 ========================================================= */
 function miniClue(next){
-  closeDialog();miniOpen('🕵️ TESTE 2 — O INVESTIGADOR DE COXINHA','Arraste os objetos até a área de investigação. Só 5 são pistas; o resto é pura palhaçada.');
+  closeDialog();
+  miniOpen(
+    '🕵️ TESTE 2 — O INVESTIGADOR DE COXINHA',
+    'ARRASTE as 5 pistas verdadeiras para o 🔎. A área de entrega é grande de propósito.'
+  );
+
   const arena=$('miniArena');
+
+  /* Área de entrega GRANDE e visível */
   const target=document.createElement('div');
-  target.style.cssText='position:absolute;right:8%;bottom:18%;width:170px;height:130px;border:2px dashed #ffe36e66;border-radius:25px;display:grid;place-items:center;font-size:42px';
-  target.textContent='🔎';
+  target.id='clueTarget';
+  target.style.cssText=[
+    'position:absolute',
+    'right:4%',
+    'bottom:7%',
+    'width:220px',
+    'height:155px',
+    'border:3px dashed #ffe36e',
+    'border-radius:25px',
+    'display:grid',
+    'place-items:center',
+    'font-size:58px',
+    'background:#ffe36e0d',
+    'box-shadow:0 0 35px #ffe36e18',
+    'z-index:2',
+    'pointer-events:none'
+  ].join(';');
+  target.innerHTML='🔎<span style="position:absolute;bottom:9px;font-size:11px;color:#ffe36e;font-weight:1000;letter-spacing:1px">SOLTE AQUI</span>';
   arena.appendChild(target);
-  const objects=['🍉','🥔','🧦','🛒','🦆','🍕','🧻','🧹','📻','🧢','🪥','🧸'];
-  let good=0,drag=null,offset={x:0,y:0},finished=false;
-  objects.forEach((emoji,i)=>{
-    const el=document.createElement('div');el.className='miniButton';
-    el.textContent=emoji;el.style.width='62px';el.style.height='62px';
-    el.style.fontSize='35px';el.style.left=rand(3,82)+'%';el.style.top=rand(8,70)+'%';
-    const isGood=[0,2,3,4,6][i];
-    el.dataset.good=isGood?'1':'0';
-    el.onpointerdown=e=>{
-      drag=el;el.setPointerCapture?.(e.pointerId);
-      offset.x=e.clientX-el.getBoundingClientRect().left;
-      offset.y=e.clientY-el.getBoundingClientRect().top;
+
+  /* 5 pistas VERDADEIRAS:
+     🍉 🧦 🛒 🦆 🧻 */
+  const objects=[
+    ['🍉',true],['🥔',false],['🧦',true],['🛒',true],
+    ['🦆',true],['🍕',false],['🧻',true],['🧹',false],
+    ['📻',false],['🧢',false],['🪥',false],['🧸',false]
+  ];
+
+  let good=0,drag=null,offsetX=0,offsetY=0,finished=false;
+
+  function finishDrag(el){
+    if(!drag || drag!==el) return;
+    drag=null;
+
+    const a=el.getBoundingClientRect();
+    const b=target.getBoundingClientRect();
+
+    /* Interseção generosa + distância entre centros.
+       Isso evita falhas de toque no Android. */
+    const ax=a.left+a.width/2, ay=a.top+a.height/2;
+    const bx=b.left+b.width/2, by=b.top+b.height/2;
+    const distance=Math.hypot(ax-bx,ay-by);
+
+    const overlap=a.left<b.right && a.right>b.left && a.top<b.bottom && a.bottom>b.top;
+    const accepted=overlap || distance < 145;
+
+    if(!accepted){
+      toast('↗️ Arraste até o quadrado amarelo 🔎');
+      return;
+    }
+
+    if(el.dataset.good==='1'){
+      good++;
+      change('score',8);
+      progress(good/5*100);
+      el.remove();
+
+      const names=['MELANCIA','MEIA','CARRINHO','PATO','PAPEL HIGIÊNICO'];
+      toast('🔎 PISTA ACEITA: '+names[good-1]+'! '+good+'/5');
+      buzz(20);
+      beep(620,.07);
+
+      if(good>=5 && !finished){
+        finished=true;
+        change('brave',10);
+        addAchievement('DETETIVE DE COXINHA');
+        toast('🕵️ 5/5! VOCÊ DESCOBRIU TODAS AS PISTAS!');
+        setTimeout(()=>{
+          miniClose();
+          next();
+        },700);
+      }
+    }else{
+      change('chaos',6);
+      change('score',-2);
+      toast('🤣 PEGOU A COISA ERRADA! ISSO NÃO É PISTA.');
+      buzz(45);
+      beep(160,.08,'sawtooth');
+
+      /* devolve o objeto para uma posição segura */
+      el.style.left=rand(3,72)+'%';
+      el.style.top=rand(8,58)+'%';
+    }
+  }
+
+  objects.forEach(([emoji,goodFlag],i)=>{
+    const el=document.createElement('div');
+    el.className='miniButton';
+    el.textContent=emoji;
+    el.dataset.good=goodFlag?'1':'0';
+    el.style.width='68px';
+    el.style.height='68px';
+    el.style.fontSize='38px';
+    el.style.zIndex='10';
+    el.style.left=(5+(i%4)*21+rand(-2,3))+'%';
+    el.style.top=(8+Math.floor(i/4)*29+rand(-2,3))+'%';
+
+    el.onpointerdown=(e)=>{
+      if(finished)return;
+      e.preventDefault();
+      drag=el;
+      el.style.zIndex='40';
+      const r=el.getBoundingClientRect();
+      offsetX=e.clientX-r.left;
+      offsetY=e.clientY-r.top;
+      try{el.setPointerCapture(e.pointerId)}catch(_){}
+      el.style.transform='scale(1.15)';
+      beep(330,.035);
     };
-    el.onpointermove=e=>{
-      if(drag!==el)return;
+
+    el.onpointermove=(e)=>{
+      if(drag!==el || finished)return;
+      e.preventDefault();
       const r=arena.getBoundingClientRect();
-      el.style.left=clamp((e.clientX-r.left-offset.x)/r.width*100,0,92)+'%';
-      el.style.top=clamp((e.clientY-r.top-offset.y)/r.height*100,5,82)+'%';
+
+      /* Posição calculada em pixels, muito mais estável no touch */
+      const x=clamp(e.clientX-r.left-offsetX,4,r.width-el.offsetWidth-4);
+      const y=clamp(e.clientY-r.top-offsetY,8,r.height-el.offsetHeight-8);
+
+      el.style.left=x+'px';
+      el.style.top=y+'px';
     };
-    el.onpointerup=()=>{
-      if(drag!==el)return;drag=null;
-      const a=el.getBoundingClientRect(),b=target.getBoundingClientRect();
-      const hit=a.left<b.right&&a.right>b.left&&a.top<b.bottom&&a.bottom>b.top;
-      if(hit){
-        if(el.dataset.good==='1'){
-          good++;change('score',8);progress(good/5*100);el.remove();toast('🔎 PISTA ACEITA.');
-          if(good>=5&&!finished){
-            finished=true;change('brave',10);addAchievement('DETETIVE DE COXINHA');miniClose();next();
-          }
-        }else{
-          change('chaos',6);change('score',-2);toast('🤣 ISSO NÃO É UMA PISTA. É UM OBJETO.');
-          el.style.left=rand(3,82)+'%';el.style.top=rand(8,70)+'%';
-        }
+
+    el.onpointerup=(e)=>{
+      if(drag!==el)return;
+      e.preventDefault();
+      el.style.transform='';
+      finishDrag(el);
+    };
+
+    el.onpointercancel=()=>{
+      if(drag===el){
+        drag=null;
+        el.style.transform='';
       }
     };
+
+    /* Também permite clicar na pista para testar no computador */
+    el.onclick=()=>{
+      if(finished || drag)return;
+      const r=target.getBoundingClientRect();
+      el.style.left=(r.left-arena.getBoundingClientRect().left+r.width/2-el.offsetWidth/2)+'px';
+      el.style.top=(r.top-arena.getBoundingClientRect().top+r.height/2-el.offsetHeight/2)+'px';
+      finishDrag(el);
+    };
+
     arena.appendChild(el);
   });
 }
