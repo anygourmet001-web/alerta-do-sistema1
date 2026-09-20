@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviso do Sistema</title>
+    <title>ALERTA DO SISTEMA</title>
     <style>
         body {
-            background: linear-gradient(135deg, #110419, #28042a, #0b0214); /* Fundo neon escuro moderno */
+            background: linear-gradient(135deg, #450a0a, #7f1d1d, #78350f); /* Fundo de aviso e suspense */
             color: #fff;
             font-family: 'Arial Black', sans-serif;
             display: flex;
@@ -20,8 +20,8 @@
             position: relative;
         }
 
-        /* Chuva de emojis subindo no fundo */
-        .elementos-bg {
+        /* Chuva de elementos de espionagem/alerta */
+        .alerta-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,69 +31,78 @@
             z-index: 1;
         }
 
-        .elemento-subida {
+        .elemento-alerta {
             position: absolute;
-            bottom: -60px;
+            top: -60px;
             font-size: 2.5rem;
-            animation: subir 4s linear infinite;
+            animation: cair 3.5s linear infinite;
             user-select: none;
         }
 
-        /* Configuração de posições e tempos para o efeito */
-        .e1 { left: 12%; animation-duration: 3.2s; animation-delay: 0s; }
-        .e2 { left: 38%; animation-duration: 5s; animation-delay: 1s; font-size: 3.5rem; }
-        .e3 { left: 55%; animation-duration: 4.2s; animation-delay: 0.3s; }
-        .e4 { left: 78%; animation-duration: 4.8s; animation-delay: 2s; font-size: 3rem; }
-        .e5 { left: 90%; animation-duration: 3.5s; animation-delay: 0.7s; }
+        /* Variações de tempo e posições da chuva */
+        .a1 { left: 10%; animation-duration: 3s; animation-delay: 0s; }
+        .a2 { left: 35%; animation-duration: 4.5s; animation-delay: 1.2s; font-size: 3rem; }
+        .a3 { left: 55%; animation-duration: 3.8s; animation-delay: 0.5s; }
+        .a4 { left: 78%; animation-duration: 4.2s; animation-delay: 1.8s; font-size: 3.5rem; }
+        .a5 { left: 90%; animation-duration: 3.2s; animation-delay: 0.8s; }
 
-        /* Conteúdo principal com brilho */
+        /* Bloco de texto central em destaque */
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: pulsar 0.7s ease-in-out infinite alternate;
+            animation: tremer 0.15s linear infinite;
         }
 
         h1 {
             font-size: 4.5rem;
-            color: #ffffff;
-            text-shadow: 0 0 10px #a855f7, 0 0 30px #d946ef, 0 0 50px #a855f7;
+            color: #fef08a; /* Amarelo brilhante de aviso */
+            text-shadow: 0 0 20px #ef4444, 0 0 40px #b91c1c;
             margin: 0;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+        }
+
+        h2 {
+            font-size: 2.2rem;
+            color: #ffffff;
+            margin-top: 15px;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
         }
 
         /* Animações */
-        @keyframes subir {
+        @keyframes cair {
             0% {
-                transform: translateY(0) rotate(0deg) scale(0.8);
+                transform: translateY(0) rotate(0deg);
                 opacity: 0;
             }
             15% { opacity: 1; }
             85% { opacity: 1; }
             100% {
-                transform: translateY(-110vh) rotate(25deg) scale(1.1);
+                transform: translateY(110vh) rotate(360deg);
                 opacity: 0;
             }
         }
 
-        @keyframes pulsar {
-            0% { transform: scale(0.96); filter: brightness(0.9); }
-            100% { transform: scale(1.04); filter: brightness(1.1); }
+        /* Efeito de tela tremendo levemente de urgência */
+        @keyframes tremer {
+            0% { transform: translate(1px, 1px) rotate(0deg); }
+            100% { transform: translate(-1px, -1px) rotate(0deg); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Elementos subindo em segundo plano -->
-    <div class="elementos-bg">
-        <div class="elemento-subida e1">🍆</div>
-        <div class="elemento-subida e2">🔥</div>
-        <div class="elemento-subida e3">🍆</div>
-        <div class="elemento-subida e4">😏</div>
-        <div class="elemento-subida e5">🔥</div>
+    <!-- Emojis caindo no fundo -->
+    <div class="alerta-bg">
+        <div class="elemento-alerta a1">🚨</div>
+        <div class="elemento-alerta a2">👀</div>
+        <div class="elemento-alerta a3">🕵️‍♂️</div>
+        <div class="elemento-alerta a4">🚨</div>
+        <div class="elemento-alerta a5">👀</div>
     </div>
 
     <div class="conteudo">
-        <h1>Pauzão! 👑</h1>
+        <h1>SOGRA!!</h1>
+        <h2>Olha o perigo vindo aí! 👵🏃‍♂️💨</h2>
     </div>
 
 </body>
