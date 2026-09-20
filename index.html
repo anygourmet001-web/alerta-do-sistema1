@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SISTEMA DE PANIFICAÇÃO CRÍTICA</title>
+    <title>SISTEMA DE ANÁLISE DE IMPACTO</title>
     <style>
         :root {
-            --fire-glow: #f97316;
-            --bread-gold: #f59e0b;
+            --lizard-green: #22c55e;
+            --neon-pink: #ff007f;
+            --neon-blue: #00f0ff;
         }
 
         body, html {
@@ -16,7 +17,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #180802;
+            background: #090514;
             font-family: 'Arial Black', sans-serif;
             user-select: none;
             -webkit-user-select: none;
@@ -32,162 +33,179 @@
             z-index: 1;
         }
 
-        .ambient-fire {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            background: radial-gradient(circle at 50% 80%, rgba(249, 115, 22, 0.15), transparent 70%);
-            z-index: 2;
-            pointer-events: none;
-        }
-
-        .card-container {
+        /* Interface Principal */
+        .painel-container {
             position: absolute;
             width: 100%;
             height: 100%;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 3;
-            pointer-events: none; /* Deixa os cliques passarem para o fundo caso necessário */
+            z-index: 2;
+            pointer-events: none;
         }
 
         .game-card {
-            pointer-events: auto; /* Reativa o clique apenas dentro do card */
+            pointer-events: auto;
             width: 85%;
             max-width: 400px;
-            padding: 35px 25px;
-            background: rgba(36, 16, 5, 0.8);
+            padding: 30px 20px;
+            background: rgba(15, 10, 25, 0.75);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 28px;
-            border: 2px solid rgba(245, 158, 11, 0.4);
-            box-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
+            border: 2px solid rgba(34, 197, 94, 0.3);
+            box-shadow: 0 0 30px rgba(34, 197, 94, 0.15);
             text-align: center;
             box-sizing: border-box;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
         }
 
         h1 {
-            font-size: 2.3rem;
+            font-size: 2.2rem;
             color: #ffffff;
             margin: 0 0 10px 0;
-            text-shadow: 0 0 15px var(--bread-gold);
+            text-shadow: 0 0 15px var(--lizard-green);
             line-height: 1.2;
         }
 
         h2 {
-            font-size: 1.8rem;
-            color: #ef4444;
-            margin: 0 0 20px 0;
-            text-shadow: 0 0 10px rgba(239, 68, 68, 0.6);
+            font-size: 1.4rem;
+            color: #e2e8f0;
+            font-family: sans-serif;
+            margin: 0 0 15px 0;
         }
 
         .contador {
-            font-size: 1.1rem;
+            font-size: 1rem;
             color: #cbd5e1;
             font-family: sans-serif;
             background: rgba(0,0,0,0.5);
             padding: 8px 16px;
             border-radius: 50px;
             display: inline-block;
-            border: 1px solid rgba(245, 158, 11, 0.2);
+            border: 1px solid rgba(34, 197, 94, 0.2);
         }
 
+        /* Objeto Arremessável (Lagartixa) */
+        #lagartixa-token {
+            position: absolute;
+            width: 75px;
+            height: 75px;
+            font-size: 3.8rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: grab;
+            z-index: 4;
+            user-select: none;
+            touch-action: none;
+            filter: drop-shadow(0 0 10px var(--lizard-green));
+        }
+
+        #lagartixa-token:active {
+            cursor: grabbing;
+            filter: drop-shadow(0 0 20px var(--neon-blue));
+        }
+
+        /* Vitória */
+        .vitoria {
+            border-color: var(--neon-pink) !important;
+            box-shadow: 0 0 50px rgba(255, 0, 127, 0.4) !important;
+        }
         .vitoria h1 {
-            color: #fde047 !important;
-            text-shadow: 0 0 20px #eab308 !important;
-            font-size: 2.1rem;
+            color: #ffffff !important;
+            text-shadow: 0 0 20px var(--neon-pink), 0 0 40px #9d4edd !important;
+            font-size: 2.5rem !important;
+            animation: balancar 0.3s infinite alternate;
         }
         .vitoria h2 {
-            color: #ffffff !important;
-            font-size: 2.5rem !important;
-            text-shadow: 0 0 15px #f97316 !important;
-            animation: pulsar 0.4s infinite alternate;
+            color: #00f0ff !important;
+            font-size: 2rem !important;
+            font-family: 'Arial Black', sans-serif;
+            text-shadow: 0 0 15px rgba(0, 240, 255, 0.6) !important;
             margin-top: 15px;
         }
 
-        @keyframes pulsar {
-            0% { transform: scale(0.96); }
-            100% { transform: scale(1.04); }
+        @keyframes balancar {
+            0% { transform: rotate(-2deg) scale(0.98); }
+            100% { transform: rotate(2deg) scale(1.02); }
         }
     </style>
 </head>
 <body>
 
     <canvas id="game-canvas"></canvas>
-    <div class="ambient-fire"></div>
 
-    <div class="card-container">
+    <!-- Token da Lagartixa que ela vai arrastar e tacar na parede -->
+    <div id="lagartixa-token">🦎</div>
+
+    <div class="painel-container">
         <div class="game-card" id="painel">
-            <h1>Teu pai é<br>padeiro? 🥖🤔</h1>
-            <h2 id="subtitulo">⚠️ Forno instável! ⚠️</h2>
-            <div class="contador" id="placar">Pegue 3 roscas na tela: 0/3</div>
+            <h1 id="titulo">Me joga na<br>parede...</h1>
+            <h2 id="subtitulo">Arremesse a lagartixa nas bordas!</h2>
+            <div class="contador" id="placar">Pancadas na parede: 0/3</div>
         </div>
     </div>
 
     <script>
         const canvas = document.getElementById('game-canvas');
         const ctx = canvas.getContext('2d');
+        const token = document.getElementById('lagartixa-token');
         const painel = document.getElementById('painel');
-        const subtitulo = document.getElementById('subtitulo');
         const placar = document.getElementById('placar');
+        const subtitulo = document.getElementById('subtitulo');
 
-        let objetos = [];
         let particulas = [];
-        let cliques = 0;
+        let impactos = 0;
         let finalizado = false;
-        const emojis = ['🍩', '🥖', '🥐', '🥯'];
+        let flashColor = null;
+
+        // Propriedades físicas da Lagartixa
+        let physics = {
+            x: window.innerWidth / 2 - 37,
+            y: window.innerHeight * 0.7,
+            vx: 0,
+            vy: 0,
+            isDragging: false,
+            lastX: 0,
+            lastY: 0,
+            width: 75,
+            height: 75,
+            bounce: 0.75,
+            gravity: 0.4
+        };
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
+            if(!physics.isDragging && !finalizado) {
+                physics.x = canvas.width / 2 - physics.width / 2;
+                physics.y = canvas.height * 0.75;
+            }
         }
         window.addEventListener('resize', resize);
         resize();
 
-        class Alimento {
-            constructor() {
-                this.x = Math.random() * (canvas.width - 60) + 30;
-                this.y = -50;
-                this.size = Math.random() * 15 + 40;
-                this.speedY = Math.random() * 3 + 3;
-                this.speedX = (Math.random() - 0.5) * 4;
-                this.angle = Math.random() * Math.PI;
-                this.spin = (Math.random() - 0.5) * 0.05;
-                this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
-            }
-            update() {
-                this.y += this.speedY;
-                this.x += this.speedX;
-                this.angle += this.spin;
-                if (this.x < 20 || this.x > canvas.width - 20) this.speedX *= -1;
-            }
-            draw() {
-                ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.angle);
-                ctx.font = `${this.size}px Arial`;
-                ctx.textAlign = 'center';
-                ctx.textBaseline = 'middle';
-                ctx.fillText(this.emoji, 0, 0);
-                ctx.restore();
-            }
-        }
+        // Posiciona a lagartixa inicialmente
+        token.style.left = physics.x + 'px';
+        token.style.top = physics.y + 'px';
 
-        class Faisca {
-            constructor(x, y) {
+        class Brilho {
+            constructor(x, y, color) {
                 this.x = x;
                 this.y = y;
-                this.size = Math.random() * 4 + 2;
-                this.speedX = (Math.random() - 0.5) * 12;
-                this.speedY = (Math.random() - 0.5) * 12;
-                this.color = Math.random() > 0.4 ? '#f97316' : '#f59e0b';
+                this.size = Math.random() * 5 + 2;
+                this.vx = (Math.random() - 0.5) * 14;
+                this.vy = (Math.random() - 0.5) * 14;
+                this.color = color || '#22c55e';
                 this.life = 40;
             }
             update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
+                this.x += this.vx;
+                this.y += this.vy;
+                this.vy += 0.2; // Leve gravidade nas faíscas
                 this.life--;
             }
             draw() {
@@ -200,98 +218,91 @@
             }
         }
 
-        function som(f, d) {
+        function som(f, d, tipo="sine") {
             try {
-                let ctxAudio = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = ctxAudio.createOscillator();
-                let gain = ctxAudio.createGain();
-                osc.connect(gain); gain.connect(ctxAudio.destination);
+                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = tipo;
+                osc.connect(gain); gain.connect(audioCtx.destination);
                 osc.frequency.value = f;
-                gain.gain.setValueAtTime(0.08, ctxAudio.currentTime);
-                osc.start(); osc.stop(ctxAudio.currentTime + d);
+                gain.gain.setValueAtTime(0.08, audioCtx.currentTime);
+                gain.gain.exponentialRampToValueAtTime(0.01, audioCtx.currentTime + d);
+                osc.start(); osc.stop(audioCtx.currentTime + d);
             } catch(e) {}
         }
 
-        // Correção da detecção de toque com suporte multitouch preciso do Android
-        function processarClique(clientX, clientY) {
+        // Lógica de arrastar e soltar (Touch & Mouse)
+        function startDrag(e) {
             if (finalizado) return;
+            physics.isDragging = true;
+            let pageX = e.touches ? e.touches[0].pageX : e.pageX;
+            let pageY = e.touches ? e.touches[0].pageY : e.pageY;
+            physics.lastX = pageX;
+            physics.lastY = pageY;
+            physics.vx = 0;
+            physics.vy = 0;
+        }
+
+        function doDrag(e) {
+            if (!physics.isDragging || finalizado) return;
+            let pageX = e.touches ? e.touches[0].pageX : e.pageX;
+            let pageY = e.touches ? e.touches[0].pageY : e.pageY;
+
+            physics.x = pageX - physics.width / 2;
+            physics.y = pageY - physics.height / 2;
+
+            // Calcula velocidade com base no movimento do dedo
+            physics.vx = pageX - physics.lastX;
+            physics.vy = pageY - physics.lastY;
+
+            physics.lastX = pageX;
+            physics.lastY = pageY;
+
+            token.style.left = physics.x + 'px';
+            token.style.top = physics.y + 'px';
+        }
+
+        function endDrag() {
+            if(!physics.isDragging) return;
+            physics.isDragging = false;
+        }
+
+        token.addEventListener('touchstart', startDrag, {passive: true});
+        window.addEventListener('touchmove', doDrag, {passive: false});
+        window.addEventListener('touchend', endDrag);
+
+        token.addEventListener('mousedown', startDrag);
+        window.addEventListener('mousemove', doDrag);
+        window.addEventListener('mouseup', endDrag);
+
+        function computarImpacto(x, y) {
+            impactos++;
+            flashColor = 'rgba(0, 240, 255, 0.25)';
+            setTimeout(() => { flashColor = null; }, 100);
             
-            for (let i = objetos.length - 1; i >= 0; i--) {
-                let obj = objetos[i];
-                let dist = Math.hypot(clientX - obj.x, clientY - obj.y);
-                
-                if (dist < 55 && obj.emoji === '🍩') {
-                    for(let p=0; p<20; p++) particulas.push(new Faisca(obj.x, obj.y));
-                    objetos.splice(i, 1);
-                    cliques++;
-                    som(650, 0.08);
-                    
-                    if (cliques < 3) {
-                        placar.innerText = `Pegue 3 roscas na tela: ${cliques}/3`;
-                    } else {
-                        vitoriaGeral();
-                    }
-                    break;
-                }
+            som(180, 0.15, 'triangle'); // Som de baque surdo
+            
+            for(let i=0; i<20; i++) {
+                particulas.push(new Brilho(x, y, '#00f0ff'));
+            }
+
+            if (impactos < 3) {
+                placar.innerText = `Pancadas na parede: ${impactos}/3`;
+            } else {
+                vitoriaGeral();
             }
         }
 
         function vitoriaGeral() {
             finalizado = true;
+            physics.vx = 0; physics.vy = 0;
+            token.remove();
             placar.style.display = 'none';
             subtitulo.style.display = 'none';
             painel.classList.add('vitoria');
-            painel.querySelector('h1').innerHTML = "Porque eu queria<br>saber...";
+            
+            painel.querySelector('h1').innerHTML = "ME JOGA NA PAREDE...";
             
             setTimeout(() => {
                 let h2 = document.createElement('h2');
-                h2.innerText = "SE ELE QUEIMA A ROSCA! 🍩🔥🤣";
-                painel.appendChild(h2);
-                
-                som(440, 0.12);
-                setTimeout(() => som(554.37, 0.12), 120);
-                setTimeout(() => som(659.25, 0.35), 240);
-                
-                let rect = painel.getBoundingClientRect();
-                for(let k=0; k<80; k++) {
-                    particulas.push(new Faisca(rect.left + rect.width/2, rect.top + rect.height/2));
-                }
-            }, 500);
-        }
-
-        // Correção estrutural dos listeners táteis para capturar as coordenadas certas no Android
-        window.addEventListener('touchstart', (e) => {
-            if(e.touches && e.touches[0]) {
-                processarClique(e.touches[0].clientX, e.touches[0].clientY);
-            }
-        }, { passive: true });
-
-        window.addEventListener('mousedown', (e) => {
-            processarClique(e.clientX, e.clientY);
-        });
-
-        function gameLoop() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            
-            if (!finalizado && objetos.length < 12 && Math.random() < 0.05) {
-                objetos.push(new Alimento());
-            }
-
-            for (let i = objetos.length - 1; i >= 0; i--) {
-                objetos[i].update();
-                objetos[i].draw();
-                if (objetos[i].y > canvas.height + 50) objetos.splice(i, 1);
-            }
-
-            for (let i = particulas.length - 1; i >= 0; i--) {
-                particulas[i].update();
-                particulas[i].draw();
-                if (particulas[i].life <= 0) particulas.splice(i, 1);
-            }
-
-            requestAnimationFrame(gameLoop);
-        }
-        gameLoop();
-    </script>
-</body>
-</html>
