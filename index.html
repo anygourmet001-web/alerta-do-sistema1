@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <title>🏦 BANCO CENTRAL - INTRUSÃO 🏦</title>
+
     <style>
         :root {
             --bella-red: #dc2626;
@@ -11,286 +12,1237 @@
             --metal-grey: #475569;
         }
 
-        body, html {
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
             background: #0f1115;
-            font-family: 'Arial Black', sans-serif;
+            font-family: Arial, Helvetica, sans-serif;
             user-select: none;
             -webkit-user-select: none;
+            -webkit-touch-callout: none;
             touch-action: none;
         }
 
         #vault-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
+            position: fixed;
+            inset: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
         }
 
+        /* Fundo */
+        body::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            background:
+                radial-gradient(
+                    circle at 50% 50%,
+                    rgba(220, 38, 38, 0.08),
+                    transparent 45%
+                ),
+                radial-gradient(
+                    circle at 20% 80%,
+                    rgba(202, 138, 4, 0.08),
+                    transparent 35%
+                ),
+                #0f1115;
+            pointer-events: none;
+        }
+
+        /* Interface */
         .interface-layer {
-            position: absolute;
-            width: 100%;
-            height: 100%;
+            position: fixed;
+            inset: 0;
             display: flex;
-            flex-direction: column;
             justify-content: center;
             align-items: center;
             z-index: 2;
             pointer-events: none;
+            padding: 20px;
         }
 
-        /* Card de Segurança Máxima */
         .vault-card {
-            pointer-events: auto;
-            width: 85%;
-            max-width: 400px;
-            padding: 35px 20px;
-            background: rgba(15, 17, 21, 0.85);
+            width: 86%;
+            max-width: 410px;
+            padding: 32px 20px;
+            background: rgba(15, 17, 21, 0.88);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
             border-radius: 28px;
             border: 2px solid rgba(220, 38, 38, 0.4);
-            box-shadow: 0 0 40px rgba(220, 38, 38, 0.25);
+            box-shadow:
+                0 0 40px rgba(220, 38, 38, 0.2),
+                inset 0 0 25px rgba(255,255,255,0.02);
             text-align: center;
-            box-sizing: border-box;
             display: flex;
             flex-direction: column;
             align-items: center;
+            pointer-events: none;
+            transition: .5s ease;
         }
 
         h1 {
+            font-family: Arial Black, Arial, sans-serif;
             font-size: 2rem;
             color: #ffffff;
-            margin: 0 0 5px 0;
-            text-shadow: 0 0 15px var(--bella-red);
+            margin: 0 0 6px;
+            text-shadow:
+                0 0 12px var(--bella-red),
+                0 0 25px rgba(220,38,38,.4);
             text-transform: uppercase;
             letter-spacing: 1px;
+            line-height: 1.1;
         }
 
         h2 {
-            font-size: 1.1rem;
+            font-size: 1.05rem;
             color: #94a3b8;
-            font-family: sans-serif;
-            margin: 0 0 25px 0;
+            font-family: Arial, sans-serif;
+            margin: 0 0 24px;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 1.5px;
         }
 
-        /* ILUSTRAÇÃO DA MAÇANETA DO COFRE EM CSS */
+        /* Área da tranca */
         .macaneta-container {
-            width: 140px;
-            height: 140px;
-            margin-bottom: 25px;
+            width: 170px;
+            height: 170px;
+            margin-bottom: 22px;
             position: relative;
-            cursor: pointer;
+            cursor: grab;
             touch-action: none;
+            pointer-events: auto;
         }
 
+        .macaneta-container:active {
+            cursor: grabbing;
+        }
+
+        /* Roda */
         .roda-aco {
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle, #64748b 20%, #334155 60%, #1e293b 100%);
-            border-radius: 50%;
-            border: 6px solid var(--metal-grey);
-            box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.2);
             position: absolute;
-            transition: transform 0.1s linear;
+            inset: 0;
+
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    #94a3b8 0%,
+                    #64748b 20%,
+                    #475569 52%,
+                    #1e293b 100%
+                );
+
+            border-radius: 50%;
+            border: 7px solid #64748b;
+
+            box-shadow:
+                0 0 20px rgba(0,0,0,.65),
+                inset 0 0 20px rgba(255,255,255,.2);
+
+            transition:
+                filter .15s ease,
+                box-shadow .15s ease;
+
+            will-change: transform;
         }
 
-        /* Raios da roda do cofre */
+        /* Raios */
         .raio {
             position: absolute;
-            width: 12px;
-            height: 140px;
-            background: #475569;
-            left: 64px;
-            top: 0;
-            border-radius: 6px;
+            width: 13px;
+            height: 154px;
+            background:
+                linear-gradient(
+                    90deg,
+                    #334155,
+                    #64748b,
+                    #334155
+                );
+            left: calc(50% - 6.5px);
+            top: 1px;
+            border-radius: 7px;
+            box-shadow:
+                inset 1px 0 rgba(255,255,255,.2),
+                inset -1px 0 rgba(0,0,0,.4);
         }
-        .raio-2 { transform: rotate(45deg); }
-        .raio-3 { transform: rotate(90deg); }
-        .raio-4 { transform: rotate(135deg); }
 
+        .raio-2 {
+            transform: rotate(45deg);
+        }
+
+        .raio-3 {
+            transform: rotate(90deg);
+        }
+
+        .raio-4 {
+            transform: rotate(135deg);
+        }
+
+        /* Centro */
         .centro-roda {
             position: absolute;
-            width: 50px;
-            height: 50px;
-            background: #1e293b;
+            width: 54px;
+            height: 54px;
+            background:
+                radial-gradient(
+                    circle,
+                    #334155,
+                    #0f172a
+                );
             border: 4px solid var(--bella-red);
             border-radius: 50%;
-            top: 45px;
-            left: 45px;
+            top: calc(50% - 27px);
+            left: calc(50% - 27px);
             z-index: 5;
-            box-shadow: 0 0 10px var(--bella-red);
+            box-shadow:
+                0 0 10px var(--bella-red),
+                inset 0 0 10px rgba(0,0,0,.7);
         }
 
+        /* Progresso */
         .progresso-texto {
-            font-size: 0.95rem;
+            font-size: .95rem;
             color: #ef4444;
-            background: rgba(0,0,0,0.4);
-            padding: 8px 20px;
+            background: rgba(0,0,0,.45);
+            padding: 9px 20px;
             border-radius: 50px;
-            border: 1px solid rgba(220, 38, 38, 0.2);
-            font-family: sans-serif;
+            border: 1px solid rgba(220,38,38,.25);
+            font-family: Arial, sans-serif;
             letter-spacing: 1px;
+            transition: .2s;
+        }
+
+        /* Instrução */
+        .instrucao {
+            position: fixed;
+            bottom: 25px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            z-index: 4;
+            text-align: center;
+            color: rgba(255,255,255,.45);
+            font-size: .75rem;
+            pointer-events: none;
         }
 
         /* Vitória */
         .arrombado {
             border-color: var(--gold-vault) !important;
-            box-shadow: 0 0 50px rgba(202, 138, 4, 0.4) !important;
+            box-shadow:
+                0 0 50px rgba(202,138,4,.45),
+                0 0 100px rgba(202,138,4,.12),
+                inset 0 0 30px rgba(202,138,4,.08) !important;
+            animation: pulsar .8s infinite alternate;
         }
+
         .arrombado h1 {
             color: #ffffff !important;
-            text-shadow: 0 0 20px var(--gold-vault) !important;
+            text-shadow:
+                0 0 20px var(--gold-vault),
+                0 0 40px rgba(202,138,4,.5) !important;
             font-size: 2.3rem !important;
         }
+
         .arrombado h2 {
             color: #fde047 !important;
-            font-size: 1.8rem !important;
-            font-family: 'Arial Black', sans-serif;
-            text-shadow: 0 0 15px rgba(252, 211, 77, 0.5) !important;
-            margin: 15px 0 0 0 !important;
+            font-size: 1.65rem !important;
+            font-family: Arial Black, Arial, sans-serif;
+            text-shadow:
+                0 0 15px rgba(252,211,77,.6) !important;
+            margin: 15px 0 0 !important;
+        }
+
+        @keyframes pulsar {
+            from {
+                transform: scale(.98);
+            }
+
+            to {
+                transform: scale(1.02);
+            }
+        }
+
+        /* Flash */
+        #flash {
+            position: fixed;
+            inset: 0;
+            z-index: 20;
+            pointer-events: none;
+            opacity: 0;
+            background: rgba(220,38,38,.3);
+        }
+
+        #flash.ativo {
+            animation: flash .16s ease-out;
+        }
+
+        @keyframes flash {
+            0% {
+                opacity: 1;
+            }
+
+            100% {
+                opacity: 0;
+            }
+        }
+
+        /* Chuva de dinheiro */
+        .money-glow {
+            position: fixed;
+            inset: 0;
+            pointer-events: none;
+            z-index: 1;
+            opacity: 0;
+            background:
+                radial-gradient(
+                    circle at center,
+                    rgba(202,138,4,.16),
+                    transparent 55%
+                );
+            transition: opacity .8s;
+        }
+
+        .money-glow.ativo {
+            opacity: 1;
         }
     </style>
 </head>
+
 <body>
 
     <canvas id="vault-canvas"></canvas>
 
+    <div class="money-glow" id="money-glow"></div>
+
+    <div id="flash"></div>
+
     <div class="interface-layer">
+
         <div class="vault-card" id="painel">
-            <h1 id="titulo">Plano de Assalto</h1>
-            <h2 id="subtitulo">Gire a tranca para abrir</h2>
-            
-            <div class="macaneta-container" id="tranca-interativa">
-                <div class="roda-aco" id="roda">
+
+            <h1 id="titulo">
+                Plano de Assalto
+            </h1>
+
+            <h2 id="subtitulo">
+                Gire a tranca para abrir
+            </h2>
+
+            <div
+                class="macaneta-container"
+                id="tranca-interativa"
+            >
+
+                <div
+                    class="roda-aco"
+                    id="roda"
+                >
+
                     <div class="raio raio-1"></div>
                     <div class="raio raio-2"></div>
                     <div class="raio raio-3"></div>
                     <div class="raio raio-4"></div>
+
                 </div>
+
                 <div class="centro-roda"></div>
+
             </div>
 
-            <div class="progresso-texto" id="status-trava">Progresso seguro: 0%</div>
+            <div
+                class="progresso-texto"
+                id="status-trava"
+            >
+                Progresso seguro: 0%
+            </div>
+
         </div>
+
     </div>
 
+    <div
+        class="instrucao"
+        id="instrucao"
+    >
+        ☝️ Segure na tranca e faça um movimento circular
+    </div>
+
+
     <script>
-        const canvas = document.getElementById('vault-canvas');
-        const ctx = canvas.getContext('2d');
-        const roda = document.getElementById('roda');
-        const painel = document.getElementById('painel');
-        const statusTrava = document.getElementById('status-trava');
-        const subtitulo = document.getElementById('subtitulo');
-        const tranca = document.getElementById('tranca-interativa');
+
+        /* ==========================================
+           ELEMENTOS
+        ========================================== */
+
+        const canvas =
+            document.getElementById("vault-canvas");
+
+        const ctx =
+            canvas.getContext("2d");
+
+        const roda =
+            document.getElementById("roda");
+
+        const painel =
+            document.getElementById("painel");
+
+        const statusTrava =
+            document.getElementById("status-trava");
+
+        const subtitulo =
+            document.getElementById("subtitulo");
+
+        const tranca =
+            document.getElementById("tranca-interativa");
+
+        const titulo =
+            document.getElementById("titulo");
+
+        const instrucao =
+            document.getElementById("instrucao");
+
+        const flash =
+            document.getElementById("flash");
+
+        const moneyGlow =
+            document.getElementById("money-glow");
+
+
+        /* ==========================================
+           VARIÁVEIS DO JOGO
+        ========================================== */
 
         let dinheiro = [];
+
         let totalGiro = 0;
+
         let finalizado = false;
-        let anguloAnterior = 0;
+
         let girando = false;
 
+        let anguloAnterior = 0;
+
+        let rotacaoVisual = 0;
+
+        let audioCtx = null;
+
+
+        /* ==========================================
+           CANVAS
+        ========================================== */
+
         function resize() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
+
+            canvas.width =
+                window.innerWidth *
+                window.devicePixelRatio;
+
+            canvas.height =
+                window.innerHeight *
+                window.devicePixelRatio;
+
+            canvas.style.width =
+                window.innerWidth + "px";
+
+            canvas.style.height =
+                window.innerHeight + "px";
+
+            ctx.setTransform(
+                window.devicePixelRatio,
+                0,
+                0,
+                window.devicePixelRatio,
+                0,
+                0
+            );
         }
-        window.addEventListener('resize', resize);
+
+        window.addEventListener(
+            "resize",
+            resize
+        );
+
         resize();
 
-        // Classe de dinheiro físico caindo após o estouro
+
+        /* ==========================================
+           CÉDULAS
+        ========================================== */
+
         class Cedula {
+
             constructor() {
-                this.x = Math.random() * canvas.width;
+
+                this.x =
+                    Math.random() *
+                    window.innerWidth;
+
                 this.y = -60;
-                this.w = 55;
-                this.h = 26;
-                this.vy = Math.random() * 2 + 3;
-                this.vx = (Math.random() - 0.5) * 2;
-                this.angle = Math.random() * Math.PI;
-                this.spin = (Math.random() - 0.5) * 0.05;
+
+                this.w =
+                    Math.random() * 15 + 50;
+
+                this.h = 27;
+
+                this.vy =
+                    Math.random() * 2 + 3;
+
+                this.vx =
+                    (Math.random() - .5) * 2;
+
+                this.angle =
+                    Math.random() * Math.PI * 2;
+
+                this.spin =
+                    (Math.random() - .5) * .07;
+
+                this.rotacaoY =
+                    Math.random() * Math.PI * 2;
             }
+
             update() {
+
                 this.y += this.vy;
+
                 this.x += this.vx;
+
                 this.angle += this.spin;
-                this.vx += Math.sin(this.y / 30) * 0.05; // Efeito de folha ao vento
+
+                this.rotacaoY += .05;
+
+                this.vx +=
+                    Math.sin(this.y / 35) * .02;
             }
+
             draw() {
+
                 ctx.save();
-                ctx.translate(this.x, this.y);
-                ctx.rotate(this.angle);
-                // Desenha uma cédula de dinheiro verde com CSS Canvas
-                ctx.fillStyle = '#15803d';
-                ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
-                ctx.strokeStyle = '#bbf7d0';
+
+                ctx.translate(
+                    this.x,
+                    this.y
+                );
+
+                ctx.rotate(
+                    this.angle
+                );
+
+                const escalaX =
+                    Math.cos(this.rotacaoY);
+
+                ctx.scale(
+                    escalaX,
+                    1
+                );
+
+                ctx.fillStyle =
+                    "#15803d";
+
+                ctx.fillRect(
+                    -this.w / 2,
+                    -this.h / 2,
+                    this.w,
+                    this.h
+                );
+
+                ctx.strokeStyle =
+                    "#bbf7d0";
+
                 ctx.lineWidth = 2;
-                ctx.strokeRect(-this.w/2 + 2, -this.h/2 + 2, this.w - 4, this.h - 4);
-                ctx.fillStyle = '#bbf7d0';
-                ctx.font = '10px sans-serif';
-                ctx.fillText('💵', -10, 4);
+
+                ctx.strokeRect(
+                    -this.w / 2 + 2,
+                    -this.h / 2 + 2,
+                    this.w - 4,
+                    this.h - 4
+                );
+
+                ctx.fillStyle =
+                    "#bbf7d0";
+
+                ctx.font =
+                    "bold 10px Arial";
+
+                ctx.textAlign =
+                    "center";
+
+                ctx.textBaseline =
+                    "middle";
+
+                ctx.fillText(
+                    "$",
+                    0,
+                    0
+                );
+
                 ctx.restore();
             }
         }
 
-        function somClick(freq, dur) {
+
+        /* ==========================================
+           AUDIO
+        ========================================== */
+
+        function iniciarAudio() {
+
             try {
-                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-                let osc = audioCtx.createOscillator();
-                let gain = audioCtx.createGain();
-                osc.type = 'triangle';
-                osc.connect(gain); gain.connect(audioCtx.destination);
-                osc.frequency.value = freq;
-                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
-                osc.start(); osc.stop(audioCtx.currentTime + dur);
-            } catch(e) {}
+
+                if (!audioCtx) {
+
+                    audioCtx =
+                        new (
+                            window.AudioContext ||
+                            window.webkitAudioContext
+                        )();
+                }
+
+                if (
+                    audioCtx &&
+                    audioCtx.state === "suspended"
+                ) {
+
+                    audioCtx.resume();
+                }
+
+            } catch (e) {}
         }
 
-        // Mecânica de rotação matemática usando ArcoTangente2
-        function obterAngulo(clientX, clientY) {
-            let rect = tranca.getBoundingClientRect();
-            let centroX = rect.left + rect.width / 2;
-            let centroY = rect.top + rect.height / 2;
-            return Math.atan2(clientY - centroY, clientX - centroX);
+
+        function somClick(
+            freq = 150,
+            dur = .05
+        ) {
+
+            try {
+
+                iniciarAudio();
+
+                if (!audioCtx) return;
+
+                const osc =
+                    audioCtx.createOscillator();
+
+                const gain =
+                    audioCtx.createGain();
+
+                osc.type =
+                    "triangle";
+
+                osc.frequency.value =
+                    freq;
+
+                gain.gain.setValueAtTime(
+                    .07,
+                    audioCtx.currentTime
+                );
+
+                gain.gain.exponentialRampToValueAtTime(
+                    .01,
+                    audioCtx.currentTime + dur
+                );
+
+                osc.connect(gain);
+
+                gain.connect(
+                    audioCtx.destination
+                );
+
+                osc.start();
+
+                osc.stop(
+                    audioCtx.currentTime + dur
+                );
+
+            } catch (e) {}
         }
+
+
+        function somVitoria() {
+
+            const notas = [
+                293.66,
+                329.63,
+                349.23,
+                392,
+                523.25
+            ];
+
+            notas.forEach(
+                (nota, indice) => {
+
+                    setTimeout(
+                        () => {
+
+                            somClick(
+                                nota,
+                                .25
+                            );
+
+                        },
+                        indice * 120
+                    );
+
+                }
+            );
+        }
+
+
+        /* ==========================================
+           VIBRAÇÃO
+        ========================================== */
+
+        function vibrar(
+            tempo = 50
+        ) {
+
+            try {
+
+                if (
+                    "vibrate" in navigator
+                ) {
+
+                    navigator.vibrate(
+                        tempo
+                    );
+                }
+
+            } catch (e) {}
+        }
+
+
+        /* ==========================================
+           COORDENADA DO TOQUE
+           COMPATÍVEL COM ANDROID + PC
+        ========================================== */
+
+        function obterPonto(e) {
+
+            let clientX;
+            let clientY;
+
+            if (
+                e.touches &&
+                e.touches.length > 0
+            ) {
+
+                clientX =
+                    e.touches[0].clientX;
+
+                clientY =
+                    e.touches[0].clientY;
+
+            } else if (
+                e.changedTouches &&
+                e.changedTouches.length > 0
+            ) {
+
+                clientX =
+                    e.changedTouches[0].clientX;
+
+                clientY =
+                    e.changedTouches[0].clientY;
+
+            } else {
+
+                clientX =
+                    e.clientX;
+
+                clientY =
+                    e.clientY;
+            }
+
+            return {
+                x: clientX,
+                y: clientY
+            };
+        }
+
+
+        /* ==========================================
+           CALCULAR ÂNGULO
+        ========================================== */
+
+        function obterAngulo(e) {
+
+            const ponto =
+                obterPonto(e);
+
+            const rect =
+                tranca.getBoundingClientRect();
+
+            const centroX =
+                rect.left +
+                rect.width / 2;
+
+            const centroY =
+                rect.top +
+                rect.height / 2;
+
+            return Math.atan2(
+                ponto.y - centroY,
+                ponto.x - centroX
+            );
+        }
+
+
+        /* ==========================================
+           INICIAR GIRO
+        ========================================== */
 
         function iniciarGiro(e) {
+
             if (finalizado) return;
+
+            iniciarAudio();
+
             girando = true;
-            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            anguloAnterior = obterAngulo(clientX, clientY);
+
+            anguloAnterior =
+                obterAngulo(e);
+
+            tranca.style.filter =
+                "drop-shadow(0 0 18px #dc2626)";
+
+            roda.style.boxShadow =
+                "0 0 35px rgba(220,38,38,.8), inset 0 0 20px rgba(255,255,255,.25)";
+
+            e.preventDefault?.();
         }
 
+
+        /* ==========================================
+           EXECUTAR GIRO
+        ========================================== */
+
         function executarGiro(e) {
-            if (!girando || finalizado) return;
-            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
-            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
-            
-            let anguloAtual = obterAngulo(clientX, clientY);
-            let diferenca = anguloAtual - anguloAnterior;
 
-            // Corrige quebra de quadrantes de rotação
-            if (diferenca > Math.PI) diferenca -= Math.PI * 2;
-            if (diferenca < -Math.PI) diferenca += Math.PI * 2;
+            if (
+                !girando ||
+                finalizado
+            ) {
+                return;
+            }
 
-            totalGiro += Math.abs(diferenca);
-            anguloAnterior = anguloAtual;
+            const anguloAtual =
+                obterAngulo(e);
 
-            // Gira a roda visualmente
-            roda.style.transform = `rotate(${totalGiro * (180 / Math.PI)}deg)`;
+            let diferenca =
+                anguloAtual -
+                anguloAnterior;
 
-            let progresso = Math.min(100, Math.floor((totalGiro / (Math.PI * 6)) * 100));
-            statusTrava.innerText = `Progresso seguro: ${progresso}%`;
 
-            // Som de catraca metálica engatando
-            if (Math.random() < 0.15) somClick(120, 0.03);
+            /*
+             * Corrige a passagem entre
+             * -PI e +PI.
+             */
 
-            if (totalGiro >= Math.PI * 6) {
+            if (
+                diferenca > Math.PI
+            ) {
+
+                diferenca -=
+                    Math.PI * 2;
+            }
+
+            if (
+                diferenca < -Math.PI
+            ) {
+
+                diferenca +=
+                    Math.PI * 2;
+            }
+
+
+            /*
+             * Ignora movimentos absurdamente
+             * grandes causados por perda de toque.
+             */
+
+            if (
+                Math.abs(diferenca) >
+                Math.PI * .75
+            ) {
+
+                anguloAnterior =
+                    anguloAtual;
+
+                return;
+            }
+
+
+            /*
+             * Soma o movimento absoluto.
+             */
+
+            totalGiro +=
+                Math.abs(diferenca);
+
+
+            anguloAnterior =
+                anguloAtual;
+
+
+            /*
+             * Rotação visual contínua.
+             */
+
+            rotacaoVisual +=
+                diferenca *
+                180 /
+                Math.PI;
+
+            roda.style.transform =
+                `rotate(${rotacaoVisual}deg)`;
+
+
+            /*
+             * Progresso:
+             * 6 voltas completas.
+             */
+
+            const progresso =
+                Math.min(
+                    100,
+                    Math.floor(
+                        (
+                            totalGiro /
+                            (Math.PI * 12)
+                        ) * 100
+                    )
+                );
+
+
+            statusTrava.innerText =
+                `Progresso seguro: ${progresso}%`;
+
+
+            /*
+             * Intensidade visual
+             * acompanha o movimento.
+             */
+
+            const intensidade =
+                Math.min(
+                    35,
+                    12 +
+                    Math.abs(diferenca) * 100
+                );
+
+            tranca.style.filter =
+                `drop-shadow(0 0 ${intensidade}px #dc2626)`;
+
+
+            /*
+             * Pequenos sons mecânicos.
+             */
+
+            if (
+                Math.random() <
+                .12
+            ) {
+
+                somClick(
+                    120 +
+                    Math.random() * 80,
+                    .035
+                );
+            }
+
+
+            /*
+             * Vibração curta
+             * em pequenos intervalos.
+             */
+
+            if (
+                Math.random() <
+                .035
+            ) {
+
+                vibrar(12);
+            }
+
+
+            /*
+             * Abre o cofre.
+             */
+
+            if (
+                totalGiro >=
+                Math.PI * 12
+            ) {
+
+                explodirCofre();
+            }
+
+
+            e.preventDefault?.();
+        }
+
+
+        /* ==========================================
+           PARAR GIRO
+        ========================================== */
+
+        function pararGiro() {
+
+            girando = false;
+
+            tranca.style.filter =
+                "none";
+
+            roda.style.boxShadow =
+                "0 0 20px rgba(0,0,0,.5), inset 0 0 15px rgba(255,255,255,.2)";
+        }
+
+
+        /* ==========================================
+           EVENTOS TOUCH
+        ========================================== */
+
+        tranca.addEventListener(
+            "touchstart",
+            iniciarGiro,
+            {
+                passive: false
+            }
+        );
+
+
+        window.addEventListener(
+            "touchmove",
+            executarGiro,
+            {
+                passive: false
+            }
+        );
+
+
+        window.addEventListener(
+            "touchend",
+            pararGiro,
+            {
+                passive: false
+            }
+        );
+
+
+        window.addEventListener(
+            "touchcancel",
+            pararGiro,
+            {
+                passive: false
+            }
+        );
+
+
+        /* ==========================================
+           EVENTOS MOUSE
+        ========================================== */
+
+        tranca.addEventListener(
+            "mousedown",
+            iniciarGiro
+        );
+
+
+        window.addEventListener(
+            "mousemove",
+            executarGiro
+        );
+
+
+        window.addEventListener(
+            "mouseup",
+            pararGiro
+        );
+
+
+        /* ==========================================
+           ABERTURA DO COFRE
+        ========================================== */
+
+        function explodirCofre() {
+
+            if (finalizado) return;
+
+            finalizado = true;
+
+            girando = false;
+
+            statusTrava.style.display =
+                "none";
+
+            subtitulo.style.display =
+                "none";
+
+            tranca.style.display =
+                "none";
+
+            instrucao.style.display =
+                "none";
+
+            painel.classList.add(
+                "arrombado"
+            );
+
+            moneyGlow.classList.add(
+                "ativo"
+            );
+
+            titulo.innerText =
+                "Bella Ciao! 🎭";
+
+
+            vibrar([
+                100,
+                50,
+                100,
+                50,
+                200
+            ]);
+
+            somVitoria();
+
+
+            /*
+             * Flash inicial.
+             */
+
+            flash.classList.remove(
+                "ativo"
+            );
+
+            void flash.offsetWidth;
+
+            flash.classList.add(
+                "ativo"
+            );
+
+
+            /*
+             * Chuva inicial de dinheiro.
+             */
+
+            for (
+                let i = 0;
+                i < 35;
+                i++
+            ) {
+
+                dinheiro.push(
+                    new Cedula()
+                );
+            }
+
+
+            /*
+             * Texto final.
+             */
+
+            setTimeout(
+                () => {
+
+                    const h2 =
+                        document.createElement(
+                            "h2"
+                        );
+
+                    h2.innerText =
+                        "O COFRE FOI ARROMBADO! 💰🔥🎭";
+
+                    painel.appendChild(
+                        h2
+                    );
+
+                },
+                450
+            );
+        }
+
+
+        /* ==========================================
+           LOOP DE ANIMAÇÃO
+        ========================================== */
+
+        function render() {
+
+            ctx.clearRect(
+                0,
+                0,
+                window.innerWidth,
+                window.innerHeight
+            );
+
+
+            /*
+             * Continua criando dinheiro
+             * depois da abertura.
+             */
+
+            if (
+                finalizado &&
+                dinheiro.length < 100 &&
+                Math.random() < .18
+            ) {
+
+                dinheiro.push(
+                    new Cedula()
+                );
+            }
+
+
+            /*
+             * Atualiza cédulas.
+             */
+
+            for (
+                let i = dinheiro.length - 1;
+                i >= 0;
+                i--
+            ) {
+
+                dinheiro[i].update();
+
+                dinheiro[i].draw();
+
+
+                if (
+                    dinheiro[i].y >
+                    window.innerHeight + 60
+                ) {
+
+                    dinheiro.splice(
+                        i,
+                        1
+                    );
+                }
+            }
+
+
+            requestAnimationFrame(
+                render
+            );
+        }
+
+        render();
+
+    </script>
+
+</body>
+</html>
