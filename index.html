@@ -3,956 +3,294 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>SISTEMA DE ANÁLISE DE IMPACTO</title>
-
+    <title>🏦 BANCO CENTRAL - INTRUSÃO 🏦</title>
     <style>
         :root {
-            --lizard-green: #22c55e;
-            --neon-pink: #ff007f;
-            --neon-blue: #00f0ff;
-            --dark: #090514;
+            --bella-red: #dc2626;
+            --gold-vault: #ca8a04;
+            --metal-grey: #475569;
         }
 
-        * {
-            box-sizing: border-box;
-        }
-
-        html,
-        body {
+        body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: var(--dark);
-            font-family: Arial, Helvetica, sans-serif;
+            background: #0f1115;
+            font-family: 'Arial Black', sans-serif;
             user-select: none;
             -webkit-user-select: none;
-            -webkit-touch-callout: none;
             touch-action: none;
         }
 
-        #game-canvas {
-            position: fixed;
-            inset: 0;
+        #vault-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
             width: 100%;
             height: 100%;
             z-index: 1;
         }
 
-        /* Fundo */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background:
-                radial-gradient(circle at 20% 20%, rgba(34,197,94,.12), transparent 30%),
-                radial-gradient(circle at 80% 80%, rgba(255,0,127,.12), transparent 35%),
-                radial-gradient(circle at 50% 50%, rgba(0,240,255,.05), transparent 55%),
-                #090514;
-            pointer-events: none;
-        }
-
-        /* Linhas decorativas nas bordas */
-        .wall {
-            position: fixed;
-            z-index: 2;
-            pointer-events: none;
-            opacity: .45;
-        }
-
-        .wall.top {
-            top: 0;
-            left: 0;
+        .interface-layer {
+            position: absolute;
             width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, #00f0ff, transparent);
-            box-shadow: 0 0 15px #00f0ff;
-        }
-
-        .wall.bottom {
-            bottom: 0;
-            left: 0;
-            width: 100%;
-            height: 4px;
-            background: linear-gradient(90deg, transparent, #ff007f, transparent);
-            box-shadow: 0 0 15px #ff007f;
-        }
-
-        .wall.left {
-            top: 0;
-            left: 0;
-            width: 4px;
             height: 100%;
-            background: linear-gradient(180deg, transparent, #22c55e, transparent);
-            box-shadow: 0 0 15px #22c55e;
-        }
-
-        .wall.right {
-            top: 0;
-            right: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(180deg, transparent, #ff007f, transparent);
-            box-shadow: 0 0 15px #ff007f;
-        }
-
-        /* Interface */
-        .painel-container {
-            position: fixed;
-            inset: 0;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            z-index: 3;
+            z-index: 2;
             pointer-events: none;
-            padding: 20px;
         }
 
-        .game-card {
-            width: 86%;
-            max-width: 410px;
-            padding: 30px 22px;
-            background: rgba(15, 10, 25, .78);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
+        /* Card de Segurança Máxima */
+        .vault-card {
+            pointer-events: auto;
+            width: 85%;
+            max-width: 400px;
+            padding: 35px 20px;
+            background: rgba(15, 17, 21, 0.85);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
             border-radius: 28px;
-            border: 2px solid rgba(34,197,94,.35);
-            box-shadow:
-                0 0 30px rgba(34,197,94,.15),
-                inset 0 0 30px rgba(255,255,255,.025);
+            border: 2px solid rgba(220, 38, 38, 0.4);
+            box-shadow: 0 0 40px rgba(220, 38, 38, 0.25);
             text-align: center;
-            pointer-events: none;
-            transition: .5s cubic-bezier(.175,.885,.32,1.275);
+            box-sizing: border-box;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         h1 {
-            font-family: Arial Black, Arial, sans-serif;
-            font-size: 2.15rem;
-            line-height: 1.12;
-            color: #fff;
-            margin: 0 0 12px;
-            text-shadow:
-                0 0 10px rgba(34,197,94,.8),
-                0 0 25px rgba(34,197,94,.35);
+            font-size: 2rem;
+            color: #ffffff;
+            margin: 0 0 5px 0;
+            text-shadow: 0 0 15px var(--bella-red);
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         h2 {
-            font-family: Arial Black, Arial, sans-serif;
-            font-size: 1.35rem;
-            line-height: 1.2;
-            color: #e2e8f0;
-            margin: 0 0 18px;
+            font-size: 1.1rem;
+            color: #94a3b8;
+            font-family: sans-serif;
+            margin: 0 0 25px 0;
+            text-transform: uppercase;
+            letter-spacing: 2px;
         }
 
-        .contador {
-            display: inline-block;
-            padding: 9px 17px;
-            border-radius: 50px;
-            color: #cbd5e1;
-            background: rgba(0,0,0,.45);
-            border: 1px solid rgba(34,197,94,.25);
-            font-size: .95rem;
-            font-weight: bold;
-        }
-
-        /* Lagartixa */
-        #lagartixa-token {
-            position: fixed;
-            width: 76px;
-            height: 76px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            font-size: 3.8rem;
-            z-index: 10;
-            cursor: grab;
+        /* ILUSTRAÇÃO DA MAÇANETA DO COFRE EM CSS */
+        .macaneta-container {
+            width: 140px;
+            height: 140px;
+            margin-bottom: 25px;
+            position: relative;
+            cursor: pointer;
             touch-action: none;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            filter:
-                drop-shadow(0 0 7px rgba(34,197,94,.9))
-                drop-shadow(0 0 18px rgba(34,197,94,.4));
-            transform-origin: center;
-            will-change: transform, left, top;
         }
 
-        #lagartixa-token:active {
-            cursor: grabbing;
+        .roda-aco {
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle, #64748b 20%, #334155 60%, #1e293b 100%);
+            border-radius: 50%;
+            border: 6px solid var(--metal-grey);
+            box-shadow: 0 0 20px rgba(0,0,0,0.5), inset 0 0 15px rgba(255,255,255,0.2);
+            position: absolute;
+            transition: transform 0.1s linear;
         }
 
-        /* Indicador de arraste */
-        .instrucao {
-            position: fixed;
-            bottom: 34px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 4;
-            color: rgba(255,255,255,.5);
-            font-size: .78rem;
-            text-align: center;
-            pointer-events: none;
-            width: 90%;
+        /* Raios da roda do cofre */
+        .raio {
+            position: absolute;
+            width: 12px;
+            height: 140px;
+            background: #475569;
+            left: 64px;
+            top: 0;
+            border-radius: 6px;
+        }
+        .raio-2 { transform: rotate(45deg); }
+        .raio-3 { transform: rotate(90deg); }
+        .raio-4 { transform: rotate(135deg); }
+
+        .centro-roda {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: #1e293b;
+            border: 4px solid var(--bella-red);
+            border-radius: 50%;
+            top: 45px;
+            left: 45px;
+            z-index: 5;
+            box-shadow: 0 0 10px var(--bella-red);
+        }
+
+        .progresso-texto {
+            font-size: 0.95rem;
+            color: #ef4444;
+            background: rgba(0,0,0,0.4);
+            padding: 8px 20px;
+            border-radius: 50px;
+            border: 1px solid rgba(220, 38, 38, 0.2);
+            font-family: sans-serif;
+            letter-spacing: 1px;
         }
 
         /* Vitória */
-        .vitoria {
-            border-color: var(--neon-pink) !important;
-            box-shadow:
-                0 0 30px rgba(255,0,127,.45),
-                0 0 70px rgba(157,78,221,.25),
-                inset 0 0 35px rgba(255,0,127,.08) !important;
-            animation: cardPulse .8s infinite alternate;
+        .arrombado {
+            border-color: var(--gold-vault) !important;
+            box-shadow: 0 0 50px rgba(202, 138, 4, 0.4) !important;
         }
-
-        .vitoria h1 {
-            color: #fff !important;
-            font-size: 2.35rem !important;
-            text-shadow:
-                0 0 15px #ff007f,
-                0 0 35px #9d4edd !important;
+        .arrombado h1 {
+            color: #ffffff !important;
+            text-shadow: 0 0 20px var(--gold-vault) !important;
+            font-size: 2.3rem !important;
         }
-
-        .vitoria h2 {
-            color: #00f0ff !important;
-            font-size: 1.75rem !important;
-            text-shadow:
-                0 0 10px #00f0ff,
-                0 0 25px rgba(0,240,255,.5) !important;
-        }
-
-        @keyframes cardPulse {
-            from {
-                transform: scale(.98);
-            }
-            to {
-                transform: scale(1.02);
-            }
-        }
-
-        /* Flash de impacto */
-        #flash {
-            position: fixed;
-            inset: 0;
-            z-index: 20;
-            background: rgba(0,240,255,.35);
-            pointer-events: none;
-            opacity: 0;
-        }
-
-        #flash.ativo {
-            animation: flashImpacto .18s ease-out;
-        }
-
-        @keyframes flashImpacto {
-            0% {
-                opacity: 1;
-            }
-            100% {
-                opacity: 0;
-            }
-        }
-
-        /* Tremor da tela */
-        .shake {
-            animation: shake .18s linear;
-        }
-
-        @keyframes shake {
-            0%   { transform: translate(0,0); }
-            20%  { transform: translate(-5px,3px); }
-            40%  { transform: translate(5px,-3px); }
-            60%  { transform: translate(-4px,-2px); }
-            80%  { transform: translate(4px,2px); }
-            100% { transform: translate(0,0); }
+        .arrombado h2 {
+            color: #fde047 !important;
+            font-size: 1.8rem !important;
+            font-family: 'Arial Black', sans-serif;
+            text-shadow: 0 0 15px rgba(252, 211, 77, 0.5) !important;
+            margin: 15px 0 0 0 !important;
         }
     </style>
 </head>
-
 <body>
 
-    <canvas id="game-canvas"></canvas>
+    <canvas id="vault-canvas"></canvas>
 
-    <div class="wall top"></div>
-    <div class="wall bottom"></div>
-    <div class="wall left"></div>
-    <div class="wall right"></div>
-
-    <div id="flash"></div>
-
-    <div id="lagartixa-token">🦎</div>
-
-    <div class="painel-container">
-        <div class="game-card" id="painel">
-
-            <h1 id="titulo">
-                Me joga na<br>parede...
-            </h1>
-
-            <h2 id="subtitulo">
-                Arraste a lagartixa<br>
-                e arremesse nas bordas!
-            </h2>
-
-            <div class="contador" id="placar">
-                Pancadas na parede: 0/3
+    <div class="interface-layer">
+        <div class="vault-card" id="painel">
+            <h1 id="titulo">Plano de Assalto</h1>
+            <h2 id="subtitulo">Gire a tranca para abrir</h2>
+            
+            <div class="macaneta-container" id="tranca-interativa">
+                <div class="roda-aco" id="roda">
+                    <div class="raio raio-1"></div>
+                    <div class="raio raio-2"></div>
+                    <div class="raio raio-3"></div>
+                    <div class="raio raio-4"></div>
+                </div>
+                <div class="centro-roda"></div>
             </div>
 
+            <div class="progresso-texto" id="status-trava">Progresso seguro: 0%</div>
         </div>
     </div>
 
-    <div class="instrucao" id="instrucao">
-        🦎 Segure, arraste e solte com força contra a parede
-    </div>
-
     <script>
-        const canvas = document.getElementById("game-canvas");
-        const ctx = canvas.getContext("2d");
+        const canvas = document.getElementById('vault-canvas');
+        const ctx = canvas.getContext('2d');
+        const roda = document.getElementById('roda');
+        const painel = document.getElementById('painel');
+        const statusTrava = document.getElementById('status-trava');
+        const subtitulo = document.getElementById('subtitulo');
+        const tranca = document.getElementById('tranca-interativa');
 
-        const token = document.getElementById("lagartixa-token");
-        const painel = document.getElementById("painel");
-        const placar = document.getElementById("placar");
-        const subtitulo = document.getElementById("subtitulo");
-        const instrucao = document.getElementById("instrucao");
-        const flash = document.getElementById("flash");
-
-        let particulas = [];
-        let impactos = 0;
+        let dinheiro = [];
+        let totalGiro = 0;
         let finalizado = false;
-
-        const physics = {
-            x: 0,
-            y: 0,
-
-            vx: 0,
-            vy: 0,
-
-            width: 76,
-            height: 76,
-
-            gravity: 0.42,
-            bounce: 0.72,
-
-            dragging: false,
-
-            lastX: 0,
-            lastY: 0,
-
-            impactCooldown: 0
-        };
+        let anguloAnterior = 0;
+        let girando = false;
 
         function resize() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-
-            if (!physics.dragging && !finalizado) {
-                physics.x = canvas.width / 2 - physics.width / 2;
-                physics.y = canvas.height * 0.70;
-            }
         }
-
-        window.addEventListener("resize", resize);
+        window.addEventListener('resize', resize);
         resize();
 
-        function posicionarToken() {
-            token.style.left = physics.x + "px";
-            token.style.top = physics.y + "px";
-        }
-
-        posicionarToken();
-
-        /* =========================
-           PARTÍCULAS
-        ========================= */
-
-        class Particula {
-
-            constructor(x, y, cor) {
-
-                this.x = x;
-                this.y = y;
-
-                this.vx = (Math.random() - .5) * 15;
-                this.vy = (Math.random() - .5) * 15;
-
-                this.tamanho = Math.random() * 5 + 2;
-
-                this.cor = cor;
-
-                this.vida = 45;
+        // Classe de dinheiro físico caindo após o estouro
+        class Cedula {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = -60;
+                this.w = 55;
+                this.h = 26;
+                this.vy = Math.random() * 2 + 3;
+                this.vx = (Math.random() - 0.5) * 2;
+                this.angle = Math.random() * Math.PI;
+                this.spin = (Math.random() - 0.5) * 0.05;
             }
-
             update() {
-
-                this.x += this.vx;
                 this.y += this.vy;
-
-                this.vy += .22;
-
-                this.vx *= .98;
-
-                this.vida--;
+                this.x += this.vx;
+                this.angle += this.spin;
+                this.vx += Math.sin(this.y / 30) * 0.05; // Efeito de folha ao vento
             }
-
             draw() {
-
                 ctx.save();
-
-                ctx.globalAlpha = this.vida / 45;
-
-                ctx.fillStyle = this.cor;
-
-                ctx.beginPath();
-
-                ctx.arc(
-                    this.x,
-                    this.y,
-                    this.tamanho,
-                    0,
-                    Math.PI * 2
-                );
-
-                ctx.fill();
-
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                // Desenha uma cédula de dinheiro verde com CSS Canvas
+                ctx.fillStyle = '#15803d';
+                ctx.fillRect(-this.w/2, -this.h/2, this.w, this.h);
+                ctx.strokeStyle = '#bbf7d0';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(-this.w/2 + 2, -this.h/2 + 2, this.w - 4, this.h - 4);
+                ctx.fillStyle = '#bbf7d0';
+                ctx.font = '10px sans-serif';
+                ctx.fillText('💵', -10, 4);
                 ctx.restore();
             }
         }
 
-        function criarParticulas(x, y, quantidade = 25) {
-
-            for (let i = 0; i < quantidade; i++) {
-
-                const cores = [
-                    "#00f0ff",
-                    "#22c55e",
-                    "#ff007f",
-                    "#ffffff"
-                ];
-
-                const cor =
-                    cores[Math.floor(Math.random() * cores.length)];
-
-                particulas.push(
-                    new Particula(x, y, cor)
-                );
-            }
-        }
-
-        /* =========================
-           SOM
-        ========================= */
-
-        let audioCtx = null;
-
-        function iniciarAudio() {
-
-            if (!audioCtx) {
-
-                try {
-
-                    audioCtx =
-                        new (window.AudioContext ||
-                        window.webkitAudioContext)();
-
-                } catch (e) {}
-            }
-
-            if (audioCtx &&
-                audioCtx.state === "suspended") {
-
-                audioCtx.resume();
-            }
-        }
-
-        function somImpacto() {
-
+        function somClick(freq, dur) {
             try {
-
-                iniciarAudio();
-
-                if (!audioCtx) return;
-
-                const osc =
-                    audioCtx.createOscillator();
-
-                const gain =
-                    audioCtx.createGain();
-
-                osc.type = "triangle";
-
-                osc.frequency.setValueAtTime(
-                    190,
-                    audioCtx.currentTime
-                );
-
-                osc.frequency.exponentialRampToValueAtTime(
-                    70,
-                    audioCtx.currentTime + .14
-                );
-
-                gain.gain.setValueAtTime(
-                    .12,
-                    audioCtx.currentTime
-                );
-
-                gain.gain.exponentialRampToValueAtTime(
-                    .01,
-                    audioCtx.currentTime + .14
-                );
-
-                osc.connect(gain);
-                gain.connect(audioCtx.destination);
-
-                osc.start();
-
-                osc.stop(
-                    audioCtx.currentTime + .14
-                );
-
-            } catch (e) {}
+                let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+                let osc = audioCtx.createOscillator();
+                let gain = audioCtx.createGain();
+                osc.type = 'triangle';
+                osc.connect(gain); gain.connect(audioCtx.destination);
+                osc.frequency.value = freq;
+                gain.gain.setValueAtTime(0.1, audioCtx.currentTime);
+                osc.start(); osc.stop(audioCtx.currentTime + dur);
+            } catch(e) {}
         }
 
-        function somVitoria() {
-
-            try {
-
-                iniciarAudio();
-
-                if (!audioCtx) return;
-
-                const notas = [
-                    440,
-                    554.37,
-                    659.25,
-                    880
-                ];
-
-                notas.forEach((nota, i) => {
-
-                    setTimeout(() => {
-
-                        const osc =
-                            audioCtx.createOscillator();
-
-                        const gain =
-                            audioCtx.createGain();
-
-                        osc.type = "sine";
-
-                        osc.frequency.value = nota;
-
-                        gain.gain.setValueAtTime(
-                            .09,
-                            audioCtx.currentTime
-                        );
-
-                        gain.gain.exponentialRampToValueAtTime(
-                            .01,
-                            audioCtx.currentTime + .3
-                        );
-
-                        osc.connect(gain);
-                        gain.connect(audioCtx.destination);
-
-                        osc.start();
-
-                        osc.stop(
-                            audioCtx.currentTime + .3
-                        );
-
-                    }, i * 110);
-
-                });
-
-            } catch (e) {}
+        // Mecânica de rotação matemática usando ArcoTangente2
+        function obterAngulo(clientX, clientY) {
+            let rect = tranca.getBoundingClientRect();
+            let centroX = rect.left + rect.width / 2;
+            let centroY = rect.top + rect.height / 2;
+            return Math.atan2(clientY - centroY, clientX - centroX);
         }
 
-        /* =========================
-           VIBRAÇÃO
-        ========================= */
-
-        function vibrar(duracao = 80) {
-
-            if ("vibrate" in navigator) {
-
-                try {
-                    navigator.vibrate(duracao);
-                } catch (e) {}
-            }
-        }
-
-        /* =========================
-           ARRASTAR
-        ========================= */
-
-        function obterCoordenadas(e) {
-
-            if (e.touches && e.touches.length > 0) {
-
-                return {
-                    x: e.touches[0].clientX,
-                    y: e.touches[0].clientY
-                };
-            }
-
-            return {
-                x: e.clientX,
-                y: e.clientY
-            };
-        }
-
-        function iniciarArraste(e) {
-
+        function iniciarGiro(e) {
             if (finalizado) return;
-
-            iniciarAudio();
-
-            const pos =
-                obterCoordenadas(e);
-
-            physics.dragging = true;
-
-            physics.vx = 0;
-            physics.vy = 0;
-
-            physics.lastX = pos.x;
-            physics.lastY = pos.y;
-
-            token.style.cursor = "grabbing";
-
-            e.preventDefault?.();
+            girando = true;
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            anguloAnterior = obterAngulo(clientX, clientY);
         }
 
-        function moverArraste(e) {
-
-            if (!physics.dragging || finalizado) return;
-
-            const pos =
-                obterCoordenadas(e);
-
-            physics.x =
-                pos.x - physics.width / 2;
-
-            physics.y =
-                pos.y - physics.height / 2;
-
-            physics.vx =
-                pos.x - physics.lastX;
-
-            physics.vy =
-                pos.y - physics.lastY;
-
-            physics.lastX = pos.x;
-            physics.lastY = pos.y;
-
-            posicionarToken();
-
-            e.preventDefault?.();
-        }
-
-        function terminarArraste() {
-
-            if (!physics.dragging) return;
-
-            physics.dragging = false;
-
-            token.style.cursor = "grab";
-
-            /*
-             * Multiplicamos um pouco a velocidade do arremesso
-             * para tornar o lançamento mais perceptível.
-             */
-            physics.vx *= 1.25;
-            physics.vy *= 1.25;
-        }
-
-        token.addEventListener(
-            "touchstart",
-            iniciarArraste,
-            { passive: false }
-        );
-
-        window.addEventListener(
-            "touchmove",
-            moverArraste,
-            { passive: false }
-        );
-
-        window.addEventListener(
-            "touchend",
-            terminarArraste,
-            { passive: false }
-        );
-
-        token.addEventListener(
-            "mousedown",
-            iniciarArraste
-        );
-
-        window.addEventListener(
-            "mousemove",
-            moverArraste
-        );
-
-        window.addEventListener(
-            "mouseup",
-            terminarArraste
-        );
-
-        /* =========================
-           IMPACTO
-        ========================= */
-
-        function registrarImpacto(x, y) {
-
-            if (physics.impactCooldown > 0) {
-                return;
-            }
-
-            physics.impactCooldown = 12;
-
-            impactos++;
-
-            criarParticulas(
-                x,
-                y,
-                30
-            );
-
-            somImpacto();
-
-            vibrar(70);
-
-            flash.classList.remove("ativo");
-
-            void flash.offsetWidth;
-
-            flash.classList.add("ativo");
-
-            document.body.classList.remove("shake");
-
-            void document.body.offsetWidth;
-
-            document.body.classList.add("shake");
-
-            if (impactos < 3) {
-
-                placar.innerText =
-                    `Pancadas na parede: ${impactos}/3`;
-
-            } else {
-
-                vitoriaGeral();
-            }
-        }
-
-        /* =========================
-           VITÓRIA
-        ========================= */
-
-        function vitoriaGeral() {
-
-            finalizado = true;
-
-            physics.vx = 0;
-            physics.vy = 0;
-
-            token.style.display = "none";
-
-            placar.style.display = "none";
-
-            subtitulo.style.display = "none";
-
-            instrucao.style.display = "none";
-
-            painel.classList.add("vitoria");
-
-            document.getElementById("titulo").innerHTML =
-                "ME JOGA NA<br>PAREDE...";
-
-            setTimeout(() => {
-
-                const h2 =
-                    document.createElement("h2");
-
-                h2.innerText =
-                    "E ME CHAMA DE LAGARTIXA! 🦎💚🔥";
-
-                painel.appendChild(h2);
-
-                somVitoria();
-
-                vibrar([80, 50, 120]);
-
-                const centroX =
-                    window.innerWidth / 2;
-
-                const centroY =
-                    window.innerHeight / 2;
-
-                criarParticulas(
-                    centroX,
-                    centroY,
-                    120
-                );
-
-            }, 450);
-        }
-
-        /* =========================
-           FÍSICA
-        ========================= */
-
-        function atualizarFisica() {
-
-            if (finalizado) return;
-
-            if (physics.impactCooldown > 0) {
-                physics.impactCooldown--;
-            }
-
-            if (!physics.dragging) {
-
-                physics.vy += physics.gravity;
-
-                physics.x += physics.vx;
-                physics.y += physics.vy;
-
-                physics.vx *= .995;
-
-                /*
-                 * Parede esquerda
-                 */
-                if (physics.x <= 0) {
-
-                    physics.x = 0;
-
-                    if (Math.abs(physics.vx) > 4) {
-
-                        registrarImpacto(
-                            physics.x,
-                            physics.y + physics.height / 2
-                        );
-                    }
-
-                    physics.vx =
-                        Math.abs(physics.vx) *
-                        physics.bounce;
-                }
-
-                /*
-                 * Parede direita
-                 */
-                if (
-                    physics.x + physics.width >=
-                    canvas.width
-                ) {
-
-                    physics.x =
-                        canvas.width -
-                        physics.width;
-
-                    if (Math.abs(physics.vx) > 4) {
-
-                        registrarImpacto(
-                            physics.x + physics.width,
-                            physics.y + physics.height / 2
-                        );
-                    }
-
-                    physics.vx =
-                        -Math.abs(physics.vx) *
-                        physics.bounce;
-                }
-
-                /*
-                 * Teto
-                 */
-                if (physics.y <= 0) {
-
-                    physics.y = 0;
-
-                    if (Math.abs(physics.vy) > 4) {
-
-                        registrarImpacto(
-                            physics.x + physics.width / 2,
-                            physics.y
-                        );
-                    }
-
-                    physics.vy =
-                        Math.abs(physics.vy) *
-                        physics.bounce;
-                }
-
-                /*
-                 * Chão
-                 */
-                if (
-                    physics.y + physics.height >=
-                    canvas.height
-                ) {
-
-                    physics.y =
-                        canvas.height -
-                        physics.height;
-
-                    if (Math.abs(physics.vy) > 4) {
-
-                        registrarImpacto(
-                            physics.x + physics.width / 2,
-                            physics.y + physics.height
-                        );
-                    }
-
-                    physics.vy =
-                        -Math.abs(physics.vy) *
-                        physics.bounce;
-                }
-
-                posicionarToken();
-            }
-        }
-
-        /* =========================
-           LOOP
-        ========================= */
-
-        function loop() {
-
-            ctx.clearRect(
-                0,
-                0,
-                canvas.width,
-                canvas.height
-            );
-
-            atualizarFisica();
-
-            for (
-                let i = particulas.length - 1;
-                i >= 0;
-                i--
-            ) {
-
-                particulas[i].update();
-
-                particulas[i].draw();
-
-                if (particulas[i].vida <= 0) {
-
-                    particulas.splice(i, 1);
-                }
-            }
-
-            requestAnimationFrame(loop);
-        }
-
-        loop();
-
-    </script>
-
-</body>
-</html>
+        function executarGiro(e) {
+            if (!girando || finalizado) return;
+            let clientX = e.touches ? e.touches[0].clientX : e.clientX;
+            let clientY = e.touches ? e.touches[0].clientY : e.clientY;
+            
+            let anguloAtual = obterAngulo(clientX, clientY);
+            let diferenca = anguloAtual - anguloAnterior;
+
+            // Corrige quebra de quadrantes de rotação
+            if (diferenca > Math.PI) diferenca -= Math.PI * 2;
+            if (diferenca < -Math.PI) diferenca += Math.PI * 2;
+
+            totalGiro += Math.abs(diferenca);
+            anguloAnterior = anguloAtual;
+
+            // Gira a roda visualmente
+            roda.style.transform = `rotate(${totalGiro * (180 / Math.PI)}deg)`;
+
+            let progresso = Math.min(100, Math.floor((totalGiro / (Math.PI * 6)) * 100));
+            statusTrava.innerText = `Progresso seguro: ${progresso}%`;
+
+            // Som de catraca metálica engatando
+            if (Math.random() < 0.15) somClick(120, 0.03);
+
+            if (totalGiro >= Math.PI * 6) {
