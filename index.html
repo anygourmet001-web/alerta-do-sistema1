@@ -2,2830 +2,1817 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-
-<meta
-    name="viewport"
-    content="width=device-width,
-    initial-scale=1.0,
-    maximum-scale=1.0,
-    user-scalable=no,
-    viewport-fit=cover"
->
-
-<title>🍌 OPERAÇÃO BANANA — MINION EMERGENCY</title>
+<meta name="viewport"
+      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+<title>Chaves — O Dia em que a Vila Perdeu a Cabeça</title>
 
 <style>
-
-:root{
-    --yellow:#ffd51c;
-    --yellow2:#ffec62;
-    --blue:#2774d9;
-    --blue2:#174a9c;
-    --dark:#07111e;
-    --dark2:#0d1d31;
-    --white:#ffffff;
-    --red:#ff4d5e;
-    --green:#62e572;
-}
-
 *{
     box-sizing:border-box;
     -webkit-tap-highlight-color:transparent;
 }
 
-html,
-body{
+html,body{
     margin:0;
     width:100%;
     height:100%;
     overflow:hidden;
-    background:#07111e;
-    font-family:
-        Arial,
-        Helvetica,
-        sans-serif;
-    user-select:none;
-    -webkit-user-select:none;
-    touch-action:none;
+    font-family:Arial,Helvetica,sans-serif;
+    background:#111;
+    color:#fff;
 }
 
 body{
-    position:relative;
-}
-
-/* =====================================================
-   FUNDO
-===================================================== */
-
-#canvas{
-    position:absolute;
-    inset:0;
-    width:100%;
-    height:100%;
-    z-index:1;
-}
-
-.background{
-    position:absolute;
-    inset:0;
-    z-index:0;
-
-    background:
-        radial-gradient(
-            circle at 50% 20%,
-            rgba(255,213,28,.16),
-            transparent 32%
-        ),
-        radial-gradient(
-            circle at 20% 90%,
-            rgba(39,116,217,.22),
-            transparent 40%
-        ),
-        linear-gradient(
-            145deg,
-            #030914,
-            #07182b 55%,
-            #030914
-        );
-}
-
-/* =====================================================
-   HUD
-===================================================== */
-
-.hud{
-    position:absolute;
-    top:
-        max(
-            10px,
-            env(safe-area-inset-top)
-        );
-
-    left:50%;
-    transform:translateX(-50%);
-
-    width:min(94vw,520px);
-
-    z-index:20;
-
-    display:flex;
-    justify-content:space-between;
-    gap:8px;
-
-    pointer-events:none;
-}
-
-.hudBox{
-    flex:1;
-    min-width:0;
-
-    padding:9px 10px;
-
-    border-radius:13px;
-
-    background:
-        rgba(3,10,20,.76);
-
-    border:
-        1px solid
-        rgba(255,255,255,.1);
-
-    backdrop-filter:blur(12px);
-
-    text-align:center;
-
-    color:#fff;
-
-    box-shadow:
-        0 8px 30px
-        rgba(0,0,0,.25);
-}
-
-.hudLabel{
-    display:block;
-
-    font-size:8px;
-
-    letter-spacing:1.5px;
-
-    color:#9fb2ca;
-
-    font-weight:900;
-
-    margin-bottom:3px;
-}
-
-.hudValue{
-    font-size:14px;
-
-    font-weight:900;
-
-    color:var(--yellow);
-}
-
-/* =====================================================
-   INTERFACE
-===================================================== */
-
-.interface{
-    position:absolute;
-    inset:0;
-
-    z-index:15;
-
-    display:flex;
-    justify-content:center;
-    align-items:center;
-
-    pointer-events:none;
-
-    padding:20px;
-}
-
-.panel{
-    width:min(90vw,430px);
-
-    padding:28px 22px;
-
-    border-radius:28px;
-
-    background:
-        linear-gradient(
-            145deg,
-            rgba(13,31,52,.88),
-            rgba(3,10,20,.82)
-        );
-
-    border:
-        1px solid
-        rgba(255,255,255,.13);
-
-    box-shadow:
-        0 25px 80px
-        rgba(0,0,0,.5),
-
-        inset 0 1px
-        rgba(255,255,255,.08);
-
-    backdrop-filter:blur(20px);
-
-    text-align:center;
-
-    pointer-events:auto;
-
-    transition:
-        transform .35s ease,
-        opacity .35s ease;
-}
-
-.panel.shake{
-    animation:shake .4s ease;
-}
-
-@keyframes shake{
-
-    0%,100%{
-        transform:translateX(0);
-    }
-
-    20%{
-        transform:translateX(-10px);
-    }
-
-    40%{
-        transform:translateX(10px);
-    }
-
-    60%{
-        transform:translateX(-7px);
-    }
-
-    80%{
-        transform:translateX(7px);
-    }
-}
-
-/* =====================================================
-   LOGO MINION
-===================================================== */
-
-.minionFace{
-
-    width:85px;
-    height:105px;
-
-    margin:0 auto 17px;
-
-    position:relative;
-
-    border-radius:
-        45px 45px
-        32px 32px;
-
-    background:
-        linear-gradient(
-            90deg,
-            #f6c900,
-            #ffe72e,
-            #f2c400
-        );
-
-    border:3px solid #b98c00;
-
-    box-shadow:
-        0 15px 30px
-        rgba(0,0,0,.35);
-
-    overflow:visible;
-}
-
-.eyeBand{
-
-    position:absolute;
-
-    top:27px;
-    left:-6px;
-
-    width:97px;
-    height:27px;
-
-    background:#20242a;
-
-    border-radius:7px;
-}
-
-.eye{
-
-    position:absolute;
-
-    width:36px;
-    height:36px;
-
-    border-radius:50%;
-
-    background:#d4d4d4;
-
-    border:5px solid #737373;
-
-    left:22px;
-    top:22px;
-
-    z-index:2;
-}
-
-.pupil{
-
-    position:absolute;
-
-    width:13px;
-    height:13px;
-
-    background:#202020;
-
-    border-radius:50%;
-
-    left:7px;
-    top:7px;
-}
-
-.mouth{
-
-    position:absolute;
-
-    width:35px;
-    height:15px;
-
-    left:25px;
-    bottom:19px;
-
-    border-bottom:
-        4px solid #222;
-
-    border-radius:
-        0 0 30px 30px;
-}
-
-/* =====================================================
-   TIPOGRAFIA
-===================================================== */
-
-.badge{
-
-    display:inline-block;
-
-    padding:
-        6px 11px;
-
-    border-radius:999px;
-
-    background:
-        rgba(255,213,28,.1);
-
-    border:
-        1px solid
-        rgba(255,213,28,.3);
-
-    color:
-        var(--yellow2);
-
-    font-size:9px;
-
-    letter-spacing:2px;
-
-    font-weight:900;
-
-    margin-bottom:12px;
-}
-
-h1{
-
-    color:white;
-
-    margin:0;
-
-    font-size:
-        clamp(
-            26px,
-            8vw,
-            40px
-        );
-
-    line-height:1.05;
-
-    font-weight:1000;
-
-    text-shadow:
-        0 4px 0 #111,
-        0 0 20px
-        rgba(255,213,28,.2);
-}
-
-.subtitle{
-
-    color:#cbd8e8;
-
-    font-size:14px;
-
-    line-height:1.5;
-
-    margin:
-        13px 0 22px;
-}
-
-.bigEmoji{
-
-    font-size:54px;
-
-    margin:
-        5px 0 12px;
-
-    display:block;
-
-    animation:
-        bob 1.5s ease-in-out infinite;
-}
-
-@keyframes bob{
-
-    0%,100%{
-        transform:translateY(0)
-        rotate(-3deg);
-    }
-
-    50%{
-        transform:translateY(-9px)
-        rotate(3deg);
-    }
-}
-
-/* =====================================================
-   BOTÃO
-===================================================== */
-
-button{
-
-    font-family:inherit;
-}
-
-.mainButton{
-
-    width:100%;
-
-    min-height:54px;
-
-    border:0;
-
-    border-radius:17px;
-
-    background:
-        linear-gradient(
-            135deg,
-            #ffdf24,
-            #f5b900
-        );
-
-    color:#17202b;
-
-    font-size:14px;
-
-    font-weight:1000;
-
-    letter-spacing:.5px;
-
-    box-shadow:
-        0 10px 30px
-        rgba(255,193,7,.25),
-
-        inset 0 2px
-        rgba(255,255,255,.5);
-
-    cursor:pointer;
-
     touch-action:manipulation;
 }
 
-.mainButton:active{
-    transform:scale(.96);
+button{
+    font-family:inherit;
 }
 
-/* =====================================================
-   PROGRESSO
-===================================================== */
-
-.progressOuter{
-
-    height:9px;
-
+#app{
     width:100%;
-
-    margin:
-        17px 0 0;
-
+    height:100%;
+    position:relative;
+    overflow:hidden;
     background:
-        rgba(255,255,255,.08);
+        radial-gradient(circle at 50% 20%,rgba(255,193,7,.15),transparent 30%),
+        linear-gradient(180deg,#202020,#101010);
+}
 
-    border-radius:999px;
+/* =========================
+   CENÁRIO
+========================= */
 
+#scene{
+    position:absolute;
+    inset:0;
     overflow:hidden;
 }
 
-.progressInner{
-
-    height:100%;
-
-    width:0%;
-
+.wall{
+    position:absolute;
+    inset:0 0 28% 0;
     background:
-        linear-gradient(
-            90deg,
-            #2774d9,
-            #ffd51c
-        );
-
-    border-radius:999px;
-
-    transition:
-        width .3s ease;
+        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
+        #806f59;
+    background-size:26px 26px;
 }
 
-/* =====================================================
-   ÁREA DO JOGO
-===================================================== */
-
-.gameArea{
-
+.wall:after{
+    content:"";
     position:absolute;
-
     inset:0;
+    background:linear-gradient(90deg,
+        rgba(0,0,0,.15),
+        transparent 25%,
+        transparent 75%,
+        rgba(0,0,0,.2)
+    );
+}
 
-    z-index:8;
+.floor{
+    position:absolute;
+    left:0;
+    right:0;
+    bottom:0;
+    height:28%;
+    background:
+        repeating-linear-gradient(
+            0deg,
+            #564738 0px,
+            #564738 18px,
+            #4b3c2f 19px,
+            #4b3c2f 21px
+        );
+    border-top:5px solid #30251e;
+}
 
+.door{
+    position:absolute;
+    left:7%;
+    bottom:25%;
+    width:95px;
+    height:150px;
+    background:#4d3828;
+    border:7px solid #2b211b;
+    box-shadow:inset 0 0 0 4px #76543a;
+}
+
+.door:before{
+    content:"";
+    position:absolute;
+    right:13px;
+    top:75px;
+    width:9px;
+    height:9px;
+    border-radius:50%;
+    background:#d5a928;
+}
+
+.window{
+    position:absolute;
+    right:8%;
+    bottom:32%;
+    width:130px;
+    height:100px;
+    background:#7ac5dc;
+    border:9px solid #443328;
+    box-shadow:inset 0 0 20px rgba(0,0,0,.3);
+}
+
+.window:before,
+.window:after{
+    content:"";
+    position:absolute;
+    background:#443328;
+}
+
+.window:before{
+    width:9px;
+    height:100%;
+    left:50%;
+    transform:translateX(-50%);
+}
+
+.window:after{
+    height:9px;
+    width:100%;
+    top:50%;
+    transform:translateY(-50%);
+}
+
+.pipe{
+    position:absolute;
+    right:0;
+    top:12%;
+    width:18px;
+    height:35%;
+    background:#3f3f3f;
+    border:3px solid #222;
+}
+
+/* =========================
+   HUD
+========================= */
+
+#hud{
+    position:absolute;
+    top:12px;
+    left:12px;
+    right:12px;
+    z-index:50;
+    display:none;
+}
+
+.hud-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:8px;
+}
+
+.logo{
+    font-weight:1000;
+    font-size:14px;
+    background:#111;
+    border:2px solid #f5c542;
+    padding:8px 11px;
+    border-radius:12px;
+    box-shadow:0 0 15px rgba(245,197,66,.15);
+}
+
+.chapter{
+    font-size:11px;
+    font-weight:900;
+    padding:8px 10px;
+    background:rgba(0,0,0,.65);
+    border-radius:10px;
+    border:1px solid rgba(255,255,255,.15);
+}
+
+.stats{
+    margin-top:8px;
+    display:grid;
+    grid-template-columns:repeat(5,1fr);
+    gap:5px;
+}
+
+.stat{
+    background:rgba(0,0,0,.65);
+    border:1px solid rgba(255,255,255,.12);
+    border-radius:9px;
+    padding:6px 4px;
+    text-align:center;
+    font-size:9px;
+    font-weight:900;
+}
+
+.stat b{
+    display:block;
+    font-size:15px;
+    margin-top:2px;
+}
+
+#eventLog{
+    position:absolute;
+    left:12px;
+    bottom:12px;
+    width:min(350px,calc(100% - 24px));
+    z-index:40;
     pointer-events:none;
 }
 
-.target{
+.log{
+    background:rgba(0,0,0,.72);
+    border-left:4px solid #f5c542;
+    border-radius:10px;
+    padding:8px 10px;
+    margin-top:6px;
+    font-size:11px;
+    animation:logIn .25s ease;
+}
 
+@keyframes logIn{
+    from{transform:translateX(-20px);opacity:0}
+    to{transform:none;opacity:1}
+}
+
+/* =========================
+   PERSONAGEM
+========================= */
+
+#character{
     position:absolute;
-
-    width:76px;
-    height:76px;
-
-    border-radius:50%;
-
+    left:50%;
+    bottom:26%;
+    transform:translateX(-50%);
+    width:130px;
+    height:190px;
+    z-index:12;
     display:flex;
-
     align-items:center;
     justify-content:center;
-
-    font-size:45px;
-
-    pointer-events:auto;
-
-    cursor:pointer;
-
-    filter:
-        drop-shadow(
-            0 8px 12px
-            rgba(0,0,0,.4)
-        );
-
-    animation:
-        targetPop .2s ease;
+    transition:.35s;
 }
 
-@keyframes targetPop{
-
-    from{
-        transform:scale(.4);
-        opacity:0;
-    }
-
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
+.avatar{
+    width:108px;
+    height:108px;
+    border-radius:50%;
+    background:#d89d68;
+    border:7px solid #35261d;
+    position:relative;
+    box-shadow:0 8px 0 #35261d;
 }
 
-/* =====================================================
-   ALERTAS
-===================================================== */
-
-.toast{
-
+.avatar:before{
+    content:"";
     position:absolute;
+    width:72px;
+    height:34px;
+    top:-18px;
+    left:10px;
+    border-radius:50% 50% 35% 35%;
+    background:#222;
+}
 
+.avatar:after{
+    content:"";
+    position:absolute;
+    width:14px;
+    height:14px;
+    border-radius:50%;
+    background:#111;
+    left:25px;
+    top:43px;
+    box-shadow:39px 0 #111;
+}
+
+.body{
+    position:absolute;
+    bottom:0;
+    width:90px;
+    height:90px;
+    background:#1986b4;
+    border:6px solid #35261d;
+    border-radius:35px 35px 20px 20px;
+}
+
+/* =========================
+   CARTA / DIÁLOGO
+========================= */
+
+#dialogue{
+    position:absolute;
     left:50%;
-
-    top:22%;
-
-    transform:
-        translate(-50%,-50%)
-        scale(.8);
-
-    z-index:50;
-
-    max-width:85vw;
-
-    padding:
-        12px 17px;
-
-    border-radius:15px;
-
-    background:
-        rgba(3,8,15,.92);
-
-    border:
-        1px solid
-        rgba(255,213,28,.3);
-
-    color:white;
-
-    font-size:13px;
-
-    font-weight:900;
-
-    text-align:center;
-
-    opacity:0;
-
-    pointer-events:none;
-
-    transition:
-        .25s ease;
+    transform:translateX(-50%);
+    bottom:17%;
+    width:min(650px,92%);
+    z-index:30;
+    display:none;
 }
 
-.toast.show{
-
-    opacity:1;
-
-    transform:
-        translate(-50%,-50%)
-        scale(1);
+.dialog-card{
+    background:rgba(20,16,12,.95);
+    border:2px solid rgba(255,210,80,.6);
+    border-radius:18px;
+    padding:15px;
+    box-shadow:0 15px 50px rgba(0,0,0,.5);
+    backdrop-filter:blur(8px);
 }
 
-/* =====================================================
-   TELA DE ABERTURA
-===================================================== */
+.speaker{
+    font-size:12px;
+    font-weight:1000;
+    color:#ffd54f;
+    text-transform:uppercase;
+    margin-bottom:6px;
+}
+
+.dialog-text{
+    font-size:16px;
+    line-height:1.35;
+    font-weight:800;
+}
+
+.dialog-sub{
+    margin-top:6px;
+    font-size:11px;
+    color:#aaa;
+}
+
+.actions{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:8px;
+    margin-top:13px;
+}
+
+.action{
+    border:0;
+    border-radius:12px;
+    padding:12px 9px;
+    font-weight:1000;
+    background:#2d2924;
+    color:#fff;
+    border:1px solid rgba(255,255,255,.15);
+    cursor:pointer;
+    min-height:50px;
+    transition:.15s;
+}
+
+.action:active{
+    transform:scale(.96);
+}
+
+.action:hover{
+    background:#3b352d;
+}
+
+.action.danger{
+    border-color:#a94442;
+}
+
+.action.good{
+    border-color:#4c9a61;
+}
+
+/* =========================
+   OVERLAYS
+========================= */
 
 .overlay{
-
     position:absolute;
-
     inset:0;
-
     z-index:100;
-
     display:flex;
-
-    justify-content:center;
     align-items:center;
-
-    padding:20px;
-
+    justify-content:center;
+    padding:18px;
     background:
-        radial-gradient(
-            circle at 50% 40%,
-            rgba(255,213,28,.12),
-            transparent 35%
-        ),
-
-        rgba(2,7,14,.78);
-
-    backdrop-filter:blur(12px);
-
-    transition:
-        opacity .5s,
-        visibility .5s;
+        radial-gradient(circle at center,rgba(255,190,50,.12),transparent 40%),
+        rgba(8,8,8,.94);
 }
 
-.overlay.hidden{
-
-    opacity:0;
-
-    visibility:hidden;
-
-    pointer-events:none;
-}
-
-.startCard{
-
-    width:min(90vw,440px);
-
-    padding:
-        30px 23px;
-
-    border-radius:30px;
-
-    background:
-        rgba(9,24,41,.92);
-
-    border:
-        1px solid
-        rgba(255,213,28,.28);
-
+.panel{
+    width:min(680px,100%);
+    max-height:92vh;
+    overflow:auto;
+    border:2px solid #f0bd3c;
+    border-radius:24px;
+    background:linear-gradient(145deg,#211b15,#0d0d0d);
+    padding:24px;
     box-shadow:
-        0 30px 100px
-        rgba(0,0,0,.6);
-
+        0 0 80px rgba(245,197,66,.12),
+        inset 0 0 30px rgba(255,255,255,.02);
     text-align:center;
 }
 
-.startTitle{
-
-    font-size:
-        clamp(
-            27px,
-            8vw,
-            40px
-        );
-
+.title{
+    font-size:clamp(30px,8vw,65px);
+    line-height:.9;
     font-weight:1000;
-
-    color:#fff;
-
+    color:#ffd54f;
+    text-shadow:4px 4px #5e4010;
     margin:0;
 }
 
-.startTitle span{
-    color:var(--yellow);
-}
-
-.startText{
-
-    color:#c4d2e2;
-
-    font-size:14px;
-
-    line-height:1.55;
-
-    margin:
-        13px 0 22px;
-}
-
-/* =====================================================
-   FINAL
-===================================================== */
-
-.finalPanel{
-
-    display:none;
-
-    text-align:center;
-}
-
-.finalPanel.show{
-    display:block;
-}
-
-.finalRank{
-
-    font-size:
-        clamp(
-            25px,
-            7vw,
-            38px
-        );
-
-    color:var(--yellow);
-
-    font-weight:1000;
-
-    margin:
-        10px 0;
-}
-
-.finalText{
-
-    color:#e6edf5;
-
-    font-size:14px;
-
-    line-height:1.55;
-
-    margin-bottom:18px;
-}
-
-.secret{
-
-    padding:
-        14px;
-
-    border-radius:16px;
-
-    background:
-        rgba(255,213,28,.06);
-
-    border:
-        1px solid
-        rgba(255,213,28,.15);
-
-    color:#fff;
-
+.subtitle{
     font-size:13px;
-
+    color:#bbb;
     line-height:1.5;
+    margin:18px auto;
+    max-width:560px;
 }
 
-/* =====================================================
-   PARTICLE TEXT
-===================================================== */
-
-.floatText{
-
-    position:absolute;
-
-    z-index:80;
-
-    pointer-events:none;
-
-    font-size:18px;
-
+.big-btn{
+    width:100%;
+    max-width:420px;
+    border:0;
+    border-radius:15px;
+    padding:16px;
+    font-size:16px;
     font-weight:1000;
-
-    color:white;
-
-    text-shadow:
-        0 3px 12px
-        rgba(0,0,0,.8);
-
-    animation:
-        floatText .8s ease forwards;
+    background:#f5c542;
+    color:#16120d;
+    cursor:pointer;
+    box-shadow:0 7px 0 #9a7417;
 }
 
-@keyframes floatText{
-
-    0%{
-        opacity:0;
-        transform:
-            translate(-50%,0)
-            scale(.6);
-    }
-
-    20%{
-        opacity:1;
-        transform:
-            translate(-50%,-10px)
-            scale(1.1);
-    }
-
-    100%{
-        opacity:0;
-        transform:
-            translate(-50%,-80px)
-            scale(1);
-    }
+.big-btn:active{
+    transform:translateY(5px);
+    box-shadow:0 2px 0 #9a7417;
 }
 
+.warning{
+    margin-top:15px;
+    font-size:10px;
+    color:#777;
+}
+
+/* =========================
+   MINI JOGOS
+========================= */
+
+#minigame{
+    position:absolute;
+    inset:0;
+    z-index:70;
+    display:none;
+}
+
+.minigame-title{
+    position:absolute;
+    top:105px;
+    left:50%;
+    transform:translateX(-50%);
+    width:90%;
+    text-align:center;
+    font-size:20px;
+    font-weight:1000;
+    color:#ffd54f;
+    text-shadow:2px 2px #000;
+    z-index:5;
+}
+
+.arena{
+    position:absolute;
+    left:5%;
+    right:5%;
+    top:150px;
+    bottom:12%;
+    border:2px dashed rgba(255,213,79,.3);
+    border-radius:20px;
+    overflow:hidden;
+    background:rgba(0,0,0,.12);
+}
+
+.falling{
+    position:absolute;
+    font-size:38px;
+    user-select:none;
+    cursor:pointer;
+    animation:fall linear forwards;
+    filter:drop-shadow(0 4px 4px rgba(0,0,0,.5));
+}
+
+@keyframes fall{
+    from{transform:translateY(-70px) rotate(0)}
+    to{transform:translateY(calc(100vh - 150px)) rotate(540deg)}
+}
+
+.timer{
+    position:absolute;
+    top:75px;
+    right:15px;
+    z-index:10;
+    background:#111;
+    border:2px solid #ffd54f;
+    padding:8px 12px;
+    border-radius:10px;
+    font-weight:1000;
+}
+
+.center-message{
+    position:absolute;
+    inset:0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding:30px;
+    pointer-events:none;
+    font-size:24px;
+    font-weight:1000;
+    text-shadow:3px 3px #000;
+}
+
+/* =========================
+   LEILÃO
+========================= */
+
+.auction{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:10px;
+    margin-top:15px;
+}
+
+.item{
+    padding:14px;
+    background:#2b251e;
+    border:1px solid #675437;
+    border-radius:13px;
+    cursor:pointer;
+}
+
+.item:active{
+    transform:scale(.97);
+}
+
+.item .emoji{
+    font-size:38px;
+}
+
+.item b{
+    display:block;
+    margin-top:5px;
+}
+
+.item small{
+    display:block;
+    color:#aaa;
+    margin-top:4px;
+}
+
+/* =========================
+   FINAL
+========================= */
+
+.report{
+    text-align:left;
+    margin-top:18px;
+    background:#111;
+    border-radius:15px;
+    padding:15px;
+    border:1px solid #333;
+}
+
+.report div{
+    padding:7px 0;
+    border-bottom:1px solid #222;
+    font-size:12px;
+}
+
+.final-rank{
+    font-size:28px;
+    font-weight:1000;
+    color:#ffd54f;
+    margin:15px 0;
+}
+
+#confetti{
+    position:absolute;
+    inset:0;
+    z-index:150;
+    pointer-events:none;
+}
 </style>
 </head>
 
 <body>
 
-<div class="background"></div>
+<div id="app">
 
-<canvas id="canvas"></canvas>
-
-<div class="hud" id="hud">
-
-    <div class="hudBox">
-        <span class="hudLabel">
-            MISSÃO
-        </span>
-
-        <span
-            class="hudValue"
-            id="missionHud"
-        >
-            0/4
-        </span>
+    <div id="scene">
+        <div class="wall"></div>
+        <div class="floor"></div>
+        <div class="door"></div>
+        <div class="window"></div>
+        <div class="pipe"></div>
     </div>
 
-    <div class="hudBox">
+    <canvas id="confetti"></canvas>
 
-        <span class="hudLabel">
-            PONTOS
-        </span>
-
-        <span
-            class="hudValue"
-            id="scoreHud"
-        >
-            000
-        </span>
-
-    </div>
-
-    <div class="hudBox">
-
-        <span class="hudLabel">
-            CAOS
-        </span>
-
-        <span
-            class="hudValue"
-            id="chaosHud"
-        >
-            0%
-        </span>
-
-    </div>
-
-</div>
-
-<div
-    class="toast"
-    id="toast"
-></div>
-
-
-<!-- =====================================================
-     ÁREA DO JOGO
-===================================================== -->
-
-<div
-    class="gameArea"
-    id="gameArea"
-></div>
-
-
-<!-- =====================================================
-     INTERFACE CENTRAL
-===================================================== -->
-
-<div class="interface">
-
-    <div
-        class="panel"
-        id="panel"
-    >
-
-        <div id="normalPanel">
-
-            <div
-                class="minionFace"
-                id="minionFace"
-            >
-
-                <div class="eyeBand"></div>
-
-                <div class="eye">
-                    <div class="pupil"></div>
-                </div>
-
-                <div class="mouth"></div>
-
-            </div>
-
-            <div
-                class="badge"
-                id="badge"
-            >
-                MISSÃO
-            </div>
-
-            <h1 id="title">
-                PREPARADA?
-            </h1>
-
-            <div
-                class="subtitle"
-                id="subtitle"
-            >
-                Os Minions precisam de você.
-            </div>
-
-            <div
-                id="actionArea"
-            ></div>
-
+    <!-- HUD -->
+    <div id="hud">
+        <div class="hud-top">
+            <div class="logo">🏚️ VILA DOS PROBLEMAS</div>
+            <div class="chapter" id="chapter">DIA 1</div>
         </div>
 
+        <div class="stats">
+            <div class="stat">🪙 DINHEIRO <b id="money">50</b></div>
+            <div class="stat">❤️ REPUTAÇÃO <b id="rep">50</b></div>
+            <div class="stat">😡 CAOS <b id="chaos">0</b></div>
+            <div class="stat">🧠 SANIDADE <b id="sanity">100</b></div>
+            <div class="stat">💀 DÍVIDA <b id="debt">0</b></div>
+        </div>
+    </div>
 
-        <div
-            class="finalPanel"
-            id="finalPanel"
-        >
+    <!-- PERSONAGEM -->
+    <div id="character">
+        <div class="body"></div>
+        <div class="avatar"></div>
+    </div>
 
-            <span class="bigEmoji">
-                🍌🏆👑
-            </span>
+    <!-- DIÁLOGO -->
+    <div id="dialogue">
+        <div class="dialog-card">
+            <div class="speaker" id="speaker"></div>
+            <div class="dialog-text" id="dialogText"></div>
+            <div class="dialog-sub" id="dialogSub"></div>
+            <div class="actions" id="actions"></div>
+        </div>
+    </div>
 
-            <div class="badge">
-                RELATÓRIO CONFIDENCIAL
-            </div>
+    <!-- LOG -->
+    <div id="eventLog"></div>
 
-            <h1>
-                OPERAÇÃO<br>
-                CONCLUÍDA!
+    <!-- MINIGAME -->
+    <div id="minigame">
+        <div class="minigame-title" id="miniTitle"></div>
+        <div class="timer" id="miniTimer"></div>
+        <div class="arena" id="arena"></div>
+        <div class="center-message" id="centerMessage"></div>
+    </div>
+
+    <!-- ABERTURA -->
+    <div class="overlay" id="startScreen">
+        <div class="panel">
+
+            <div style="font-size:50px">🏚️💥🪣</div>
+
+            <h1 class="title">
+                A VILA<br>
+                PERDEU A CABEÇA
             </h1>
 
-            <div
-                class="finalRank"
-                id="finalRank"
-            >
+            <div class="subtitle">
+                Você foi escolhido para passar <b>um dia inteiro</b>
+                tentando manter a vila funcionando.
+                <br><br>
+                O problema?
+                <br>
+                <b>NINGUÉM COLABOROU COM O PROJETO.</b>
+            </div>
+
+            <div style="
+                display:grid;
+                grid-template-columns:repeat(3,1fr);
+                gap:7px;
+                margin:20px 0;
+                font-size:10px;
+            ">
+                <div>💰<br>NEGOCIE</div>
+                <div>😂<br>SOBREVIVA</div>
+                <div>💀<br>ARQUE COM AS CONSEQUÊNCIAS</div>
+            </div>
+
+            <button class="big-btn" id="startBtn">
+                ENTRAR NA VILA
+            </button>
+
+            <div class="warning">
+                Aviso: algumas decisões podem destruir sua reputação,
+                sua dignidade e possivelmente sua relação com a lógica.
+            </div>
+
+        </div>
+    </div>
+
+    <!-- FINAL -->
+    <div class="overlay" id="endScreen" style="display:none">
+        <div class="panel">
+
+            <div style="font-size:55px">🏆🏚️💥</div>
+
+            <div style="font-size:11px;color:#aaa">
+                RELATÓRIO OFICIAL DA VILA
+            </div>
+
+            <div class="final-rank" id="finalRank">
                 ...
             </div>
 
-            <div
-                class="finalText"
-                id="finalText"
-            ></div>
+            <div id="finalText" class="subtitle"></div>
 
-            <div
-                class="secret"
-                id="secret"
-            ></div>
+            <div class="report" id="report"></div>
 
-            <button
-                class="mainButton"
-                id="restartButton"
-                type="button"
-            >
-                🍌 FAZER TUDO DE NOVO
+            <button class="big-btn" onclick="location.reload()">
+                🔄 REPETIR ESSA DESGRAÇA
             </button>
 
         </div>
-
     </div>
 
 </div>
-
-
-<!-- =====================================================
-     ABERTURA
-===================================================== -->
-
-<div
-    class="overlay"
-    id="startOverlay"
->
-
-    <div class="startCard">
-
-        <span
-            class="bigEmoji"
-        >
-            🍌🟡🔵
-        </span>
-
-        <h1 class="startTitle">
-            OPERAÇÃO<br>
-            <span>BANANA</span>
-        </h1>
-
-        <div class="startText">
-
-            <b>URGENTE!</b><br><br>
-
-            Os Minions fizeram uma bagunça
-            tão grande que até o Gru desistiu.
-
-            <br><br>
-
-            Agora existe apenas uma pessoa
-            capaz de salvar a situação.
-
-            <br><br>
-
-            <b>VOCÊ.</b> 😳
-
-            <br><br>
-
-            Serão <b>4 missões</b>.
-            Cada uma mais absurda que a outra.
-
-        </div>
-
-        <button
-            class="mainButton"
-            id="startButton"
-            type="button"
-        >
-            🍌 ACEITAR A MISSÃO
-        </button>
-
-    </div>
-
-</div>
-
 
 <script>
-
 /* =========================================================
-   OPERAÇÃO BANANA
+   CHAVES — O DIA EM QUE A VILA PERDEU A CABEÇA
 ========================================================= */
 
-const canvas =
-    document.getElementById("canvas");
+const $ = id => document.getElementById(id);
 
-const ctx =
-    canvas.getContext("2d");
+let game = {
+    money:50,
+    rep:50,
+    chaos:0,
+    sanity:100,
+    debt:0,
 
-const gameArea =
-    document.getElementById("gameArea");
+    chapter:1,
+    decisions:0,
+    correct:0,
+    minigames:0,
+    events:0,
 
-const panel =
-    document.getElementById("panel");
+    madrugaHelped:0,
+    florindaAnger:0,
+    chavesFed:0,
+    quicoScams:0,
+    gossip:0,
 
-const normalPanel =
-    document.getElementById("normalPanel");
+    flags:{},
 
-const finalPanel =
-    document.getElementById("finalPanel");
+    history:[]
+};
 
-const startOverlay =
-    document.getElementById("startOverlay");
+let currentScene = null;
+let miniTimerInterval = null;
+let miniTime = 0;
 
-const startButton =
-    document.getElementById("startButton");
+const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
 
-const restartButton =
-    document.getElementById("restartButton");
-
-const actionArea =
-    document.getElementById("actionArea");
-
-const title =
-    document.getElementById("title");
-
-const subtitle =
-    document.getElementById("subtitle");
-
-const badge =
-    document.getElementById("badge");
-
-const missionHud =
-    document.getElementById("missionHud");
-
-const scoreHud =
-    document.getElementById("scoreHud");
-
-const chaosHud =
-    document.getElementById("chaosHud");
-
-const toast =
-    document.getElementById("toast");
-
-const finalRank =
-    document.getElementById("finalRank");
-
-const finalText =
-    document.getElementById("finalText");
-
-const secret =
-    document.getElementById("secret");
-
-
-let W = 0;
-let H = 0;
-
-let running = false;
-
-let mission = 0;
-
-let score = 0;
-
-let chaos = 0;
-
-let timer = null;
-
-let animationId = null;
-
-let audioCtx = null;
-
-let sequence = [];
-
-let playerSequence = [];
-
-let sequenceLocked = false;
-
-let minionTargets = [];
-
-let missionStartTime = 0;
-
-
-/* =========================================================
-   RESIZE
-========================================================= */
-
-function resize(){
-
-    W =
-        window.innerWidth;
-
-    H =
-        window.innerHeight;
-
-    const dpr =
-        Math.min(
-            window.devicePixelRatio || 1,
-            2
-        );
-
-    canvas.width =
-        W*dpr;
-
-    canvas.height =
-        H*dpr;
-
-    canvas.style.width =
-        W+"px";
-
-    canvas.style.height =
-        H+"px";
-
-    ctx.setTransform(
-        dpr,
-        0,
-        0,
-        dpr,
-        0,
-        0
-    );
-}
-
-window.addEventListener(
-    "resize",
-    resize
-);
-
-resize();
-
-
-/* =========================================================
-   AUDIO
-========================================================= */
-
-function audioStart(){
-
-    if(!audioCtx){
-
-        const AC =
-            window.AudioContext ||
-            window.webkitAudioContext;
-
-        if(AC){
-
-            audioCtx =
-                new AC();
-        }
-    }
-
-    if(
-        audioCtx &&
-        audioCtx.state === "suspended"
-    ){
-
-        audioCtx.resume();
-    }
-}
-
-
-function beep(
-    frequency,
-    duration=.12,
-    volume=.045,
-    type="square"
-){
-
-    if(!audioCtx) return;
-
+function beep(freq=500,duration=.08,type="square",volume=.035){
     try{
+        const osc=audioCtx.createOscillator();
+        const gain=audioCtx.createGain();
 
-        const osc =
-            audioCtx.createOscillator();
+        osc.type=type;
+        osc.frequency.value=freq;
 
-        const gain =
-            audioCtx.createGain();
-
-        osc.type =
-            type;
-
-        osc.frequency.value =
-            frequency;
-
-        gain.gain.setValueAtTime(
-            volume,
-            audioCtx.currentTime
-        );
-
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            audioCtx.currentTime+
-            duration
-        );
+        gain.gain.value=volume;
 
         osc.connect(gain);
-
-        gain.connect(
-            audioCtx.destination
-        );
+        gain.connect(audioCtx.destination);
 
         osc.start();
-
-        osc.stop(
-            audioCtx.currentTime+
-            duration
+        gain.gain.exponentialRampToValueAtTime(
+            .001,
+            audioCtx.currentTime+duration
         );
-
+        osc.stop(audioCtx.currentTime+duration);
     }catch(e){}
 }
 
-
-function successSound(){
-
-    beep(523,.12,.05);
-
-    setTimeout(
-        ()=>beep(659,.12,.05),
-        80
-    );
-
-    setTimeout(
-        ()=>beep(784,.18,.06),
-        160
-    );
+function vibrate(ms=30){
+    if(navigator.vibrate) navigator.vibrate(ms);
 }
 
-
-function failSound(){
-
-    beep(
-        150,
-        .18,
-        .05,
-        "sawtooth"
-    );
-
-    setTimeout(
-        ()=>beep(
-            100,
-            .2,
-            .04,
-            "sawtooth"
-        ),
-        120
-    );
+function clamp(v,min,max){
+    return Math.max(min,Math.min(max,v));
 }
 
+function change(stat,value){
+    game[stat]+=value;
 
-/* =========================================================
-   VIBRAÇÃO
-========================================================= */
+    if(stat==="rep") game.rep=clamp(game.rep,0,100);
+    if(stat==="sanity") game.sanity=clamp(game.sanity,0,100);
+    if(stat==="chaos") game.chaos=clamp(game.chaos,0,100);
+    if(stat==="money") game.money=clamp(game.money,-999,999);
+    if(stat==="debt") game.debt=clamp(game.debt,0,999);
 
-function vibrate(pattern){
-
-    try{
-
-        if(
-            navigator.vibrate
-        ){
-
-            navigator.vibrate(
-                pattern
-            );
-        }
-
-    }catch(e){}
+    updateHUD();
 }
 
+function log(msg){
+    const el=document.createElement("div");
+    el.className="log";
+    el.innerHTML=msg;
 
-/* =========================================================
-   HUD
-========================================================= */
+    $("eventLog").appendChild(el);
+
+    setTimeout(()=>{
+        el.style.opacity="0";
+        el.style.transform="translateX(-20px)";
+        setTimeout(()=>el.remove(),300);
+    },5000);
+}
 
 function updateHUD(){
-
-    missionHud.textContent =
-        mission+"/4";
-
-    scoreHud.textContent =
-        String(score).padStart(3,"0");
-
-    chaosHud.textContent =
-        Math.min(
-            100,
-            chaos
-        )+"%";
+    $("money").textContent=game.money;
+    $("rep").textContent=game.rep;
+    $("chaos").textContent=game.chaos;
+    $("sanity").textContent=game.sanity;
+    $("debt").textContent=game.debt;
+    $("chapter").textContent=`CAPÍTULO ${game.chapter}`;
 }
 
+function random(arr){
+    return arr[Math.floor(Math.random()*arr.length)];
+}
 
 /* =========================================================
-   TOAST
+   DIÁLOGO
 ========================================================= */
 
-let toastTimer;
+function dialogue(speaker,text,sub,choices){
+    $("dialogue").style.display="block";
+    $("speaker").textContent=speaker;
+    $("dialogText").innerHTML=text;
+    $("dialogSub").innerHTML=sub || "";
 
-function showToast(text){
+    const box=$("actions");
+    box.innerHTML="";
 
-    clearTimeout(
-        toastTimer
-    );
+    choices.forEach((choice,i)=>{
 
-    toast.textContent =
-        text;
+        const btn=document.createElement("button");
 
-    toast.classList.add(
-        "show"
-    );
+        btn.className="action "+(choice.className||"");
 
-    toastTimer =
-        setTimeout(
-            ()=>{
-                toast.classList.remove(
-                    "show"
-                );
+        btn.innerHTML=choice.text;
+
+        btn.onclick=()=>{
+            beep(450,.06);
+            vibrate(20);
+
+            game.decisions++;
+
+            if(choice.action){
+                choice.action();
+            }
+
+            if(choice.next){
+                choice.next();
+            }
+        };
+
+        box.appendChild(btn);
+    });
+}
+
+function closeDialogue(){
+    $("dialogue").style.display="none";
+}
+
+/* =========================================================
+   INÍCIO
+========================================================= */
+
+$("startBtn").onclick=()=>{
+    $("startScreen").style.display="none";
+    $("hud").style.display="block";
+
+    audioCtx.resume();
+
+    updateHUD();
+
+    log("📋 Você recebeu o cargo de <b>Administrador Temporário da Vila</b>.");
+    log("⚠️ Salário: R$ 0. Benefícios: nenhum. Risco: absoluto.");
+
+    setTimeout(scene1,800);
+};
+
+/* =========================================================
+   CAPÍTULO 1
+========================================================= */
+
+function scene1(){
+
+    game.chapter=1;
+    updateHUD();
+
+    dialogue(
+        "SEU MADRUGA",
+        "Finalmente alguém responsável chegou! Preciso de uma pequena ajuda.",
+        "Quando ele diz “pequena”, normalmente envolve dinheiro.",
+        [
+            {
+                text:"💰 Dar R$10",
+                className:"good",
+                action:()=>{
+                    change("money",-10);
+                    change("rep",8);
+                    game.madrugaHelped++;
+                    log("💰 Você financiou o problema.");
+                },
+                next:()=>{
+                    scene1b();
+                }
             },
-            1200
-        );
-}
-
-
-/* =========================================================
-   TEXTO FLUTUANTE
-========================================================= */
-
-function floatText(
-    x,
-    y,
-    text
-){
-
-    const el =
-        document.createElement(
-            "div"
-        );
-
-    el.className =
-        "floatText";
-
-    el.textContent =
-        text;
-
-    el.style.left =
-        x+"px";
-
-    el.style.top =
-        y+"px";
-
-    gameArea.appendChild(
-        el
-    );
-
-    setTimeout(
-        ()=>{
-            el.remove();
-        },
-        900
-    );
-}
-
-
-/* =========================================================
-   PARTÍCULAS CANVAS
-========================================================= */
-
-let particles = [];
-
-class Particle{
-
-    constructor(
-        x,
-        y,
-        color
-    ){
-
-        this.x=x;
-        this.y=y;
-
-        this.vx =
-            (Math.random()-.5)*10;
-
-        this.vy =
-            (Math.random()-.5)*10;
-
-        this.life=1;
-
-        this.color =
-            color ||
-            "#ffd51c";
-
-        this.size =
-            Math.random()*4+2;
-    }
-
-    update(){
-
-        this.x +=
-            this.vx;
-
-        this.y +=
-            this.vy;
-
-        this.vy +=
-            .18;
-
-        this.life -=
-            .025;
-    }
-
-    draw(){
-
-        ctx.save();
-
-        ctx.globalAlpha =
-            Math.max(
-                0,
-                this.life
-            );
-
-        ctx.fillStyle =
-            this.color;
-
-        ctx.beginPath();
-
-        ctx.arc(
-            this.x,
-            this.y,
-            this.size,
-            0,
-            Math.PI*2
-        );
-
-        ctx.fill();
-
-        ctx.restore();
-    }
-}
-
-
-function explosion(
-    x,
-    y,
-    color
-){
-
-    for(
-        let i=0;
-        i<22;
-        i++
-    ){
-
-        particles.push(
-            new Particle(
-                x,
-                y,
-                color
-            )
-        );
-    }
-}
-
-
-/* =========================================================
-   LOOP CANVAS
-========================================================= */
-
-function loop(){
-
-    ctx.clearRect(
-        0,
-        0,
-        W,
-        H
-    );
-
-    for(
-        let i=particles.length-1;
-        i>=0;
-        i--
-    ){
-
-        const p =
-            particles[i];
-
-        p.update();
-
-        p.draw();
-
-        if(
-            p.life<=0
-        ){
-
-            particles.splice(
-                i,
-                1
-            );
-        }
-    }
-
-    animationId =
-        requestAnimationFrame(
-            loop
-        );
-}
-
-loop();
-
-
-/* =========================================================
-   LIMPAR ÁREA
-========================================================= */
-
-function clearGameArea(){
-
-    gameArea
-        .querySelectorAll(
-            ".target"
-        )
-        .forEach(
-            el=>el.remove()
-        );
-
-    minionTargets=[];
-}
-
-
-/* =========================================================
-   BOTÃO DE AÇÃO
-========================================================= */
-
-function setButton(
-    text,
-    callback
-){
-
-    actionArea.innerHTML="";
-
-    const button =
-        document.createElement(
-            "button"
-        );
-
-    button.type =
-        "button";
-
-    button.className =
-        "mainButton";
-
-    button.textContent =
-        text;
-
-    button.addEventListener(
-        "pointerdown",
-        e=>{
-            e.preventDefault();
-
-            audioStart();
-
-            callback();
-        },
-        {
-            passive:false
-        }
-    );
-
-    actionArea.appendChild(
-        button
-    );
-}
-
-
-/* =========================================================
-   MISSÃO 1
-   CAÇA ÀS BANANAS
-========================================================= */
-
-function missionOne(){
-
-    mission=1;
-
-    chaos=10;
-
-    updateHUD();
-
-    badge.textContent =
-        "MISSÃO 1 — BANANA RUSH";
-
-    title.innerHTML =
-        "CAÇA À<br>BANANA! 🍌";
-
-    subtitle.innerHTML =
-        "Os Minions estão com fome.<br>"+
-        "Capture <b>12 bananas</b> antes que eles comam tudo.";
-
-    setButton(
-        "🍌 COMEÇAR A CAÇA",
-        startBananaGame
-    );
-}
-
-
-let bananaCount=0;
-
-let bananaInterval=null;
-
-
-function startBananaGame(){
-
-    actionArea.innerHTML="";
-
-    bananaCount=0;
-
-    missionStartTime =
-        performance.now();
-
-    showToast(
-        "🍌 PEGUE AS BANANAS!"
-    );
-
-    spawnBanana();
-
-    bananaInterval =
-        setInterval(
-            spawnBanana,
-            850
-        );
-}
-
-
-function spawnBanana(){
-
-    if(
-        bananaCount>=12
-    ){
-
-        clearInterval(
-            bananaInterval
-        );
-
-        completeMissionOne();
-
-        return;
-    }
-
-    const el =
-        document.createElement(
-            "div"
-        );
-
-    el.className =
-        "target";
-
-    el.textContent =
-        Math.random()>.15
-        ? "🍌"
-        : "💣";
-
-    const size =
-        55+
-        Math.random()*25;
-
-    el.style.width =
-        size+"px";
-
-    el.style.height =
-        size+"px";
-
-    const x =
-        10+
-        Math.random()*
-        Math.max(
-            20,
-            W-100
-        );
-
-    const y =
-        18+
-        Math.random()*
-        Math.max(
-            30,
-            H-160
-        );
-
-    el.style.left =
-        x+"px";
-
-    el.style.top =
-        y+"px";
-
-    let clicked=false;
-
-    el.addEventListener(
-        "pointerdown",
-        e=>{
-
-            e.preventDefault();
-
-            if(clicked) return;
-
-            clicked=true;
-
-            if(
-                el.textContent==="🍌"
-            ){
-
-                bananaCount++;
-
-                score+=15;
-
-                chaos=
-                    Math.min(
-                        100,
-                        chaos+2
-                    );
-
-                explosion(
-                    x+size/2,
-                    y+size/2,
-                    "#ffd51c"
-                );
-
-                floatText(
-                    x+size/2,
-                    y,
-                    "+15 🍌"
-                );
-
-                successSound();
-
-                vibrate(20);
-
-            }else{
-
-                score=
-                    Math.max(
-                        0,
-                        score-10
-                    );
-
-                chaos=
-                    Math.min(
-                        100,
-                        chaos+12
-                    );
-
-                explosion(
-                    x+size/2,
-                    y+size/2,
-                    "#ff4d5e"
-                );
-
-                floatText(
-                    x+size/2,
-                    y,
-                    "BOOM! 💥"
-                );
-
-                failSound();
-
-                vibrate(
-                    [50,50,80]
-                );
-
-                panel.classList.add(
-                    "shake"
-                );
-
-                setTimeout(
-                    ()=>{
-                        panel.classList.remove(
-                            "shake"
-                        );
-                    },
-                    400
-                );
-            }
-
-            updateHUD();
-
-            el.remove();
-
-        },
-        {
-            passive:false
-        }
-    );
-
-    gameArea.appendChild(
-        el
-    );
-
-    setTimeout(
-        ()=>{
-            if(el.isConnected){
-                el.remove();
-            }
-        },
-        1000
-    );
-}
-
-
-function completeMissionOne(){
-
-    clearInterval(
-        bananaInterval
-    );
-
-    clearGameArea();
-
-    score+=50;
-
-    chaos=
-        Math.min(
-            100,
-            chaos+5
-        );
-
-    updateHUD();
-
-    successSound();
-
-    showToast(
-        "🍌 MISSÃO CONCLUÍDA!"
-    );
-
-    setTimeout(
-        missionTwo,
-        1100
-    );
-}
-
-
-/* =========================================================
-   MISSÃO 2
-   ENCONTRE O MINION CERTO
-========================================================= */
-
-function missionTwo(){
-
-    mission=2;
-
-    updateHUD();
-
-    badge.textContent =
-        "MISSÃO 2 — MINION DETECTIVE";
-
-    title.innerHTML =
-        "QUEM É O<br>MINION CERTO? 🕵️";
-
-    subtitle.innerHTML =
-        "Existem impostores espalhados pela fábrica.<br>"+
-        "Encontre <b>8 Minions verdadeiros</b>.";
-
-    setButton(
-        "🕵️ INICIAR INVESTIGAÇÃO",
-        startDetective
-    );
-}
-
-
-let detectiveCount=0;
-let detectiveTimer=null;
-
-
-function startDetective(){
-
-    actionArea.innerHTML="";
-
-    detectiveCount=0;
-
-    showToast(
-        "🕵️ NÃO CONFIE EM NENHUM DELES!"
-    );
-
-    detectiveTimer =
-        setInterval(
-            spawnDetective,
-            750
-        );
-}
-
-
-function spawnDetective(){
-
-    if(
-        detectiveCount>=8
-    ){
-
-        clearInterval(
-            detectiveTimer
-        );
-
-        completeMissionTwo();
-
-        return;
-    }
-
-    const el =
-        document.createElement(
-            "div"
-        );
-
-    el.className =
-        "target";
-
-    const real =
-        Math.random()>.35;
-
-    el.textContent =
-        real
-        ? "🟡"
-        : "🔵";
-
-    const x =
-        5+
-        Math.random()*
-        Math.max(
-            20,
-            W-90
-        );
-
-    const y =
-        18+
-        Math.random()*
-        Math.max(
-            30,
-            H-160
-        );
-
-    el.style.left =
-        x+"px";
-
-    el.style.top =
-        y+"px";
-
-    let done=false;
-
-    el.addEventListener(
-        "pointerdown",
-        e=>{
-
-            e.preventDefault();
-
-            if(done) return;
-
-            done=true;
-
-            if(real){
-
-                detectiveCount++;
-
-                score+=20;
-
-                chaos=
-                    Math.max(
-                        0,
-                        chaos-3
-                    );
-
-                explosion(
-                    x+38,
-                    y+38,
-                    "#62e572"
-                );
-
-                floatText(
-                    x+38,
-                    y,
-                    "É ELE! +20"
-                );
-
-                successSound();
-
-            }else{
-
-                score=
-                    Math.max(
-                        0,
-                        score-15
-                    );
-
-                chaos=
-                    Math.min(
-                        100,
-                        chaos+15
-                    );
-
-                explosion(
-                    x+38,
-                    y+38,
-                    "#2774d9"
-                );
-
-                floatText(
-                    x+38,
-                    y,
-                    "IMPOSTOR! 😱"
-                );
-
-                failSound();
-
-                vibrate(
-                    [40,40]
-                );
-            }
-
-            updateHUD();
-
-            el.remove();
-
-        },
-        {
-            passive:false
-        }
-    );
-
-    gameArea.appendChild(
-        el
-    );
-
-    setTimeout(
-        ()=>{
-            if(el.isConnected){
-                el.remove();
-            }
-        },
-        1050
-    );
-}
-
-
-function completeMissionTwo(){
-
-    clearInterval(
-        detectiveTimer
-    );
-
-    clearGameArea();
-
-    score+=70;
-
-    chaos=
-        Math.min(
-            100,
-            chaos+8
-        );
-
-    updateHUD();
-
-    showToast(
-        "🕵️ VOCÊ DESCOBRIU OS IMPOSTORES!"
-    );
-
-    setTimeout(
-        missionThree,
-        1200
-    );
-}
-
-
-/* =========================================================
-   MISSÃO 3
-   MEMÓRIA MINION
-========================================================= */
-
-function missionThree(){
-
-    mission=3;
-
-    updateHUD();
-
-    badge.textContent =
-        "MISSÃO 3 — CÓDIGO SECRETO";
-
-    title.innerHTML =
-        "DECORA A<br>SEQUÊNCIA! 🧠";
-
-    subtitle.innerHTML =
-        "Os Minions têm um código secreto.<br>"+
-        "Observe e depois repita.";
-
-    setButton(
-        "🧠 MOSTRAR CÓDIGO",
-        startMemory
-    );
-}
-
-
-const memorySymbols=[
-    "🍌",
-    "🟡",
-    "🔵",
-    "🍌"
-];
-
-let memoryLength=4;
-
-let memorySequence=[];
-
-let memoryIndex=0;
-
-
-function startMemory(){
-
-    actionArea.innerHTML="";
-
-    memorySequence=[];
-
-    memoryIndex=0;
-
-    /*
-      Cada rodada aumenta.
-    */
-
-    memoryLength =
-        4+
-        Math.min(
-            3,
-            Math.floor(
-                score/150
-            )
-        );
-
-    for(
-        let i=0;
-        i<memoryLength;
-        i++
-    ){
-
-        memorySequence.push(
-            memorySymbols[
-                Math.floor(
-                    Math.random()*
-                    memorySymbols.length
-                )
-            ]
-        );
-    }
-
-    subtitle.innerHTML =
-        "PRESTA ATENÇÃO! 👀<br>"+
-        "O código vai aparecer...";
-
-    showMemorySequence();
-}
-
-
-function showMemorySequence(){
-
-    let index=0;
-
-    const interval =
-        setInterval(
-            ()=>{
-
-                title.textContent =
-                    memorySequence[index];
-
-                beep(
-                    350+
-                    index*90,
-                    .15,
-                    .05
-                );
-
-                index++;
-
-                if(
-                    index>=
-                    memorySequence.length
-                ){
-
-                    clearInterval(
-                        interval
-                    );
-
-                    setTimeout(
-                        createMemoryButtons,
-                        500
+            {
+                text:"🧠 Pedir explicações",
+                action:()=>{
+                    change("rep",3);
+                    dialogue(
+                        "SEU MADRUGA",
+                        "Explicações? Ah... então deixa pra lá.",
+                        "Ele foi embora imediatamente.",
+                        [
+                            {
+                                text:"➡️ Continuar",
+                                next:scene1c
+                            }
+                        ]
                     );
                 }
-
             },
-            650
-        );
+            {
+                text:"🏃 Fingir que não ouviu",
+                className:"danger",
+                action:()=>{
+                    change("rep",-8);
+                    change("chaos",5);
+                    log("🏃 Você tentou fugir. A vila anotou seu rosto.");
+                },
+                next:scene1c
+            }
+        ]
+    );
 }
 
+function scene1b(){
 
-function createMemoryButtons(){
+    dialogue(
+        "SEU MADRUGA",
+        "Excelente! Agora falta só resolver uma coisinha.",
+        "Ele não sabe dizer qual é a coisinha.",
+        [
+            {
+                text:"🍞 Comprar comida",
+                action:()=>{
+                    change("money",-7);
+                    game.chavesFed++;
+                    change("rep",5);
+                    log("🍞 Chaves recebeu comida. Você ganhou respeito.");
+                },
+                next:scene1c
+            },
+            {
+                text:"🪣 Comprar um balde",
+                action:()=>{
+                    change("money",-4);
+                    change("chaos",3);
+                    log("🪣 Ninguém sabe por quê, mas o balde será importante.");
+                },
+                next:scene1c
+            },
+            {
+                text:"😐 Perguntar “pra quê?”",
+                action:()=>{
+                    change("sanity",-3);
+                    log("😐 Você fez a pergunta errada.");
+                },
+                next:scene1c
+            }
+        ]
+    );
+}
 
-    title.innerHTML =
-        "AGORA É SUA VEZ!";
+function scene1c(){
 
-    subtitle.innerHTML =
-        "Toque na sequência correta.";
-
-    const container =
-        document.createElement(
-            "div"
-        );
-
-    container.style.display=
-        "grid";
-
-    container.style.gridTemplateColumns=
-        "repeat(2,1fr)";
-
-    container.style.gap=
-        "10px";
-
-    container.style.marginTop=
-        "15px";
-
-    const options=[
-        "🍌",
-        "🟡",
-        "🔵",
-        "🍌"
-    ];
-
-    options.forEach(
-        symbol=>{
-
-            const b =
-                document.createElement(
-                    "button"
-                );
-
-            b.type="button";
-
-            b.textContent=
-                symbol;
-
-            b.style.minHeight=
-                "62px";
-
-            b.style.border=
-                "1px solid rgba(255,255,255,.12)";
-
-            b.style.borderRadius=
-                "16px";
-
-            b.style.background=
-                "rgba(255,255,255,.06)";
-
-            b.style.fontSize=
-                "28px";
-
-            b.style.color=
-                "white";
-
-            b.addEventListener(
-                "pointerdown",
-                e=>{
-
-                    e.preventDefault();
-
-                    handleMemory(
-                        symbol,
-                        b
-                    );
+    setTimeout(()=>{
+        dialogue(
+            "CHAVES",
+            "Eu achei uma coisa no chão.",
+            "Ele segura um objeto que provavelmente não deveria estar ali.",
+            [
+                {
+                    text:"🔍 Examinar",
+                    action:()=>{
+                        change("sanity",-2);
+                        change("chaos",4);
+                        log("🔍 Era uma colher. Você perdeu 2 pontos de sanidade descobrindo isso.");
+                    },
+                    next:scene2
                 },
                 {
-                    passive:false
+                    text:"🗑️ Mandar jogar fora",
+                    action:()=>{
+                        change("rep",-2);
+                        log("🗑️ A colher desapareceu misteriosamente.");
+                    },
+                    next:scene2
+                },
+                {
+                    text:"🍴 Perguntar de quem é",
+                    action:()=>{
+                        change("chaos",2);
+                        game.gossip++;
+                        log("🍴 A pergunta gerou uma fofoca completamente desnecessária.");
+                    },
+                    next:scene2
                 }
-            );
-
-            container.appendChild(b);
-
-        }
-    );
-
-    actionArea.appendChild(
-        container
-    );
-}
-
-
-function handleMemory(
-    symbol,
-    button
-){
-
-    if(
-        symbol===
-        memorySequence[
-            memoryIndex
-        ]
-    ){
-
-        memoryIndex++;
-
-        button.style.background=
-            "rgba(98,229,112,.25)";
-
-        score+=15;
-
-        successSound();
-
-        vibrate(20);
-
-        if(
-            memoryIndex>=
-            memorySequence.length
-        ){
-
-            completeMissionThree();
-        }
-
-    }else{
-
-        score=
-            Math.max(
-                0,
-                score-30
-            );
-
-        chaos=
-            Math.min(
-                100,
-                chaos+20
-            );
-
-        updateHUD();
-
-        failSound();
-
-        vibrate(
-            [80,50,100]
+            ]
         );
-
-        showToast(
-            "❌ O MINION APERTOU O BOTÃO ERRADO!"
-        );
-
-        /*
-          Reinicia a sequência.
-        */
-
-        memoryIndex=0;
-
-        subtitle.innerHTML =
-            "ERROU! 😂<br>"+
-            "Agora tem que começar de novo.";
-
-    }
-
-    updateHUD();
+    },500);
 }
-
-
-function completeMissionThree(){
-
-    actionArea.innerHTML="";
-
-    score+=100;
-
-    chaos=
-        Math.max(
-            0,
-            chaos-10
-        );
-
-    updateHUD();
-
-    title.innerHTML =
-        "CÓDIGO<br>DECIFRADO! 🧠";
-
-    subtitle.innerHTML =
-        "Nem os Minions acreditaram.<br>"+
-        "Você está ficando perigosa.";
-
-    successSound();
-
-    showToast(
-        "🧠 NÍVEL DE INTELIGÊNCIA: SUSPEITO"
-    );
-
-    setTimeout(
-        missionFour,
-        1500
-    );
-}
-
 
 /* =========================================================
-   MISSÃO 4
-   CHEFE FINAL
+   CAPÍTULO 2 — DONA FLORINDA
 ========================================================= */
 
-let bossHP=25;
+function scene2(){
 
-let bossTimer=null;
-
-let bossEventTimer=null;
-
-
-function missionFour(){
-
-    mission=4;
-
-    bossHP=25;
-
-    chaos=
-        Math.min(
-            100,
-            chaos+20
-        );
-
+    game.chapter=2;
     updateHUD();
 
-    badge.textContent =
-        "MISSÃO 4 — CHEFE FINAL";
-
-    title.innerHTML =
-        "MEGA MINION! 👑";
-
-    subtitle.innerHTML =
-        "Ele roubou TODAS as bananas.<br>"+
-        "<b>DERROTE O CHEFÃO!</b>";
-
-    setButton(
-        "⚔️ ENTRAR NA BATALHA",
-        startBoss
-    );
-}
-
-
-function startBoss(){
-
-    actionArea.innerHTML="";
-
-    title.innerHTML =
-        "DERROTE O<br>MEGA MINION!";
-
-    subtitle.innerHTML =
-        "TOQUE NO CHEFÃO!<br>"+
-        "Ele não vai facilitar.";
-
-    createBoss();
-
-    bossTimer =
-        setInterval(
-            bossAttack,
-            2400
-        );
-
-    bossEventTimer =
-        setInterval(
-            randomBossEvent,
-            5000
-        );
-}
-
-
-function createBoss(){
-
-    clearGameArea();
-
-    const boss =
-        document.createElement(
-            "div"
-        );
-
-    boss.className=
-        "target";
-
-    boss.id=
-        "boss";
-
-    boss.textContent=
-        "😈";
-
-    boss.style.width=
-        "125px";
-
-    boss.style.height=
-        "125px";
-
-    boss.style.fontSize=
-        "85px";
-
-    boss.style.left=
-        (
-            W/2-62
-        )+"px";
-
-    boss.style.top=
-        (
-            H/2-62
-        )+"px";
-
-    boss.style.background=
-        "rgba(255,213,28,.08)";
-
-    boss.style.border=
-        "3px solid rgba(255,213,28,.4)";
-
-    boss.style.boxShadow=
-        "0 0 40px rgba(255,213,28,.25)";
-
-    boss.addEventListener(
-        "pointerdown",
-        e=>{
-
-            e.preventDefault();
-
-            bossHit(
-                boss
-            );
-        },
-        {
-            passive:false
-        }
-    );
-
-    gameArea.appendChild(
-        boss
-    );
-}
-
-
-function bossHit(boss){
-
-    if(
-        !boss.isConnected
-    ) return;
-
-    bossHP--;
-
-    score+=10;
-
-    chaos=
-        Math.min(
-            100,
-            chaos+1
-        );
-
-    explosion(
-        parseFloat(
-            boss.style.left
-        )+62,
-        parseFloat(
-            boss.style.top
-        )+62,
-        "#ffd51c"
-    );
-
-    floatText(
-        W/2,
-        H/2-80,
-        "-1 HP! +10"
-    );
-
-    successSound();
-
-    vibrate(18);
-
-    boss.style.transform=
-        "scale(.86)";
-
-    setTimeout(
-        ()=>{
-            if(
-                boss.isConnected
-            ){
-                boss.style.transform=
-                    "scale(1)";
+    dialogue(
+        "DONA FLORINDA",
+        "Você! Venha aqui imediatamente.",
+        "Você percebe que não foi um convite.",
+        [
+            {
+                text:"🧍 Ir educadamente",
+                action:()=>{
+                    change("rep",4);
+                    florindaChallenge();
+                }
+            },
+            {
+                text:"🏃 Correr",
+                action:()=>{
+                    change("chaos",10);
+                    change("florindaAnger",20);
+                    florindaChase();
+                }
+            },
+            {
+                text:"🫣 Se esconder atrás da porta",
+                action:()=>{
+                    change("sanity",-5);
+                    dialogue(
+                        "DONA FLORINDA",
+                        "Eu estou vendo seus pés.",
+                        "O plano durou aproximadamente 1,7 segundos.",
+                        [
+                            {
+                                text:"😐 Sair",
+                                action:()=>change("rep",2),
+                                next:florindaChallenge
+                            }
+                        ]
+                    );
+                }
             }
-        },
-        90
-    );
-
-    updateHUD();
-
-    if(
-        bossHP<=0
-    ){
-
-        defeatBoss();
-    }
-}
-
-
-function bossAttack(){
-
-    if(
-        !running ||
-        mission!==4 ||
-        bossHP<=0
-    ) return;
-
-    chaos=
-        Math.min(
-            100,
-            chaos+7
-        );
-
-    updateHUD();
-
-    const boss =
-        document.getElementById(
-            "boss"
-        );
-
-    if(
-        boss
-    ){
-
-        boss.style.left=
-            Math.max(
-                10,
-                Math.random()*
-                (W-135)
-            )+"px";
-
-        boss.style.top=
-            Math.max(
-                80,
-                Math.random()*
-                (H-170)
-            )+"px";
-    }
-
-    showToast(
-        "😈 O MEGA MINION FUGIU!"
+        ]
     );
 }
 
+function florindaChallenge(){
 
-function randomBossEvent(){
+    dialogue(
+        "DONA FLORINDA",
+        "Tenho uma reclamação.",
+        "Você tem 10 segundos para escolher uma resposta diplomática.",
+        [
+            {
+                text:"🙏 “Entendo sua preocupação.”",
+                action:()=>{
+                    change("rep",7);
+                    log("🙏 Você descobriu a técnica milenar de concordar sem resolver nada.");
+                },
+                next:scene3
+            },
+            {
+                text:"😬 “Isso não é comigo.”",
+                action:()=>{
+                    change("rep",-10);
+                    change("chaos",8);
+                },
+                next:scene3
+            },
+            {
+                text:"😂 Rir",
+                action:()=>{
+                    change("sanity",5);
+                    change("chaos",15);
+                    log("😂 Você riu. Não deveria.");
+                },
+                next:scene3
+            }
+        ]
+    );
+}
 
-    if(
-        mission!==4 ||
-        bossHP<=0
-    ) return;
+/* =========================================================
+   PERSEGUIÇÃO
+========================================================= */
 
-    const events=[
-        "🍌 ATAQUE DE BANANAS!",
-        "😂 ELE ESTÁ RINDO DE VOCÊ!",
-        "🚨 ALERTA! ELE FICOU MAIS RÁPIDO!",
-        "😱 MINION EM PÂNICO!",
-        "💥 CAOS TOTAL!"
+function florindaChase(){
+
+    $("minigame").style.display="block";
+    $("miniTitle").textContent="🚨 FUGA DA DONA FLORINDA";
+    $("centerMessage").textContent="NÃO DEIXE ELA TE PEGAR.";
+
+    const arena=$("arena");
+    arena.innerHTML="";
+
+    miniTime=18;
+    $("miniTimer").textContent="18s";
+
+    let player={
+        x:50,
+        y:50
+    };
+
+    let enemy={
+        x:10,
+        y:20
+    };
+
+    const p=document.createElement("div");
+    p.innerHTML="🏃";
+    p.style.position="absolute";
+    p.style.fontSize="45px";
+    p.style.left="50%";
+    p.style.top="50%";
+    p.style.transform="translate(-50%,-50%)";
+    arena.appendChild(p);
+
+    const e=document.createElement("div");
+    e.innerHTML="👠";
+    e.style.position="absolute";
+    e.style.fontSize="45px";
+    arena.appendChild(e);
+
+    let active=true;
+
+    function movePlayer(ev){
+        if(!active)return;
+
+        const rect=arena.getBoundingClientRect();
+
+        let x,y;
+
+        if(ev.touches){
+            x=ev.touches[0].clientX;
+            y=ev.touches[0].clientY;
+        }else{
+            x=ev.clientX;
+            y=ev.clientY;
+        }
+
+        player.x=clamp((x-rect.left)/rect.width*100,4,96);
+        player.y=clamp((y-rect.top)/rect.height*100,5,95);
+
+        p.style.left=player.x+"%";
+        p.style.top=player.y+"%";
+
+        beep(700,.025,"sine",.01);
+    }
+
+    arena.onpointermove=movePlayer;
+    arena.ontouchmove=movePlayer;
+
+    const timer=setInterval(()=>{
+
+        miniTime--;
+
+        $("miniTimer").textContent=miniTime+"s";
+
+        enemy.x+=(player.x-enemy.x)*.08;
+        enemy.y+=(player.y-enemy.y)*.08;
+
+        e.style.left=enemy.x+"%";
+        e.style.top=enemy.y+"%";
+
+        const dx=player.x-enemy.x;
+        const dy=player.y-enemy.y;
+        const dist=Math.sqrt(dx*dx+dy*dy);
+
+        if(dist<10){
+
+            active=false;
+            clearInterval(timer);
+
+            change("rep",-15);
+            change("chaos",20);
+            change("sanity",-8);
+
+            $("centerMessage").textContent="ELA TE PEGOU. 💀";
+
+            setTimeout(()=>{
+                $("minigame").style.display="none";
+                scene3();
+            },1200);
+        }
+
+        if(miniTime<=0){
+
+            active=false;
+            clearInterval(timer);
+
+            change("rep",8);
+            $("centerMessage").textContent="VOCÊ ESCAPOU. 🏃💨";
+
+            setTimeout(()=>{
+                $("minigame").style.display="none";
+                scene3();
+            },1000);
+        }
+
+    },1000);
+}
+
+/* =========================================================
+   CAPÍTULO 3 — QUIQUO
+========================================================= */
+
+function scene3(){
+
+    game.chapter=3;
+    updateHUD();
+
+    dialogue(
+        "QUIQUO",
+        "Eu tive uma ideia genial.",
+        "Isso deveria ser considerado uma frase de alerta.",
+        [
+            {
+                text:"👂 Escutar",
+                action:()=>{
+                    game.quicoScams++;
+                    change("sanity",-3);
+                    dialogue(
+                        "QUIQUO",
+                        "Você me dá R$15 e eu te dou... uma coisa muito rara.",
+                        "Ele mostra uma pedra.",
+                        [
+                            {
+                                text:"💰 Comprar",
+                                action:()=>{
+                                    change("money",-15);
+                                    change("chaos",10);
+                                    log("🪨 Você comprou uma pedra.");
+                                    nextScene4();
+                                }
+                            },
+                            {
+                                text:"🧠 Recusar",
+                                action:()=>{
+                                    change("rep",4);
+                                    log("🧠 Você evitou um golpe extremamente óbvio.");
+                                    nextScene4();
+                                }
+                            },
+                            {
+                                text:"🔄 Oferecer R$2",
+                                action:()=>{
+                                    change("money",-2);
+                                    change("chaos",5);
+                                    log("🤝 Você negociou uma pedra por R$2. O capitalismo venceu.");
+                                    nextScene4();
+                                }
+                            }
+                        ]
+                    );
+                }
+            },
+            {
+                text:"🚪 Mandar ele embora",
+                action:()=>{
+                    change("rep",-4);
+                    change("chaos",4);
+                },
+                next:nextScene4
+            }
+        ]
+    );
+}
+
+function nextScene4(){
+
+    setTimeout(()=>{
+
+        game.chapter=4;
+        updateHUD();
+
+        dialogue(
+            "CHAVES",
+            "Eu estou com fome.",
+            "Você percebe que isso pode ser resolvido ou virar um problema administrativo.",
+            [
+                {
+                    text:"🍖 Dar comida",
+                    action:()=>{
+                        game.chavesFed++;
+                        change("money",-8);
+                        change("rep",8);
+                        log("🍖 Chaves foi alimentado.");
+                    },
+                    next:auction
+                },
+                {
+                    text:"🪙 Dar R$3",
+                    action:()=>{
+                        change("money",-3);
+                        change("rep",4);
+                    },
+                    next:auction
+                },
+                {
+                    text:"😬 Dizer que não tem",
+                    action:()=>{
+                        change("rep",-5);
+                        change("chaos",8);
+                    },
+                    next:auction
+                }
+            ]
+        );
+
+    },600);
+}
+
+/* =========================================================
+   CAPÍTULO 4 — LEILÃO ABSURDO
+========================================================= */
+
+function auction(){
+
+    game.chapter=4;
+    updateHUD();
+
+    dialogue(
+        "CHAMADA URGENTE",
+        "A vila está realizando um leilão não autorizado.",
+        "Ninguém sabe quem autorizou. Todo mundo está participando.",
+        [
+            {
+                text:"🧐 Investigar",
+                action:()=>auctionGame()
+            },
+            {
+                text:"💸 Participar",
+                action:()=>{
+                    change("chaos",10);
+                    auctionGame();
+                }
+            },
+            {
+                text:"🚨 Acabar com isso",
+                action:()=>{
+                    change("rep",6);
+                    change("chaos",-3);
+                    auctionGame();
+                }
+            }
+        ]
+    );
+}
+
+function auctionGame(){
+
+    $("dialogue").style.display="none";
+
+    const items=[
+        ["🪣","Balde misterioso","Possui histórico duvidoso",5],
+        ["🪑","Cadeira suspeita","Parece normal. Não é.",8],
+        ["🍳","Frigideira","Possível arma culinária",12],
+        ["🧦","Meia solitária","Ninguém sabe onde está a outra",3],
+        ["🧹","Vassoura","Tem fama de resolver problemas",7],
+        ["📻","Rádio velho","Só pega duas estações",10]
     ];
 
-    showToast(
-        events[
-            Math.floor(
-                Math.random()*
-                events.length
-            )
+    dialogue(
+        "LEILOEIRO ANÔNIMO",
+        "Escolha um objeto. Se você pagar, ele é seu.",
+        "Se der errado, tecnicamente você foi avisado.",
+        [
+            {
+                text:"🪣 Comprar o balde",
+                action:()=>{
+                    change("money",-5);
+                    change("chaos",3);
+                    game.flags.bucket=true;
+                    log("🪣 Você adquiriu o Balde Oficial da Confusão.");
+                },
+                next:afterAuction
+            },
+            {
+                text:"🍳 Comprar frigideira",
+                action:()=>{
+                    change("money",-12);
+                    change("chaos",7);
+                    game.flags.pan=true;
+                    log("🍳 Você comprou uma frigideira por motivos que nem você entende.");
+                },
+                next:afterAuction
+            },
+            {
+                text:"🧦 Comprar a meia",
+                action:()=>{
+                    change("money",-3);
+                    change("sanity",-2);
+                    game.flags.sock=true;
+                    log("🧦 Agora você possui uma meia sem futuro.");
+                },
+                next:afterAuction
+            },
+            {
+                text:"🧠 Não comprar nada",
+                action:()=>{
+                    change("sanity",4);
+                    log("🧠 Você tomou uma decisão sensata. Isso será raro.");
+                },
+                next:afterAuction
+            }
         ]
     );
-
-    chaos=
-        Math.min(
-            100,
-            chaos+5
-        );
-
-    updateHUD();
-
-    vibrate(25);
 }
 
+function afterAuction(){
 
-function defeatBoss(){
-
-    clearInterval(
-        bossTimer
-    );
-
-    clearInterval(
-        bossEventTimer
-    );
-
-    clearGameArea();
-
-    score+=300;
-
-    chaos=
-        Math.min(
-            100,
-            chaos+5
+    setTimeout(()=>{
+        dialogue(
+            "SEU BARRIGA",
+            "TÁ NA HORA DO ALUGUEL.",
+            "Ele apareceu exatamente quando você ficou sem dinheiro.",
+            [
+                {
+                    text:"💰 Pagar R$20",
+                    action:()=>{
+                        change("money",-20);
+                        change("debt",-20);
+                        change("rep",8);
+                    },
+                    next:scene5
+                },
+                {
+                    text:"😬 Pedir prazo",
+                    action:()=>{
+                        change("debt",20);
+                        change("rep",-2);
+                        log("📄 Você ganhou prazo. A dívida ganhou vida própria.");
+                    },
+                    next:scene5
+                },
+                {
+                    text:"🏃 Correr",
+                    action:()=>{
+                        change("debt",35);
+                        change("chaos",15);
+                        log("🏃 Você correu. O boleto correu mais.");
+                    },
+                    next:scene5
+                }
+            ]
         );
+    },500);
+}
 
+/* =========================================================
+   CAPÍTULO 5 — CAÇA ÀS DESCULPAS
+========================================================= */
+
+function scene5(){
+
+    game.chapter=5;
     updateHUD();
 
-    successSound();
-
-    vibrate(
+    dialogue(
+        "SEU MADRUGA",
+        "Preciso que você me ajude a escolher uma desculpa.",
+        "Você não pergunta para quê. Já entendeu.",
         [
-            40,
-            50,
-            80,
-            100,
-            150
+            {
+                text:"📋 Desculpa profissional",
+                action:()=>{
+                    change("rep",3);
+                    startExcuseGame();
+                }
+            },
+            {
+                text:"😂 Desculpa absurda",
+                action:()=>{
+                    change("chaos",8);
+                    startExcuseGame();
+                }
+            },
+            {
+                text:"🤨 Perguntar quem está cobrando",
+                action:()=>{
+                    change("sanity",-2);
+                    startExcuseGame();
+                }
+            }
         ]
     );
+}
 
-    showToast(
-        "👑 MEGA MINION DERROTADO!"
+function startExcuseGame(){
+
+    $("dialogue").style.display="none";
+    $("minigame").style.display="block";
+
+    $("miniTitle").textContent="🎰 GERADOR DE DESCULPAS";
+    $("centerMessage").textContent="TOQUE PARA GIRAR";
+
+    const arena=$("arena");
+    arena.innerHTML="";
+
+    $("miniTimer").textContent="5 RODADAS";
+
+    const box=document.createElement("div");
+
+    box.style.position="absolute";
+    box.style.left="50%";
+    box.style.top="50%";
+    box.style.transform="translate(-50%,-50%)";
+    box.style.width="min(400px,85%)";
+    box.style.textAlign="center";
+
+    box.innerHTML=`
+        <div id="excuseText"
+             style="font-size:22px;font-weight:1000;min-height:100px;
+             display:flex;align-items:center;justify-content:center;">
+             🤔
+        </div>
+
+        <button id="spinBtn"
+                style="width:100%;padding:18px;border:0;border-radius:15px;
+                background:#ffd54f;font-weight:1000;font-size:16px;">
+                GIRAR A DESCULPA
+        </button>
+    `;
+
+    arena.appendChild(box);
+
+    const excuses=[
+        "🐔 A galinha comeu o documento.",
+        "🌧️ Choveu dentro do bolso.",
+        "🪣 O balde está em reunião.",
+        "🧠 Eu esqueci porque lembrei de outra coisa.",
+        "📻 O rádio confirmou que eu estava certo.",
+        "🐟 O peixe é testemunha.",
+        "🚪 A porta estava fechada por dentro.",
+        "🍌 Uma banana interferiu no processo.",
+        "😴 Eu estava ocupado dormindo.",
+        "👻 A culpa foi de uma pessoa que não existe."
+    ];
+
+    let rounds=0;
+
+    $("spinBtn").onclick=()=>{
+
+        rounds++;
+
+        const text=random(excuses);
+
+        $("excuseText").textContent=text;
+
+        beep(200+Math.random()*600,.12);
+
+        change("chaos",Math.floor(Math.random()*6));
+
+        if(rounds>=5){
+
+            $("spinBtn").disabled=true;
+
+            setTimeout(()=>{
+                $("centerMessage").textContent=
+                    "DESCULPA APROVADA PELO CONSELHO DA ABSURDEZ. 😂";
+
+                setTimeout(()=>{
+                    $("minigame").style.display="none";
+                    scene6();
+                },1400);
+
+            },500);
+        }
+    };
+}
+
+/* =========================================================
+   CAPÍTULO 6 — FOFOCA
+========================================================= */
+
+function scene6(){
+
+    game.chapter=6;
+    updateHUD();
+
+    const rumors=[
+        "🗣️ Alguém viu uma pessoa entrando no pátio com um balde.",
+        "🗣️ Uma meia foi leiloada e ninguém sabe por quê.",
+        "🗣️ Há suspeitas de que alguém está escondendo comida.",
+        "🗣️ Seu Madruga foi visto conversando com uma cadeira.",
+        "🗣️ Quico aparentemente vendeu uma pedra para alguém.",
+        "🗣️ Dona Florinda sabe de alguma coisa."
+    ];
+
+    dialogue(
+        "CHICA",
+        random(rumors),
+        "Você pode ignorar ou alimentar a fofoca.",
+        [
+            {
+                text:"🤐 Não espalhar",
+                action:()=>{
+                    change("rep",7);
+                    change("chaos",-5);
+                    log("🤐 Pela primeira vez você fez algo sensato.");
+                },
+                next:finalCrisis
+            },
+            {
+                text:"📢 Espalhar",
+                action:()=>{
+                    game.gossip++;
+                    change("chaos",15);
+                    change("rep",-4);
+                    log("📢 A fofoca agora está em três casas.");
+                },
+                next:finalCrisis
+            },
+            {
+                text:"💰 Vender a informação",
+                action:()=>{
+                    game.gossip++;
+                    change("money",12);
+                    change("chaos",20);
+                    change("rep",-8);
+                    log("💰 Você monetizou a fofoca. O capitalismo novamente venceu.");
+                },
+                next:finalCrisis
+            }
+        ]
     );
+}
 
-    for(
-        let i=0;
-        i<80;
-        i++
-    ){
+/* =========================================================
+   CRISE FINAL
+========================================================= */
 
-        explosion(
-            Math.random()*W,
-            Math.random()*H,
-            i%2
-            ? "#ffd51c"
-            : "#2774d9"
+function finalCrisis(){
+
+    game.chapter=7;
+    updateHUD();
+
+    setTimeout(()=>{
+
+        dialogue(
+            "⚠️ ALERTA GERAL",
+            "A vila entrou em colapso administrativo.",
+            "Existem apenas alguns minutos para resolver a situação.",
+            [
+                {
+                    text:"🧠 Tentar organizar",
+                    action:()=>{
+                        change("sanity",-10);
+                        change("rep",5);
+                        finalMini();
+                    }
+                },
+                {
+                    text:"😂 Aceitar o caos",
+                    action:()=>{
+                        change("chaos",20);
+                        change("sanity",10);
+                        finalMini();
+                    }
+                },
+                {
+                    text:"🏃 Evacuar",
+                    action:()=>{
+                        change("rep",-15);
+                        change("chaos",25);
+                        finalMini();
+                    }
+                }
+            ]
         );
+
+    },500);
+}
+
+/* =========================================================
+   MINIGAME FINAL — CAOS DA VILA
+========================================================= */
+
+function finalMini(){
+
+    $("dialogue").style.display="none";
+    $("minigame").style.display="block";
+
+    $("miniTitle").textContent="💥 OPERAÇÃO: NÃO DEIXE A VILA EXPLODIR";
+    $("centerMessage").textContent="SALVE O QUE PUDER.";
+
+    const arena=$("arena");
+    arena.innerHTML="";
+
+    miniTime=30;
+
+    let score=0;
+    let mistakes=0;
+
+    $("miniTimer").textContent="30s";
+
+    const objects=[
+        "🍌","🪣","🍳","🧹","🧦","💰","🍖","📻","🚪","🪑"
+    ];
+
+    function spawn(){
+
+        if($("minigame").style.display==="none")return;
+
+        const el=document.createElement("div");
+
+        el.className="falling";
+        el.textContent=random(objects);
+
+        el.style.left=(5+Math.random()*90)+"%";
+        el.style.top="-60px";
+
+        const duration=(2.2+Math.random()*2)+"s";
+
+        el.style.animationDuration=duration;
+
+        arena.appendChild(el);
+
+        el.onclick=(e)=>{
+
+            e.stopPropagation();
+
+            score++;
+
+            change("rep",1);
+            change("chaos",-1);
+
+            beep(600+score*10,.04,"square",.02);
+            vibrate(15);
+
+            el.remove();
+
+            if(score%10===0){
+                log("🔥 Combo "+score+"! A vila está estranhamente orgulhosa.");
+            }
+        };
+
+        setTimeout(()=>{
+            if(el.isConnected){
+                el.remove();
+
+                mistakes++;
+
+                if(mistakes%3===0){
+                    change("chaos",4);
+                    change("sanity",-2);
+                }
+            }
+        },4500);
     }
 
-    setTimeout(
-        finishGame,
-        1600
-    );
-}
+    const spawnTimer=setInterval(spawn,420);
 
+    const timer=setInterval(()=>{
+
+        miniTime--;
+
+        $("miniTimer").textContent=miniTime+"s";
+
+        if(miniTime<=0){
+
+            clearInterval(timer);
+            clearInterval(spawnTimer);
+
+            $("centerMessage").textContent=
+                "A VILA SOBREVIVEU. PROVAVELMENTE.";
+
+            setTimeout(()=>{
+                $("minigame").style.display="none";
+                finishGame();
+            },1800);
+        }
+
+    },1000);
+}
 
 /* =========================================================
    FINAL
@@ -2833,260 +1820,183 @@ function defeatBoss(){
 
 function finishGame(){
 
-    running=false;
-
-    clearGameArea();
-
-    normalPanel.style.display=
-        "none";
-
-    finalPanel.classList.add(
-        "show"
-    );
+    $("hud").style.display="none";
+    $("character").style.display="none";
+    $("dialogue").style.display="none";
 
     let rank;
     let text;
-    let secretText;
 
-    if(score>=700){
+    const total=game.chaos+game.debt;
 
-        rank=
-            "👑 IMPERATRIZ DOS MINIONS";
-
-        text=
-            "Você não jogou o jogo.<br>"+
-            "Você DOMINOU o universo Minion.";
-
-        secretText=
-            "O Gru acaba de mandar uma mensagem:<br><br>"+
-            "“Eu estava procurando uma pessoa competente..."+
-            " mas claramente encontrei uma ameaça.” 😂🍌";
-
-    }else if(score>=500){
-
-        rank=
-            "🍌 COMANDANTE DA BANANADA";
-
-        text=
-            "Os Minions agora obedecem você.<br>"+
-            "Bom... obedecer é uma palavra forte.";
-
-        secretText=
-            "Kevin, Stuart e Bob estão oficialmente "+
-            "proibidos de fazer qualquer missão sem "+
-            "a sua autorização. 🫡";
-
-    }else if(score>=350){
-
-        rank=
-            "🟡 MINION DE ELITE";
-
-        text=
-            "Você sobreviveu ao treinamento.<br>"+
-            "Por pouco. Mas sobreviveu.";
-
-        secretText=
-            "O departamento de recursos humanos "+
-            "dos Minions acaba de aprovar sua contratação. 😂";
-
-    }else{
-
-        rank=
-            "😂 ESTAGIÁRIA DO CAOS";
-
-        text=
-            "Os Minions gostaram de você.<br>"+
-            "Principalmente porque você também fez bagunça.";
-
-        secretText=
-            "Seu salário será pago em bananas.<br>"+
-            "Não aceitamos reclamações.";
+    if(game.sanity<=15){
+        rank="🧠 SOBREVIVENTE PSICOLÓGICO";
+        text="Você terminou o dia, mas deixou parte da sua sanidade na vila.";
+    }
+    else if(total>=100){
+        rank="💥 AGENTE DO CAOS";
+        text="Tecnicamente você resolveu problemas. O problema é que você criou outros 47.";
+    }
+    else if(game.rep>=75){
+        rank="🏆 HERÓI DA VILA";
+        text="Contra todas as probabilidades, você conseguiu manter uma aparência de ordem.";
+    }
+    else if(game.money<0){
+        rank="💸 PATROCINADOR OFICIAL DA VILA";
+        text="Você não administrou a vila. Você financiou a vila.";
+    }
+    else if(game.gossip>=2){
+        rank="📢 MINISTRO DA FOFOCA";
+        text="Sua maior contribuição para a sociedade foi espalhar informações que ninguém pediu.";
+    }
+    else{
+        rank="🏚️ MORADOR HONORÁRIO";
+        text="Você não venceu. Você também não perdeu. Você simplesmente passou a fazer parte do problema.";
     }
 
-    finalRank.textContent=
-        rank;
+    $("finalRank").textContent=rank;
+    $("finalText").textContent=text;
 
-    finalText.innerHTML=
-        text+
-        "<br><br>"+
-        "Pontuação final: <b>"+
-        score+
-        "</b> pontos.";
+    $("report").innerHTML=`
+        <div>💰 Dinheiro restante <b>R$ ${game.money}</b></div>
+        <div>❤️ Reputação <b>${game.rep}/100</b></div>
+        <div>😡 Índice de caos <b>${game.chaos}/100</b></div>
+        <div>🧠 Sanidade restante <b>${game.sanity}/100</b></div>
+        <div>💀 Dívida acumulada <b>R$ ${game.debt}</b></div>
+        <div>🍖 Vezes que alimentou Chaves <b>${game.chavesFed}</b></div>
+        <div>🤝 Ajuda ao Seu Madruga <b>${game.madrugaHelped}</b></div>
+        <div>📢 Fofocas espalhadas <b>${game.gossip}</b></div>
+        <div>🎭 Golpes do Quico testemunhados <b>${game.quicoScams}</b></div>
+        <div>🎯 Decisões tomadas <b>${game.decisions}</b></div>
+    `;
 
-    secret.innerHTML=
-        secretText;
+    $("endScreen").style.display="flex";
 
-    missionHud.textContent=
-        "✓";
+    fireworks();
 
-    chaosHud.textContent=
-        Math.min(
-            100,
-            chaos
-        )+"%";
-
-    /*
-      Confete final
-    */
-
-    for(
-        let i=0;
-        i<120;
-        i++
-    ){
-
-        setTimeout(
-            ()=>{
-
-                explosion(
-                    Math.random()*W,
-                    -10,
-                    i%2
-                    ? "#ffd51c"
-                    : "#2774d9"
-                );
-
-            },
-            i*12
-        );
-    }
+    beep(250,.15);
+    setTimeout(()=>beep(450,.15),150);
+    setTimeout(()=>beep(700,.25),300);
 }
 
-
 /* =========================================================
-   REINICIAR
+   CONFETES
 ========================================================= */
 
-function resetGame(){
+function fireworks(){
 
-    clearInterval(
-        bananaInterval
-    );
+    const canvas=$("confetti");
+    const ctx=canvas.getContext("2d");
 
-    clearInterval(
-        detectiveTimer
-    );
+    canvas.width=innerWidth;
+    canvas.height=innerHeight;
 
-    clearInterval(
-        bossTimer
-    );
+    const particles=[];
 
-    clearInterval(
-        bossEventTimer
-    );
+    for(let i=0;i<180;i++){
 
-    clearGameArea();
-
-    particles=[];
-
-    mission=0;
-
-    score=0;
-
-    chaos=0;
-
-    bananaCount=0;
-
-    finalPanel.classList.remove(
-        "show"
-    );
-
-    normalPanel.style.display=
-        "block";
-
-    title.textContent=
-        "PREPARADA?";
-
-    subtitle.textContent=
-        "Os Minions precisam de você.";
-
-    badge.textContent=
-        "MISSÃO";
-
-    updateHUD();
-
-    startOverlay.classList.remove(
-        "hidden"
-    );
-
-    running=false;
-}
-
-
-/* =========================================================
-   INICIAR
-========================================================= */
-
-function startGame(e){
-
-    if(e){
-        e.preventDefault();
+        particles.push({
+            x:innerWidth/2,
+            y:innerHeight/2,
+            vx:(Math.random()-.5)*12,
+            vy:(Math.random()-.5)*12,
+            size:2+Math.random()*5,
+            life:70+Math.random()*70,
+            rot:Math.random()*6
+        });
     }
 
-    audioStart();
+    function animate(){
 
-    running=true;
+        ctx.clearRect(0,0,canvas.width,canvas.height);
 
-    startOverlay.classList.add(
-        "hidden"
-    );
+        particles.forEach(p=>{
 
-    vibrate(30);
+            p.x+=p.vx;
+            p.y+=p.vy;
+            p.vy+=.15;
+            p.life--;
 
-    setTimeout(
-        missionOne,
-        600
-    );
-}
+            ctx.save();
+            ctx.translate(p.x,p.y);
+            ctx.rotate(p.rot);
+            ctx.fillStyle=`hsl(${Math.random()*360},90%,60%)`;
+            ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*2);
+            ctx.restore();
+        });
 
-
-startButton.addEventListener(
-    "pointerdown",
-    startGame,
-    {
-        passive:false
-    }
-);
-
-
-restartButton.addEventListener(
-    "pointerdown",
-    e=>{
-        e.preventDefault();
-
-        audioStart();
-
-        resetGame();
-    },
-    {
-        passive:false
-    }
-);
-
-
-/* =========================================================
-   BLOQUEIOS PARA ANDROID
-========================================================= */
-
-document.addEventListener(
-    "contextmenu",
-    e=>{
-        e.preventDefault();
-    }
-);
-
-
-document.addEventListener(
-    "touchmove",
-    e=>{
-        if(running){
-            e.preventDefault();
+        if(particles.some(p=>p.life>0)){
+            requestAnimationFrame(animate);
         }
-    },
-    {
-        passive:false
     }
-);
+
+    animate();
+}
+
+/* =========================================================
+   EVENTOS RANDOMIZADOS
+========================================================= */
+
+setInterval(()=>{
+
+    if($("hud").style.display==="none")return;
+    if($("minigame").style.display!=="none")return;
+
+    const events=[
+        ()=>{
+            change("chaos",3);
+            log("🪣 Um balde caiu sozinho. Ninguém investigou.");
+        },
+        ()=>{
+            change("sanity",-2);
+            log("📻 O rádio ligou sozinho.");
+        },
+        ()=>{
+            change("rep",2);
+            log("❤️ Alguém disse que você está fazendo um bom trabalho.");
+        },
+        ()=>{
+            change("chaos",5);
+            log("🍌 Uma banana apareceu onde não deveria.");
+        },
+        ()=>{
+            change("money",-2);
+            log("💸 Você descobriu uma pequena taxa administrativa que ninguém explicou.");
+        },
+        ()=>{
+            game.gossip++;
+            log("👀 Surgiu uma nova fofoca na vila.");
+        }
+    ];
+
+    if(Math.random()<.38){
+        random(events)();
+    }
+
+},9000);
+
+/* =========================================================
+   IMPEDIR ZOOM / GESTOS RUINS NO ANDROID
+========================================================= */
+
+document.addEventListener("gesturestart",e=>e.preventDefault());
+document.addEventListener("gesturechange",e=>e.preventDefault());
+document.addEventListener("gestureend",e=>e.preventDefault());
+
+document.addEventListener("touchmove",e=>{
+
+    if(e.target.closest(".arena")){
+        e.preventDefault();
+    }
+
+},{passive:false});
+
+window.addEventListener("resize",()=>{
+    const canvas=$("confetti");
+
+    canvas.width=innerWidth;
+    canvas.height=innerHeight;
+});
 
 </script>
 
