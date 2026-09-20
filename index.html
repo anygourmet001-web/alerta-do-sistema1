@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aviso do Sistema</title>
+    <title>Pergunta do Sistema</title>
     <style>
         body {
-            background: linear-gradient(135deg, #0f172a, #0369a1, #0d9488); /* Fundo refrescante e aquático */
+            background: linear-gradient(135deg, #12001a, #2b0030, #4a0040); /* Fundo neon e provocante */
             color: #fff;
             font-family: 'Arial Black', sans-serif;
             display: flex;
@@ -20,8 +20,8 @@
             position: relative;
         }
 
-        /* Chuva de elementos de urgência no fundo */
-        .chuva-xixi-bg {
+        /* Elementos flutuando no fundo */
+        .elementos-mamar-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,78 +31,70 @@
             z-index: 1;
         }
 
-        .elemento-xixi {
+        .elemento-mamar {
             position: absolute;
-            top: -60px;
-            font-size: 2.5rem;
-            animation: cairUrgente 3s linear infinite;
+            font-size: 2.8rem;
+            bottom: -70px;
+            animation: subirMamar 4.5s linear infinite;
             user-select: none;
         }
 
-        /* Configuração de tempos e posições diferentes para a chuva */
-        .x1 { left: 10%; animation-duration: 2.5s; animation-delay: 0s; }
-        .x2 { left: 32%; animation-duration: 4s; animation-delay: 1s; font-size: 3rem; }
-        .x3 { left: 55%; animation-duration: 3.2s; animation-delay: 0.5s; }
-        .x4 { left: 75%; animation-duration: 3.8s; animation-delay: 1.5s; font-size: 3.5rem; }
-        .x5 { left: 90%; animation-duration: 2.8s; animation-delay: 0.7s; }
+        /* Configuração de tempos e posições diferentes para a subida */
+        .m1 { left: 10%; animation-duration: 4s; animation-delay: 0s; }
+        .m2 { left: 35%; animation-duration: 5.5s; animation-delay: 1.5s; font-size: 3.5rem; }
+        .m3 { left: 55%; animation-duration: 4.8s; animation-delay: 0.5s; }
+        .m4 { left: 75%; animation-duration: 5.2s; animation-delay: 2s; font-size: 3.2rem; }
+        .m5 { left: 90%; animation-duration: 3.8s; animation-delay: 1s; }
 
-        /* Conteúdo principal simulando o movimento de estar apertado */
+        /* Conteúdo principal pulsante e brilhante */
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: dancinhaApertado 0.4s ease-in-out infinite alternate;
+            animation: pulsarBrilhoMamar 0.8s ease-in-out infinite alternate;
         }
 
         h1 {
-            font-size: 3.5rem;
-            color: #e0f2fe;
-            text-shadow: 0 0 15px #38bdf8, 0 0 30px #0284c7;
+            font-size: 4.5rem;
+            color: #ffffff;
+            text-shadow: 0 0 15px #d946ef, 0 0 30px #ff007f, 0 0 50px #d946ef;
             margin: 0;
+            letter-spacing: 2px;
             line-height: 1.2;
         }
 
-        h2 {
-            font-size: 2.2rem;
-            color: #ccfbf1;
-            margin-top: 15px;
-            text-shadow: 0 0 10px rgba(13, 148, 136, 0.5);
-        }
-
         /* Animações */
-        @keyframes cairUrgente {
+        @keyframes subirMamar {
             0% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg) scale(0.8);
                 opacity: 0;
             }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
+            15% { opacity: 0.9; }
+            85% { opacity: 0.9; }
             100% {
-                transform: translateY(110vh) rotate(180deg);
+                transform: translateY(-110vh) rotate(360deg) scale(1.1);
                 opacity: 0;
             }
         }
 
-        /* Animação que balança o texto imitando a pessoa apertada */
-        @keyframes dancinhaApertado {
-            0% { transform: translateX(-8px) translateY(2px) rotate(-1deg); }
-            100% { transform: translateX(8px) translateY(-2px) rotate(1deg); }
+        @keyframes pulsarBrilhoMamar {
+            0% { transform: scale(0.96); filter: drop-shadow(0 0 5px #ff007f); }
+            100% { transform: scale(1.04); filter: drop-shadow(0 0 20px #ff007f); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Emojis caindo no fundo -->
-    <div class="chuva-xixi-bg">
-        <div class="elemento-xixi x1">💦</div>
-        <div class="elemento-xixi x2">🏃‍♂️</div>
-        <div class="elemento-xixi x3">🚽</div>
-        <div class="elemento-xixi x4">💦</div>
-        <div class="elemento-xixi x5">🏃‍♂️</div>
+    <!-- Emojis subindo em segundo plano -->
+    <div class="elementos-mamar-bg">
+        <div class="elemento-mamar m1">🍭</div>
+        <div class="elemento-mamar m2">🍼</div>
+        <div class="elemento-mamar m3">😉</div>
+        <div class="elemento-mamar m4">🍭</div>
+        <div class="elemento-mamar m5">😏</div>
     </div>
 
     <div class="conteudo">
-        <h1>Tô Apertado!</h1>
-        <h2>Vou fazer xixi correndo! 💦🏃‍♂️🚽</h2>
+        <h1>Vai mamar? 🍼😏</h1>
     </div>
 
 </body>
