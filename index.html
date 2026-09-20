@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pergunta do Sistema</title>
+    <title>Recado Ousado do Sistema</title>
     <style>
         body {
-            background: linear-gradient(135deg, #12001a, #2b0030, #4a0040); /* Fundo neon e provocante */
+            background: linear-gradient(135deg, #18001e, #3a0036, #110011); /* Fundo neon escuro e íntimo */
             color: #fff;
             font-family: 'Arial Black', sans-serif;
             display: flex;
@@ -20,8 +20,8 @@
             position: relative;
         }
 
-        /* Elementos flutuando no fundo */
-        .elementos-mamar-bg {
+        /* Elementos flutuantes de provocação no fundo */
+        .provocacao-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,39 +31,40 @@
             z-index: 1;
         }
 
-        .elemento-mamar {
+        .elemento-safado {
             position: absolute;
             font-size: 2.8rem;
             bottom: -70px;
-            animation: subirMamar 4.5s linear infinite;
+            animation: subirSafado 4.5s linear infinite;
             user-select: none;
         }
 
         /* Configuração de tempos e posições diferentes para a subida */
-        .m1 { left: 10%; animation-duration: 4s; animation-delay: 0s; }
-        .m2 { left: 35%; animation-duration: 5.5s; animation-delay: 1.5s; font-size: 3.5rem; }
-        .m3 { left: 55%; animation-duration: 4.8s; animation-delay: 0.5s; }
-        .m4 { left: 75%; animation-duration: 5.2s; animation-delay: 2s; font-size: 3.2rem; }
-        .m5 { left: 90%; animation-duration: 3.8s; animation-delay: 1s; }
+        .s1 { left: 12%; animation-duration: 4s; animation-delay: 0s; }
+        .s2 { left: 32%; animation-duration: 5.5s; animation-delay: 1.5s; font-size: 3.5rem; }
+        .s3 { left: 52%; animation-duration: 4.8s; animation-delay: 0.5s; }
+        .s4 { left: 72%; animation-duration: 5.2s; animation-delay: 2s; font-size: 3.2rem; }
+        .s5 { left: 88%; animation-duration: 3.8s; animation-delay: 1s; }
 
         /* Conteúdo principal pulsante e brilhante */
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: pulsarBrilhoMamar 0.8s ease-in-out infinite alternate;
+            animation: pulsarBrilho 0.8s ease-in-out infinite alternate;
+            padding: 20px;
         }
 
         h1 {
-            font-size: 4.5rem;
+            font-size: 3.2rem;
             color: #ffffff;
             text-shadow: 0 0 15px #d946ef, 0 0 30px #ff007f, 0 0 50px #d946ef;
             margin: 0;
-            letter-spacing: 2px;
-            line-height: 1.2;
+            letter-spacing: 1px;
+            line-height: 1.3;
         }
 
         /* Animações */
-        @keyframes subirMamar {
+        @keyframes subirSafado {
             0% {
                 transform: translateY(0) rotate(0deg) scale(0.8);
                 opacity: 0;
@@ -76,25 +77,25 @@
             }
         }
 
-        @keyframes pulsarBrilhoMamar {
-            0% { transform: scale(0.96); filter: drop-shadow(0 0 5px #ff007f); }
-            100% { transform: scale(1.04); filter: drop-shadow(0 0 20px #ff007f); }
+        @keyframes pulsarBrilho {
+            0% { transform: scale(0.97); filter: drop-shadow(0 0 5px #ff007f); }
+            100% { transform: scale(1.03); filter: drop-shadow(0 0 20px #ff007f); }
         }
     </style>
 </head>
 <body>
 
     <!-- Emojis subindo em segundo plano -->
-    <div class="elementos-mamar-bg">
-        <div class="elemento-mamar m1">🍭</div>
-        <div class="elemento-mamar m2">🍼</div>
-        <div class="elemento-mamar m3">😉</div>
-        <div class="elemento-mamar m4">🍭</div>
-        <div class="elemento-mamar m5">😏</div>
+    <div class="provocacao-bg">
+        <div class="elemento-safado s1">💦</div>
+        <div class="elemento-safado s2">😏</div>
+        <div class="elemento-safado s3">💖</div>
+        <div class="elemento-safado s4">💦</div>
+        <div class="elemento-safado s5">🔥</div>
     </div>
 
     <div class="conteudo">
-        <h1>Vai mamar? 🍼😏</h1>
+        <h1>Pra que desperdiçar mijo,<br>mija dentro de mim! 😏💦</h1>
     </div>
 
 </body>
