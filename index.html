@@ -3,12 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>🦴 ALERTA DE BEDROCK 🦴</title>
+    <title>👑 ALERTA DE REALEZA 👑</title>
     <style>
         :root {
-            --stone-orange: #f97316;
-            --stone-yellow: #eab308;
-            --cave-dark: #1c1917;
+            --hot-pink: #ff007f;
+            --gold-shine: #ffd700;
+            --deep-passion: #1a000d;
         }
 
         body, html {
@@ -17,15 +17,15 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #1c1917; /* Fundo cor de caverna profunda */
-            font-family: 'Impact', 'Arial Black', sans-serif;
+            background: #10000a; /* Fundo escuro luxuoso */
+            font-family: 'Arial Black', sans-serif;
             display: flex;
             justify-content: center;
             align-items: center;
         }
 
-        /* Sistema de partículas (Pedras, Ossos e Faíscas) */
-        #cave-canvas {
+        /* Sistema de Partículas Avançado (Brilhos e Joias) */
+        #glamour-canvas {
             position: absolute;
             top: 0;
             left: 0;
@@ -34,145 +34,119 @@
             z-index: 1;
         }
 
-        .ambient-glow {
+        .luxury-glow {
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 50%, rgba(249, 115, 22, 0.15), transparent 70%);
+            background: radial-gradient(circle at 50% 50%, rgba(255, 0, 127, 0.18), transparent 65%);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* Card Interface Cave-Glassmorphism */
-        .cave-card {
+        /* Card Glamour Glassmorphism */
+        .glamour-card {
             position: relative;
             z-index: 3;
             width: 85%;
             max-width: 400px;
-            padding: 40px 25px;
-            background: rgba(28, 25, 23, 0.75);
-            backdrop-filter: blur(15px);
-            -webkit-backdrop-filter: blur(15px);
-            border-radius: 28px;
-            border: 3px solid rgba(249, 115, 22, 0.5);
-            box-shadow: 0 0 40px rgba(249, 115, 22, 0.3), inset 0 0 20px rgba(234, 179, 8, 0.1);
+            padding: 45px 25px;
+            background: rgba(20, 0, 12, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 30px;
+            border: 2px solid rgba(255, 0, 127, 0.5);
+            box-shadow: 0 0 50px rgba(255, 0, 127, 0.35), inset 0 0 25px rgba(255, 215, 0, 0.15);
             text-align: center;
-            animation: flutuarCard 3.5s ease-in-out infinite alternate;
+            animation: flutuarCard 4s ease-in-out infinite alternate;
         }
 
-        /* Ilustração do Tacape/Clava em CSS */
-        .clava-visual {
-            width: 40px;
-            height: 80px;
-            background: linear-gradient(to bottom, #78350f, #451a03);
-            border-radius: 20px 20px 10px 10px;
-            margin: 0 auto 20px auto;
+        /* Coroa de Ouro Ilustrada em CSS */
+        .coroa-visual {
+            width: 80px;
+            height: 40px;
+            background: var(--gold-shine);
+            margin: 0 auto 25px auto;
             position: relative;
-            transform: rotate(15deg);
-            animation: balancarClava 0.6s ease-in-out infinite alternate;
-            box-shadow: 0 0 15px rgba(249, 115, 22, 0.4);
-        }
-        .clava-visual::after {
-            content: '🦴';
-            position: absolute;
-            font-size: 1.2rem;
-            top: 20px;
-            left: 8px;
+            clip-path: polygon(0% 100%, 100% 100%, 100% 20%, 80% 60%, 50% 0%, 20% 60%, 0% 20%);
+            animation: pulsarCoroa 1.2s ease-in-out infinite alternate;
+            filter: drop-shadow(0 0 10px #ffb700);
         }
 
-        /* Tipografia de Impacto Pré-Histórico */
+        /* Tipografia de Alto Impacto */
         h1 {
-            font-size: 2.8rem;
+            font-size: 2.2rem;
             color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
             margin: 0;
-            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5), 0 0 25px var(--stone-orange);
-            line-height: 1.1;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.8), 0 0 25px var(--hot-pink);
+            line-height: 1.2;
         }
 
         h2 {
-            font-size: 1.4rem;
-            color: var(--stone-yellow);
-            margin: 15px 0 30px 0;
+            font-size: 1.3rem;
+            color: var(--gold-shine);
+            margin: 20px 0 30px 0;
             font-family: sans-serif;
-            font-weight: bold;
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px rgba(234, 179, 8, 0.5);
+            font-weight: 900;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            text-shadow: 0 0 12px rgba(255, 215, 0, 0.6);
         }
 
-        /* Botão Primitivo Premium */
-        .cave-button {
-            background: linear-gradient(45deg, var(--stone-orange), #dc2626);
+        /* Botão Premium Magnético */
+        .glamour-button {
+            background: linear-gradient(45deg, var(--hot-pink), #9d4edd);
             color: white;
             border: none;
             padding: 16px 30px;
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: bold;
             text-transform: uppercase;
-            border-radius: 16px;
+            border-radius: 50px;
             cursor: pointer;
-            box-shadow: 0 5px 15px rgba(249, 115, 22, 0.4);
-            transition: all 0.2s ease;
+            box-shadow: 0 0 25px var(--hot-pink);
+            transition: all 0.3s ease;
             width: 100%;
             letter-spacing: 1px;
         }
 
-        .cave-button:active {
-            transform: scale(0.96);
-            box-shadow: 0 0 25px var(--stone-yellow);
+        .glamour-button:active {
+            transform: scale(0.95);
+            box-shadow: 0 0 40px var(--gold-shine);
         }
 
-        /* Tela balançando (Terremoto) */
-        .terremoto {
-            animation: tremerTela 0.3s linear infinite !important;
-        }
-
-        /* Animações */
+        /* Animações Avançadas */
         @keyframes flutuarCard {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(-12px); border-color: var(--stone-yellow); box-shadow: 0 0 50px rgba(234, 179, 8, 0.3); }
+            0% { transform: translateY(0px) scale(1); }
+            100% { transform: translateY(-15px) scale(1.02); border-color: var(--gold-shine); box-shadow: 0 0 60px rgba(255, 215, 0, 0.25); }
         }
 
-        @keyframes balancarClava {
-            0% { transform: rotate(10deg); }
-            100% { transform: rotate(35deg); }
-        }
-
-        @keyframes tremerTela {
-            0% { transform: translate(2px, 1px) rotate(0deg); }
-            10deg { transform: translate(-1px, -2px) rotate(-1deg); }
-            20% { transform: translate(-3px, 0px) rotate(1deg); }
-            30% { transform: translate(0px, 2px) rotate(0deg); }
-            40% { transform: translate(1px, -1px) rotate(1deg); }
-            50% { transform: translate(-1px, 2px) rotate(-1deg); }
-            60% { transform: translate(-3px, 1px) rotate(0deg); }
-            70% { transform: translate(2px, 1px) rotate(-1deg); }
-            80% { transform: translate(-1px, -1px) rotate(1deg); }
-            90% { transform: translate(2px, 2px) rotate(0deg); }
-            100% { transform: translate(1px, -2px) rotate(-1deg); }
+        @keyframes pulsarCoroa {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-5px) scale(1.08); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Canvas de Partículas Rústicas -->
-    <canvas id="cave-canvas"></canvas>
-    <div class="ambient-glow"></div>
+    <!-- Canvas de Brilhos e Glamour -->
+    <canvas id="glamour-canvas"></canvas>
+    <div class="luxury-glow"></div>
 
-    <!-- Interface Premium Flintstones -->
-    <div class="cave-card" id="main-card">
-        <div class="clava-visual"></div>
-        <h1>IABA DABA<br>DUUUUU!</h1>
-        <h2>YABBA DABBA DOO! 🍖🦖</h2>
-        <button class="cave-button" onclick="dispararTerremoto()">Gritar junto! 📢</button>
+    <!-- Interface Premium -->
+    <div class="glamour-card">
+        <div class="coroa-visual"></div>
+        <h1>Gostooooosaaaaaaaa</h1>
+        <h2>✨ Uma deusa dessas! ✨</h2>
+        <button class="glamour-button" onclick="explodirBrilhos()">Ativar Modo Deusa ✨</button>
     </div>
 
     <script>
-        const canvas = document.getElementById('cave-canvas');
+        const canvas = document.getElementById('glamour-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const emojis = ['🪨', '🦴', '🔥', '✨'];
+        const shapes = ['❤️', '💎', '✨', '🌟'];
 
         function resizeCanvas() {
             canvas.width = window.innerWidth;
@@ -181,28 +155,28 @@
         window.addEventListener('resize', resizeCanvas);
         resizeCanvas();
 
-        class CaveParticle {
+        class GlamourParticle {
             constructor(x, y, isExplosion = false) {
                 this.x = x || Math.random() * canvas.width;
                 this.y = y || (isExplosion ? y : canvas.height + 30);
-                this.isText = !isExplosion && Math.random() < 0.3;
-                this.char = emojis[Math.floor(Math.random() * emojis.length)];
-                this.size = isExplosion ? Math.random() * 5 + 2 : (this.isText ? Math.random() * 12 + 12 : Math.random() * 3 + 1);
-                this.speedX = isExplosion ? (Math.random() - 0.5) * 12 : (Math.random() - 0.5) * 1;
-                this.speedY = isExplosion ? (Math.random() - 0.5) * 12 : -Math.random() * 1.5 - 0.5;
-                this.color = Math.random() > 0.5 ? '#f97316' : '#eab308';
-                this.life = isExplosion ? 35 : 120;
+                this.isShape = !isExplosion && Math.random() < 0.25;
+                this.char = shapes[Math.floor(Math.random() * shapes.length)];
+                this.size = isExplosion ? Math.random() * 6 + 2 : (this.isShape ? Math.random() * 14 + 10 : Math.random() * 3 + 1);
+                this.speedX = isExplosion ? (Math.random() - 0.5) * 14 : (Math.random() - 0.5) * 1.2;
+                this.speedY = isExplosion ? (Math.random() - 0.5) * 14 : -Math.random() * 1.8 - 0.6;
+                this.color = Math.random() > 0.4 ? '#ff007f' : '#ffd700';
+                this.life = isExplosion ? 45 : 130;
             }
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (this.size > 0.2 && !this.isText) this.size -= 0.03;
+                if (this.size > 0.2 && !this.isShape) this.size -= 0.03;
                 this.life--;
             }
             draw() {
-                if (this.isText) {
+                if (this.isShape) {
                     ctx.font = `${this.size}px Arial`;
-                    ctx.globalAlpha = Math.max(0, this.life / 120);
+                    ctx.globalAlpha = Math.max(0, this.life / 130);
                     ctx.fillText(this.char, this.x, this.y);
                     ctx.globalAlpha = 1.0;
                 } else {
@@ -215,12 +189,12 @@
         }
 
         function spawnAmbient() {
-            if (particles.length < 40 && Math.random() < 0.08) {
-                particles.push(new CaveParticle());
+            if (particles.length < 50 && Math.random() < 0.09) {
+                particles.push(new GlamourParticle());
             }
         }
 
-        function drawLoop() {
+        function renderLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             spawnAmbient();
             for (let i = particles.length - 1; i >= 0; i--) {
@@ -228,26 +202,20 @@
                 particles[i].draw();
                 if (particles[i].life <= 0) particles.splice(i, 1);
             }
-            requestAnimationFrame(drawLoop);
+            requestAnimationFrame(renderLoop);
         }
-        drawLoop();
+        renderLoop();
 
-        // Efeito interativo de terremoto com chuva de fragmentos
-        function dispararTerremoto() {
-            const card = document.getElementById('main-card');
-            card.classList.add('terremoto');
-            
-            const rect = card.getBoundingClientRect();
+        // Explosão majestosa de joias e brilhos néon ao clicar
+        function explodirBrilhos() {
+            const button = document.querySelector('.glamour-button');
+            const rect = button.getBoundingClientRect();
             const posX = rect.left + rect.width / 2;
             const posY = rect.top + rect.height / 2;
 
-            for(let i = 0; i < 50; i++) {
-                particles.push(new CaveParticle(posX, posY, true));
+            for(let i = 0; i < 60; i++) {
+                particles.push(new GlamourParticle(posX, posY, true));
             }
-
-            setTimeout(() => {
-                card.classList.remove('terremoto');
-            }, 600);
         }
     </script>
 </body>
