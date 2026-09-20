@@ -2,3290 +2,792 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport"
-content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
-
-<title>OPERAÇÃO: SALVE O NAMORADO</title>
-
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="theme-color" content="#08070d">
+<title>OPERAÇÃO BORRACHA — O RESGATE IMPOSSÍVEL</title>
 <style>
-*{
-    box-sizing:border-box;
-    -webkit-tap-highlight-color:transparent;
-}
-
-html,body{
-    margin:0;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    font-family:Arial,Helvetica,sans-serif;
-    background:#080812;
-    color:#fff;
-}
-
-body{
-    touch-action:manipulation;
-}
-
-button{
-    font-family:inherit;
-}
-
-#app{
-    position:relative;
-    width:100%;
-    height:100%;
-    overflow:hidden;
-    background:
-        radial-gradient(circle at 50% 20%,rgba(255,0,100,.16),transparent 35%),
-        radial-gradient(circle at 20% 80%,rgba(0,180,255,.12),transparent 30%),
-        linear-gradient(135deg,#090914,#160c1b 50%,#090912);
-}
-
-/* =========================================
-   BACKGROUND
-========================================= */
-
-.grid{
-    position:absolute;
-    inset:0;
-    opacity:.12;
-    background-image:
-        linear-gradient(rgba(255,255,255,.2) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);
-    background-size:35px 35px;
-    transform:perspective(500px) rotateX(55deg) scale(1.7);
-    transform-origin:center bottom;
-}
-
-.scan{
-    position:absolute;
-    left:0;
-    right:0;
-    height:3px;
-    background:linear-gradient(90deg,
-        transparent,
-        rgba(255,60,150,.7),
-        transparent);
-    animation:scan 5s linear infinite;
-    opacity:.5;
-}
-
-@keyframes scan{
-    from{top:-5%}
-    to{top:105%}
-}
-
-.particle{
-    position:absolute;
-    border-radius:50%;
-    pointer-events:none;
-    opacity:.35;
-    animation:float 7s linear infinite;
-}
-
-@keyframes float{
-    from{
-        transform:translateY(110vh) scale(.5);
-        opacity:0;
-    }
-    20%{opacity:.4}
-    80%{opacity:.3}
-    to{
-        transform:translateY(-20vh) scale(1.2);
-        opacity:0;
-    }
-}
-
-/* =========================================
-   HUD
-========================================= */
-
-#hud{
-    display:none;
-    position:absolute;
-    z-index:50;
-    top:10px;
-    left:10px;
-    right:10px;
-}
-
-.hud-row{
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-    gap:8px;
-}
-
-.brand{
-    padding:8px 10px;
-    border-radius:11px;
-    background:rgba(10,10,20,.85);
-    border:1px solid rgba(255,100,180,.45);
-    font-size:10px;
-    font-weight:1000;
-    letter-spacing:.5px;
-}
-
-.chapter{
-    padding:8px 10px;
-    border-radius:11px;
-    background:rgba(10,10,20,.85);
-    border:1px solid rgba(255,255,255,.15);
-    font-size:10px;
-    font-weight:900;
-}
-
-.stats{
-    display:grid;
-    grid-template-columns:repeat(5,1fr);
-    gap:5px;
-    margin-top:7px;
-}
-
-.stat{
-    padding:5px 2px;
-    border-radius:9px;
-    background:rgba(5,5,12,.8);
-    border:1px solid rgba(255,255,255,.1);
-    text-align:center;
-    font-size:8px;
-    font-weight:900;
-}
-
-.stat b{
-    display:block;
-    font-size:14px;
-    margin-top:2px;
-}
-
-/* =========================================
-   GAME SCREEN
-========================================= */
-
-#gameArea{
-    position:absolute;
-    inset:0;
-    display:none;
-}
-
-.character{
-    position:absolute;
-    left:50%;
-    bottom:13%;
-    transform:translateX(-50%);
-    width:170px;
-    height:220px;
-    z-index:10;
-    transition:.3s;
-}
-
-.hero{
-    position:absolute;
-    width:105px;
-    height:105px;
-    border-radius:50%;
-    left:50%;
-    top:10px;
-    transform:translateX(-50%);
-    background:
-        radial-gradient(circle at 35% 30%,#ffe0c0,#d99b72 65%,#8c513e);
-    border:5px solid #16131c;
-    box-shadow:0 8px 0 #16131c;
-}
-
-.hero:before{
-    content:"";
-    position:absolute;
-    width:115px;
-    height:35px;
-    left:-10px;
-    top:-17px;
-    border-radius:50%;
-    background:#191524;
-}
-
-.hero:after{
-    content:"👀";
-    position:absolute;
-    left:23px;
-    top:40px;
-    font-size:35px;
-    letter-spacing:8px;
-}
-
-.cape{
-    position:absolute;
-    width:125px;
-    height:135px;
-    left:23px;
-    top:82px;
-    background:linear-gradient(145deg,#ff277f,#7b1cff);
-    clip-path:polygon(10% 0,90% 0,100% 100%,50% 80%,0 100%);
-    border:4px solid #17121c;
-}
-
-.bodyHero{
-    position:absolute;
-    width:82px;
-    height:100px;
-    left:44px;
-    top:85px;
-    background:#2622aa;
-    border-radius:25px 25px 15px 15px;
-    border:5px solid #16131c;
-    z-index:2;
-}
-
-.logoHero{
-    position:absolute;
-    left:50%;
-    top:25px;
-    transform:translateX(-50%);
-    font-size:22px;
-}
-
-/* namorado */
-
-.boy{
-    position:absolute;
-    left:50%;
-    bottom:25%;
-    transform:translateX(-50%);
-    width:145px;
-    height:200px;
-    z-index:9;
-    display:none;
-}
-
-.boy-head{
-    position:absolute;
-    width:88px;
-    height:88px;
-    left:50%;
-    transform:translateX(-50%);
-    top:0;
-    border-radius:50%;
-    background:#c98561;
-    border:5px solid #211820;
-}
-
-.boy-head:before{
-    content:"";
-    position:absolute;
-    width:70px;
-    height:30px;
-    left:5px;
-    top:-12px;
-    background:#20191c;
-    border-radius:50% 50% 30% 30%;
-}
-
-.boy-head:after{
-    content:"😵";
-    position:absolute;
-    font-size:35px;
-    left:24px;
-    top:29px;
-}
-
-.boy-body{
-    position:absolute;
-    left:32px;
-    top:78px;
-    width:82px;
-    height:110px;
-    background:#2879b5;
-    border:5px solid #211820;
-    border-radius:25px;
-}
-
-.boy-rope{
-    position:absolute;
-    left:15px;
-    right:15px;
-    bottom:13px;
-    height:14px;
-    border-radius:20px;
-    background:#c58b43;
-    border:3px solid #4e321d;
-}
-
-/* =========================================
-   DIALOGUE
-========================================= */
-
-#dialogue{
-    display:none;
-    position:absolute;
-    z-index:80;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:4%;
-    width:min(700px,94%);
-}
-
-.dialog{
-    padding:15px;
-    border-radius:18px;
-    background:
-        linear-gradient(145deg,
-        rgba(25,18,32,.98),
-        rgba(9,9,16,.98));
-    border:2px solid rgba(255,75,160,.55);
-    box-shadow:0 20px 60px rgba(0,0,0,.6);
-}
-
-.speaker{
-    color:#ff65ad;
-    font-size:11px;
-    font-weight:1000;
-    margin-bottom:7px;
-    text-transform:uppercase;
-}
-
-.text{
-    font-size:15px;
-    line-height:1.4;
-    font-weight:800;
-}
-
-.sub{
-    margin-top:7px;
-    color:#9d9aa5;
-    font-size:10px;
-    line-height:1.4;
-}
-
-.choices{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:7px;
-    margin-top:13px;
-}
-
-.choice{
-    min-height:53px;
-    padding:10px 8px;
-    border-radius:12px;
-    background:#26202d;
-    color:#fff;
-    border:1px solid #4b3b54;
-    font-weight:1000;
-    font-size:11px;
-    cursor:pointer;
-}
-
-.choice:active{
-    transform:scale(.96);
-}
-
-.choice:hover{
-    background:#342a3d;
-}
-
-.choice.bad{
-    border-color:#a83268;
-}
-
-.choice.good{
-    border-color:#348b74;
-}
-
-/* =========================================
-   LOG
-========================================= */
-
-#log{
-    position:absolute;
-    left:10px;
-    bottom:10px;
-    z-index:70;
-    width:min(340px,calc(100% - 20px));
-    pointer-events:none;
-}
-
-.logItem{
-    margin-top:5px;
-    padding:8px 10px;
-    border-radius:9px;
-    background:rgba(5,5,10,.85);
-    border-left:3px solid #ff4fa5;
-    font-size:10px;
-    animation:logIn .25s ease;
-}
-
-@keyframes logIn{
-    from{
-        opacity:0;
-        transform:translateX(-25px);
-    }
-    to{
-        opacity:1;
-        transform:none;
-    }
-}
-
-/* =========================================
-   OVERLAY
-========================================= */
-
-.overlay{
-    position:absolute;
-    inset:0;
-    z-index:200;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:18px;
-    background:
-        radial-gradient(circle at center,
-        rgba(255,20,120,.12),
-        transparent 45%),
-        rgba(5,5,12,.96);
-}
-
-.panel{
-    width:min(720px,100%);
-    max-height:94vh;
-    overflow:auto;
-    padding:25px;
-    border-radius:25px;
-    background:
-        linear-gradient(145deg,#1d1522,#0c0b12);
-    border:2px solid rgba(255,80,165,.65);
-    box-shadow:
-        0 0 100px rgba(255,30,140,.15),
-        inset 0 0 30px rgba(255,255,255,.02);
-    text-align:center;
-}
-
-.mainTitle{
-    font-size:clamp(34px,9vw,70px);
-    line-height:.85;
-    font-weight:1000;
-    margin:5px 0;
-    color:#ff65b2;
-    text-shadow:
-        4px 4px #47102f,
-        0 0 30px rgba(255,50,150,.3);
-}
-
-.tag{
-    display:inline-block;
-    padding:7px 12px;
-    border-radius:20px;
-    background:#ff277f;
-    font-size:10px;
-    font-weight:1000;
-    margin-bottom:10px;
-}
-
-.description{
-    color:#bbb4c0;
-    line-height:1.5;
-    font-size:12px;
-    max-width:580px;
-    margin:15px auto;
-}
-
-.warning{
-    margin:12px 0;
-    padding:10px;
-    border-radius:10px;
-    background:#29131e;
-    border:1px solid #68223f;
-    color:#ffb6d4;
-    font-size:10px;
-}
-
-.startBtn{
-    width:100%;
-    max-width:440px;
-    border:0;
-    padding:17px;
-    border-radius:15px;
-    background:linear-gradient(90deg,#ff247e,#9b35ff);
-    color:white;
-    font-weight:1000;
-    font-size:16px;
-    cursor:pointer;
-    box-shadow:0 7px 0 #54115c;
-}
-
-.startBtn:active{
-    transform:translateY(5px);
-    box-shadow:0 2px 0 #54115c;
-}
-
-/* =========================================
-   MINIGAMES
-========================================= */
-
-#miniGame{
-    position:absolute;
-    inset:0;
-    z-index:120;
-    display:none;
-}
-
-.miniTitle{
-    position:absolute;
-    top:110px;
-    left:50%;
-    transform:translateX(-50%);
-    width:92%;
-    text-align:center;
-    color:#ff70b7;
-    font-size:21px;
-    font-weight:1000;
-    text-shadow:3px 3px #000;
-}
-
-.timer{
-    position:absolute;
-    top:70px;
-    right:14px;
-    padding:8px 12px;
-    border-radius:10px;
-    background:#11101a;
-    border:2px solid #ff65ad;
-    z-index:10;
-    font-weight:1000;
-}
-
-.arena{
-    position:absolute;
-    left:5%;
-    right:5%;
-    top:155px;
-    bottom:7%;
-    border:2px dashed rgba(255,100,180,.35);
-    border-radius:20px;
-    overflow:hidden;
-    background:rgba(0,0,0,.15);
-}
-
-.center{
-    position:absolute;
-    inset:0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding:25px;
-    font-size:23px;
-    font-weight:1000;
-    text-shadow:3px 3px #000;
-    pointer-events:none;
-}
-
-/* =========================================
-   CLICK OBJECTS
-========================================= */
-
-.target{
-    position:absolute;
-    font-size:45px;
-    cursor:pointer;
-    user-select:none;
-    animation:pulse .7s infinite alternate;
-}
-
-@keyframes pulse{
-    from{transform:scale(.85) rotate(-5deg)}
-    to{transform:scale(1.1) rotate(5deg)}
-}
-
-/* =========================================
-   MEMORY
-========================================= */
-
-.memoryGrid{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    width:min(360px,90%);
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-}
-
-.memoryBtn{
-    aspect-ratio:1;
-    border-radius:14px;
-    border:2px solid #4c3a53;
-    background:#211b28;
-    font-size:35px;
-}
-
-.memoryBtn.active{
-    background:#ff277f;
-    transform:scale(1.08);
-}
-
-/* =========================================
-   COMBINAÇÃO
-========================================= */
-
-.lock{
-    position:absolute;
-    left:50%;
-    top:50%;
-    transform:translate(-50%,-50%);
-    text-align:center;
-    width:min(400px,90%);
-}
-
-.lockDisplay{
-    font-size:45px;
-    font-weight:1000;
-    letter-spacing:12px;
-    margin-bottom:20px;
-}
-
-.numberPad{
-    display:grid;
-    grid-template-columns:repeat(3,1fr);
-    gap:8px;
-}
-
-.num{
-    padding:15px;
-    border-radius:12px;
-    border:1px solid #54415c;
-    background:#241c29;
-    color:white;
-    font-weight:1000;
-    font-size:18px;
-}
-
-/* =========================================
-   END
-========================================= */
-
-#end{
-    display:none;
-}
-
-.finalTitle{
-    font-size:28px;
-    font-weight:1000;
-    color:#ff65b2;
-}
-
-.finalRank{
-    font-size:25px;
-    font-weight:1000;
-    margin:15px 0;
-}
-
-.report{
-    margin-top:15px;
-    padding:12px;
-    background:#0e0d13;
-    border:1px solid #302735;
-    border-radius:14px;
-    text-align:left;
-}
-
-.reportRow{
-    padding:7px 0;
-    border-bottom:1px solid #211c24;
-    font-size:11px;
-}
-
-.secret{
-    margin-top:12px;
-    color:#aaa;
-    font-size:10px;
-    line-height:1.5;
-}
-
-.achievement{
-    display:inline-block;
-    margin:3px;
-    padding:6px 9px;
-    border-radius:9px;
-    background:#251b28;
-    border:1px solid #4b3650;
-    font-size:9px;
-}
-
-/* =========================================
-   RESPONSIVO
-========================================= */
-
-@media(max-width:480px){
-
-    .stats{
-        gap:3px;
-    }
-
-    .stat{
-        font-size:7px;
-    }
-
-    .stat b{
-        font-size:12px;
-    }
-
-    .choices{
-        grid-template-columns:1fr 1fr;
-    }
-
-    .dialog{
-        padding:12px;
-    }
-
-    .text{
-        font-size:14px;
-    }
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#08070d;color:#fff;font-family:Arial,Helvetica,sans-serif}
+body{touch-action:none}
+button{font:inherit}
+#app{position:relative;width:100%;height:100%;overflow:hidden;background:
+radial-gradient(circle at 50% 10%,#ff237d18,transparent 35%),
+radial-gradient(circle at 10% 90%,#2c8dff15,transparent 30%),
+linear-gradient(135deg,#08070d,#180b18 50%,#08070d)}
+.noise{position:absolute;inset:0;opacity:.06;pointer-events:none;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140' viewBox='0 0 140 140'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.35'/%3E%3C/svg%3E")}
+.grid{position:absolute;inset:0;opacity:.08;background-image:linear-gradient(#fff 1px,transparent 1px),linear-gradient(90deg,#fff 1px,transparent 1px);background-size:36px 36px;transform:perspective(500px) rotateX(58deg) scale(1.7);transform-origin:center bottom}
+.scan{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,#ff3e9d,transparent);opacity:.5;animation:scan 4s linear infinite}
+@keyframes scan{from{top:-5%}to{top:105%}}
+#fx{position:absolute;inset:0;pointer-events:none;z-index:500}
+.spark{position:absolute;border-radius:50%;animation:spark 1s forwards}
+@keyframes spark{from{transform:translate(0,0) scale(1);opacity:1}to{transform:translate(var(--x),var(--y)) scale(0);opacity:0}}
+#hud{display:none;position:absolute;z-index:80;top:max(8px,env(safe-area-inset-top));left:8px;right:8px}
+.top{display:flex;justify-content:space-between;gap:7px;align-items:center}
+.badge{background:#0d0b13dd;border:1px solid #ff4d9b66;border-radius:11px;padding:7px 9px;font-size:9px;font-weight:1000;box-shadow:0 6px 20px #0008}
+#chapter{color:#ff79b8}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:4px;margin-top:5px}
+.stat{background:#0b0910dd;border:1px solid #ffffff13;border-radius:9px;text-align:center;padding:4px 1px;font-size:7px;color:#aaa}
+.stat b{display:block;color:#fff;font-size:12px;margin-top:2px}
+#screen{position:absolute;inset:0;display:none}
+.scene{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;padding:90px 12px 18px}
+.panel{width:min(760px,96%);max-height:88vh;overflow:auto;background:linear-gradient(145deg,#211522f5,#0b0a10f5);border:1px solid #ff4f9b80;border-radius:24px;padding:20px;box-shadow:0 30px 90px #000b,inset 0 0 40px #fff003;text-align:center}
+.kicker{display:inline-block;padding:6px 10px;border-radius:99px;background:#ff247c;color:#fff;font-size:9px;font-weight:1000;letter-spacing:.7px}
+h1{font-size:clamp(34px,10vw,78px);line-height:.82;margin:12px 0;color:#ff69b1;text-shadow:5px 5px #4b1234,0 0 35px #ff208544;font-weight:1000}
+h2{font-size:clamp(22px,6vw,40px);margin:8px 0;color:#ff75b7}
+.lead{color:#bbb4c0;font-size:12px;line-height:1.55;max-width:620px;margin:14px auto}
+.warning{background:#2a111e;border:1px solid #7a2850;border-radius:12px;padding:11px;color:#ffbfdc;font-size:10px;line-height:1.5;margin:12px 0}
+.bigbtn{width:100%;max-width:460px;border:0;border-radius:15px;padding:16px;color:#fff;background:linear-gradient(90deg,#ff237d,#8637ff);font-weight:1000;font-size:15px;box-shadow:0 6px 0 #4a1457;cursor:pointer}
+.bigbtn:active{transform:translateY(5px);box-shadow:0 1px 0 #4a1457}
+#dialogue{display:none;position:absolute;z-index:120;left:50%;bottom:10px;transform:translateX(-50%);width:min(760px,96%)}
+.dialog{background:#0d0b12f7;border:1px solid #ff4f9b80;border-radius:18px;padding:14px;box-shadow:0 20px 70px #000b}
+.speaker{font-size:10px;font-weight:1000;color:#ff70b6;text-transform:uppercase;margin-bottom:5px}
+.dtext{font-size:14px;font-weight:800;line-height:1.45}
+.dsub{font-size:10px;color:#a7a0ab;margin-top:6px;line-height:1.4}
+.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:7px;margin-top:11px}
+.choice{min-height:54px;border-radius:12px;border:1px solid #4b3b53;background:#231c29;color:#fff;padding:9px;font-size:10px;font-weight:1000;text-align:left}
+.choice:active{transform:scale(.97);background:#34263b}
+#log{position:absolute;z-index:100;left:8px;bottom:8px;width:min(350px,70%);pointer-events:none}
+.log{font-size:9px;background:#08070ddd;border-left:3px solid #ff4e9f;padding:7px 9px;border-radius:8px;margin-top:4px;animation:in .2s}
+@keyframes in{from{opacity:0;transform:translateX(-20px)}to{opacity:1;transform:none}}
+#mini{display:none;position:absolute;inset:0;z-index:110}
+.mtitle{position:absolute;top:108px;left:50%;transform:translateX(-50%);width:94%;text-align:center;font-size:19px;font-weight:1000;color:#ff76b8;text-shadow:3px 3px #000}
+.timer{position:absolute;right:10px;top:70px;background:#100d16;border:1px solid #ff5da8;border-radius:10px;padding:7px 10px;font-size:11px;font-weight:1000;z-index:5}
+.arena{position:absolute;left:4%;right:4%;top:150px;bottom:6%;border:2px dashed #ff6aac55;border-radius:18px;background:#0002;overflow:hidden}
+.center{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;text-align:center;padding:25px;font-size:21px;font-weight:1000;text-shadow:3px 3px #000;pointer-events:none}
+.target{position:absolute;font-size:45px;user-select:none;cursor:pointer;filter:drop-shadow(0 6px 6px #000);animation:wobble .45s infinite alternate}
+@keyframes wobble{to{transform:rotate(7deg) scale(1.12)}}
+#meterWrap{position:absolute;left:8%;right:8%;bottom:8px;height:12px;border-radius:99px;background:#201923;border:1px solid #ffffff1a;overflow:hidden}
+#meter{height:100%;width:0;background:linear-gradient(90deg,#ff237d,#8d45ff);transition:.15s}
+.choiceGrid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;max-width:520px;margin:18px auto}
+.memory{aspect-ratio:1;border-radius:15px;border:2px solid #49384f;background:#211a27;color:#fff;font-size:31px}
+.memory.lit{background:#ff287e;transform:scale(1.06);box-shadow:0 0 25px #ff287e}
+.pad{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;max-width:360px;margin:auto}
+.pad button{padding:15px;border:1px solid #4d3c55;border-radius:12px;background:#211a28;color:#fff;font-size:18px;font-weight:1000}
+#end{display:none;position:absolute;inset:0;z-index:300;align-items:center;justify-content:center;padding:14px;background:#06050bea}
+.report{background:#0b0910;border:1px solid #ffffff12;border-radius:14px;padding:10px;text-align:left;margin-top:12px}
+.row{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid #ffffff0b;font-size:10px}
+.chip{display:inline-block;background:#241a29;border:1px solid #4e3655;border-radius:8px;padding:6px 8px;margin:3px;font-size:9px}
+#toast{position:absolute;z-index:450;top:42%;left:50%;transform:translate(-50%,-50%) scale(.8);opacity:0;background:#111;border:2px solid #ff5ca7;border-radius:15px;padding:14px 18px;font-size:15px;font-weight:1000;text-align:center;pointer-events:none;transition:.2s;box-shadow:0 20px 60px #000}
+#toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.char{position:absolute;display:none;z-index:30;left:50%;bottom:18%;transform:translateX(-50%);font-size:100px;filter:drop-shadow(0 12px 10px #000)}
+#intro{position:absolute;inset:0;z-index:250;display:flex;align-items:center;justify-content:center;padding:14px;background:#06050cf5}
+@media(max-width:500px){
+.stats{grid-template-columns:repeat(3,1fr)}
+.choices{grid-template-columns:1fr}
+.panel{padding:16px}
+.dtext{font-size:13px}
 }
 </style>
 </head>
-
 <body>
-
 <div id="app">
-
-<div class="grid"></div>
-<div class="scan"></div>
-
-<div id="particles"></div>
-
-<!-- HUD -->
+<div class="grid"></div><div class="scan"></div><div class="noise"></div><div id="fx"></div>
 
 <div id="hud">
-
-    <div class="hud-row">
-
-        <div class="brand">
-            🦸‍♀️ OPERAÇÃO NAMORADO
-        </div>
-
-        <div class="chapter" id="chapter">
-            CAPÍTULO 1
-        </div>
-
-    </div>
-
-    <div class="stats">
-
-        <div class="stat">
-            ❤️ NAMORADO
-            <b id="lover">100</b>
-        </div>
-
-        <div class="stat">
-            🧠 SANIDADE
-            <b id="sanity">100</b>
-        </div>
-
-        <div class="stat">
-            😳 VERGONHA
-            <b id="shame">0</b>
-        </div>
-
-        <div class="stat">
-            💥 CAOS
-            <b id="chaos">0</b>
-        </div>
-
-        <div class="stat">
-            ⭐ HEROÍNA
-            <b id="hero">50</b>
-        </div>
-
-    </div>
-
+ <div class="top">
+  <div class="badge">🦸‍♀️ OPERAÇÃO BORRACHA</div>
+  <div class="badge" id="chapter">ATO 1</div>
+ </div>
+ <div class="stats">
+  <div class="stat">❤️ NAMORADO<b id="lover">100</b></div>
+  <div class="stat">🧠 SANIDADE<b id="sanity">100</b></div>
+  <div class="stat">😳 VERGONHA<b id="shame">0</b></div>
+  <div class="stat">💥 CAOS<b id="chaos">0</b></div>
+  <div class="stat">⭐ HEROÍNA<b id="hero">50</b></div>
+  <div class="stat">💰 RECURSOS<b id="cash">20</b></div>
+ </div>
 </div>
 
-<!-- GAME AREA -->
-
-<div id="gameArea">
-
-    <div class="character">
-
-        <div class="cape"></div>
-
-        <div class="bodyHero">
-            <div class="logoHero">♥</div>
-        </div>
-
-        <div class="hero"></div>
-
-    </div>
-
-    <div class="boy">
-
-        <div class="boy-head"></div>
-        <div class="boy-body"></div>
-        <div class="boy-rope"></div>
-
-    </div>
-
+<div id="screen">
+ <div class="scene"><div class="panel" id="scenePanel"></div></div>
 </div>
-
-<!-- DIALOG -->
 
 <div id="dialogue">
-
-    <div class="dialog">
-
-        <div class="speaker" id="speaker"></div>
-
-        <div class="text" id="dialogText"></div>
-
-        <div class="sub" id="dialogSub"></div>
-
-        <div class="choices" id="choices"></div>
-
-    </div>
-
+ <div class="dialog">
+  <div class="speaker" id="speaker"></div>
+  <div class="dtext" id="dtext"></div>
+  <div class="dsub" id="dsub"></div>
+  <div class="choices" id="choices"></div>
+ </div>
 </div>
 
-<!-- LOG -->
+<div id="mini">
+ <div class="mtitle" id="mtitle"></div>
+ <div class="timer" id="timer"></div>
+ <div class="arena" id="arena"></div>
+ <div class="center" id="center"></div>
+ <div id="meterWrap"><div id="meter"></div></div>
+</div>
 
 <div id="log"></div>
+<div id="toast"></div>
 
-<!-- MINI GAME -->
-
-<div id="miniGame">
-
-    <div class="miniTitle" id="miniTitle"></div>
-
-    <div class="timer" id="timer"></div>
-
-    <div class="arena" id="arena"></div>
-
-    <div class="center" id="center"></div>
-
+<div id="intro">
+ <div class="panel">
+  <div style="font-size:60px">🦸‍♀️🍆🧻💥</div>
+  <span class="kicker">ARQUIVO ULTRASSECRETO • CLASSIFICAÇÃO: QUE MERDA É ESSA?</span>
+  <h1>OPERAÇÃO<br>BORRACHA</h1>
+  <h2>O RESGATE IMPOSSÍVEL</h2>
+  <div class="lead">
+   Seu namorado foi sequestrado por uma entidade conhecida apenas como
+   <b style="color:#ff6bb5">PAU DE BORRACHA NERVOSO™</b>.
+   Ele não sabe explicar como isso aconteceu. Você também não.
+   A missão é simples: <b>salvá-lo.</b>
+   <br><br>
+   O problema é que o universo parece ter decidido que
+   <b>toda escolha correta precisa ferrar alguém.</b>
+  </div>
+  <div class="warning">
+   ⚠️ EXPERIÊNCIA DE LONGA DURAÇÃO<br>
+   12 atos • 8 minijogos • decisões absurdas • eventos aleatórios •
+   segredos • finais múltiplos • vergonha • caos • consequências.
+   <br><br>
+   Não existe escolha perfeita.
+  </div>
+  <button class="bigbtn" id="start">🦸‍♀️ ACEITAR A DESGRAÇA</button>
+  <div style="margin-top:10px;font-size:9px;color:#6f6672">Ideal para jogar em dupla: uma pessoa decide, a outra grita “NÃO FAZ ISSO!”.</div>
+ </div>
 </div>
 
-<!-- START -->
-
-<div class="overlay" id="start">
-
-    <div class="panel">
-
-        <div style="font-size:55px">
-            🦸‍♀️💥🍆
-        </div>
-
-        <div class="tag">
-            MISSÃO ULTRASSECRETA
-        </div>
-
-        <h1 class="mainTitle">
-            SALVE O<br>
-            NAMORADO
-        </h1>
-
-        <div class="description">
-
-            O namorado foi capturado pelo lendário...
-
-            <br><br>
-
-            <b style="color:#ff65ad;font-size:17px">
-                PAU DE BORRACHA NERVOSO™
-            </b>
-
-            <br><br>
-
-            Uma entidade completamente idiota,
-            extremamente imprevisível e aparentemente
-            incapaz de ficar quieta.
-
-            <br><br>
-
-            <b>
-                Você é a única pessoa capaz de salvá-lo.
-            </b>
-
-        </div>
-
-        <div class="warning">
-
-            ⚠️ ATENÇÃO:
-            <br>
-            Todas as suas decisões terão consequências.
-            <br><br>
-            Algumas salvarão o namorado.
-            <br>
-            Algumas piorarão tudo.
-            <br>
-            E algumas... simplesmente não deveriam existir.
-
-        </div>
-
-        <button class="startBtn" id="startBtn">
-            🦸‍♀️ COMEÇAR A MISSÃO
-        </button>
-
-        <div style="
-            margin-top:12px;
-            color:#6f6873;
-            font-size:9px;
-        ">
-            Duração estimada: 15–20 minutos de decisões questionáveis.
-        </div>
-
-    </div>
-
+<div id="end">
+ <div class="panel">
+  <div style="font-size:58px">🏆🦸‍♀️🍆</div>
+  <span class="kicker">MISSÃO ENCERRADA</span>
+  <h2 id="rank">---</h2>
+  <div class="lead" id="ending"></div>
+  <div class="report" id="report"></div>
+  <div id="chips" style="margin-top:10px"></div>
+  <div class="warning" id="secret"></div>
+  <button class="bigbtn" onclick="location.reload()">🔄 REPETIR A DESGRAÇA</button>
+ </div>
 </div>
-
-<!-- FINAL -->
-
-<div class="overlay" id="end">
-
-    <div class="panel">
-
-        <div style="font-size:55px">
-            🦸‍♀️🏆💥
-        </div>
-
-        <div class="finalTitle">
-            RELATÓRIO FINAL
-        </div>
-
-        <div class="finalRank" id="finalRank"></div>
-
-        <div id="finalText" class="description"></div>
-
-        <div class="report" id="report"></div>
-
-        <div id="achievements"></div>
-
-        <div class="secret" id="secret"></div>
-
-        <button class="startBtn"
-                onclick="location.reload()"
-                style="margin-top:15px">
-            🔄 SALVAR O NAMORADO NOVAMENTE
-        </button>
-
-    </div>
-
 </div>
 
 <script>
-
-/* =========================================================
-   ESTADO DO JOGO
-========================================================= */
+"use strict";
 
 const $=id=>document.getElementById(id);
-
-const state={
-
-    chapter:1,
-
-    lover:100,
-    sanity:100,
-    shame:0,
-    chaos:0,
-    hero:50,
-
-    decisions:0,
-
-    saves:0,
-    failures:0,
-
-    secrets:0,
-
-    items:[],
-
-    achievements:[],
-
-    flags:{},
-
-    history:[]
-
+const S={
+ act:0, lover:100, sanity:100, shame:0, chaos:0, hero:50, cash:20,
+ score:0, decisions:0, saves:0, fails:0, secrets:0,
+ inventory:[], flags:{}, achievements:[], visited:[],
+ running:false
 };
 
-function clamp(v,min,max){
-    return Math.max(min,Math.min(max,v));
+let AC=null;
+function audio(){
+ try{
+  if(!AC)AC=new (window.AudioContext||window.webkitAudioContext)();
+  if(AC.state==="suspended")AC.resume();
+ }catch(e){}
+}
+function beep(f=500,d=.07,type="square"){
+ try{
+  audio(); const o=AC.createOscillator(),g=AC.createGain();
+  o.type=type;o.frequency.value=f;g.gain.value=.035;o.connect(g);g.connect(AC.destination);
+  o.start();g.gain.exponentialRampToValueAtTime(.001,AC.currentTime+d);o.stop(AC.currentTime+d);
+ }catch(e){}
+}
+function buzz(n=25){if(navigator.vibrate)navigator.vibrate(n)}
+function clamp(n,a=0,b=100){return Math.max(a,Math.min(b,n))}
+function rnd(a){return a[Math.floor(Math.random()*a.length)]}
+function wait(ms){return new Promise(r=>setTimeout(r,ms))}
+function change(k,n){
+ S[k]+=n;
+ if(["lover","sanity","shame","chaos","hero"].includes(k))S[k]=clamp(S[k]);
+ update();
+}
+function update(){
+ $("lover").textContent=S.lover;
+ $("sanity").textContent=S.sanity;
+ $("shame").textContent=S.shame;
+ $("chaos").textContent=S.chaos;
+ $("hero").textContent=S.hero;
+ $("cash").textContent=S.cash;
+ $("chapter").textContent="ATO "+S.act;
+}
+function log(t){
+ const e=document.createElement("div");e.className="log";e.innerHTML=t;
+ $("log").appendChild(e);
+ setTimeout(()=>{e.style.opacity=0;setTimeout(()=>e.remove(),400)},5200);
+}
+function toast(t){
+ $("toast").innerHTML=t;$("toast").classList.add("show");beep(750,.1);buzz(20);
+ setTimeout(()=>$("toast").classList.remove("show"),1300);
+}
+function burst(x=innerWidth/2,y=innerHeight/2,n=30){
+ for(let i=0;i<n;i++){
+  const p=document.createElement("div");p.className="spark";
+  p.style.left=x+"px";p.style.top=y+"px";
+  p.style.width=p.style.height=(3+Math.random()*8)+"px";
+  p.style.background=`hsl(${Math.random()*360},90%,65%)`;
+  p.style.setProperty("--x",((Math.random()-.5)*innerWidth*.8)+"px");
+  p.style.setProperty("--y",((Math.random()-.5)*innerHeight*.8)+"px");
+  $("fx").appendChild(p);setTimeout(()=>p.remove(),1100);
+ }
+}
+function achievement(t){
+ if(!S.achievements.includes(t)){S.achievements.push(t);toast("🏆 "+t);change("score",15)}
+}
+function dialogue(s,t,sub,opts){
+ $("dialogue").style.display="block";
+ $("speaker").innerHTML=s;$("dtext").innerHTML=t;$("dsub").innerHTML=sub||"";
+ const box=$("choices");box.innerHTML="";
+ opts.forEach(o=>{
+  const b=document.createElement("button");b.className="choice";b.innerHTML=o.t;
+  b.onclick=()=>{
+   S.decisions++;beep(350,.05);buzz(15);
+   if(o.a)o.a();
+   if(o.n)o.n();
+  };
+  box.appendChild(b);
+ });
+}
+function closeD(){$("dialogue").style.display="none"}
+
+function begin(){
+ $("intro").style.display="none";$("hud").style.display="block";S.running=true;
+ update();log("📡 CENTRAL: sinal do namorado localizado.");
+	setTimeout(act1,500);
 }
 
-function change(key,value){
+/* ============================================================
+ ACT 1 — O CHAMADO
+============================================================ */
+function act1(){
+ S.act=1;update();
+ dialogue("📡 CENTRAL",
+ "Temos uma situação extremamente delicada.",
+ "Seu namorado foi sequestrado.",
+ [
+  {t:"🦸‍♀️ “Quem fez isso?”",a:()=>change("hero",5),n:act1b},
+  {t:"😂 “O que ele aprontou?”",a:()=>change("shame",4),n:act1b},
+  {t:"😐 “Eu já sabia.”",a:()=>change("chaos",7),n:act1b}
+ ]);
+}
+function act1b(){
+ dialogue("📡 CENTRAL",
+ "Segundo o relatório, ele foi capturado por uma criatura experimental.",
+ "Nome oficial: <b>PAU DE BORRACHA NERVOSO™</b>.<br>Nome científico: “não devia ter ligado isso na tomada”.",
+ [
+  {t:"🚨 Aceitar a missão",a:()=>{change("hero",6);act1c()}},
+  {t:"😂 Pedir detalhes",a:()=>{change("shame",7);act1c()}},
+  {t:"🏃 Fingir que não ouviu",a:()=>{change("sanity",-5);act1c()}}
+ ]);
+}
+function act1c(){
+ dialogue("📡 CENTRAL",
+ "Antes de ir, você pode levar UMA coisa.",
+ "O arsenal disponibilizou exatamente três itens.",
+ [
+  {t:"🧻 Rolo de papel higiênico tático",a:()=>{S.inventory.push("papel");change("hero",3);act2()}},
+  {t:"🍌 Banana de emergência",a:()=>{S.inventory.push("banana");change("chaos",3);act2()}},
+  {t:"🪠 Desentupidor de combate",a:()=>{S.inventory.push("desentupidor");change("hero",6);act2()}}
+ ]);
+}
 
-    state[key]+=value;
+/* ============================================================
+ ACT 2 — A PORTA
+============================================================ */
+function act2(){
+ S.act=2;update();
+ dialogue("🚪 ENTRADA DA INSTALAÇÃO",
+ "A porta está trancada.",
+ "Há uma placa: <b>“PARA ENTRAR, PROVE QUE VOCÊ É INTELIGENTE.”</b><br>Isso já começou mal.",
+ [
+  {t:"🧠 Resolver o enigma",a:()=>quiz1()},
+  {t:"💥 Arrombar",a:()=>{change("chaos",18);change("lover",-6);log("💥 Você abriu a porta do jeito mais caro possível.");act3()}},
+  {t:"📢 Gritar “ABRE!”",a:()=>{change("shame",12);change("sanity",-2);log("📢 A porta não se impressionou.");act3()}}
+ ]);
+}
+function quiz1(){
+ const q=rnd([
+  ["O que você faz quando alguém diz “não aperta esse botão”?",
+   [["👆 Aperta",true],["🏃 Sai correndo",false],["😇 Obedece",false],["📞 Chama alguém",false]]],
+  ["Qual é o pior momento para descobrir que você esqueceu a chave?",
+   [["Antes de sair",false],["Na porta",true],["Em casa",false],["Nunca",false]]],
+  ["Qual objeto é mais suspeito?",
+   [["🧻 Papel",false],["🍌 Banana",false],["🍆 Algo que está vibrando sozinho",true],["🪑 Cadeira",false]]]
+ ]);
+ dialogue("🧠 PORTA INTELIGENTE",q[0],"Escolha uma resposta.",q[1].map(x=>({t:x[0],a:()=>{x[1]?change("hero",9):change("sanity",-6);act3()}})));
+}
 
-    if(["lover","sanity","hero"].includes(key)){
-        state[key]=clamp(state[key],0,100);
+/* ============================================================
+ ACT 3 — CORREDOR DOS DESASTRES
+============================================================ */
+function act3(){
+ S.act=3;update();
+ dialogue("🚨 CORREDOR",
+ "Você entrou.",
+ "Três corredores. Um leva ao namorado. Um leva à saída. Um leva a uma sala que ninguém menciona.",
+ [
+  {t:"⬅️ Corredor vermelho",a:()=>route("vermelho")},
+  {t:"⬆️ Corredor azul",a:()=>route("azul")},
+  {t:"➡️ Corredor proibido",a:()=>route("proibido")}
+ ]);
+}
+function route(r){
+ if(r==="proibido"){
+  change("chaos",15);change("shame",5);S.secrets++;
+  log("🕳️ Você entrou onde ninguém deveria entrar.");
+  dialogue("🚫 SALA PROIBIDA",
+   "Você encontrou uma máquina que imprime frases motivacionais.",
+   "A primeira frase foi: <b>“VOCÊ TOMOU UMA PÉSSIMA DECISÃO.”</b>",
+   [
+    {t:"😂 Guardar a frase",a:()=>{S.inventory.push("frase");act4()}},
+    {t:"💥 Destruir a máquina",a:()=>{change("chaos",10);act4()}}
+   ]);
+ }else{
+  const good=Math.random()>.45;
+  if(good){change("hero",5);log("🧭 Instinto heroico funcionou.");}
+  else{change("lover",-8);change("chaos",7);log("🧭 Instinto heroico foi reprovado.");}
+  act4();
+ }
+}
+
+/* ============================================================
+ ACT 4 — O PRIMEIRO CONTATO
+============================================================ */
+function act4(){
+ S.act=4;update();
+ dialogue("😵 NAMORADO",
+ "“AMOR!”",
+ "Você encontrou o namorado. Ele está preso numa cadeira e tentando parecer corajoso.",
+ [
+  {t:"❤️ Abraçar",a:()=>{change("lover",4);change("shame",3);act4b()}},
+  {t:"😂 Rir primeiro",a:()=>{change("shame",14);change("lover",-5);act4b()}},
+  {t:"🦸‍♀️ Fazer pose heroica",a:()=>{change("hero",10);act4b()}}
+ ]);
+}
+function act4b(){
+ dialogue("😵 NAMORADO",
+ "“Tem uma coisa importante.”",
+ "Ele aponta para uma alavanca enorme.<br><b>“Não mexe.”</b>",
+ [
+  {t:"🛑 Não mexer",a:()=>{change("hero",8);act4c()}},
+  {t:"👀 Mexer só um pouquinho",a:()=>{change("chaos",20);change("lover",-12);S.flags.lever=true;act4c()}},
+  {t:"🤔 Perguntar o que acontece",a:()=>{change("sanity",-3);act4c()}}
+ ]);
+}
+function act4c(){
+ dialogue("🍆 PAU DE BORRACHA NERVOSO™",
+ "“EU AVISEI QUE ELE NÃO PODIA SAIR.”",
+ "A criatura aparece usando uma capa minúscula e uma expressão de quem leva o próprio emprego muito a sério.",
+ [
+  {t:"🥊 Enfrentar",a:()=>reflex()},
+  {t:"🗣️ Conversar",a:()=>negociate()},
+  {t:"🏃 Fugir com o namorado",a:()=>escape1()}
+ ]);
+}
+
+/* ============================================================
+ MINIGAME 1 — REFLEXO
+============================================================ */
+function reflex(){
+ closeD();$("mini").style.display="block";$("mtitle").textContent="⚡ TESTE 1 — NÃO DEIXE O PAU NERVOSO PEGAR VOCÊ";
+ $("center").textContent="Toque apenas nos símbolos certos. NÃO toque no 💣.";
+ const arena=$("arena");arena.innerHTML="";let hit=0,time=24;
+ $("timer").textContent=time+"s";$("meter").style.width="0%";
+ let active=true;
+ const loop=setInterval(()=>{
+  if(!active)return;
+  const e=document.createElement("div");e.className="target";
+  e.textContent=rnd(["🍆","🍌","🧻","💣","💥","👀"]);
+  e.style.left=(4+Math.random()*88)+"%";e.style.top=(4+Math.random()*88)+"%";
+  arena.appendChild(e);
+  e.onclick=()=>{
+   if(!active)return;
+   if(e.textContent==="💣"){
+    active=false;clearInterval(loop);change("lover",-20);change("chaos",18);buzz(250);
+    $("center").textContent="💣 VOCÊ APERTOU A BOMBA. ÓTIMO.";
+    setTimeout(()=>{endMini(act5)},1500);return;
+   }
+   hit++;e.remove();beep(500+hit*20,.04);buzz(15);
+   $("meter").style.width=Math.min(100,hit/12*100)+"%";
+   if(hit>=12){active=false;clearInterval(loop);change("hero",14);change("score",30);burst();$("center").textContent="🔥 REFLEXOS ABSURDOS.";setTimeout(()=>endMini(act5),1300)}
+  };
+  setTimeout(()=>e.remove(),900);
+ },520);
+ const tick=setInterval(()=>{
+  if(!active){clearInterval(tick);return}
+  time--;$("timer").textContent=time+"s";
+  if(time<=0){
+   active=false;clearInterval(tick);clearInterval(loop);
+   change("lover",-12);change("shame",7);
+   $("center").textContent="⏰ TEMPO ESGOTADO. O PAU NERVOSO ESTÁ RINDO.";
+   setTimeout(()=>endMini(act5),1500);
+  }
+ },1000);
+}
+function endMini(next){$("mini").style.display="none";next()}
+
+/* ============================================================
+ NEGOCIAÇÃO
+============================================================ */
+function negociate(){
+ dialogue("🍆 PAU NERVOSO",
+ "“Podemos resolver isso civilizadamente.”",
+ "Ele puxa uma prancheta. Há um contrato chamado <b>TERMO DE USO DO NAMORADO</b>.",
+ [
+  {t:"💰 Oferecer dinheiro",a:()=>{change("cash",-15);change("chaos",8);neg2()}},
+  {t:"🍌 Oferecer banana",a:()=>{S.inventory.push("banana");change("shame",8);neg2()}},
+  {t:"🧠 Questionar o contrato",a:()=>{change("hero",7);neg2()}}
+ ]);
+}
+function neg2(){
+ dialogue("🍆 PAU NERVOSO",
+ "“Hmmm.”",
+ "Ele lê a proposta de cabeça para baixo.",
+ [
+  {t:"😎 Manter postura",a:()=>{change("hero",7);act5()}},
+  {t:"😂 Rir da situação",a:()=>{change("shame",10);change("chaos",5);act5()}},
+  {t:"🤨 Pedir advogado",a:()=>{change("sanity",-2);act5()}}
+ ]);
+}
+
+/* ============================================================
+ ESCAPE 1
+============================================================ */
+function escape1(){
+ closeD();$("mini").style.display="block";$("mtitle").textContent="🏃 TESTE 2 — FUGA DO CORREDOR";
+ $("center").textContent="Arraste 🦸‍♀️❤️ até a saída sem encostar no 🍆.";
+ const arena=$("arena");arena.innerHTML="";
+ const p=document.createElement("div");p.textContent="🦸‍♀️❤️";p.style.cssText="position:absolute;font-size:40px;left:5%;top:45%";
+ const e=document.createElement("div");e.textContent="🍆";e.style.cssText="position:absolute;font-size:52px;left:80%;top:45%";
+ const exit=document.createElement("div");exit.textContent="🚪";exit.style.cssText="position:absolute;font-size:50px;right:2%;top:42%";
+ arena.append(p,e,exit);let px=5,py=45,ex=80,time=28,alive=true;
+ $("timer").textContent=time+"s";
+ function move(ev){
+  if(!alive)return;
+  const r=arena.getBoundingClientRect(),pt=ev.touches?ev.touches[0]:ev;
+  px=clamp((pt.clientX-r.left)/r.width*100,2,92);py=clamp((pt.clientY-r.top)/r.height*100,4,88);
+  p.style.left=px+"%";p.style.top=py+"%";
+ }
+ arena.onpointermove=move;arena.ontouchmove=move;
+ const tick=setInterval(()=>{
+  time--;ex-=1.7;e.style.left=ex+"%";$("timer").textContent=time+"s";
+  if(Math.abs(px-ex)<7&&Math.abs(py-45)<13){
+   alive=false;clearInterval(tick);change("lover",-24);change("chaos",20);
+   $("center").textContent="💥 O PAU NERVOSO PEGOU VOCÊS.";
+   setTimeout(()=>endMini(act5),1400);
+  }else if(px>87){
+   alive=false;clearInterval(tick);change("hero",10);change("lover",-4);
+   $("center").textContent="🏃💨 FUGA REALIZADA.";
+   setTimeout(()=>endMini(act5),1100);
+  }else if(time<=0){
+   alive=false;clearInterval(tick);change("lover",-15);change("sanity",-5);
+   $("center").textContent="⏰ O CASAL FOI CANCELADO PELO TEMPO.";
+   setTimeout(()=>endMini(act5),1300);
+  }
+ },1000);
+}
+
+/* ============================================================
+ ACT 5 — LABORATÓRIO
+============================================================ */
+function act5(){
+ S.act=5;update();
+ dialogue("🧪 LABORATÓRIO",
+ "Há uma bancada com quatro objetos.",
+ "Um deles neutraliza o inimigo. Um deles ajuda o namorado. Um deles faz barulho. Um deles é simplesmente uma péssima ideia.",
+ [
+  {t:"🔴 Frasco vermelho",a:()=>{S.inventory.push("vermelho");change("hero",4);act5b()}},
+  {t:"🔵 Frasco azul",a:()=>{S.inventory.push("azul");change("lover",3);act5b()}},
+  {t:"📣 Buzina",a:()=>{S.inventory.push("buzina");change("chaos",8);act5b()}},
+  {t:"🥒 Objeto misterioso",a:()=>{S.inventory.push("misterioso");change("shame",15);act5b()}}
+ ]);
+}
+function act5b(){
+ dialogue("🧪 COMPUTADOR",
+ "Você escolheu um objeto.",
+ "O sistema pergunta: <b>“Você tem certeza?”</b>",
+ [
+  {t:"😎 Tenho",a:()=>{change("hero",4);act6()}},
+  {t:"😬 Não tenho",a:()=>{change("sanity",-2);act6()}},
+  {t:"😂 Já cheguei até aqui",a:()=>{change("chaos",7);act6()}}
+ ]);
+}
+
+/* ============================================================
+ ACT 6 — ELEVADOR
+============================================================ */
+function act6(){
+ S.act=6;update();
+ dialogue("🛗 ELEVADOR",
+ "Você e o namorado entram no elevador.",
+ "Há apenas três botões: <b>RESGATE</b>, <b>PERIGO</b> e <b>NÃO APERTAR</b>.",
+ [
+  {t:"🟢 RESGATE",a:()=>elevator("resgate")},
+  {t:"🔴 PERIGO",a:()=>elevator("perigo")},
+  {t:"⚫ NÃO APERTAR",a:()=>elevator("nao")}
+ ]);
+}
+function elevator(x){
+ if(x==="resgate"){change("hero",7);change("lover",-3)}
+ if(x==="perigo"){change("chaos",16);change("lover",-10)}
+ if(x==="nao"){change("shame",5);change("sanity",-2)}
+ dialogue("🛗 ELEVADOR",
+ x==="resgate"?"O elevador sobe normalmente. Isso é suspeito.":x==="perigo"?"O elevador toca uma sirene e começa a dançar.":"O elevador não fez nada. Você sente que ele ficou ofendido.",
+ "As portas abrem.",
+ [
+  {t:"🚪 Sair",a:()=>act7()},
+  {t:"😂 Ficar mais um pouco",a:()=>{change("chaos",6);act7()}}
+ ]);
+}
+
+/* ============================================================
+ ACT 7 — SALA DE ESPELHOS
+============================================================ */
+function act7(){
+ S.act=7;update();
+ dialogue("🪞 SALA DE ESPELHOS",
+ "Existem cinco versões de você.",
+ "Uma é real. As outras quatro são projeções feitas para confundir você.",
+ [
+  {t:"👩‍🚀 A que parece mais heroica",a:()=>mirror(false)},
+  {t:"😐 A que parece cansada",a:()=>mirror(true)},
+  {t:"😂 A que está rindo",a:()=>mirror(false)},
+  {t:"😎 A que está fazendo pose",a:()=>mirror(false)}
+ ]);
+}
+function mirror(good){
+ if(good){change("hero",9);log("🪞 Você identificou a versão real.");}
+ else{change("sanity",-8);change("chaos",8);log("🪞 Você cumprimentou um espelho.");}
+ dialogue("🪞 ESPELHO",
+ "A versão real aponta para uma porta.",
+ "Antes de abrir, ela diz: <b>“Não confie no próximo conselho.”</b>",
+ [
+  {t:"🚪 Abrir",a:()=>act8()},
+  {t:"🤨 Perguntar por quê",a:()=>{change("sanity",-3);act8()}}
+ ]);
+}
+
+/* ============================================================
+ ACT 8 — CONSELHO DO NAMORADO
+============================================================ */
+function act8(){
+ S.act=8;update();
+ dialogue("😵 NAMORADO",
+ "“Amor, escuta. Agora eu tenho um plano.”",
+ "Você imediatamente percebe que isso provavelmente vai piorar tudo.",
+ [
+  {t:"❤️ Confiar nele",a:()=>{change("lover",5);act8b()}},
+  {t:"😂 Perguntar se ele tem certeza",a:()=>{change("shame",5);act8b()}},
+  {t:"🦸‍♀️ Fazer seu próprio plano",a:()=>{change("hero",7);act8b()}}
+ ]);
+}
+function act8b(){
+ dialogue("😵 NAMORADO",
+ "O plano é simples.",
+ "Ele aponta para um botão enorme escrito <b>“NÃO APERTE”</b>.",
+ [
+  {t:"🛑 Ignorar o botão",a:()=>{change("hero",8);act9()}},
+  {t:"👆 Apertar",a:()=>{change("chaos",22);change("lover",-18);act9()}},
+  {t:"😂 Fazer ele apertar",a:()=>{change("shame",12);change("lover",-8);act9()}}
+ ]);
+}
+
+/* ============================================================
+ ACT 9 — COFRE DE 4 DÍGITOS
+============================================================ */
+function act9(){
+ S.act=9;update();closeD();$("mini").style.display="block";
+ $("mtitle").textContent="🔐 TESTE 3 — O COFRE DO NAMORADO";
+ $("timer").textContent="∞";$("center").textContent="Descubra o código de 4 dígitos.";
+ const arena=$("arena");arena.innerHTML="";
+ const wrap=document.createElement("div");wrap.style.cssText="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:min(360px,90%);text-align:center";
+ const display=document.createElement("div");display.style.cssText="font-size:38px;font-weight:1000;letter-spacing:10px;margin-bottom:15px";display.textContent="____";
+ wrap.appendChild(display);
+ const pad=document.createElement("div");pad.className="pad";wrap.appendChild(pad);arena.appendChild(wrap);
+ let code="",attempts=0;
+ const secret=rnd(["1357","2468","1984","0420","6969","2026","1117"]);
+ for(let n=0;n<=9;n++){
+  const b=document.createElement("button");b.textContent=n;b.onclick=()=>{
+   if(code.length>=4)return;code+=n;display.textContent=code.padEnd(4,"_");
+   beep(300+n*30,.04);
+   if(code.length===4){
+    attempts++;
+    if(code===secret){
+     change("hero",15);change("score",40);achievement("ARROMBADOR OFICIAL");
+     $("center").textContent="🔓 COFRE ABERTO!";
+     setTimeout(()=>endMini(act10),1300);
+    }else{
+     change("chaos",5);change("sanity",-3);code="";display.textContent="____";
+     toast("❌ CÓDIGO ERRADO");
+     if(attempts>=3){change("lover",-10);toast("😵 O COFRE TE JULGOU")}
     }
-
-    state.shame=clamp(state.shame,0,100);
-    state.chaos=clamp(state.chaos,0,100);
-
-    updateHUD();
+   }
+  };pad.appendChild(b);
+ }
 }
 
-function updateHUD(){
-
-    $("lover").textContent=state.lover;
-    $("sanity").textContent=state.sanity;
-    $("shame").textContent=state.shame;
-    $("chaos").textContent=state.chaos;
-    $("hero").textContent=state.hero;
-    $("chapter").textContent="CAPÍTULO "+state.chapter;
-
+/* ============================================================
+ ACT 10 — EVIDÊNCIAS
+============================================================ */
+function act10(){
+ $("mini").style.display="none";S.act=10;update();
+ dialogue("📸 SALA DE EVIDÊNCIAS",
+ "Você encontrou arquivos sobre o Pau de Borracha Nervoso.",
+ "Alguns são úteis. Outros são constrangedores demais para serem vistos.",
+ [
+  {t:"📂 Abrir arquivo vermelho",a:()=>evidence("red")},
+  {t:"📂 Abrir arquivo azul",a:()=>evidence("blue")},
+  {t:"🗑️ Apagar tudo",a:()=>{change("chaos",15);S.secrets++;act11()}}
+ ]);
+}
+function evidence(x){
+ if(x==="red"){
+  change("hero",8);S.secrets++;
+  dialogue("📂 ARQUIVO",
+   "“O Pau Nervoso não é mau.”",
+   "Ele foi criado para proteger o namorado. O problema é que ninguém ensinou limites.",
+   [{t:"😂 Isso explica muita coisa",a:()=>act11()},{t:"🤨 Continuar lendo",a:()=>{change("sanity",-3);act11()}}]);
+ }else{
+  change("shame",12);S.secrets++;
+  dialogue("📂 ARQUIVO",
+   "“O namorado assinou o formulário de teste voluntariamente.”",
+   "Você olha para ele. Ele olha para você. Silêncio.",
+   [{t:"😐 “A gente conversa depois.”",a:()=>{change("lover",-5);act11()}},{t:"😂 Começar a rir",a:()=>{change("chaos",10);act11()}}]);
+ }
 }
 
-function log(text){
-
-    const el=document.createElement("div");
-
-    el.className="logItem";
-
-    el.innerHTML=text;
-
-    $("log").appendChild(el);
-
-    setTimeout(()=>{
-
-        el.style.opacity="0";
-
-        setTimeout(()=>el.remove(),400);
-
-    },5000);
-
+/* ============================================================
+ ACT 11 — BOSS FINAL
+============================================================ */
+function act11(){
+ S.act=11;update();closeD();$("mini").style.display="block";
+ $("mtitle").textContent="👑 BOSS FINAL — MODO NERVOSO ABSOLUTO";
+ $("center").innerHTML="Derrote o chefão tocando nele.<br><small>Se tocar no 😵, você perde pontos.</small>";
+ $("timer").textContent="40s";
+ const arena=$("arena");arena.innerHTML="";
+ let hp=0,time=40,active=true;
+ const boss=document.createElement("div");boss.className="target";boss.textContent="🍆";boss.style.fontSize="76px";arena.appendChild(boss);
+ const boy=document.createElement("div");boy.textContent="😵";boy.style.cssText="position:absolute;font-size:45px";arena.appendChild(boy);
+ $("meter").style.width="0%";
+ function move(){
+  boss.style.left=(4+Math.random()*86)+"%";boss.style.top=(4+Math.random()*86)+"%";
+  boy.style.left=(4+Math.random()*86)+"%";boy.style.top=(4+Math.random()*86)+"%";
+ }
+ move();const mv=setInterval(move,500);
+ boss.onclick=()=>{
+  if(!active)return;hp++;beep(450+hp*12,.04);buzz(12);$("meter").style.width=(hp/24*100)+"%";burst(Math.random()*innerWidth,Math.random()*innerHeight,2);
+  if(Math.random()<.18){change("lover",-3);change("shame",2)}
+  if(hp>=24)finishBoss(true);
+ };
+ boy.onclick=()=>{
+  if(!active)return;change("lover",-8);change("shame",5);toast("😵 VOCÊ ACERTOU O NAMORADO!");
+ };
+ const tick=setInterval(()=>{
+  time--;$("timer").textContent=time+"s";
+  if(time<=0)finishBoss(false);
+ },1000);
+ function finishBoss(win){
+  if(!active)return;active=false;clearInterval(mv);clearInterval(tick);
+  if(win){change("hero",20);change("score",70);S.saves+=2;achievement("DERROTOU O PAU NERVOSO");burst(innerWidth/2,innerHeight/2,100);$("center").textContent="💥🍆 CHEFÃO DESTRUÍDO!";}
+  else{change("lover",-25);change("chaos",20);S.fails++;$("center").textContent="💀 O CHEFÃO ESCAPOU."}
+  setTimeout(()=>endMini(act12),1800);
+ }
 }
 
-function random(arr){
-
-    return arr[Math.floor(Math.random()*arr.length)];
-
+/* ============================================================
+ ACT 12 — DECISÃO FINAL
+============================================================ */
+function act12(){
+ $("mini").style.display="none";S.act=12;update();
+ dialogue("❤️ NAMORADO",
+ "“Você conseguiu.”",
+ "Ele olha para a criatura derrotada. Depois olha para você.",
+ [
+  {t:"❤️ Abraçar",a:()=>{change("lover",12);change("hero",5);final()}},
+  {t:"😂 Tirar uma foto",a:()=>{change("shame",18);S.secrets++;achievement("REGISTRO HISTÓRICO");final()}},
+  {t:"🍆 Conferir se ela está realmente morta",a:()=>{change("chaos",15);final()}},
+  {t:"🧻 Entregar o item inicial",a:()=>{change("shame",8);change("lover",4);final()}}
+ ]);
 }
 
-/* =========================================================
-   AUDIO
-========================================================= */
-
-let audio;
-
-function sound(freq=500,duration=.08,type="square"){
-
-    try{
-
-        if(!audio)
-            audio=new(window.AudioContext||window.webkitAudioContext)();
-
-        audio.resume();
-
-        const o=audio.createOscillator();
-        const g=audio.createGain();
-
-        o.type=type;
-        o.frequency.value=freq;
-
-        g.gain.value=.035;
-
-        o.connect(g);
-        g.connect(audio.destination);
-
-        o.start();
-
-        g.gain.exponentialRampToValueAtTime(
-            .001,
-            audio.currentTime+duration
-        );
-
-        o.stop(audio.currentTime+duration);
-
-    }catch(e){}
-
+/* ============================================================
+ FINAL
+============================================================ */
+function final(){
+ closeD();S.running=false;
+ let rank,text;
+ if(S.lover<=15){
+  rank="💀 RESGATOU O NAMORADO. ACABOU COM ELE.";
+  text="A missão terminou. O namorado sobreviveu por pouco. Ele provavelmente vai precisar de férias.";
+ }else if(S.chaos>=80){
+  rank="💥 DEUSA SUPREMA DO CAOS";
+  text="Você não salvou apenas o namorado. Você transformou a instalação inteira em uma história que ninguém acreditará.";
+ }else if(S.shame>=75){
+  rank="😳 HEROÍNA SEM QUALQUER DIGNIDADE";
+  text="O namorado foi salvo. Sua reputação, infelizmente, ficou presa naquela instalação.";
+ }else if(S.hero>=90&&S.lover>=75){
+  rank="👑 SUPER-HEROÍNA LENDÁRIA";
+  text="Você conseguiu o improvável: salvar o namorado enquanto mantinha algum controle sobre a situação.";
+ }else if(S.sanity<=20){
+  rank="🧠 SOBREVIVENTE DA REALIDADE";
+  text="Você venceu. Mas ninguém sabe explicar como sua sanidade chegou viva até o final.";
+ }else{
+  rank="🦸‍♀️ HEROÍNA OFICIAL DO NAMORADO";
+  text="Você tomou decisões questionáveis, sobreviveu ao Pau Nervoso e chegou ao final. Isso já é uma vitória.";
+ }
+ $("rank").textContent=rank;$("ending").textContent=text;
+ $("report").innerHTML=`
+ <div class="row"><span>❤️ Namorado</span><b>${S.lover}/100</b></div>
+ <div class="row"><span>🧠 Sanidade</span><b>${S.sanity}/100</b></div>
+ <div class="row"><span>😳 Vergonha</span><b>${S.shame}/100</b></div>
+ <div class="row"><span>💥 Caos</span><b>${S.chaos}/100</b></div>
+ <div class="row"><span>⭐ Heroísmo</span><b>${S.hero}/100</b></div>
+ <div class="row"><span>💰 Recursos restantes</span><b>${S.cash}</b></div>
+ <div class="row"><span>🎯 Decisões</span><b>${S.decisions}</b></div>
+ <div class="row"><span>🏆 Pontuação</span><b>${S.score}</b></div>
+ <div class="row"><span>📂 Segredos descobertos</span><b>${S.secrets}</b></div>`;
+ $("chips").innerHTML=S.achievements.map(a=>`<span class="chip">🏆 ${a}</span>`).join("");
+ $("secret").innerHTML=`
+ <b>ARQUIVO PÓS-MISSÃO</b><br><br>
+ Após analisar as câmeras, a Central chegou a uma conclusão:
+ <br><br>
+ <b>o verdadeiro perigo nunca foi o Pau de Borracha Nervoso.</b>
+ <br><br>
+ Foi a capacidade de vocês dois de transformar uma operação de resgate em uma situação cada vez mais absurda.
+ <br><br>
+ E existe um último registro no sistema:
+ <br><br>
+ <b>“OBJETO NERVOSO NÃO LOCALIZADO.”</b>
+ <br><br>
+ 😶
+ `;
+ $("end").style.display="flex";burst(innerWidth/2,innerHeight/2,120);beep(900,.2,"sine");buzz(80);
 }
 
-function buzz(ms=25){
+/* ============================================================
+ ALEATORIEDADES — O JOGO NÃO FICA QUIETO
+============================================================ */
+const randomEvents=[
+ ()=>{change("chaos",3);log("🍌 Uma banana apareceu no corredor. Ninguém admite responsabilidade.");},
+ ()=>{change("shame",3);log("👀 Uma câmera seguiu você por 11 segundos.");},
+ ()=>{change("sanity",-2);log("📻 O sistema de segurança começou a tocar música de elevador.");},
+ ()=>{change("hero",2);log("⭐ Uma testemunha declarou você oficialmente bonita e perigosa.");},
+ ()=>{change("lover",-3);log("😵 O namorado perguntou se o resgate ainda demora.");},
+ ()=>{change("chaos",5);log("💥 Alguma coisa explodiu ao longe. Você decidiu não investigar.");},
+ ()=>{change("shame",5);log("😳 Uma voz no alto-falante disse: “EU ESTOU VENDO.”");},
+ ()=>{change("cash",-2);log("💸 Uma taxa administrativa foi cobrada pelo universo.");},
+ ()=>{change("score",5);log("⭐ Você encontrou uma moeda. Não sabe de onde veio.");}
+];
+setInterval(()=>{if(S.running&&$("mini").style.display==="none"&&Math.random()<.48)rnd(randomEvents)()},6500);
 
-    if(navigator.vibrate)
-        navigator.vibrate(ms);
-
+/* ============================================================
+ DECOR
+============================================================ */
+for(let i=0;i<28;i++){
+ const p=document.createElement("div");p.style.cssText=`position:absolute;width:${2+Math.random()*5}px;height:${2+Math.random()*5}px;border-radius:50%;left:${Math.random()*100}%;top:${Math.random()*100}%;background:hsl(${Math.random()*360},90%,65%);opacity:.3;filter:blur(1px)`;
+ p.animate([{transform:"translateY(0)",opacity:0},{transform:"translateY(-60px)",opacity:.4},{transform:"translateY(-130px)",opacity:0}],{duration:4000+Math.random()*5000,iterations:Infinity,delay:-Math.random()*5000});
+ $("fx").appendChild(p);
 }
 
-/* =========================================================
-   DIÁLOGO
-========================================================= */
-
-function dialogue(speaker,text,sub,choices){
-
-    $("dialogue").style.display="block";
-
-    $("speaker").textContent=speaker;
-
-    $("dialogText").innerHTML=text;
-
-    $("dialogSub").innerHTML=sub||"";
-
-    const box=$("choices");
-
-    box.innerHTML="";
-
-    choices.forEach(choice=>{
-
-        const btn=document.createElement("button");
-
-        btn.className="choice "+(choice.className||"");
-
-        btn.innerHTML=choice.text;
-
-        btn.onclick=()=>{
-
-            state.decisions++;
-
-            sound(400,.05);
-            buzz(20);
-
-            if(choice.action)
-                choice.action();
-
-            if(choice.next)
-                choice.next();
-
-        };
-
-        box.appendChild(btn);
-
-    });
-
-}
-
-function closeDialogue(){
-
-    $("dialogue").style.display="none";
-
-}
-
-/* =========================================================
-   START
-========================================================= */
-
-$("startBtn").onclick=()=>{
-
-    $("start").style.display="none";
-
-    $("hud").style.display="block";
-
-    $("gameArea").style.display="block";
-
-    $("boy").style.display="block";
-
-    updateHUD();
-
-    log("🚨 ALERTA: namorado localizado.");
-
-    setTimeout(chapter1,700);
-
-};
-
-/* =========================================================
-   CAPÍTULO 1
-   O SEQUESTRO
-========================================================= */
-
-function chapter1(){
-
-    state.chapter=1;
-    updateHUD();
-
-    dialogue(
-
-        "📡 CENTRAL DE EMERGÊNCIA",
-
-        "Super-heroína, temos um problema.",
-        
-        "Seu namorado foi capturado durante uma situação que, segundo testemunhas, começou com a frase: “relaxa, vai dar tudo certo”.",
-
-        [
-
-            {
-
-                text:"🦸‍♀️ “Onde ele está?”",
-
-                action:()=>{
-
-                    change("hero",5);
-
-                    log("🦸‍♀️ A heroína entrou em modo missão.");
-
-                },
-
-                next:chapter1b
-
-            },
-
-            {
-
-                text:"😂 “O que ele fez?”",
-
-                action:()=>{
-
-                    change("shame",4);
-
-                },
-
-                next:chapter1b
-
-            },
-
-            {
-
-                text:"😐 “De novo?”",
-
-                action:()=>{
-
-                    change("chaos",5);
-
-                },
-
-                next:chapter1b
-
-            }
-
-        ]
-
-    );
-
-}
-
-function chapter1b(){
-
-    dialogue(
-
-        "📡 CENTRAL",
-
-        "Ele está preso dentro de uma instalação secreta.",
-        
-        "O sistema de segurança identificou o captor como:",
-        
-        [
-
-            {
-
-                text:"🍆 PAU DE BORRACHA NERVOSO",
-
-                action:()=>{
-
-                    state.flags.metEnemy=true;
-
-                    change("chaos",8);
-
-                },
-
-                next:chapter2
-
-            },
-
-            {
-
-                text:"🧻 “Tem certeza?”",
-
-                action:()=>{
-
-                    change("sanity",-3);
-
-                },
-
-                next:chapter2
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   CAPÍTULO 2
-   PORTA DE SEGURANÇA
-========================================================= */
-
-function chapter2(){
-
-    state.chapter=2;
-    updateHUD();
-
-    dialogue(
-
-        "🧠 COMPUTADOR",
-
-        "Para entrar na instalação você precisa responder uma pergunta.",
-        
-        "Pergunta de segurança extremamente séria.",
-
-        [
-
-            {
-
-                text:"🔐 Tentar responder",
-
-                next:securityQuiz
-
-            },
-
-            {
-
-                text:"💥 Arrombar a porta",
-
-                action:()=>{
-
-                    change("chaos",15);
-                    change("lover",-8);
-
-                    log("💥 A porta abriu. O namorado levou um susto.");
-
-                },
-
-                next:chapter3
-
-            },
-
-            {
-
-                text:"🥸 Fingir que é funcionária",
-
-                action:()=>{
-
-                    change("shame",8);
-
-                },
-
-                next:securityQuiz
-
-            }
-
-        ]
-
-    );
-
-}
-
-function securityQuiz(){
-
-    const questions=[
-
-        {
-
-            q:"Qual é a coisa mais perigosa em uma missão de resgate?",
-
-            a:[
-
-                ["🔥 Fogo",false],
-
-                ["🍆 Um objeto com personalidade própria",true],
-
-                ["🚪 Uma porta",false],
-
-                ["🧻 Papel higiênico",false]
-
-            ]
-
-        },
-
-        {
-
-            q:"O que fazer quando o namorado diz “não toca nisso”?",
-
-            a:[
-
-                ["👆 Tocar",true],
-
-                ["🏃 Fugir",false],
-
-                ["😴 Dormir",false],
-
-                ["📞 Ligar para a mãe",false]
-
-            ]
-
-        },
-
-        {
-
-            q:"Qual dessas frases NÃO deveria aparecer numa missão de resgate?",
-
-            a:[
-
-                ["“Estou chegando.”",false],
-
-                ["“Fica calmo.”",false],
-
-                ["“Eu acho que piorou.”",false],
-
-                ["“Por que isso está vibrando?”",true]
-
-            ]
-
-        }
-
-    ];
-
-    const q=random(questions);
-
-    dialogue(
-
-        "🔐 COMPUTADOR",
-
-        q.q,
-
-        "Escolha sabiamente.",
-
-        q.a.map(x=>({
-
-            text:x[0],
-
-            action:()=>{
-
-                if(x[1]){
-
-                    change("hero",8);
-
-                    log("✅ Resposta aceita.");
-
-                }else{
-
-                    change("sanity",-5);
-
-                    change("chaos",8);
-
-                    log("❌ O computador julgou sua decisão.");
-
-                }
-
-            },
-
-            next:()=>{
-
-                if(x[1])
-                    chapter3();
-                else
-                    chapter3();
-
-            }
-
-        }))
-
-    );
-
-}
-
-/* =========================================================
-   CAPÍTULO 3
-   SALA DO NAMORADO
-========================================================= */
-
-function chapter3(){
-
-    state.chapter=3;
-
-    updateHUD();
-
-    dialogue(
-
-        "👀 VOCÊ",
-
-        "Você finalmente encontra o namorado.",
-        
-        "Ele está amarrado a uma cadeira. Parece assustado.",
-        
-        [
-
-            {
-
-                text:"❤️ Abraçar",
-
-                action:()=>{
-
-                    change("lover",5);
-
-                    change("shame",4);
-
-                    log("❤️ Momento romântico... até alguma coisa cair do teto.");
-
-                },
-
-                next:chapter3b
-
-            },
-
-            {
-
-                text:"😂 Rir da situação",
-
-                action:()=>{
-
-                    change("shame",12);
-
-                    change("lover",-4);
-
-                    log("😂 Você tentou não rir. Não conseguiu.");
-
-                },
-
-                next:chapter3b
-
-            },
-
-            {
-
-                text:"🦸‍♀️ “Eu vim te salvar.”",
-
-                action:()=>{
-
-                    change("hero",10);
-
-                },
-
-                next:chapter3b
-
-            }
-
-        ]
-
-    );
-
-}
-
-function chapter3b(){
-
-    dialogue(
-
-        "😵 NAMORADO",
-
-        "“Amor... antes de me soltar...”",
-        
-        "Ele olha para o lado.",
-        
-        "<b>“...não mexe naquela alavanca.”</b>",
-
-        [
-
-            {
-
-                text:"🛑 NÃO mexer",
-
-                action:()=>{
-
-                    change("hero",10);
-
-                    log("🧠 Você demonstrou autocontrole.");
-
-                },
-
-                next:chapter4
-
-            },
-
-            {
-
-                text:"👀 Mexer só um pouquinho",
-
-                action:()=>{
-
-                    change("chaos",20);
-
-                    change("lover",-12);
-
-                    state.flags.lever=true;
-
-                    log("🚨 Você mexeu na alavanca.");
-
-                },
-
-                next:chapter4
-
-            },
-
-            {
-
-                text:"😂 Perguntar “por quê?”",
-
-                action:()=>{
-
-                    change("sanity",-3);
-
-                },
-
-                next:chapter4
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   CAPÍTULO 4
-   O PAU DE BORRACHA NERVOSO
-========================================================= */
-
-function chapter4(){
-
-    state.chapter=4;
-
-    updateHUD();
-
-    dialogue(
-
-        "🍆 PAU DE BORRACHA NERVOSO™",
-
-        "A criatura aparece lentamente.",
-        
-        "<b>“Ninguém sai daqui sem passar pelo TESTE.”</b>",
-
-        "Você não sabe por que ele fala. Nem por que parece tão confiante.",
-
-        [
-
-            {
-
-                text:"🦸‍♀️ Enfrentar",
-
-                action:()=>{
-
-                    change("hero",8);
-
-                    startReflexGame();
-
-                }
-
-            },
-
-            {
-
-                text:"🗣️ Negociar",
-
-                action:()=>{
-
-                    change("shame",8);
-
-                    negotiation();
-
-                }
-
-            },
-
-            {
-
-                text:"🏃 Correr levando o namorado",
-
-                action:()=>{
-
-                    change("chaos",12);
-
-                    startEscape();
-
-                }
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   MINIGAME 1
-   REFLEXO
-========================================================= */
-
-function startReflexGame(){
-
-    closeDialogue();
-
-    $("miniGame").style.display="block";
-
-    $("miniTitle").textContent=
-        "🍆 TESTE DE REFLEXOS DO PAU NERVOSO";
-
-    $("center").textContent=
-        "TOQUE NO 🍆 ANTES QUE ELE SUMA.";
-
-    const arena=$("arena");
-
-    arena.innerHTML="";
-
-    let hits=0;
-
-    let time=20;
-
-    $("timer").textContent="20s";
-
-    function spawn(){
-
-        if(time<=0)return;
-
-        const target=document.createElement("div");
-
-        target.className="target";
-
-        target.textContent=random(["🍆","🧻","🍌","💥","👀"]);
-
-        target.style.left=(5+Math.random()*85)+"%";
-
-        target.style.top=(5+Math.random()*85)+"%";
-
-        arena.appendChild(target);
-
-        target.onclick=()=>{
-
-            hits++;
-
-            target.remove();
-
-            buzz(25);
-
-            sound(600+hits*50,.05);
-
-            if(target.textContent==="🍆"){
-
-                change("hero",2);
-
-                change("chaos",1);
-
-            }else{
-
-                change("chaos",4);
-
-                change("lover",-2);
-
-            }
-
-            if(hits>=15){
-
-                finishReflex(true);
-
-            }
-
-        };
-
-        setTimeout(()=>target.remove(),1100);
-
-    }
-
-    const spawnLoop=setInterval(spawn,650);
-
-    const timer=setInterval(()=>{
-
-        time--;
-
-        $("timer").textContent=time+"s";
-
-        if(time<=0){
-
-            clearInterval(timer);
-
-            clearInterval(spawnLoop);
-
-            finishReflex(hits>=8);
-
-        }
-
-    },1000);
-
-    function finishReflex(win){
-
-        clearInterval(timer);
-        clearInterval(spawnLoop);
-
-        $("center").textContent=
-            win
-            ?"🔥 VOCÊ FOI MAIS RÁPIDA QUE O PAU NERVOSO."
-            :"💀 O PAU NERVOSO FOI MAIS RÁPIDO.";
-
-        if(win){
-
-            state.saves++;
-
-            change("hero",10);
-
-            change("lover",-5);
-
-        }else{
-
-            state.failures++;
-
-            change("lover",-20);
-
-            change("shame",10);
-
-        }
-
-        setTimeout(()=>{
-
-            $("miniGame").style.display="none";
-
-            chapter5();
-
-        },1600);
-
-    }
-
-}
-
-/* =========================================================
-   NEGOCIAÇÃO
-========================================================= */
-
-function negotiation(){
-
-    dialogue(
-
-        "🍆 PAU NERVOSO",
-
-        "“Quer negociar?”",
-
-        "Ele parece estranhamente disposto a conversar.",
-
-        [
-
-            {
-
-                text:"💰 Oferecer dinheiro",
-
-                action:()=>{
-
-                    change("chaos",10);
-
-                    change("lover",-5);
-
-                },
-
-                next:negotiation2
-
-            },
-
-            {
-
-                text:"🍌 Oferecer comida",
-
-                action:()=>{
-
-                    change("shame",6);
-
-                },
-
-                next:negotiation2
-
-            },
-
-            {
-
-                text:"🧠 Oferecer uma troca",
-
-                action:()=>{
-
-                    change("hero",5);
-
-                },
-
-                next:negotiation2
-
-            }
-
-        ]
-
-    );
-
-}
-
-function negotiation2(){
-
-    dialogue(
-
-        "🍆 PAU NERVOSO",
-
-        "“Interessante...”",
-
-        "Ele analisa sua proposta por tempo demais.",
-
-        [
-
-            {
-
-                text:"😎 Manter confiança",
-
-                action:()=>change("hero",6),
-
-                next:chapter5
-
-            },
-
-            {
-
-                text:"😬 Ficar nervosa",
-
-                action:()=>{
-
-                    change("shame",10);
-
-                    change("lover",-5);
-
-                },
-
-                next:chapter5
-
-            },
-
-            {
-
-                text:"😂 Começar a rir",
-
-                action:()=>{
-
-                    change("chaos",12);
-
-                },
-
-                next:chapter5
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   ESCAPE
-========================================================= */
-
-function startEscape(){
-
-    closeDialogue();
-
-    $("miniGame").style.display="block";
-
-    $("miniTitle").textContent=
-        "🏃 FUGA COM O NAMORADO";
-
-    $("center").textContent=
-        "ARRASTE O CASAL ATÉ A SAÍDA.";
-
-    const arena=$("arena");
-
-    arena.innerHTML="";
-
-    const player=document.createElement("div");
-
-    player.textContent="🦸‍♀️❤️";
-
-    player.style.position="absolute";
-    player.style.fontSize="42px";
-    player.style.left="10%";
-    player.style.top="50%";
-
-    arena.appendChild(player);
-
-    const enemy=document.createElement("div");
-
-    enemy.textContent="🍆";
-
-    enemy.style.position="absolute";
-    enemy.style.fontSize="50px";
-    enemy.style.left="80%";
-    enemy.style.top="50%";
-
-    arena.appendChild(enemy);
-
-    let x=10;
-    let enemyX=80;
-    let time=25;
-
-    $("timer").textContent="25s";
-
-    function move(ev){
-
-        const rect=arena.getBoundingClientRect();
-
-        const cx=ev.touches?
-            ev.touches[0].clientX:
-            ev.clientX;
-
-        const cy=ev.touches?
-            ev.touches[0].clientY:
-            ev.clientY;
-
-        x=clamp(
-            (cx-rect.left)/rect.width*100,
-            3,
-            93
-        );
-
-        player.style.left=x+"%";
-        player.style.top=
-            clamp(
-                (cy-rect.top)/rect.height*100,
-                5,
-                90
-            )+"%";
-
-    }
-
-    arena.onpointermove=move;
-    arena.ontouchmove=move;
-
-    const timer=setInterval(()=>{
-
-        time--;
-
-        $("timer").textContent=time+"s";
-
-        enemyX-=1.2;
-
-        enemy.style.left=enemyX+"%";
-
-        if(Math.abs(enemyX-x)<8){
-
-            clearInterval(timer);
-
-            change("lover",-25);
-            change("chaos",20);
-
-            $("center").textContent=
-                "💀 O PAU NERVOSO ALCANÇOU O CASAL.";
-
-            setTimeout(()=>{
-
-                $("miniGame").style.display="none";
-
-                chapter5();
-
-            },1500);
-
-        }
-
-        if(x>88){
-
-            clearInterval(timer);
-
-            change("hero",10);
-            change("lover",-5);
-
-            $("center").textContent=
-                "🏃💨 ESCAPARAM!";
-
-            setTimeout(()=>{
-
-                $("miniGame").style.display="none";
-
-                chapter5();
-
-            },1200);
-
-        }
-
-        if(time<=0){
-
-            clearInterval(timer);
-
-            change("lover",-15);
-
-            $("center").textContent=
-                "⏰ VOCÊ DEMOROU DEMAIS.";
-
-            setTimeout(()=>{
-
-                $("miniGame").style.display="none";
-
-                chapter5();
-
-            },1200);
-
-        }
-
-    },1000);
-
-}
-
-/* =========================================================
-   CAPÍTULO 5
-   LABORATÓRIO
-========================================================= */
-
-function chapter5(){
-
-    state.chapter=5;
-
-    updateHUD();
-
-    dialogue(
-
-        "🧪 LABORATÓRIO",
-
-        "Você encontrou três frascos.",
-        
-        "Um deles pode neutralizar o Pau Nervoso.",
-
-        [
-
-            {
-
-                text:"🔴 Frasco vermelho",
-
-                action:()=>{
-
-                    change("chaos",8);
-
-                    state.items.push("poção vermelha");
-
-                },
-
-                next:chapter5b
-
-            },
-
-            {
-
-                text:"🔵 Frasco azul",
-
-                action:()=>{
-
-                    change("hero",5);
-
-                    state.items.push("poção azul");
-
-                },
-
-                next:chapter5b
-
-            },
-
-            {
-
-                text:"🟢 Frasco verde",
-
-                action:()=>{
-
-                    change("shame",7);
-
-                    state.items.push("poção verde");
-
-                },
-
-                next:chapter5b
-
-            }
-
-        ]
-
-    );
-
-}
-
-function chapter5b(){
-
-    dialogue(
-
-        "🧪 COMPUTADOR DO LABORATÓRIO",
-
-        "Atenção.",
-        
-        "<b>Você escolheu uma poção.</b>",
-
-        "Infelizmente ninguém sabe qual é o efeito.",
-
-        [
-
-            {
-
-                text:"🥤 Beber",
-
-                action:()=>{
-
-                    change("sanity",-10);
-
-                    change("chaos",12);
-
-                },
-
-                next:chapter6
-
-            },
-
-            {
-
-                text:"🍆 Dar ao inimigo",
-
-                action:()=>{
-
-                    change("hero",8);
-
-                    change("lover",-7);
-
-                },
-
-                next:chapter6
-
-            },
-
-            {
-
-                text:"🧪 Misturar tudo",
-
-                action:()=>{
-
-                    change("chaos",20);
-
-                    change("shame",8);
-
-                    state.flags.mixture=true;
-
-                },
-
-                next:chapter6
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   CAPÍTULO 6
-   CÓDIGO
-========================================================= */
-
-function chapter6(){
-
-    state.chapter=6;
-
-    updateHUD();
-
-    dialogue(
-
-        "🔐 PORTA FINAL",
-
-        "Para libertar o namorado você precisa descobrir o código.",
-        
-        "Uma placa diz:",
-        
-        "<b>“O código está relacionado ao que aconteceu hoje.”</b>",
-
-        [
-
-            {
-
-                text:"🧠 Tentar memória",
-
-                next:memoryGame
-
-            },
-
-            {
-
-                text:"💥 Chutar a porta",
-
-                action:()=>{
-
-                    change("chaos",20);
-
-                    change("lover",-15);
-
-                },
-
-                next:chapter7
-
-            },
-
-            {
-
-                text:"😂 Perguntar ao namorado",
-
-                action:()=>{
-
-                    change("shame",6);
-
-                },
-
-                next:chapter7
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   MEMORY GAME
-========================================================= */
-
-function memoryGame(){
-
-    closeDialogue();
-
-    $("miniGame").style.display="block";
-
-    $("miniTitle").textContent=
-        "🧠 MEMÓRIA DA MISSÃO";
-
-    $("center").textContent=
-        "MEMORIZE A SEQUÊNCIA.";
-
-    const arena=$("arena");
-
-    arena.innerHTML="";
-
-    const emojis=["🍆","❤️","🧻","💥","🍌","🦸‍♀️"];
-
-    const buttons=[];
-
-    for(let i=0;i<6;i++){
-
-        const b=document.createElement("button");
-
-        b.className="memoryBtn";
-
-        b.textContent=emojis[i];
-
-        arena.appendChild(b);
-
-        buttons.push(b);
-
-    }
-
-    arena.className="arena memoryGrid";
-
-    let sequence=[];
-
-    let playerIndex=0;
-
-    for(let i=0;i<4;i++){
-
-        sequence.push(Math.floor(Math.random()*6));
-
-    }
-
-    let showIndex=0;
-
-    const show=setInterval(()=>{
-
-        buttons.forEach(b=>b.classList.remove("active"));
-
-        if(showIndex<sequence.length){
-
-            buttons[sequence[showIndex]].classList.add("active");
-
-            sound(350+sequence[showIndex]*80,.08);
-
-            showIndex++;
-
-        }else{
-
-            clearInterval(show);
-
-            $("center").textContent=
-                "AGORA REPITA.";
-
-            buttons.forEach((b,index)=>{
-
-                b.onclick=()=>{
-
-                    if(index===sequence[playerIndex]){
-
-                        b.classList.add("active");
-
-                        setTimeout(
-                            ()=>b.classList.remove("active"),
-                            150
-                        );
-
-                        playerIndex++;
-
-                        sound(700,.05);
-
-                        if(playerIndex>=sequence.length){
-
-                            change("hero",12);
-
-                            $("center").textContent=
-                                "🧠 MEMÓRIA PERFEITA.";
-
-                            setTimeout(()=>{
-
-                                $("miniGame").style.display="none";
-
-                                chapter7();
-
-                            },1200);
-
-                        }
-
-                    }else{
-
-                        change("sanity",-8);
-
-                        change("chaos",8);
-
-                        $("center").textContent=
-                            "❌ ERROU. O NAMORADO PERDEU A FÉ.";
-
-                        setTimeout(()=>{
-
-                            $("miniGame").style.display="none";
-
-                            chapter7();
-
-                        },1200);
-
-                    }
-
-                };
-
-            });
-
-        }
-
-    },600);
-
-}
-
-/* =========================================================
-   CAPÍTULO 7
-   INTERROGATÓRIO
-========================================================= */
-
-function chapter7(){
-
-    state.chapter=7;
-
-    updateHUD();
-
-    dialogue(
-
-        "🍆 PAU NERVOSO",
-
-        "“Última chance.”",
-        
-        "Ele exige que você responda uma pergunta para libertar o namorado.",
-
-        [
-
-            {
-
-                text:"😎 “Pergunte.”",
-
-                action:()=>{
-
-                    change("hero",5);
-
-                    finalQuestion();
-
-                }
-
-            },
-
-            {
-
-                text:"😂 “Você primeiro.”",
-
-                action:()=>{
-
-                    change("chaos",8);
-
-                    finalQuestion();
-
-                }
-
-            },
-
-            {
-
-                text:"🦸‍♀️ Atacar",
-
-                action:()=>{
-
-                    change("lover",-10);
-
-                    change("chaos",15);
-
-                    finalQuestion();
-
-                }
-
-            }
-
-        ]
-
-    );
-
-}
-
-function finalQuestion(){
-
-    const q=random([
-
-        {
-
-            t:"Quem é a verdadeira heroína desta história?",
-
-            a:[
-
-                ["🦸‍♀️ Você",true],
-
-                ["🍆 O Pau Nervoso",false],
-
-                ["🧻 O papel higiênico",false]
-
-            ]
-
-        },
-
-        {
-
-            t:"Qual foi a pior decisão da missão?",
-
-            a:[
-
-                ["🤷 Todas",true],
-
-                ["🍌 Comer a banana",false],
-
-                ["🚪 Abrir a porta",false]
-
-            ]
-
-        },
-
-        {
-
-            t:"O namorado merece ser salvo?",
-
-            a:[
-
-                ["❤️ Sim",true],
-
-                ["😐 Depende",false],
-
-                ["😂 Ele que se vire",false]
-
-            ]
-
-        }
-
-    ]);
-
-    dialogue(
-
-        "🍆 PAU NERVOSO",
-
-        q.t,
-
-        "Escolha com sabedoria.",
-
-        q.a.map(x=>({
-
-            text:x[0],
-
-            action:()=>{
-
-                if(x[1]){
-
-                    change("hero",10);
-
-                    state.saves++;
-
-                }else{
-
-                    change("lover",-12);
-
-                    change("chaos",10);
-
-                    state.failures++;
-
-                }
-
-            },
-
-            next:chapter8
-
-        }))
-
-    );
-
-}
-
-/* =========================================================
-   CAPÍTULO 8
-   ÚLTIMA ARMADILHA
-========================================================= */
-
-function chapter8(){
-
-    state.chapter=8;
-
-    updateHUD();
-
-    dialogue(
-
-        "🚨 ALERTA",
-
-        "A instalação inteira começou a tremer.",
-        
-        "O Pau de Borracha Nervoso entrou em <b>MODO TURBO</b>.",
-
-        "O namorado grita: “AMOR, FAZ ALGUMA COISA!”",
-
-        [
-
-            {
-
-                text:"🔥 Desligar energia",
-
-                action:()=>{
-
-                    change("chaos",8);
-
-                },
-
-                next:boss
-
-            },
-
-            {
-
-                text:"💥 Atacar o painel",
-
-                action:()=>{
-
-                    change("lover",-15);
-
-                    change("chaos",15);
-
-                },
-
-                next:boss
-
-            },
-
-            {
-
-                text:"🧠 Procurar o botão certo",
-
-                action:()=>{
-
-                    change("hero",8);
-
-                },
-
-                next:boss
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   BOSS
-========================================================= */
-
-function boss(){
-
-    closeDialogue();
-
-    $("miniGame").style.display="block";
-
-    $("miniTitle").textContent=
-        "👑 CHEFE FINAL — PAU DE BORRACHA NERVOSO";
-
-    $("center").textContent=
-        "DERROTE O CHEFÃO SEM ACERTAR O NAMORADO.";
-
-    const arena=$("arena");
-
-    arena.innerHTML="";
-
-    let hits=0;
-    let time=35;
-
-    $("timer").textContent="35s";
-
-    const boss=document.createElement("div");
-
-    boss.className="target";
-
-    boss.textContent="🍆";
-
-    boss.style.fontSize="70px";
-
-    arena.appendChild(boss);
-
-    const lover=document.createElement("div");
-
-    lover.textContent="😵‍💫";
-
-    lover.style.position="absolute";
-    lover.style.fontSize="45px";
-
-    arena.appendChild(lover);
-
-    function moveBoss(){
-
-        boss.style.left=(5+Math.random()*85)+"%";
-
-        boss.style.top=(5+Math.random()*85)+"%";
-
-    }
-
-    function moveLover(){
-
-        lover.style.left=(5+Math.random()*85)+"%";
-
-        lover.style.top=(5+Math.random()*85)+"%";
-
-    }
-
-    moveBoss();
-    moveLover();
-
-    const movement=setInterval(()=>{
-
-        moveBoss();
-        moveLover();
-
-    },700);
-
-    boss.onclick=()=>{
-
-        hits++;
-
-        change("hero",1);
-
-        sound(500+hits*30,.05);
-
-        buzz(20);
-
-        if(Math.random()<.25){
-
-            change("lover",-4);
-
-            change("shame",3);
-
-            log("💥 Você acertou o chefão... mas quase acertou o namorado.");
-
-        }
-
-        if(hits>=20){
-
-            clearInterval(movement);
-            clearInterval(timer);
-
-            winBoss();
-
-        }
-
-    };
-
-    const timer=setInterval(()=>{
-
-        time--;
-
-        $("timer").textContent=time+"s";
-
-        if(time<=0){
-
-            clearInterval(timer);
-            clearInterval(movement);
-
-            loseBoss();
-
-        }
-
-    },1000);
-
-    function winBoss(){
-
-        change("hero",20);
-
-        change("lover",-5);
-
-        state.saves+=2;
-
-        $("center").textContent=
-            "💥🍆 CHEFÃO DERROTADO!";
-
-        setTimeout(()=>{
-
-            $("miniGame").style.display="none";
-
-            chapter9();
-
-        },1700);
-
-    }
-
-    function loseBoss(){
-
-        change("lover",-25);
-
-        change("chaos",20);
-
-        state.failures++;
-
-        $("center").textContent=
-            "💀 O CHEFÃO SOBREVIVEU.";
-
-        setTimeout(()=>{
-
-            $("miniGame").style.display="none";
-
-            chapter9();
-
-        },1700);
-
-    }
-
-}
-
-/* =========================================================
-   CAPÍTULO 9
-   DECISÃO FINAL
-========================================================= */
-
-function chapter9(){
-
-    state.chapter=9;
-
-    updateHUD();
-
-    dialogue(
-
-        "❤️ NAMORADO",
-
-        "Finalmente você chegou até mim.",
-        
-        "Ele olha para você. Depois olha para o Pau Nervoso derrotado.",
-        
-        "<b>“Agora só falta uma coisa...”</b>",
-
-        [
-
-            {
-
-                text:"❤️ Abraçar o namorado",
-
-                action:()=>{
-
-                    change("lover",15);
-
-                    change("hero",5);
-
-                },
-
-                next:ending
-
-            },
-
-            {
-
-                text:"😂 Tirar uma foto",
-
-                action:()=>{
-
-                    change("shame",15);
-
-                    change("chaos",8);
-
-                    state.secrets++;
-
-                },
-
-                next:ending
-
-            },
-
-            {
-
-                text:"🍆 Conferir se o inimigo realmente morreu",
-
-                action:()=>{
-
-                    change("chaos",12);
-
-                    change("shame",8);
-
-                },
-
-                next:ending
-
-            }
-
-        ]
-
-    );
-
-}
-
-/* =========================================================
-   FINAL
-========================================================= */
-
-function ending(){
-
-    $("dialogue").style.display="none";
-
-    let rank;
-    let text;
-
-    const score=
-        state.hero+
-        state.lover+
-        state.sanity-
-        state.chaos+
-        (100-state.shame);
-
-    if(state.lover<=20){
-
-        rank="💀 HEROÍNA QUE SALVOU... QUASE NADA";
-
-        text=
-        "Você chegou até o namorado. " +
-        "Tecnicamente isso conta como resgate. " +
-        "Ele discorda.";
-
-    }
-    else if(state.chaos>=80){
-
-        rank="💥 IMPERATRIZ DO CAOS";
-
-        text=
-        "Você salvou o namorado destruindo aproximadamente " +
-        "97% da lógica existente nesta realidade.";
-
-    }
-    else if(state.shame>=70){
-
-        rank="😳 HEROÍNA DA VERGONHA ALHEIA";
-
-        text=
-        "O namorado foi salvo. Sua dignidade não.";
-
-    }
-    else if(state.hero>=85 && state.lover>=70){
-
-        rank="👑 SUPER-HEROÍNA SUPREMA";
-
-        text=
-        "Você conseguiu salvar o namorado e manter " +
-        "uma quantidade surpreendente de dignidade.";
-
-    }
-    else if(state.sanity<=20){
-
-        rank="🧠 SOBREVIVENTE MENTAL";
-
-        text=
-        "Você venceu a missão. " +
-        "Mas deixou sua sanidade em algum corredor da instalação.";
-
-    }
-    else{
-
-        rank="🦸‍♀️ HEROÍNA OFICIAL DO NAMORADO";
-
-        text=
-        "Você não fez tudo certo. " +
-        "Mas fez o suficiente para transformar uma situação ridícula " +
-        "em uma história que vocês provavelmente vão contar rindo.";
-
-    }
-
-    $("finalRank").textContent=rank;
-
-    $("finalText").textContent=text;
-
-    $("report").innerHTML=`
-
-        <div class="reportRow">
-            ❤️ Estado do namorado:
-            <b>${state.lover}/100</b>
-        </div>
-
-        <div class="reportRow">
-            🧠 Sanidade da heroína:
-            <b>${state.sanity}/100</b>
-        </div>
-
-        <div class="reportRow">
-            😳 Vergonha acumulada:
-            <b>${state.shame}/100</b>
-        </div>
-
-        <div class="reportRow">
-            💥 Caos causado:
-            <b>${state.chaos}/100</b>
-        </div>
-
-        <div class="reportRow">
-            ⭐ Heroísmo:
-            <b>${state.hero}/100</b>
-        </div>
-
-        <div class="reportRow">
-            🧠 Decisões tomadas:
-            <b>${state.decisions}</b>
-        </div>
-
-        <div class="reportRow">
-            🏆 Salvamentos:
-            <b>${state.saves}</b>
-        </div>
-
-        <div class="reportRow">
-            💀 Falhas:
-            <b>${state.failures}</b>
-        </div>
-
-    `;
-
-    const achievements=[];
-
-    if(state.chaos>=50)
-        achievements.push("💥 CAOS ABSOLUTO");
-
-    if(state.shame>=50)
-        achievements.push("😳 SEM VERGONHA");
-
-    if(state.lover>=80)
-        achievements.push("❤️ NAMORADO PRESERVADO");
-
-    if(state.hero>=80)
-        achievements.push("🦸‍♀️ SUPER-HEROÍNA");
-
-    if(state.sanity<=20)
-        achievements.push("🧠 CADÊ MINHA SANIDADE?");
-
-    if(state.secrets>0)
-        achievements.push("📸 FOTÓGRAFA DO CAOS");
-
-    $("achievements").innerHTML=
-        achievements.map(x=>
-            `<span class="achievement">${x}</span>`
-        ).join("");
-
-    $("secret").innerHTML=
-        `
-        <b>ARQUIVO ULTRASSECRETO:</b><br><br>
-
-        O Pau de Borracha Nervoso foi derrotado.
-
-        <br><br>
-
-        Porém...
-
-        <br><br>
-
-        segundo os cientistas responsáveis pela investigação,
-
-        <b>ele pode voltar.</b>
-
-        <br><br>
-
-        E aparentemente ele anotou o seu nome.
-        `;
-
-    $("end").style.display="flex";
-
-    victoryEffects();
-
-}
-
-/* =========================================================
-   EFEITOS
-========================================================= */
-
-function victoryEffects(){
-
-    for(let i=0;i<80;i++){
-
-        const p=document.createElement("div");
-
-        p.style.position="fixed";
-
-        p.style.left="50%";
-        p.style.top="50%";
-
-        p.style.width=(3+Math.random()*7)+"px";
-        p.style.height=(3+Math.random()*7)+"px";
-
-        p.style.borderRadius="50%";
-
-        p.style.background=
-            `hsl(${Math.random()*360},90%,65%)`;
-
-        p.style.zIndex="500";
-
-        const x=(Math.random()-.5)*innerWidth;
-        const y=(Math.random()-.5)*innerHeight;
-
-        p.animate([
-
-            {
-                transform:"translate(-50%,-50%) scale(0)",
-                opacity:1
-            },
-
-            {
-                transform:
-                `translate(${x}px,${y}px) scale(1)`,
-                opacity:0
-            }
-
-        ],{
-
-            duration:1000+Math.random()*1500,
-            easing:"cubic-bezier(.1,.8,.2,1)"
-
-        });
-
-        document.body.appendChild(p);
-
-        setTimeout(()=>p.remove(),2600);
-
-    }
-
-}
-
-/* =========================================================
-   EVENTOS ALEATÓRIOS
-========================================================= */
-
-setInterval(()=>{
-
-    if($("hud").style.display!=="block")
-        return;
-
-    if($("miniGame").style.display==="block")
-        return;
-
-    const events=[
-
-        ()=>{
-
-            change("chaos",3);
-
-            log("🍌 Uma banana apareceu no chão. Ninguém sabe de onde veio.");
-
-        },
-
-        ()=>{
-
-            change("shame",2);
-
-            log("👀 O namorado perguntou se isso tudo era realmente necessário.");
-
-        },
-
-        ()=>{
-
-            change("sanity",-2);
-
-            log("📻 O sistema de segurança tocou uma música inexplicável.");
-
-        },
-
-        ()=>{
-
-            change("hero",2);
-
-            log("⭐ Uma testemunha reconheceu seu heroísmo.");
-
-        },
-
-        ()=>{
-
-            change("lover",-3);
-
-            log("😵 O namorado reclamou que está ficando cansado.");
-
-        },
-
-        ()=>{
-
-            change("chaos",5);
-
-            log("💥 Alguma coisa explodiu ao longe.");
-
-        },
-
-        ()=>{
-
-            change("shame",5);
-
-            log("😳 Alguém gritou: “EI, O QUE VOCÊS ESTÃO FAZENDO AÍ?”");
-
-        }
-
-    ];
-
-    if(Math.random()<.45)
-        random(events)();
-
-},8500);
-
-/* =========================================================
-   PARTICULAS
-========================================================= */
-
-for(let i=0;i<25;i++){
-
-    const p=document.createElement("div");
-
-    p.className="particle";
-
-    const s=2+Math.random()*5;
-
-    p.style.width=s+"px";
-    p.style.height=s+"px";
-
-    p.style.left=Math.random()*100+"%";
-
-    p.style.animationDelay=
-        (-Math.random()*7)+"s";
-
-    p.style.background=
-        `hsl(${Math.random()*360},80%,65%)`;
-
-    $("particles").appendChild(p);
-
-}
-
-/* =========================================================
-   TOUCH
-========================================================= */
-
-document.addEventListener(
-    "gesturestart",
-    e=>e.preventDefault()
-);
-
-document.addEventListener(
-    "gesturechange",
-    e=>e.preventDefault()
-);
-
-document.addEventListener(
-    "gestureend",
-    e=>e.preventDefault()
-);
-
+function endMini(next){$("mini").style.display="none";next()}
+$("start").onclick=begin;
+document.addEventListener("contextmenu",e=>e.preventDefault());
+document.addEventListener("gesturestart",e=>e.preventDefault());
 </script>
-
 </body>
 </html>
