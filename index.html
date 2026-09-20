@@ -3,8 +3,9 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport"
-      content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
-<title>Chaves — O Dia em que a Vila Perdeu a Cabeça</title>
+content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+
+<title>OPERAÇÃO: SALVE O NAMORADO</title>
 
 <style>
 *{
@@ -18,7 +19,7 @@ html,body{
     height:100%;
     overflow:hidden;
     font-family:Arial,Helvetica,sans-serif;
-    background:#111;
+    background:#080812;
     color:#fff;
 }
 
@@ -31,573 +32,716 @@ button{
 }
 
 #app{
+    position:relative;
     width:100%;
     height:100%;
-    position:relative;
     overflow:hidden;
     background:
-        radial-gradient(circle at 50% 20%,rgba(255,193,7,.15),transparent 30%),
-        linear-gradient(180deg,#202020,#101010);
+        radial-gradient(circle at 50% 20%,rgba(255,0,100,.16),transparent 35%),
+        radial-gradient(circle at 20% 80%,rgba(0,180,255,.12),transparent 30%),
+        linear-gradient(135deg,#090914,#160c1b 50%,#090912);
 }
 
-/* =========================
-   CENÁRIO
-========================= */
+/* =========================================
+   BACKGROUND
+========================================= */
 
-#scene{
+.grid{
     position:absolute;
     inset:0;
-    overflow:hidden;
+    opacity:.12;
+    background-image:
+        linear-gradient(rgba(255,255,255,.2) 1px,transparent 1px),
+        linear-gradient(90deg,rgba(255,255,255,.2) 1px,transparent 1px);
+    background-size:35px 35px;
+    transform:perspective(500px) rotateX(55deg) scale(1.7);
+    transform-origin:center bottom;
 }
 
-.wall{
-    position:absolute;
-    inset:0 0 28% 0;
-    background:
-        linear-gradient(rgba(255,255,255,.035) 1px,transparent 1px),
-        linear-gradient(90deg,rgba(255,255,255,.025) 1px,transparent 1px),
-        #806f59;
-    background-size:26px 26px;
-}
-
-.wall:after{
-    content:"";
-    position:absolute;
-    inset:0;
-    background:linear-gradient(90deg,
-        rgba(0,0,0,.15),
-        transparent 25%,
-        transparent 75%,
-        rgba(0,0,0,.2)
-    );
-}
-
-.floor{
+.scan{
     position:absolute;
     left:0;
     right:0;
-    bottom:0;
-    height:28%;
-    background:
-        repeating-linear-gradient(
-            0deg,
-            #564738 0px,
-            #564738 18px,
-            #4b3c2f 19px,
-            #4b3c2f 21px
-        );
-    border-top:5px solid #30251e;
+    height:3px;
+    background:linear-gradient(90deg,
+        transparent,
+        rgba(255,60,150,.7),
+        transparent);
+    animation:scan 5s linear infinite;
+    opacity:.5;
 }
 
-.door{
-    position:absolute;
-    left:7%;
-    bottom:25%;
-    width:95px;
-    height:150px;
-    background:#4d3828;
-    border:7px solid #2b211b;
-    box-shadow:inset 0 0 0 4px #76543a;
+@keyframes scan{
+    from{top:-5%}
+    to{top:105%}
 }
 
-.door:before{
-    content:"";
+.particle{
     position:absolute;
-    right:13px;
-    top:75px;
-    width:9px;
-    height:9px;
     border-radius:50%;
-    background:#d5a928;
+    pointer-events:none;
+    opacity:.35;
+    animation:float 7s linear infinite;
 }
 
-.window{
-    position:absolute;
-    right:8%;
-    bottom:32%;
-    width:130px;
-    height:100px;
-    background:#7ac5dc;
-    border:9px solid #443328;
-    box-shadow:inset 0 0 20px rgba(0,0,0,.3);
+@keyframes float{
+    from{
+        transform:translateY(110vh) scale(.5);
+        opacity:0;
+    }
+    20%{opacity:.4}
+    80%{opacity:.3}
+    to{
+        transform:translateY(-20vh) scale(1.2);
+        opacity:0;
+    }
 }
 
-.window:before,
-.window:after{
-    content:"";
-    position:absolute;
-    background:#443328;
-}
-
-.window:before{
-    width:9px;
-    height:100%;
-    left:50%;
-    transform:translateX(-50%);
-}
-
-.window:after{
-    height:9px;
-    width:100%;
-    top:50%;
-    transform:translateY(-50%);
-}
-
-.pipe{
-    position:absolute;
-    right:0;
-    top:12%;
-    width:18px;
-    height:35%;
-    background:#3f3f3f;
-    border:3px solid #222;
-}
-
-/* =========================
+/* =========================================
    HUD
-========================= */
+========================================= */
 
 #hud{
-    position:absolute;
-    top:12px;
-    left:12px;
-    right:12px;
-    z-index:50;
     display:none;
+    position:absolute;
+    z-index:50;
+    top:10px;
+    left:10px;
+    right:10px;
 }
 
-.hud-top{
+.hud-row{
     display:flex;
     justify-content:space-between;
     align-items:center;
     gap:8px;
 }
 
-.logo{
+.brand{
+    padding:8px 10px;
+    border-radius:11px;
+    background:rgba(10,10,20,.85);
+    border:1px solid rgba(255,100,180,.45);
+    font-size:10px;
     font-weight:1000;
-    font-size:14px;
-    background:#111;
-    border:2px solid #f5c542;
-    padding:8px 11px;
-    border-radius:12px;
-    box-shadow:0 0 15px rgba(245,197,66,.15);
+    letter-spacing:.5px;
 }
 
 .chapter{
-    font-size:11px;
-    font-weight:900;
     padding:8px 10px;
-    background:rgba(0,0,0,.65);
-    border-radius:10px;
+    border-radius:11px;
+    background:rgba(10,10,20,.85);
     border:1px solid rgba(255,255,255,.15);
+    font-size:10px;
+    font-weight:900;
 }
 
 .stats{
-    margin-top:8px;
     display:grid;
     grid-template-columns:repeat(5,1fr);
     gap:5px;
+    margin-top:7px;
 }
 
 .stat{
-    background:rgba(0,0,0,.65);
-    border:1px solid rgba(255,255,255,.12);
+    padding:5px 2px;
     border-radius:9px;
-    padding:6px 4px;
+    background:rgba(5,5,12,.8);
+    border:1px solid rgba(255,255,255,.1);
     text-align:center;
-    font-size:9px;
+    font-size:8px;
     font-weight:900;
 }
 
 .stat b{
     display:block;
-    font-size:15px;
+    font-size:14px;
     margin-top:2px;
 }
 
-#eventLog{
+/* =========================================
+   GAME SCREEN
+========================================= */
+
+#gameArea{
     position:absolute;
-    left:12px;
-    bottom:12px;
-    width:min(350px,calc(100% - 24px));
-    z-index:40;
+    inset:0;
+    display:none;
+}
+
+.character{
+    position:absolute;
+    left:50%;
+    bottom:13%;
+    transform:translateX(-50%);
+    width:170px;
+    height:220px;
+    z-index:10;
+    transition:.3s;
+}
+
+.hero{
+    position:absolute;
+    width:105px;
+    height:105px;
+    border-radius:50%;
+    left:50%;
+    top:10px;
+    transform:translateX(-50%);
+    background:
+        radial-gradient(circle at 35% 30%,#ffe0c0,#d99b72 65%,#8c513e);
+    border:5px solid #16131c;
+    box-shadow:0 8px 0 #16131c;
+}
+
+.hero:before{
+    content:"";
+    position:absolute;
+    width:115px;
+    height:35px;
+    left:-10px;
+    top:-17px;
+    border-radius:50%;
+    background:#191524;
+}
+
+.hero:after{
+    content:"👀";
+    position:absolute;
+    left:23px;
+    top:40px;
+    font-size:35px;
+    letter-spacing:8px;
+}
+
+.cape{
+    position:absolute;
+    width:125px;
+    height:135px;
+    left:23px;
+    top:82px;
+    background:linear-gradient(145deg,#ff277f,#7b1cff);
+    clip-path:polygon(10% 0,90% 0,100% 100%,50% 80%,0 100%);
+    border:4px solid #17121c;
+}
+
+.bodyHero{
+    position:absolute;
+    width:82px;
+    height:100px;
+    left:44px;
+    top:85px;
+    background:#2622aa;
+    border-radius:25px 25px 15px 15px;
+    border:5px solid #16131c;
+    z-index:2;
+}
+
+.logoHero{
+    position:absolute;
+    left:50%;
+    top:25px;
+    transform:translateX(-50%);
+    font-size:22px;
+}
+
+/* namorado */
+
+.boy{
+    position:absolute;
+    left:50%;
+    bottom:25%;
+    transform:translateX(-50%);
+    width:145px;
+    height:200px;
+    z-index:9;
+    display:none;
+}
+
+.boy-head{
+    position:absolute;
+    width:88px;
+    height:88px;
+    left:50%;
+    transform:translateX(-50%);
+    top:0;
+    border-radius:50%;
+    background:#c98561;
+    border:5px solid #211820;
+}
+
+.boy-head:before{
+    content:"";
+    position:absolute;
+    width:70px;
+    height:30px;
+    left:5px;
+    top:-12px;
+    background:#20191c;
+    border-radius:50% 50% 30% 30%;
+}
+
+.boy-head:after{
+    content:"😵";
+    position:absolute;
+    font-size:35px;
+    left:24px;
+    top:29px;
+}
+
+.boy-body{
+    position:absolute;
+    left:32px;
+    top:78px;
+    width:82px;
+    height:110px;
+    background:#2879b5;
+    border:5px solid #211820;
+    border-radius:25px;
+}
+
+.boy-rope{
+    position:absolute;
+    left:15px;
+    right:15px;
+    bottom:13px;
+    height:14px;
+    border-radius:20px;
+    background:#c58b43;
+    border:3px solid #4e321d;
+}
+
+/* =========================================
+   DIALOGUE
+========================================= */
+
+#dialogue{
+    display:none;
+    position:absolute;
+    z-index:80;
+    left:50%;
+    transform:translateX(-50%);
+    bottom:4%;
+    width:min(700px,94%);
+}
+
+.dialog{
+    padding:15px;
+    border-radius:18px;
+    background:
+        linear-gradient(145deg,
+        rgba(25,18,32,.98),
+        rgba(9,9,16,.98));
+    border:2px solid rgba(255,75,160,.55);
+    box-shadow:0 20px 60px rgba(0,0,0,.6);
+}
+
+.speaker{
+    color:#ff65ad;
+    font-size:11px;
+    font-weight:1000;
+    margin-bottom:7px;
+    text-transform:uppercase;
+}
+
+.text{
+    font-size:15px;
+    line-height:1.4;
+    font-weight:800;
+}
+
+.sub{
+    margin-top:7px;
+    color:#9d9aa5;
+    font-size:10px;
+    line-height:1.4;
+}
+
+.choices{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:7px;
+    margin-top:13px;
+}
+
+.choice{
+    min-height:53px;
+    padding:10px 8px;
+    border-radius:12px;
+    background:#26202d;
+    color:#fff;
+    border:1px solid #4b3b54;
+    font-weight:1000;
+    font-size:11px;
+    cursor:pointer;
+}
+
+.choice:active{
+    transform:scale(.96);
+}
+
+.choice:hover{
+    background:#342a3d;
+}
+
+.choice.bad{
+    border-color:#a83268;
+}
+
+.choice.good{
+    border-color:#348b74;
+}
+
+/* =========================================
+   LOG
+========================================= */
+
+#log{
+    position:absolute;
+    left:10px;
+    bottom:10px;
+    z-index:70;
+    width:min(340px,calc(100% - 20px));
     pointer-events:none;
 }
 
-.log{
-    background:rgba(0,0,0,.72);
-    border-left:4px solid #f5c542;
-    border-radius:10px;
+.logItem{
+    margin-top:5px;
     padding:8px 10px;
-    margin-top:6px;
-    font-size:11px;
+    border-radius:9px;
+    background:rgba(5,5,10,.85);
+    border-left:3px solid #ff4fa5;
+    font-size:10px;
     animation:logIn .25s ease;
 }
 
 @keyframes logIn{
-    from{transform:translateX(-20px);opacity:0}
-    to{transform:none;opacity:1}
+    from{
+        opacity:0;
+        transform:translateX(-25px);
+    }
+    to{
+        opacity:1;
+        transform:none;
+    }
 }
 
-/* =========================
-   PERSONAGEM
-========================= */
-
-#character{
-    position:absolute;
-    left:50%;
-    bottom:26%;
-    transform:translateX(-50%);
-    width:130px;
-    height:190px;
-    z-index:12;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    transition:.35s;
-}
-
-.avatar{
-    width:108px;
-    height:108px;
-    border-radius:50%;
-    background:#d89d68;
-    border:7px solid #35261d;
-    position:relative;
-    box-shadow:0 8px 0 #35261d;
-}
-
-.avatar:before{
-    content:"";
-    position:absolute;
-    width:72px;
-    height:34px;
-    top:-18px;
-    left:10px;
-    border-radius:50% 50% 35% 35%;
-    background:#222;
-}
-
-.avatar:after{
-    content:"";
-    position:absolute;
-    width:14px;
-    height:14px;
-    border-radius:50%;
-    background:#111;
-    left:25px;
-    top:43px;
-    box-shadow:39px 0 #111;
-}
-
-.body{
-    position:absolute;
-    bottom:0;
-    width:90px;
-    height:90px;
-    background:#1986b4;
-    border:6px solid #35261d;
-    border-radius:35px 35px 20px 20px;
-}
-
-/* =========================
-   CARTA / DIÁLOGO
-========================= */
-
-#dialogue{
-    position:absolute;
-    left:50%;
-    transform:translateX(-50%);
-    bottom:17%;
-    width:min(650px,92%);
-    z-index:30;
-    display:none;
-}
-
-.dialog-card{
-    background:rgba(20,16,12,.95);
-    border:2px solid rgba(255,210,80,.6);
-    border-radius:18px;
-    padding:15px;
-    box-shadow:0 15px 50px rgba(0,0,0,.5);
-    backdrop-filter:blur(8px);
-}
-
-.speaker{
-    font-size:12px;
-    font-weight:1000;
-    color:#ffd54f;
-    text-transform:uppercase;
-    margin-bottom:6px;
-}
-
-.dialog-text{
-    font-size:16px;
-    line-height:1.35;
-    font-weight:800;
-}
-
-.dialog-sub{
-    margin-top:6px;
-    font-size:11px;
-    color:#aaa;
-}
-
-.actions{
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:8px;
-    margin-top:13px;
-}
-
-.action{
-    border:0;
-    border-radius:12px;
-    padding:12px 9px;
-    font-weight:1000;
-    background:#2d2924;
-    color:#fff;
-    border:1px solid rgba(255,255,255,.15);
-    cursor:pointer;
-    min-height:50px;
-    transition:.15s;
-}
-
-.action:active{
-    transform:scale(.96);
-}
-
-.action:hover{
-    background:#3b352d;
-}
-
-.action.danger{
-    border-color:#a94442;
-}
-
-.action.good{
-    border-color:#4c9a61;
-}
-
-/* =========================
-   OVERLAYS
-========================= */
+/* =========================================
+   OVERLAY
+========================================= */
 
 .overlay{
     position:absolute;
     inset:0;
-    z-index:100;
+    z-index:200;
     display:flex;
     align-items:center;
     justify-content:center;
     padding:18px;
     background:
-        radial-gradient(circle at center,rgba(255,190,50,.12),transparent 40%),
-        rgba(8,8,8,.94);
+        radial-gradient(circle at center,
+        rgba(255,20,120,.12),
+        transparent 45%),
+        rgba(5,5,12,.96);
 }
 
 .panel{
-    width:min(680px,100%);
-    max-height:92vh;
+    width:min(720px,100%);
+    max-height:94vh;
     overflow:auto;
-    border:2px solid #f0bd3c;
-    border-radius:24px;
-    background:linear-gradient(145deg,#211b15,#0d0d0d);
-    padding:24px;
+    padding:25px;
+    border-radius:25px;
+    background:
+        linear-gradient(145deg,#1d1522,#0c0b12);
+    border:2px solid rgba(255,80,165,.65);
     box-shadow:
-        0 0 80px rgba(245,197,66,.12),
+        0 0 100px rgba(255,30,140,.15),
         inset 0 0 30px rgba(255,255,255,.02);
     text-align:center;
 }
 
-.title{
-    font-size:clamp(30px,8vw,65px);
-    line-height:.9;
+.mainTitle{
+    font-size:clamp(34px,9vw,70px);
+    line-height:.85;
     font-weight:1000;
-    color:#ffd54f;
-    text-shadow:4px 4px #5e4010;
-    margin:0;
+    margin:5px 0;
+    color:#ff65b2;
+    text-shadow:
+        4px 4px #47102f,
+        0 0 30px rgba(255,50,150,.3);
 }
 
-.subtitle{
-    font-size:13px;
-    color:#bbb;
+.tag{
+    display:inline-block;
+    padding:7px 12px;
+    border-radius:20px;
+    background:#ff277f;
+    font-size:10px;
+    font-weight:1000;
+    margin-bottom:10px;
+}
+
+.description{
+    color:#bbb4c0;
     line-height:1.5;
-    margin:18px auto;
-    max-width:560px;
-}
-
-.big-btn{
-    width:100%;
-    max-width:420px;
-    border:0;
-    border-radius:15px;
-    padding:16px;
-    font-size:16px;
-    font-weight:1000;
-    background:#f5c542;
-    color:#16120d;
-    cursor:pointer;
-    box-shadow:0 7px 0 #9a7417;
-}
-
-.big-btn:active{
-    transform:translateY(5px);
-    box-shadow:0 2px 0 #9a7417;
+    font-size:12px;
+    max-width:580px;
+    margin:15px auto;
 }
 
 .warning{
-    margin-top:15px;
+    margin:12px 0;
+    padding:10px;
+    border-radius:10px;
+    background:#29131e;
+    border:1px solid #68223f;
+    color:#ffb6d4;
     font-size:10px;
-    color:#777;
 }
 
-/* =========================
-   MINI JOGOS
-========================= */
+.startBtn{
+    width:100%;
+    max-width:440px;
+    border:0;
+    padding:17px;
+    border-radius:15px;
+    background:linear-gradient(90deg,#ff247e,#9b35ff);
+    color:white;
+    font-weight:1000;
+    font-size:16px;
+    cursor:pointer;
+    box-shadow:0 7px 0 #54115c;
+}
 
-#minigame{
+.startBtn:active{
+    transform:translateY(5px);
+    box-shadow:0 2px 0 #54115c;
+}
+
+/* =========================================
+   MINIGAMES
+========================================= */
+
+#miniGame{
     position:absolute;
     inset:0;
-    z-index:70;
+    z-index:120;
     display:none;
 }
 
-.minigame-title{
+.miniTitle{
     position:absolute;
-    top:105px;
+    top:110px;
     left:50%;
     transform:translateX(-50%);
-    width:90%;
+    width:92%;
     text-align:center;
-    font-size:20px;
+    color:#ff70b7;
+    font-size:21px;
     font-weight:1000;
-    color:#ffd54f;
-    text-shadow:2px 2px #000;
-    z-index:5;
+    text-shadow:3px 3px #000;
+}
+
+.timer{
+    position:absolute;
+    top:70px;
+    right:14px;
+    padding:8px 12px;
+    border-radius:10px;
+    background:#11101a;
+    border:2px solid #ff65ad;
+    z-index:10;
+    font-weight:1000;
 }
 
 .arena{
     position:absolute;
     left:5%;
     right:5%;
-    top:150px;
-    bottom:12%;
-    border:2px dashed rgba(255,213,79,.3);
+    top:155px;
+    bottom:7%;
+    border:2px dashed rgba(255,100,180,.35);
     border-radius:20px;
     overflow:hidden;
-    background:rgba(0,0,0,.12);
+    background:rgba(0,0,0,.15);
 }
 
-.falling{
-    position:absolute;
-    font-size:38px;
-    user-select:none;
-    cursor:pointer;
-    animation:fall linear forwards;
-    filter:drop-shadow(0 4px 4px rgba(0,0,0,.5));
-}
-
-@keyframes fall{
-    from{transform:translateY(-70px) rotate(0)}
-    to{transform:translateY(calc(100vh - 150px)) rotate(540deg)}
-}
-
-.timer{
-    position:absolute;
-    top:75px;
-    right:15px;
-    z-index:10;
-    background:#111;
-    border:2px solid #ffd54f;
-    padding:8px 12px;
-    border-radius:10px;
-    font-weight:1000;
-}
-
-.center-message{
+.center{
     position:absolute;
     inset:0;
     display:flex;
     align-items:center;
     justify-content:center;
     text-align:center;
-    padding:30px;
-    pointer-events:none;
-    font-size:24px;
+    padding:25px;
+    font-size:23px;
     font-weight:1000;
     text-shadow:3px 3px #000;
+    pointer-events:none;
 }
 
-/* =========================
-   LEILÃO
-========================= */
+/* =========================================
+   CLICK OBJECTS
+========================================= */
 
-.auction{
-    display:grid;
-    grid-template-columns:repeat(2,1fr);
-    gap:10px;
-    margin-top:15px;
-}
-
-.item{
-    padding:14px;
-    background:#2b251e;
-    border:1px solid #675437;
-    border-radius:13px;
+.target{
+    position:absolute;
+    font-size:45px;
     cursor:pointer;
+    user-select:none;
+    animation:pulse .7s infinite alternate;
 }
 
-.item:active{
-    transform:scale(.97);
+@keyframes pulse{
+    from{transform:scale(.85) rotate(-5deg)}
+    to{transform:scale(1.1) rotate(5deg)}
 }
 
-.item .emoji{
-    font-size:38px;
+/* =========================================
+   MEMORY
+========================================= */
+
+.memoryGrid{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    width:min(360px,90%);
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
 }
 
-.item b{
-    display:block;
-    margin-top:5px;
+.memoryBtn{
+    aspect-ratio:1;
+    border-radius:14px;
+    border:2px solid #4c3a53;
+    background:#211b28;
+    font-size:35px;
 }
 
-.item small{
-    display:block;
-    color:#aaa;
-    margin-top:4px;
+.memoryBtn.active{
+    background:#ff277f;
+    transform:scale(1.08);
 }
 
-/* =========================
-   FINAL
-========================= */
+/* =========================================
+   COMBINAÇÃO
+========================================= */
 
-.report{
-    text-align:left;
-    margin-top:18px;
-    background:#111;
-    border-radius:15px;
+.lock{
+    position:absolute;
+    left:50%;
+    top:50%;
+    transform:translate(-50%,-50%);
+    text-align:center;
+    width:min(400px,90%);
+}
+
+.lockDisplay{
+    font-size:45px;
+    font-weight:1000;
+    letter-spacing:12px;
+    margin-bottom:20px;
+}
+
+.numberPad{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+}
+
+.num{
     padding:15px;
-    border:1px solid #333;
+    border-radius:12px;
+    border:1px solid #54415c;
+    background:#241c29;
+    color:white;
+    font-weight:1000;
+    font-size:18px;
 }
 
-.report div{
-    padding:7px 0;
-    border-bottom:1px solid #222;
-    font-size:12px;
+/* =========================================
+   END
+========================================= */
+
+#end{
+    display:none;
 }
 
-.final-rank{
+.finalTitle{
     font-size:28px;
     font-weight:1000;
-    color:#ffd54f;
+    color:#ff65b2;
+}
+
+.finalRank{
+    font-size:25px;
+    font-weight:1000;
     margin:15px 0;
 }
 
-#confetti{
-    position:absolute;
-    inset:0;
-    z-index:150;
-    pointer-events:none;
+.report{
+    margin-top:15px;
+    padding:12px;
+    background:#0e0d13;
+    border:1px solid #302735;
+    border-radius:14px;
+    text-align:left;
+}
+
+.reportRow{
+    padding:7px 0;
+    border-bottom:1px solid #211c24;
+    font-size:11px;
+}
+
+.secret{
+    margin-top:12px;
+    color:#aaa;
+    font-size:10px;
+    line-height:1.5;
+}
+
+.achievement{
+    display:inline-block;
+    margin:3px;
+    padding:6px 9px;
+    border-radius:9px;
+    background:#251b28;
+    border:1px solid #4b3650;
+    font-size:9px;
+}
+
+/* =========================================
+   RESPONSIVO
+========================================= */
+
+@media(max-width:480px){
+
+    .stats{
+        gap:3px;
+    }
+
+    .stat{
+        font-size:7px;
+    }
+
+    .stat b{
+        font-size:12px;
+    }
+
+    .choices{
+        grid-template-columns:1fr 1fr;
+    }
+
+    .dialog{
+        padding:12px;
+    }
+
+    .text{
+        font-size:14px;
+    }
 }
 </style>
 </head>
@@ -606,234 +750,361 @@ button{
 
 <div id="app">
 
-    <div id="scene">
-        <div class="wall"></div>
-        <div class="floor"></div>
-        <div class="door"></div>
-        <div class="window"></div>
-        <div class="pipe"></div>
-    </div>
+<div class="grid"></div>
+<div class="scan"></div>
 
-    <canvas id="confetti"></canvas>
+<div id="particles"></div>
 
-    <!-- HUD -->
-    <div id="hud">
-        <div class="hud-top">
-            <div class="logo">🏚️ VILA DOS PROBLEMAS</div>
-            <div class="chapter" id="chapter">DIA 1</div>
+<!-- HUD -->
+
+<div id="hud">
+
+    <div class="hud-row">
+
+        <div class="brand">
+            🦸‍♀️ OPERAÇÃO NAMORADO
         </div>
 
-        <div class="stats">
-            <div class="stat">🪙 DINHEIRO <b id="money">50</b></div>
-            <div class="stat">❤️ REPUTAÇÃO <b id="rep">50</b></div>
-            <div class="stat">😡 CAOS <b id="chaos">0</b></div>
-            <div class="stat">🧠 SANIDADE <b id="sanity">100</b></div>
-            <div class="stat">💀 DÍVIDA <b id="debt">0</b></div>
+        <div class="chapter" id="chapter">
+            CAPÍTULO 1
         </div>
+
     </div>
 
-    <!-- PERSONAGEM -->
-    <div id="character">
-        <div class="body"></div>
-        <div class="avatar"></div>
-    </div>
+    <div class="stats">
 
-    <!-- DIÁLOGO -->
-    <div id="dialogue">
-        <div class="dialog-card">
-            <div class="speaker" id="speaker"></div>
-            <div class="dialog-text" id="dialogText"></div>
-            <div class="dialog-sub" id="dialogSub"></div>
-            <div class="actions" id="actions"></div>
+        <div class="stat">
+            ❤️ NAMORADO
+            <b id="lover">100</b>
         </div>
+
+        <div class="stat">
+            🧠 SANIDADE
+            <b id="sanity">100</b>
+        </div>
+
+        <div class="stat">
+            😳 VERGONHA
+            <b id="shame">0</b>
+        </div>
+
+        <div class="stat">
+            💥 CAOS
+            <b id="chaos">0</b>
+        </div>
+
+        <div class="stat">
+            ⭐ HEROÍNA
+            <b id="hero">50</b>
+        </div>
+
     </div>
 
-    <!-- LOG -->
-    <div id="eventLog"></div>
+</div>
 
-    <!-- MINIGAME -->
-    <div id="minigame">
-        <div class="minigame-title" id="miniTitle"></div>
-        <div class="timer" id="miniTimer"></div>
-        <div class="arena" id="arena"></div>
-        <div class="center-message" id="centerMessage"></div>
+<!-- GAME AREA -->
+
+<div id="gameArea">
+
+    <div class="character">
+
+        <div class="cape"></div>
+
+        <div class="bodyHero">
+            <div class="logoHero">♥</div>
+        </div>
+
+        <div class="hero"></div>
+
     </div>
 
-    <!-- ABERTURA -->
-    <div class="overlay" id="startScreen">
-        <div class="panel">
+    <div class="boy">
 
-            <div style="font-size:50px">🏚️💥🪣</div>
+        <div class="boy-head"></div>
+        <div class="boy-body"></div>
+        <div class="boy-rope"></div>
 
-            <h1 class="title">
-                A VILA<br>
-                PERDEU A CABEÇA
-            </h1>
+    </div>
 
-            <div class="subtitle">
-                Você foi escolhido para passar <b>um dia inteiro</b>
-                tentando manter a vila funcionando.
-                <br><br>
-                O problema?
-                <br>
-                <b>NINGUÉM COLABOROU COM O PROJETO.</b>
-            </div>
+</div>
 
-            <div style="
-                display:grid;
-                grid-template-columns:repeat(3,1fr);
-                gap:7px;
-                margin:20px 0;
-                font-size:10px;
-            ">
-                <div>💰<br>NEGOCIE</div>
-                <div>😂<br>SOBREVIVA</div>
-                <div>💀<br>ARQUE COM AS CONSEQUÊNCIAS</div>
-            </div>
+<!-- DIALOG -->
 
-            <button class="big-btn" id="startBtn">
-                ENTRAR NA VILA
-            </button>
+<div id="dialogue">
 
-            <div class="warning">
-                Aviso: algumas decisões podem destruir sua reputação,
-                sua dignidade e possivelmente sua relação com a lógica.
-            </div>
+    <div class="dialog">
+
+        <div class="speaker" id="speaker"></div>
+
+        <div class="text" id="dialogText"></div>
+
+        <div class="sub" id="dialogSub"></div>
+
+        <div class="choices" id="choices"></div>
+
+    </div>
+
+</div>
+
+<!-- LOG -->
+
+<div id="log"></div>
+
+<!-- MINI GAME -->
+
+<div id="miniGame">
+
+    <div class="miniTitle" id="miniTitle"></div>
+
+    <div class="timer" id="timer"></div>
+
+    <div class="arena" id="arena"></div>
+
+    <div class="center" id="center"></div>
+
+</div>
+
+<!-- START -->
+
+<div class="overlay" id="start">
+
+    <div class="panel">
+
+        <div style="font-size:55px">
+            🦸‍♀️💥🍆
+        </div>
+
+        <div class="tag">
+            MISSÃO ULTRASSECRETA
+        </div>
+
+        <h1 class="mainTitle">
+            SALVE O<br>
+            NAMORADO
+        </h1>
+
+        <div class="description">
+
+            O namorado foi capturado pelo lendário...
+
+            <br><br>
+
+            <b style="color:#ff65ad;font-size:17px">
+                PAU DE BORRACHA NERVOSO™
+            </b>
+
+            <br><br>
+
+            Uma entidade completamente idiota,
+            extremamente imprevisível e aparentemente
+            incapaz de ficar quieta.
+
+            <br><br>
+
+            <b>
+                Você é a única pessoa capaz de salvá-lo.
+            </b>
 
         </div>
-    </div>
 
-    <!-- FINAL -->
-    <div class="overlay" id="endScreen" style="display:none">
-        <div class="panel">
+        <div class="warning">
 
-            <div style="font-size:55px">🏆🏚️💥</div>
-
-            <div style="font-size:11px;color:#aaa">
-                RELATÓRIO OFICIAL DA VILA
-            </div>
-
-            <div class="final-rank" id="finalRank">
-                ...
-            </div>
-
-            <div id="finalText" class="subtitle"></div>
-
-            <div class="report" id="report"></div>
-
-            <button class="big-btn" onclick="location.reload()">
-                🔄 REPETIR ESSA DESGRAÇA
-            </button>
+            ⚠️ ATENÇÃO:
+            <br>
+            Todas as suas decisões terão consequências.
+            <br><br>
+            Algumas salvarão o namorado.
+            <br>
+            Algumas piorarão tudo.
+            <br>
+            E algumas... simplesmente não deveriam existir.
 
         </div>
+
+        <button class="startBtn" id="startBtn">
+            🦸‍♀️ COMEÇAR A MISSÃO
+        </button>
+
+        <div style="
+            margin-top:12px;
+            color:#6f6873;
+            font-size:9px;
+        ">
+            Duração estimada: 15–20 minutos de decisões questionáveis.
+        </div>
+
+    </div>
+
+</div>
+
+<!-- FINAL -->
+
+<div class="overlay" id="end">
+
+    <div class="panel">
+
+        <div style="font-size:55px">
+            🦸‍♀️🏆💥
+        </div>
+
+        <div class="finalTitle">
+            RELATÓRIO FINAL
+        </div>
+
+        <div class="finalRank" id="finalRank"></div>
+
+        <div id="finalText" class="description"></div>
+
+        <div class="report" id="report"></div>
+
+        <div id="achievements"></div>
+
+        <div class="secret" id="secret"></div>
+
+        <button class="startBtn"
+                onclick="location.reload()"
+                style="margin-top:15px">
+            🔄 SALVAR O NAMORADO NOVAMENTE
+        </button>
+
     </div>
 
 </div>
 
 <script>
+
 /* =========================================================
-   CHAVES — O DIA EM QUE A VILA PERDEU A CABEÇA
+   ESTADO DO JOGO
 ========================================================= */
 
-const $ = id => document.getElementById(id);
+const $=id=>document.getElementById(id);
 
-let game = {
-    money:50,
-    rep:50,
-    chaos:0,
-    sanity:100,
-    debt:0,
+const state={
 
     chapter:1,
-    decisions:0,
-    correct:0,
-    minigames:0,
-    events:0,
 
-    madrugaHelped:0,
-    florindaAnger:0,
-    chavesFed:0,
-    quicoScams:0,
-    gossip:0,
+    lover:100,
+    sanity:100,
+    shame:0,
+    chaos:0,
+    hero:50,
+
+    decisions:0,
+
+    saves:0,
+    failures:0,
+
+    secrets:0,
+
+    items:[],
+
+    achievements:[],
 
     flags:{},
 
     history:[]
+
 };
-
-let currentScene = null;
-let miniTimerInterval = null;
-let miniTime = 0;
-
-const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-
-function beep(freq=500,duration=.08,type="square",volume=.035){
-    try{
-        const osc=audioCtx.createOscillator();
-        const gain=audioCtx.createGain();
-
-        osc.type=type;
-        osc.frequency.value=freq;
-
-        gain.gain.value=volume;
-
-        osc.connect(gain);
-        gain.connect(audioCtx.destination);
-
-        osc.start();
-        gain.gain.exponentialRampToValueAtTime(
-            .001,
-            audioCtx.currentTime+duration
-        );
-        osc.stop(audioCtx.currentTime+duration);
-    }catch(e){}
-}
-
-function vibrate(ms=30){
-    if(navigator.vibrate) navigator.vibrate(ms);
-}
 
 function clamp(v,min,max){
     return Math.max(min,Math.min(max,v));
 }
 
-function change(stat,value){
-    game[stat]+=value;
+function change(key,value){
 
-    if(stat==="rep") game.rep=clamp(game.rep,0,100);
-    if(stat==="sanity") game.sanity=clamp(game.sanity,0,100);
-    if(stat==="chaos") game.chaos=clamp(game.chaos,0,100);
-    if(stat==="money") game.money=clamp(game.money,-999,999);
-    if(stat==="debt") game.debt=clamp(game.debt,0,999);
+    state[key]+=value;
+
+    if(["lover","sanity","hero"].includes(key)){
+        state[key]=clamp(state[key],0,100);
+    }
+
+    state.shame=clamp(state.shame,0,100);
+    state.chaos=clamp(state.chaos,0,100);
 
     updateHUD();
 }
 
-function log(msg){
-    const el=document.createElement("div");
-    el.className="log";
-    el.innerHTML=msg;
+function updateHUD(){
 
-    $("eventLog").appendChild(el);
+    $("lover").textContent=state.lover;
+    $("sanity").textContent=state.sanity;
+    $("shame").textContent=state.shame;
+    $("chaos").textContent=state.chaos;
+    $("hero").textContent=state.hero;
+    $("chapter").textContent="CAPÍTULO "+state.chapter;
 
-    setTimeout(()=>{
-        el.style.opacity="0";
-        el.style.transform="translateX(-20px)";
-        setTimeout(()=>el.remove(),300);
-    },5000);
 }
 
-function updateHUD(){
-    $("money").textContent=game.money;
-    $("rep").textContent=game.rep;
-    $("chaos").textContent=game.chaos;
-    $("sanity").textContent=game.sanity;
-    $("debt").textContent=game.debt;
-    $("chapter").textContent=`CAPÍTULO ${game.chapter}`;
+function log(text){
+
+    const el=document.createElement("div");
+
+    el.className="logItem";
+
+    el.innerHTML=text;
+
+    $("log").appendChild(el);
+
+    setTimeout(()=>{
+
+        el.style.opacity="0";
+
+        setTimeout(()=>el.remove(),400);
+
+    },5000);
+
 }
 
 function random(arr){
+
     return arr[Math.floor(Math.random()*arr.length)];
+
+}
+
+/* =========================================================
+   AUDIO
+========================================================= */
+
+let audio;
+
+function sound(freq=500,duration=.08,type="square"){
+
+    try{
+
+        if(!audio)
+            audio=new(window.AudioContext||window.webkitAudioContext)();
+
+        audio.resume();
+
+        const o=audio.createOscillator();
+        const g=audio.createGain();
+
+        o.type=type;
+        o.frequency.value=freq;
+
+        g.gain.value=.035;
+
+        o.connect(g);
+        g.connect(audio.destination);
+
+        o.start();
+
+        g.gain.exponentialRampToValueAtTime(
+            .001,
+            audio.currentTime+duration
+        );
+
+        o.stop(audio.currentTime+duration);
+
+    }catch(e){}
+
+}
+
+function buzz(ms=25){
+
+    if(navigator.vibrate)
+        navigator.vibrate(ms);
+
 }
 
 /* =========================================================
@@ -841,1162 +1112,2178 @@ function random(arr){
 ========================================================= */
 
 function dialogue(speaker,text,sub,choices){
-    $("dialogue").style.display="block";
-    $("speaker").textContent=speaker;
-    $("dialogText").innerHTML=text;
-    $("dialogSub").innerHTML=sub || "";
 
-    const box=$("actions");
+    $("dialogue").style.display="block";
+
+    $("speaker").textContent=speaker;
+
+    $("dialogText").innerHTML=text;
+
+    $("dialogSub").innerHTML=sub||"";
+
+    const box=$("choices");
+
     box.innerHTML="";
 
-    choices.forEach((choice,i)=>{
+    choices.forEach(choice=>{
 
         const btn=document.createElement("button");
 
-        btn.className="action "+(choice.className||"");
+        btn.className="choice "+(choice.className||"");
 
         btn.innerHTML=choice.text;
 
         btn.onclick=()=>{
-            beep(450,.06);
-            vibrate(20);
 
-            game.decisions++;
+            state.decisions++;
 
-            if(choice.action){
+            sound(400,.05);
+            buzz(20);
+
+            if(choice.action)
                 choice.action();
-            }
 
-            if(choice.next){
+            if(choice.next)
                 choice.next();
-            }
+
         };
 
         box.appendChild(btn);
+
     });
+
 }
 
 function closeDialogue(){
+
     $("dialogue").style.display="none";
+
 }
 
 /* =========================================================
-   INÍCIO
+   START
 ========================================================= */
 
 $("startBtn").onclick=()=>{
-    $("startScreen").style.display="none";
+
+    $("start").style.display="none";
+
     $("hud").style.display="block";
 
-    audioCtx.resume();
+    $("gameArea").style.display="block";
+
+    $("boy").style.display="block";
 
     updateHUD();
 
-    log("📋 Você recebeu o cargo de <b>Administrador Temporário da Vila</b>.");
-    log("⚠️ Salário: R$ 0. Benefícios: nenhum. Risco: absoluto.");
+    log("🚨 ALERTA: namorado localizado.");
 
-    setTimeout(scene1,800);
+    setTimeout(chapter1,700);
+
 };
 
 /* =========================================================
    CAPÍTULO 1
+   O SEQUESTRO
 ========================================================= */
 
-function scene1(){
+function chapter1(){
 
-    game.chapter=1;
+    state.chapter=1;
     updateHUD();
 
     dialogue(
-        "SEU MADRUGA",
-        "Finalmente alguém responsável chegou! Preciso de uma pequena ajuda.",
-        "Quando ele diz “pequena”, normalmente envolve dinheiro.",
+
+        "📡 CENTRAL DE EMERGÊNCIA",
+
+        "Super-heroína, temos um problema.",
+        
+        "Seu namorado foi capturado durante uma situação que, segundo testemunhas, começou com a frase: “relaxa, vai dar tudo certo”.",
+
         [
+
             {
-                text:"💰 Dar R$10",
-                className:"good",
+
+                text:"🦸‍♀️ “Onde ele está?”",
+
                 action:()=>{
-                    change("money",-10);
-                    change("rep",8);
-                    game.madrugaHelped++;
-                    log("💰 Você financiou o problema.");
+
+                    change("hero",5);
+
+                    log("🦸‍♀️ A heroína entrou em modo missão.");
+
                 },
-                next:()=>{
-                    scene1b();
-                }
+
+                next:chapter1b
+
             },
+
             {
-                text:"🧠 Pedir explicações",
+
+                text:"😂 “O que ele fez?”",
+
                 action:()=>{
-                    change("rep",3);
-                    dialogue(
-                        "SEU MADRUGA",
-                        "Explicações? Ah... então deixa pra lá.",
-                        "Ele foi embora imediatamente.",
-                        [
-                            {
-                                text:"➡️ Continuar",
-                                next:scene1c
-                            }
-                        ]
-                    );
-                }
+
+                    change("shame",4);
+
+                },
+
+                next:chapter1b
+
             },
+
             {
-                text:"🏃 Fingir que não ouviu",
-                className:"danger",
+
+                text:"😐 “De novo?”",
+
                 action:()=>{
-                    change("rep",-8);
+
                     change("chaos",5);
-                    log("🏃 Você tentou fugir. A vila anotou seu rosto.");
+
                 },
-                next:scene1c
+
+                next:chapter1b
+
             }
+
         ]
+
     );
+
 }
 
-function scene1b(){
+function chapter1b(){
 
     dialogue(
-        "SEU MADRUGA",
-        "Excelente! Agora falta só resolver uma coisinha.",
-        "Ele não sabe dizer qual é a coisinha.",
+
+        "📡 CENTRAL",
+
+        "Ele está preso dentro de uma instalação secreta.",
+        
+        "O sistema de segurança identificou o captor como:",
+        
         [
+
             {
-                text:"🍞 Comprar comida",
+
+                text:"🍆 PAU DE BORRACHA NERVOSO",
+
                 action:()=>{
-                    change("money",-7);
-                    game.chavesFed++;
-                    change("rep",5);
-                    log("🍞 Chaves recebeu comida. Você ganhou respeito.");
+
+                    state.flags.metEnemy=true;
+
+                    change("chaos",8);
+
                 },
-                next:scene1c
+
+                next:chapter2
+
             },
+
             {
-                text:"🪣 Comprar um balde",
+
+                text:"🧻 “Tem certeza?”",
+
                 action:()=>{
-                    change("money",-4);
-                    change("chaos",3);
-                    log("🪣 Ninguém sabe por quê, mas o balde será importante.");
-                },
-                next:scene1c
-            },
-            {
-                text:"😐 Perguntar “pra quê?”",
-                action:()=>{
+
                     change("sanity",-3);
-                    log("😐 Você fez a pergunta errada.");
+
                 },
-                next:scene1c
+
+                next:chapter2
+
             }
+
         ]
+
     );
-}
 
-function scene1c(){
-
-    setTimeout(()=>{
-        dialogue(
-            "CHAVES",
-            "Eu achei uma coisa no chão.",
-            "Ele segura um objeto que provavelmente não deveria estar ali.",
-            [
-                {
-                    text:"🔍 Examinar",
-                    action:()=>{
-                        change("sanity",-2);
-                        change("chaos",4);
-                        log("🔍 Era uma colher. Você perdeu 2 pontos de sanidade descobrindo isso.");
-                    },
-                    next:scene2
-                },
-                {
-                    text:"🗑️ Mandar jogar fora",
-                    action:()=>{
-                        change("rep",-2);
-                        log("🗑️ A colher desapareceu misteriosamente.");
-                    },
-                    next:scene2
-                },
-                {
-                    text:"🍴 Perguntar de quem é",
-                    action:()=>{
-                        change("chaos",2);
-                        game.gossip++;
-                        log("🍴 A pergunta gerou uma fofoca completamente desnecessária.");
-                    },
-                    next:scene2
-                }
-            ]
-        );
-    },500);
 }
 
 /* =========================================================
-   CAPÍTULO 2 — DONA FLORINDA
+   CAPÍTULO 2
+   PORTA DE SEGURANÇA
 ========================================================= */
 
-function scene2(){
+function chapter2(){
 
-    game.chapter=2;
+    state.chapter=2;
     updateHUD();
 
     dialogue(
-        "DONA FLORINDA",
-        "Você! Venha aqui imediatamente.",
-        "Você percebe que não foi um convite.",
+
+        "🧠 COMPUTADOR",
+
+        "Para entrar na instalação você precisa responder uma pergunta.",
+        
+        "Pergunta de segurança extremamente séria.",
+
         [
+
             {
-                text:"🧍 Ir educadamente",
-                action:()=>{
-                    change("rep",4);
-                    florindaChallenge();
-                }
+
+                text:"🔐 Tentar responder",
+
+                next:securityQuiz
+
             },
+
             {
-                text:"🏃 Correr",
+
+                text:"💥 Arrombar a porta",
+
                 action:()=>{
-                    change("chaos",10);
-                    change("florindaAnger",20);
-                    florindaChase();
-                }
+
+                    change("chaos",15);
+                    change("lover",-8);
+
+                    log("💥 A porta abriu. O namorado levou um susto.");
+
+                },
+
+                next:chapter3
+
             },
+
             {
-                text:"🫣 Se esconder atrás da porta",
+
+                text:"🥸 Fingir que é funcionária",
+
                 action:()=>{
+
+                    change("shame",8);
+
+                },
+
+                next:securityQuiz
+
+            }
+
+        ]
+
+    );
+
+}
+
+function securityQuiz(){
+
+    const questions=[
+
+        {
+
+            q:"Qual é a coisa mais perigosa em uma missão de resgate?",
+
+            a:[
+
+                ["🔥 Fogo",false],
+
+                ["🍆 Um objeto com personalidade própria",true],
+
+                ["🚪 Uma porta",false],
+
+                ["🧻 Papel higiênico",false]
+
+            ]
+
+        },
+
+        {
+
+            q:"O que fazer quando o namorado diz “não toca nisso”?",
+
+            a:[
+
+                ["👆 Tocar",true],
+
+                ["🏃 Fugir",false],
+
+                ["😴 Dormir",false],
+
+                ["📞 Ligar para a mãe",false]
+
+            ]
+
+        },
+
+        {
+
+            q:"Qual dessas frases NÃO deveria aparecer numa missão de resgate?",
+
+            a:[
+
+                ["“Estou chegando.”",false],
+
+                ["“Fica calmo.”",false],
+
+                ["“Eu acho que piorou.”",false],
+
+                ["“Por que isso está vibrando?”",true]
+
+            ]
+
+        }
+
+    ];
+
+    const q=random(questions);
+
+    dialogue(
+
+        "🔐 COMPUTADOR",
+
+        q.q,
+
+        "Escolha sabiamente.",
+
+        q.a.map(x=>({
+
+            text:x[0],
+
+            action:()=>{
+
+                if(x[1]){
+
+                    change("hero",8);
+
+                    log("✅ Resposta aceita.");
+
+                }else{
+
                     change("sanity",-5);
-                    dialogue(
-                        "DONA FLORINDA",
-                        "Eu estou vendo seus pés.",
-                        "O plano durou aproximadamente 1,7 segundos.",
-                        [
-                            {
-                                text:"😐 Sair",
-                                action:()=>change("rep",2),
-                                next:florindaChallenge
-                            }
-                        ]
-                    );
-                }
-            }
-        ]
-    );
-}
 
-function florindaChallenge(){
-
-    dialogue(
-        "DONA FLORINDA",
-        "Tenho uma reclamação.",
-        "Você tem 10 segundos para escolher uma resposta diplomática.",
-        [
-            {
-                text:"🙏 “Entendo sua preocupação.”",
-                action:()=>{
-                    change("rep",7);
-                    log("🙏 Você descobriu a técnica milenar de concordar sem resolver nada.");
-                },
-                next:scene3
-            },
-            {
-                text:"😬 “Isso não é comigo.”",
-                action:()=>{
-                    change("rep",-10);
                     change("chaos",8);
-                },
-                next:scene3
+
+                    log("❌ O computador julgou sua decisão.");
+
+                }
+
             },
-            {
-                text:"😂 Rir",
-                action:()=>{
-                    change("sanity",5);
-                    change("chaos",15);
-                    log("😂 Você riu. Não deveria.");
-                },
-                next:scene3
+
+            next:()=>{
+
+                if(x[1])
+                    chapter3();
+                else
+                    chapter3();
+
             }
-        ]
+
+        }))
+
     );
+
 }
 
 /* =========================================================
-   PERSEGUIÇÃO
+   CAPÍTULO 3
+   SALA DO NAMORADO
 ========================================================= */
 
-function florindaChase(){
+function chapter3(){
 
-    $("minigame").style.display="block";
-    $("miniTitle").textContent="🚨 FUGA DA DONA FLORINDA";
-    $("centerMessage").textContent="NÃO DEIXE ELA TE PEGAR.";
+    state.chapter=3;
 
-    const arena=$("arena");
-    arena.innerHTML="";
-
-    miniTime=18;
-    $("miniTimer").textContent="18s";
-
-    let player={
-        x:50,
-        y:50
-    };
-
-    let enemy={
-        x:10,
-        y:20
-    };
-
-    const p=document.createElement("div");
-    p.innerHTML="🏃";
-    p.style.position="absolute";
-    p.style.fontSize="45px";
-    p.style.left="50%";
-    p.style.top="50%";
-    p.style.transform="translate(-50%,-50%)";
-    arena.appendChild(p);
-
-    const e=document.createElement("div");
-    e.innerHTML="👠";
-    e.style.position="absolute";
-    e.style.fontSize="45px";
-    arena.appendChild(e);
-
-    let active=true;
-
-    function movePlayer(ev){
-        if(!active)return;
-
-        const rect=arena.getBoundingClientRect();
-
-        let x,y;
-
-        if(ev.touches){
-            x=ev.touches[0].clientX;
-            y=ev.touches[0].clientY;
-        }else{
-            x=ev.clientX;
-            y=ev.clientY;
-        }
-
-        player.x=clamp((x-rect.left)/rect.width*100,4,96);
-        player.y=clamp((y-rect.top)/rect.height*100,5,95);
-
-        p.style.left=player.x+"%";
-        p.style.top=player.y+"%";
-
-        beep(700,.025,"sine",.01);
-    }
-
-    arena.onpointermove=movePlayer;
-    arena.ontouchmove=movePlayer;
-
-    const timer=setInterval(()=>{
-
-        miniTime--;
-
-        $("miniTimer").textContent=miniTime+"s";
-
-        enemy.x+=(player.x-enemy.x)*.08;
-        enemy.y+=(player.y-enemy.y)*.08;
-
-        e.style.left=enemy.x+"%";
-        e.style.top=enemy.y+"%";
-
-        const dx=player.x-enemy.x;
-        const dy=player.y-enemy.y;
-        const dist=Math.sqrt(dx*dx+dy*dy);
-
-        if(dist<10){
-
-            active=false;
-            clearInterval(timer);
-
-            change("rep",-15);
-            change("chaos",20);
-            change("sanity",-8);
-
-            $("centerMessage").textContent="ELA TE PEGOU. 💀";
-
-            setTimeout(()=>{
-                $("minigame").style.display="none";
-                scene3();
-            },1200);
-        }
-
-        if(miniTime<=0){
-
-            active=false;
-            clearInterval(timer);
-
-            change("rep",8);
-            $("centerMessage").textContent="VOCÊ ESCAPOU. 🏃💨";
-
-            setTimeout(()=>{
-                $("minigame").style.display="none";
-                scene3();
-            },1000);
-        }
-
-    },1000);
-}
-
-/* =========================================================
-   CAPÍTULO 3 — QUIQUO
-========================================================= */
-
-function scene3(){
-
-    game.chapter=3;
     updateHUD();
 
     dialogue(
-        "QUIQUO",
-        "Eu tive uma ideia genial.",
-        "Isso deveria ser considerado uma frase de alerta.",
+
+        "👀 VOCÊ",
+
+        "Você finalmente encontra o namorado.",
+        
+        "Ele está amarrado a uma cadeira. Parece assustado.",
+        
         [
+
             {
-                text:"👂 Escutar",
+
+                text:"❤️ Abraçar",
+
                 action:()=>{
-                    game.quicoScams++;
-                    change("sanity",-3);
-                    dialogue(
-                        "QUIQUO",
-                        "Você me dá R$15 e eu te dou... uma coisa muito rara.",
-                        "Ele mostra uma pedra.",
-                        [
-                            {
-                                text:"💰 Comprar",
-                                action:()=>{
-                                    change("money",-15);
-                                    change("chaos",10);
-                                    log("🪨 Você comprou uma pedra.");
-                                    nextScene4();
-                                }
-                            },
-                            {
-                                text:"🧠 Recusar",
-                                action:()=>{
-                                    change("rep",4);
-                                    log("🧠 Você evitou um golpe extremamente óbvio.");
-                                    nextScene4();
-                                }
-                            },
-                            {
-                                text:"🔄 Oferecer R$2",
-                                action:()=>{
-                                    change("money",-2);
-                                    change("chaos",5);
-                                    log("🤝 Você negociou uma pedra por R$2. O capitalismo venceu.");
-                                    nextScene4();
-                                }
-                            }
-                        ]
-                    );
-                }
+
+                    change("lover",5);
+
+                    change("shame",4);
+
+                    log("❤️ Momento romântico... até alguma coisa cair do teto.");
+
+                },
+
+                next:chapter3b
+
             },
+
             {
-                text:"🚪 Mandar ele embora",
+
+                text:"😂 Rir da situação",
+
                 action:()=>{
-                    change("rep",-4);
-                    change("chaos",4);
+
+                    change("shame",12);
+
+                    change("lover",-4);
+
+                    log("😂 Você tentou não rir. Não conseguiu.");
+
                 },
-                next:nextScene4
+
+                next:chapter3b
+
+            },
+
+            {
+
+                text:"🦸‍♀️ “Eu vim te salvar.”",
+
+                action:()=>{
+
+                    change("hero",10);
+
+                },
+
+                next:chapter3b
+
             }
+
         ]
+
     );
+
 }
 
-function nextScene4(){
-
-    setTimeout(()=>{
-
-        game.chapter=4;
-        updateHUD();
-
-        dialogue(
-            "CHAVES",
-            "Eu estou com fome.",
-            "Você percebe que isso pode ser resolvido ou virar um problema administrativo.",
-            [
-                {
-                    text:"🍖 Dar comida",
-                    action:()=>{
-                        game.chavesFed++;
-                        change("money",-8);
-                        change("rep",8);
-                        log("🍖 Chaves foi alimentado.");
-                    },
-                    next:auction
-                },
-                {
-                    text:"🪙 Dar R$3",
-                    action:()=>{
-                        change("money",-3);
-                        change("rep",4);
-                    },
-                    next:auction
-                },
-                {
-                    text:"😬 Dizer que não tem",
-                    action:()=>{
-                        change("rep",-5);
-                        change("chaos",8);
-                    },
-                    next:auction
-                }
-            ]
-        );
-
-    },600);
-}
-
-/* =========================================================
-   CAPÍTULO 4 — LEILÃO ABSURDO
-========================================================= */
-
-function auction(){
-
-    game.chapter=4;
-    updateHUD();
+function chapter3b(){
 
     dialogue(
-        "CHAMADA URGENTE",
-        "A vila está realizando um leilão não autorizado.",
-        "Ninguém sabe quem autorizou. Todo mundo está participando.",
+
+        "😵 NAMORADO",
+
+        "“Amor... antes de me soltar...”",
+        
+        "Ele olha para o lado.",
+        
+        "<b>“...não mexe naquela alavanca.”</b>",
+
         [
+
             {
-                text:"🧐 Investigar",
-                action:()=>auctionGame()
-            },
-            {
-                text:"💸 Participar",
+
+                text:"🛑 NÃO mexer",
+
                 action:()=>{
-                    change("chaos",10);
-                    auctionGame();
-                }
-            },
-            {
-                text:"🚨 Acabar com isso",
-                action:()=>{
-                    change("rep",6);
-                    change("chaos",-3);
-                    auctionGame();
-                }
-            }
-        ]
-    );
-}
 
-function auctionGame(){
+                    change("hero",10);
 
-    $("dialogue").style.display="none";
+                    log("🧠 Você demonstrou autocontrole.");
 
-    const items=[
-        ["🪣","Balde misterioso","Possui histórico duvidoso",5],
-        ["🪑","Cadeira suspeita","Parece normal. Não é.",8],
-        ["🍳","Frigideira","Possível arma culinária",12],
-        ["🧦","Meia solitária","Ninguém sabe onde está a outra",3],
-        ["🧹","Vassoura","Tem fama de resolver problemas",7],
-        ["📻","Rádio velho","Só pega duas estações",10]
-    ];
-
-    dialogue(
-        "LEILOEIRO ANÔNIMO",
-        "Escolha um objeto. Se você pagar, ele é seu.",
-        "Se der errado, tecnicamente você foi avisado.",
-        [
-            {
-                text:"🪣 Comprar o balde",
-                action:()=>{
-                    change("money",-5);
-                    change("chaos",3);
-                    game.flags.bucket=true;
-                    log("🪣 Você adquiriu o Balde Oficial da Confusão.");
                 },
-                next:afterAuction
+
+                next:chapter4
+
             },
+
             {
-                text:"🍳 Comprar frigideira",
+
+                text:"👀 Mexer só um pouquinho",
+
                 action:()=>{
-                    change("money",-12);
-                    change("chaos",7);
-                    game.flags.pan=true;
-                    log("🍳 Você comprou uma frigideira por motivos que nem você entende.");
-                },
-                next:afterAuction
-            },
-            {
-                text:"🧦 Comprar a meia",
-                action:()=>{
-                    change("money",-3);
-                    change("sanity",-2);
-                    game.flags.sock=true;
-                    log("🧦 Agora você possui uma meia sem futuro.");
-                },
-                next:afterAuction
-            },
-            {
-                text:"🧠 Não comprar nada",
-                action:()=>{
-                    change("sanity",4);
-                    log("🧠 Você tomou uma decisão sensata. Isso será raro.");
-                },
-                next:afterAuction
-            }
-        ]
-    );
-}
 
-function afterAuction(){
-
-    setTimeout(()=>{
-        dialogue(
-            "SEU BARRIGA",
-            "TÁ NA HORA DO ALUGUEL.",
-            "Ele apareceu exatamente quando você ficou sem dinheiro.",
-            [
-                {
-                    text:"💰 Pagar R$20",
-                    action:()=>{
-                        change("money",-20);
-                        change("debt",-20);
-                        change("rep",8);
-                    },
-                    next:scene5
-                },
-                {
-                    text:"😬 Pedir prazo",
-                    action:()=>{
-                        change("debt",20);
-                        change("rep",-2);
-                        log("📄 Você ganhou prazo. A dívida ganhou vida própria.");
-                    },
-                    next:scene5
-                },
-                {
-                    text:"🏃 Correr",
-                    action:()=>{
-                        change("debt",35);
-                        change("chaos",15);
-                        log("🏃 Você correu. O boleto correu mais.");
-                    },
-                    next:scene5
-                }
-            ]
-        );
-    },500);
-}
-
-/* =========================================================
-   CAPÍTULO 5 — CAÇA ÀS DESCULPAS
-========================================================= */
-
-function scene5(){
-
-    game.chapter=5;
-    updateHUD();
-
-    dialogue(
-        "SEU MADRUGA",
-        "Preciso que você me ajude a escolher uma desculpa.",
-        "Você não pergunta para quê. Já entendeu.",
-        [
-            {
-                text:"📋 Desculpa profissional",
-                action:()=>{
-                    change("rep",3);
-                    startExcuseGame();
-                }
-            },
-            {
-                text:"😂 Desculpa absurda",
-                action:()=>{
-                    change("chaos",8);
-                    startExcuseGame();
-                }
-            },
-            {
-                text:"🤨 Perguntar quem está cobrando",
-                action:()=>{
-                    change("sanity",-2);
-                    startExcuseGame();
-                }
-            }
-        ]
-    );
-}
-
-function startExcuseGame(){
-
-    $("dialogue").style.display="none";
-    $("minigame").style.display="block";
-
-    $("miniTitle").textContent="🎰 GERADOR DE DESCULPAS";
-    $("centerMessage").textContent="TOQUE PARA GIRAR";
-
-    const arena=$("arena");
-    arena.innerHTML="";
-
-    $("miniTimer").textContent="5 RODADAS";
-
-    const box=document.createElement("div");
-
-    box.style.position="absolute";
-    box.style.left="50%";
-    box.style.top="50%";
-    box.style.transform="translate(-50%,-50%)";
-    box.style.width="min(400px,85%)";
-    box.style.textAlign="center";
-
-    box.innerHTML=`
-        <div id="excuseText"
-             style="font-size:22px;font-weight:1000;min-height:100px;
-             display:flex;align-items:center;justify-content:center;">
-             🤔
-        </div>
-
-        <button id="spinBtn"
-                style="width:100%;padding:18px;border:0;border-radius:15px;
-                background:#ffd54f;font-weight:1000;font-size:16px;">
-                GIRAR A DESCULPA
-        </button>
-    `;
-
-    arena.appendChild(box);
-
-    const excuses=[
-        "🐔 A galinha comeu o documento.",
-        "🌧️ Choveu dentro do bolso.",
-        "🪣 O balde está em reunião.",
-        "🧠 Eu esqueci porque lembrei de outra coisa.",
-        "📻 O rádio confirmou que eu estava certo.",
-        "🐟 O peixe é testemunha.",
-        "🚪 A porta estava fechada por dentro.",
-        "🍌 Uma banana interferiu no processo.",
-        "😴 Eu estava ocupado dormindo.",
-        "👻 A culpa foi de uma pessoa que não existe."
-    ];
-
-    let rounds=0;
-
-    $("spinBtn").onclick=()=>{
-
-        rounds++;
-
-        const text=random(excuses);
-
-        $("excuseText").textContent=text;
-
-        beep(200+Math.random()*600,.12);
-
-        change("chaos",Math.floor(Math.random()*6));
-
-        if(rounds>=5){
-
-            $("spinBtn").disabled=true;
-
-            setTimeout(()=>{
-                $("centerMessage").textContent=
-                    "DESCULPA APROVADA PELO CONSELHO DA ABSURDEZ. 😂";
-
-                setTimeout(()=>{
-                    $("minigame").style.display="none";
-                    scene6();
-                },1400);
-
-            },500);
-        }
-    };
-}
-
-/* =========================================================
-   CAPÍTULO 6 — FOFOCA
-========================================================= */
-
-function scene6(){
-
-    game.chapter=6;
-    updateHUD();
-
-    const rumors=[
-        "🗣️ Alguém viu uma pessoa entrando no pátio com um balde.",
-        "🗣️ Uma meia foi leiloada e ninguém sabe por quê.",
-        "🗣️ Há suspeitas de que alguém está escondendo comida.",
-        "🗣️ Seu Madruga foi visto conversando com uma cadeira.",
-        "🗣️ Quico aparentemente vendeu uma pedra para alguém.",
-        "🗣️ Dona Florinda sabe de alguma coisa."
-    ];
-
-    dialogue(
-        "CHICA",
-        random(rumors),
-        "Você pode ignorar ou alimentar a fofoca.",
-        [
-            {
-                text:"🤐 Não espalhar",
-                action:()=>{
-                    change("rep",7);
-                    change("chaos",-5);
-                    log("🤐 Pela primeira vez você fez algo sensato.");
-                },
-                next:finalCrisis
-            },
-            {
-                text:"📢 Espalhar",
-                action:()=>{
-                    game.gossip++;
-                    change("chaos",15);
-                    change("rep",-4);
-                    log("📢 A fofoca agora está em três casas.");
-                },
-                next:finalCrisis
-            },
-            {
-                text:"💰 Vender a informação",
-                action:()=>{
-                    game.gossip++;
-                    change("money",12);
                     change("chaos",20);
-                    change("rep",-8);
-                    log("💰 Você monetizou a fofoca. O capitalismo novamente venceu.");
+
+                    change("lover",-12);
+
+                    state.flags.lever=true;
+
+                    log("🚨 Você mexeu na alavanca.");
+
                 },
-                next:finalCrisis
+
+                next:chapter4
+
+            },
+
+            {
+
+                text:"😂 Perguntar “por quê?”",
+
+                action:()=>{
+
+                    change("sanity",-3);
+
+                },
+
+                next:chapter4
+
             }
+
         ]
+
     );
+
 }
 
 /* =========================================================
-   CRISE FINAL
+   CAPÍTULO 4
+   O PAU DE BORRACHA NERVOSO
 ========================================================= */
 
-function finalCrisis(){
+function chapter4(){
 
-    game.chapter=7;
+    state.chapter=4;
+
     updateHUD();
 
-    setTimeout(()=>{
+    dialogue(
 
-        dialogue(
-            "⚠️ ALERTA GERAL",
-            "A vila entrou em colapso administrativo.",
-            "Existem apenas alguns minutos para resolver a situação.",
-            [
-                {
-                    text:"🧠 Tentar organizar",
-                    action:()=>{
-                        change("sanity",-10);
-                        change("rep",5);
-                        finalMini();
-                    }
-                },
-                {
-                    text:"😂 Aceitar o caos",
-                    action:()=>{
-                        change("chaos",20);
-                        change("sanity",10);
-                        finalMini();
-                    }
-                },
-                {
-                    text:"🏃 Evacuar",
-                    action:()=>{
-                        change("rep",-15);
-                        change("chaos",25);
-                        finalMini();
-                    }
+        "🍆 PAU DE BORRACHA NERVOSO™",
+
+        "A criatura aparece lentamente.",
+        
+        "<b>“Ninguém sai daqui sem passar pelo TESTE.”</b>",
+
+        "Você não sabe por que ele fala. Nem por que parece tão confiante.",
+
+        [
+
+            {
+
+                text:"🦸‍♀️ Enfrentar",
+
+                action:()=>{
+
+                    change("hero",8);
+
+                    startReflexGame();
+
                 }
-            ]
-        );
 
-    },500);
+            },
+
+            {
+
+                text:"🗣️ Negociar",
+
+                action:()=>{
+
+                    change("shame",8);
+
+                    negotiation();
+
+                }
+
+            },
+
+            {
+
+                text:"🏃 Correr levando o namorado",
+
+                action:()=>{
+
+                    change("chaos",12);
+
+                    startEscape();
+
+                }
+
+            }
+
+        ]
+
+    );
+
 }
 
 /* =========================================================
-   MINIGAME FINAL — CAOS DA VILA
+   MINIGAME 1
+   REFLEXO
 ========================================================= */
 
-function finalMini(){
+function startReflexGame(){
 
-    $("dialogue").style.display="none";
-    $("minigame").style.display="block";
+    closeDialogue();
 
-    $("miniTitle").textContent="💥 OPERAÇÃO: NÃO DEIXE A VILA EXPLODIR";
-    $("centerMessage").textContent="SALVE O QUE PUDER.";
+    $("miniGame").style.display="block";
+
+    $("miniTitle").textContent=
+        "🍆 TESTE DE REFLEXOS DO PAU NERVOSO";
+
+    $("center").textContent=
+        "TOQUE NO 🍆 ANTES QUE ELE SUMA.";
 
     const arena=$("arena");
+
     arena.innerHTML="";
 
-    miniTime=30;
+    let hits=0;
 
-    let score=0;
-    let mistakes=0;
+    let time=20;
 
-    $("miniTimer").textContent="30s";
-
-    const objects=[
-        "🍌","🪣","🍳","🧹","🧦","💰","🍖","📻","🚪","🪑"
-    ];
+    $("timer").textContent="20s";
 
     function spawn(){
 
-        if($("minigame").style.display==="none")return;
+        if(time<=0)return;
 
-        const el=document.createElement("div");
+        const target=document.createElement("div");
 
-        el.className="falling";
-        el.textContent=random(objects);
+        target.className="target";
 
-        el.style.left=(5+Math.random()*90)+"%";
-        el.style.top="-60px";
+        target.textContent=random(["🍆","🧻","🍌","💥","👀"]);
 
-        const duration=(2.2+Math.random()*2)+"s";
+        target.style.left=(5+Math.random()*85)+"%";
 
-        el.style.animationDuration=duration;
+        target.style.top=(5+Math.random()*85)+"%";
 
-        arena.appendChild(el);
+        arena.appendChild(target);
 
-        el.onclick=(e)=>{
+        target.onclick=()=>{
 
-            e.stopPropagation();
+            hits++;
 
-            score++;
+            target.remove();
 
-            change("rep",1);
-            change("chaos",-1);
+            buzz(25);
 
-            beep(600+score*10,.04,"square",.02);
-            vibrate(15);
+            sound(600+hits*50,.05);
 
-            el.remove();
+            if(target.textContent==="🍆"){
 
-            if(score%10===0){
-                log("🔥 Combo "+score+"! A vila está estranhamente orgulhosa.");
+                change("hero",2);
+
+                change("chaos",1);
+
+            }else{
+
+                change("chaos",4);
+
+                change("lover",-2);
+
             }
+
+            if(hits>=15){
+
+                finishReflex(true);
+
+            }
+
         };
 
-        setTimeout(()=>{
-            if(el.isConnected){
-                el.remove();
+        setTimeout(()=>target.remove(),1100);
 
-                mistakes++;
-
-                if(mistakes%3===0){
-                    change("chaos",4);
-                    change("sanity",-2);
-                }
-            }
-        },4500);
     }
 
-    const spawnTimer=setInterval(spawn,420);
+    const spawnLoop=setInterval(spawn,650);
 
     const timer=setInterval(()=>{
 
-        miniTime--;
+        time--;
 
-        $("miniTimer").textContent=miniTime+"s";
+        $("timer").textContent=time+"s";
 
-        if(miniTime<=0){
+        if(time<=0){
 
             clearInterval(timer);
-            clearInterval(spawnTimer);
 
-            $("centerMessage").textContent=
-                "A VILA SOBREVIVEU. PROVAVELMENTE.";
+            clearInterval(spawnLoop);
 
-            setTimeout(()=>{
-                $("minigame").style.display="none";
-                finishGame();
-            },1800);
+            finishReflex(hits>=8);
+
         }
 
     },1000);
+
+    function finishReflex(win){
+
+        clearInterval(timer);
+        clearInterval(spawnLoop);
+
+        $("center").textContent=
+            win
+            ?"🔥 VOCÊ FOI MAIS RÁPIDA QUE O PAU NERVOSO."
+            :"💀 O PAU NERVOSO FOI MAIS RÁPIDO.";
+
+        if(win){
+
+            state.saves++;
+
+            change("hero",10);
+
+            change("lover",-5);
+
+        }else{
+
+            state.failures++;
+
+            change("lover",-20);
+
+            change("shame",10);
+
+        }
+
+        setTimeout(()=>{
+
+            $("miniGame").style.display="none";
+
+            chapter5();
+
+        },1600);
+
+    }
+
+}
+
+/* =========================================================
+   NEGOCIAÇÃO
+========================================================= */
+
+function negotiation(){
+
+    dialogue(
+
+        "🍆 PAU NERVOSO",
+
+        "“Quer negociar?”",
+
+        "Ele parece estranhamente disposto a conversar.",
+
+        [
+
+            {
+
+                text:"💰 Oferecer dinheiro",
+
+                action:()=>{
+
+                    change("chaos",10);
+
+                    change("lover",-5);
+
+                },
+
+                next:negotiation2
+
+            },
+
+            {
+
+                text:"🍌 Oferecer comida",
+
+                action:()=>{
+
+                    change("shame",6);
+
+                },
+
+                next:negotiation2
+
+            },
+
+            {
+
+                text:"🧠 Oferecer uma troca",
+
+                action:()=>{
+
+                    change("hero",5);
+
+                },
+
+                next:negotiation2
+
+            }
+
+        ]
+
+    );
+
+}
+
+function negotiation2(){
+
+    dialogue(
+
+        "🍆 PAU NERVOSO",
+
+        "“Interessante...”",
+
+        "Ele analisa sua proposta por tempo demais.",
+
+        [
+
+            {
+
+                text:"😎 Manter confiança",
+
+                action:()=>change("hero",6),
+
+                next:chapter5
+
+            },
+
+            {
+
+                text:"😬 Ficar nervosa",
+
+                action:()=>{
+
+                    change("shame",10);
+
+                    change("lover",-5);
+
+                },
+
+                next:chapter5
+
+            },
+
+            {
+
+                text:"😂 Começar a rir",
+
+                action:()=>{
+
+                    change("chaos",12);
+
+                },
+
+                next:chapter5
+
+            }
+
+        ]
+
+    );
+
+}
+
+/* =========================================================
+   ESCAPE
+========================================================= */
+
+function startEscape(){
+
+    closeDialogue();
+
+    $("miniGame").style.display="block";
+
+    $("miniTitle").textContent=
+        "🏃 FUGA COM O NAMORADO";
+
+    $("center").textContent=
+        "ARRASTE O CASAL ATÉ A SAÍDA.";
+
+    const arena=$("arena");
+
+    arena.innerHTML="";
+
+    const player=document.createElement("div");
+
+    player.textContent="🦸‍♀️❤️";
+
+    player.style.position="absolute";
+    player.style.fontSize="42px";
+    player.style.left="10%";
+    player.style.top="50%";
+
+    arena.appendChild(player);
+
+    const enemy=document.createElement("div");
+
+    enemy.textContent="🍆";
+
+    enemy.style.position="absolute";
+    enemy.style.fontSize="50px";
+    enemy.style.left="80%";
+    enemy.style.top="50%";
+
+    arena.appendChild(enemy);
+
+    let x=10;
+    let enemyX=80;
+    let time=25;
+
+    $("timer").textContent="25s";
+
+    function move(ev){
+
+        const rect=arena.getBoundingClientRect();
+
+        const cx=ev.touches?
+            ev.touches[0].clientX:
+            ev.clientX;
+
+        const cy=ev.touches?
+            ev.touches[0].clientY:
+            ev.clientY;
+
+        x=clamp(
+            (cx-rect.left)/rect.width*100,
+            3,
+            93
+        );
+
+        player.style.left=x+"%";
+        player.style.top=
+            clamp(
+                (cy-rect.top)/rect.height*100,
+                5,
+                90
+            )+"%";
+
+    }
+
+    arena.onpointermove=move;
+    arena.ontouchmove=move;
+
+    const timer=setInterval(()=>{
+
+        time--;
+
+        $("timer").textContent=time+"s";
+
+        enemyX-=1.2;
+
+        enemy.style.left=enemyX+"%";
+
+        if(Math.abs(enemyX-x)<8){
+
+            clearInterval(timer);
+
+            change("lover",-25);
+            change("chaos",20);
+
+            $("center").textContent=
+                "💀 O PAU NERVOSO ALCANÇOU O CASAL.";
+
+            setTimeout(()=>{
+
+                $("miniGame").style.display="none";
+
+                chapter5();
+
+            },1500);
+
+        }
+
+        if(x>88){
+
+            clearInterval(timer);
+
+            change("hero",10);
+            change("lover",-5);
+
+            $("center").textContent=
+                "🏃💨 ESCAPARAM!";
+
+            setTimeout(()=>{
+
+                $("miniGame").style.display="none";
+
+                chapter5();
+
+            },1200);
+
+        }
+
+        if(time<=0){
+
+            clearInterval(timer);
+
+            change("lover",-15);
+
+            $("center").textContent=
+                "⏰ VOCÊ DEMOROU DEMAIS.";
+
+            setTimeout(()=>{
+
+                $("miniGame").style.display="none";
+
+                chapter5();
+
+            },1200);
+
+        }
+
+    },1000);
+
+}
+
+/* =========================================================
+   CAPÍTULO 5
+   LABORATÓRIO
+========================================================= */
+
+function chapter5(){
+
+    state.chapter=5;
+
+    updateHUD();
+
+    dialogue(
+
+        "🧪 LABORATÓRIO",
+
+        "Você encontrou três frascos.",
+        
+        "Um deles pode neutralizar o Pau Nervoso.",
+
+        [
+
+            {
+
+                text:"🔴 Frasco vermelho",
+
+                action:()=>{
+
+                    change("chaos",8);
+
+                    state.items.push("poção vermelha");
+
+                },
+
+                next:chapter5b
+
+            },
+
+            {
+
+                text:"🔵 Frasco azul",
+
+                action:()=>{
+
+                    change("hero",5);
+
+                    state.items.push("poção azul");
+
+                },
+
+                next:chapter5b
+
+            },
+
+            {
+
+                text:"🟢 Frasco verde",
+
+                action:()=>{
+
+                    change("shame",7);
+
+                    state.items.push("poção verde");
+
+                },
+
+                next:chapter5b
+
+            }
+
+        ]
+
+    );
+
+}
+
+function chapter5b(){
+
+    dialogue(
+
+        "🧪 COMPUTADOR DO LABORATÓRIO",
+
+        "Atenção.",
+        
+        "<b>Você escolheu uma poção.</b>",
+
+        "Infelizmente ninguém sabe qual é o efeito.",
+
+        [
+
+            {
+
+                text:"🥤 Beber",
+
+                action:()=>{
+
+                    change("sanity",-10);
+
+                    change("chaos",12);
+
+                },
+
+                next:chapter6
+
+            },
+
+            {
+
+                text:"🍆 Dar ao inimigo",
+
+                action:()=>{
+
+                    change("hero",8);
+
+                    change("lover",-7);
+
+                },
+
+                next:chapter6
+
+            },
+
+            {
+
+                text:"🧪 Misturar tudo",
+
+                action:()=>{
+
+                    change("chaos",20);
+
+                    change("shame",8);
+
+                    state.flags.mixture=true;
+
+                },
+
+                next:chapter6
+
+            }
+
+        ]
+
+    );
+
+}
+
+/* =========================================================
+   CAPÍTULO 6
+   CÓDIGO
+========================================================= */
+
+function chapter6(){
+
+    state.chapter=6;
+
+    updateHUD();
+
+    dialogue(
+
+        "🔐 PORTA FINAL",
+
+        "Para libertar o namorado você precisa descobrir o código.",
+        
+        "Uma placa diz:",
+        
+        "<b>“O código está relacionado ao que aconteceu hoje.”</b>",
+
+        [
+
+            {
+
+                text:"🧠 Tentar memória",
+
+                next:memoryGame
+
+            },
+
+            {
+
+                text:"💥 Chutar a porta",
+
+                action:()=>{
+
+                    change("chaos",20);
+
+                    change("lover",-15);
+
+                },
+
+                next:chapter7
+
+            },
+
+            {
+
+                text:"😂 Perguntar ao namorado",
+
+                action:()=>{
+
+                    change("shame",6);
+
+                },
+
+                next:chapter7
+
+            }
+
+        ]
+
+    );
+
+}
+
+/* =========================================================
+   MEMORY GAME
+========================================================= */
+
+function memoryGame(){
+
+    closeDialogue();
+
+    $("miniGame").style.display="block";
+
+    $("miniTitle").textContent=
+        "🧠 MEMÓRIA DA MISSÃO";
+
+    $("center").textContent=
+        "MEMORIZE A SEQUÊNCIA.";
+
+    const arena=$("arena");
+
+    arena.innerHTML="";
+
+    const emojis=["🍆","❤️","🧻","💥","🍌","🦸‍♀️"];
+
+    const buttons=[];
+
+    for(let i=0;i<6;i++){
+
+        const b=document.createElement("button");
+
+        b.className="memoryBtn";
+
+        b.textContent=emojis[i];
+
+        arena.appendChild(b);
+
+        buttons.push(b);
+
+    }
+
+    arena.className="arena memoryGrid";
+
+    let sequence=[];
+
+    let playerIndex=0;
+
+    for(let i=0;i<4;i++){
+
+        sequence.push(Math.floor(Math.random()*6));
+
+    }
+
+    let showIndex=0;
+
+    const show=setInterval(()=>{
+
+        buttons.forEach(b=>b.classList.remove("active"));
+
+        if(showIndex<sequence.length){
+
+            buttons[sequence[showIndex]].classList.add("active");
+
+            sound(350+sequence[showIndex]*80,.08);
+
+            showIndex++;
+
+        }else{
+
+            clearInterval(show);
+
+            $("center").textContent=
+                "AGORA REPITA.";
+
+            buttons.forEach((b,index)=>{
+
+                b.onclick=()=>{
+
+                    if(index===sequence[playerIndex]){
+
+                        b.classList.add("active");
+
+                        setTimeout(
+                            ()=>b.classList.remove("active"),
+                            150
+                        );
+
+                        playerIndex++;
+
+                        sound(700,.05);
+
+                        if(playerIndex>=sequence.length){
+
+                            change("hero",12);
+
+                            $("center").textContent=
+                                "🧠 MEMÓRIA PERFEITA.";
+
+                            setTimeout(()=>{
+
+                                $("miniGame").style.display="none";
+
+                                chapter7();
+
+                            },1200);
+
+                        }
+
+                    }else{
+
+                        change("sanity",-8);
+
+                        change("chaos",8);
+
+                        $("center").textContent=
+                            "❌ ERROU. O NAMORADO PERDEU A FÉ.";
+
+                        setTimeout(()=>{
+
+                            $("miniGame").style.display="none";
+
+                            chapter7();
+
+                        },1200);
+
+                    }
+
+                };
+
+            });
+
+        }
+
+    },600);
+
+}
+
+/* =========================================================
+   CAPÍTULO 7
+   INTERROGATÓRIO
+========================================================= */
+
+function chapter7(){
+
+    state.chapter=7;
+
+    updateHUD();
+
+    dialogue(
+
+        "🍆 PAU NERVOSO",
+
+        "“Última chance.”",
+        
+        "Ele exige que você responda uma pergunta para libertar o namorado.",
+
+        [
+
+            {
+
+                text:"😎 “Pergunte.”",
+
+                action:()=>{
+
+                    change("hero",5);
+
+                    finalQuestion();
+
+                }
+
+            },
+
+            {
+
+                text:"😂 “Você primeiro.”",
+
+                action:()=>{
+
+                    change("chaos",8);
+
+                    finalQuestion();
+
+                }
+
+            },
+
+            {
+
+                text:"🦸‍♀️ Atacar",
+
+                action:()=>{
+
+                    change("lover",-10);
+
+                    change("chaos",15);
+
+                    finalQuestion();
+
+                }
+
+            }
+
+        ]
+
+    );
+
+}
+
+function finalQuestion(){
+
+    const q=random([
+
+        {
+
+            t:"Quem é a verdadeira heroína desta história?",
+
+            a:[
+
+                ["🦸‍♀️ Você",true],
+
+                ["🍆 O Pau Nervoso",false],
+
+                ["🧻 O papel higiênico",false]
+
+            ]
+
+        },
+
+        {
+
+            t:"Qual foi a pior decisão da missão?",
+
+            a:[
+
+                ["🤷 Todas",true],
+
+                ["🍌 Comer a banana",false],
+
+                ["🚪 Abrir a porta",false]
+
+            ]
+
+        },
+
+        {
+
+            t:"O namorado merece ser salvo?",
+
+            a:[
+
+                ["❤️ Sim",true],
+
+                ["😐 Depende",false],
+
+                ["😂 Ele que se vire",false]
+
+            ]
+
+        }
+
+    ]);
+
+    dialogue(
+
+        "🍆 PAU NERVOSO",
+
+        q.t,
+
+        "Escolha com sabedoria.",
+
+        q.a.map(x=>({
+
+            text:x[0],
+
+            action:()=>{
+
+                if(x[1]){
+
+                    change("hero",10);
+
+                    state.saves++;
+
+                }else{
+
+                    change("lover",-12);
+
+                    change("chaos",10);
+
+                    state.failures++;
+
+                }
+
+            },
+
+            next:chapter8
+
+        }))
+
+    );
+
+}
+
+/* =========================================================
+   CAPÍTULO 8
+   ÚLTIMA ARMADILHA
+========================================================= */
+
+function chapter8(){
+
+    state.chapter=8;
+
+    updateHUD();
+
+    dialogue(
+
+        "🚨 ALERTA",
+
+        "A instalação inteira começou a tremer.",
+        
+        "O Pau de Borracha Nervoso entrou em <b>MODO TURBO</b>.",
+
+        "O namorado grita: “AMOR, FAZ ALGUMA COISA!”",
+
+        [
+
+            {
+
+                text:"🔥 Desligar energia",
+
+                action:()=>{
+
+                    change("chaos",8);
+
+                },
+
+                next:boss
+
+            },
+
+            {
+
+                text:"💥 Atacar o painel",
+
+                action:()=>{
+
+                    change("lover",-15);
+
+                    change("chaos",15);
+
+                },
+
+                next:boss
+
+            },
+
+            {
+
+                text:"🧠 Procurar o botão certo",
+
+                action:()=>{
+
+                    change("hero",8);
+
+                },
+
+                next:boss
+
+            }
+
+        ]
+
+    );
+
+}
+
+/* =========================================================
+   BOSS
+========================================================= */
+
+function boss(){
+
+    closeDialogue();
+
+    $("miniGame").style.display="block";
+
+    $("miniTitle").textContent=
+        "👑 CHEFE FINAL — PAU DE BORRACHA NERVOSO";
+
+    $("center").textContent=
+        "DERROTE O CHEFÃO SEM ACERTAR O NAMORADO.";
+
+    const arena=$("arena");
+
+    arena.innerHTML="";
+
+    let hits=0;
+    let time=35;
+
+    $("timer").textContent="35s";
+
+    const boss=document.createElement("div");
+
+    boss.className="target";
+
+    boss.textContent="🍆";
+
+    boss.style.fontSize="70px";
+
+    arena.appendChild(boss);
+
+    const lover=document.createElement("div");
+
+    lover.textContent="😵‍💫";
+
+    lover.style.position="absolute";
+    lover.style.fontSize="45px";
+
+    arena.appendChild(lover);
+
+    function moveBoss(){
+
+        boss.style.left=(5+Math.random()*85)+"%";
+
+        boss.style.top=(5+Math.random()*85)+"%";
+
+    }
+
+    function moveLover(){
+
+        lover.style.left=(5+Math.random()*85)+"%";
+
+        lover.style.top=(5+Math.random()*85)+"%";
+
+    }
+
+    moveBoss();
+    moveLover();
+
+    const movement=setInterval(()=>{
+
+        moveBoss();
+        moveLover();
+
+    },700);
+
+    boss.onclick=()=>{
+
+        hits++;
+
+        change("hero",1);
+
+        sound(500+hits*30,.05);
+
+        buzz(20);
+
+        if(Math.random()<.25){
+
+            change("lover",-4);
+
+            change("shame",3);
+
+            log("💥 Você acertou o chefão... mas quase acertou o namorado.");
+
+        }
+
+        if(hits>=20){
+
+            clearInterval(movement);
+            clearInterval(timer);
+
+            winBoss();
+
+        }
+
+    };
+
+    const timer=setInterval(()=>{
+
+        time--;
+
+        $("timer").textContent=time+"s";
+
+        if(time<=0){
+
+            clearInterval(timer);
+            clearInterval(movement);
+
+            loseBoss();
+
+        }
+
+    },1000);
+
+    function winBoss(){
+
+        change("hero",20);
+
+        change("lover",-5);
+
+        state.saves+=2;
+
+        $("center").textContent=
+            "💥🍆 CHEFÃO DERROTADO!";
+
+        setTimeout(()=>{
+
+            $("miniGame").style.display="none";
+
+            chapter9();
+
+        },1700);
+
+    }
+
+    function loseBoss(){
+
+        change("lover",-25);
+
+        change("chaos",20);
+
+        state.failures++;
+
+        $("center").textContent=
+            "💀 O CHEFÃO SOBREVIVEU.";
+
+        setTimeout(()=>{
+
+            $("miniGame").style.display="none";
+
+            chapter9();
+
+        },1700);
+
+    }
+
+}
+
+/* =========================================================
+   CAPÍTULO 9
+   DECISÃO FINAL
+========================================================= */
+
+function chapter9(){
+
+    state.chapter=9;
+
+    updateHUD();
+
+    dialogue(
+
+        "❤️ NAMORADO",
+
+        "Finalmente você chegou até mim.",
+        
+        "Ele olha para você. Depois olha para o Pau Nervoso derrotado.",
+        
+        "<b>“Agora só falta uma coisa...”</b>",
+
+        [
+
+            {
+
+                text:"❤️ Abraçar o namorado",
+
+                action:()=>{
+
+                    change("lover",15);
+
+                    change("hero",5);
+
+                },
+
+                next:ending
+
+            },
+
+            {
+
+                text:"😂 Tirar uma foto",
+
+                action:()=>{
+
+                    change("shame",15);
+
+                    change("chaos",8);
+
+                    state.secrets++;
+
+                },
+
+                next:ending
+
+            },
+
+            {
+
+                text:"🍆 Conferir se o inimigo realmente morreu",
+
+                action:()=>{
+
+                    change("chaos",12);
+
+                    change("shame",8);
+
+                },
+
+                next:ending
+
+            }
+
+        ]
+
+    );
+
 }
 
 /* =========================================================
    FINAL
 ========================================================= */
 
-function finishGame(){
+function ending(){
 
-    $("hud").style.display="none";
-    $("character").style.display="none";
     $("dialogue").style.display="none";
 
     let rank;
     let text;
 
-    const total=game.chaos+game.debt;
+    const score=
+        state.hero+
+        state.lover+
+        state.sanity-
+        state.chaos+
+        (100-state.shame);
 
-    if(game.sanity<=15){
-        rank="🧠 SOBREVIVENTE PSICOLÓGICO";
-        text="Você terminou o dia, mas deixou parte da sua sanidade na vila.";
+    if(state.lover<=20){
+
+        rank="💀 HEROÍNA QUE SALVOU... QUASE NADA";
+
+        text=
+        "Você chegou até o namorado. " +
+        "Tecnicamente isso conta como resgate. " +
+        "Ele discorda.";
+
     }
-    else if(total>=100){
-        rank="💥 AGENTE DO CAOS";
-        text="Tecnicamente você resolveu problemas. O problema é que você criou outros 47.";
+    else if(state.chaos>=80){
+
+        rank="💥 IMPERATRIZ DO CAOS";
+
+        text=
+        "Você salvou o namorado destruindo aproximadamente " +
+        "97% da lógica existente nesta realidade.";
+
     }
-    else if(game.rep>=75){
-        rank="🏆 HERÓI DA VILA";
-        text="Contra todas as probabilidades, você conseguiu manter uma aparência de ordem.";
+    else if(state.shame>=70){
+
+        rank="😳 HEROÍNA DA VERGONHA ALHEIA";
+
+        text=
+        "O namorado foi salvo. Sua dignidade não.";
+
     }
-    else if(game.money<0){
-        rank="💸 PATROCINADOR OFICIAL DA VILA";
-        text="Você não administrou a vila. Você financiou a vila.";
+    else if(state.hero>=85 && state.lover>=70){
+
+        rank="👑 SUPER-HEROÍNA SUPREMA";
+
+        text=
+        "Você conseguiu salvar o namorado e manter " +
+        "uma quantidade surpreendente de dignidade.";
+
     }
-    else if(game.gossip>=2){
-        rank="📢 MINISTRO DA FOFOCA";
-        text="Sua maior contribuição para a sociedade foi espalhar informações que ninguém pediu.";
+    else if(state.sanity<=20){
+
+        rank="🧠 SOBREVIVENTE MENTAL";
+
+        text=
+        "Você venceu a missão. " +
+        "Mas deixou sua sanidade em algum corredor da instalação.";
+
     }
     else{
-        rank="🏚️ MORADOR HONORÁRIO";
-        text="Você não venceu. Você também não perdeu. Você simplesmente passou a fazer parte do problema.";
+
+        rank="🦸‍♀️ HEROÍNA OFICIAL DO NAMORADO";
+
+        text=
+        "Você não fez tudo certo. " +
+        "Mas fez o suficiente para transformar uma situação ridícula " +
+        "em uma história que vocês provavelmente vão contar rindo.";
+
     }
 
     $("finalRank").textContent=rank;
+
     $("finalText").textContent=text;
 
     $("report").innerHTML=`
-        <div>💰 Dinheiro restante <b>R$ ${game.money}</b></div>
-        <div>❤️ Reputação <b>${game.rep}/100</b></div>
-        <div>😡 Índice de caos <b>${game.chaos}/100</b></div>
-        <div>🧠 Sanidade restante <b>${game.sanity}/100</b></div>
-        <div>💀 Dívida acumulada <b>R$ ${game.debt}</b></div>
-        <div>🍖 Vezes que alimentou Chaves <b>${game.chavesFed}</b></div>
-        <div>🤝 Ajuda ao Seu Madruga <b>${game.madrugaHelped}</b></div>
-        <div>📢 Fofocas espalhadas <b>${game.gossip}</b></div>
-        <div>🎭 Golpes do Quico testemunhados <b>${game.quicoScams}</b></div>
-        <div>🎯 Decisões tomadas <b>${game.decisions}</b></div>
+
+        <div class="reportRow">
+            ❤️ Estado do namorado:
+            <b>${state.lover}/100</b>
+        </div>
+
+        <div class="reportRow">
+            🧠 Sanidade da heroína:
+            <b>${state.sanity}/100</b>
+        </div>
+
+        <div class="reportRow">
+            😳 Vergonha acumulada:
+            <b>${state.shame}/100</b>
+        </div>
+
+        <div class="reportRow">
+            💥 Caos causado:
+            <b>${state.chaos}/100</b>
+        </div>
+
+        <div class="reportRow">
+            ⭐ Heroísmo:
+            <b>${state.hero}/100</b>
+        </div>
+
+        <div class="reportRow">
+            🧠 Decisões tomadas:
+            <b>${state.decisions}</b>
+        </div>
+
+        <div class="reportRow">
+            🏆 Salvamentos:
+            <b>${state.saves}</b>
+        </div>
+
+        <div class="reportRow">
+            💀 Falhas:
+            <b>${state.failures}</b>
+        </div>
+
     `;
 
-    $("endScreen").style.display="flex";
+    const achievements=[];
 
-    fireworks();
+    if(state.chaos>=50)
+        achievements.push("💥 CAOS ABSOLUTO");
 
-    beep(250,.15);
-    setTimeout(()=>beep(450,.15),150);
-    setTimeout(()=>beep(700,.25),300);
+    if(state.shame>=50)
+        achievements.push("😳 SEM VERGONHA");
+
+    if(state.lover>=80)
+        achievements.push("❤️ NAMORADO PRESERVADO");
+
+    if(state.hero>=80)
+        achievements.push("🦸‍♀️ SUPER-HEROÍNA");
+
+    if(state.sanity<=20)
+        achievements.push("🧠 CADÊ MINHA SANIDADE?");
+
+    if(state.secrets>0)
+        achievements.push("📸 FOTÓGRAFA DO CAOS");
+
+    $("achievements").innerHTML=
+        achievements.map(x=>
+            `<span class="achievement">${x}</span>`
+        ).join("");
+
+    $("secret").innerHTML=
+        `
+        <b>ARQUIVO ULTRASSECRETO:</b><br><br>
+
+        O Pau de Borracha Nervoso foi derrotado.
+
+        <br><br>
+
+        Porém...
+
+        <br><br>
+
+        segundo os cientistas responsáveis pela investigação,
+
+        <b>ele pode voltar.</b>
+
+        <br><br>
+
+        E aparentemente ele anotou o seu nome.
+        `;
+
+    $("end").style.display="flex";
+
+    victoryEffects();
+
 }
 
 /* =========================================================
-   CONFETES
+   EFEITOS
 ========================================================= */
 
-function fireworks(){
+function victoryEffects(){
 
-    const canvas=$("confetti");
-    const ctx=canvas.getContext("2d");
+    for(let i=0;i<80;i++){
 
-    canvas.width=innerWidth;
-    canvas.height=innerHeight;
+        const p=document.createElement("div");
 
-    const particles=[];
+        p.style.position="fixed";
 
-    for(let i=0;i<180;i++){
+        p.style.left="50%";
+        p.style.top="50%";
 
-        particles.push({
-            x:innerWidth/2,
-            y:innerHeight/2,
-            vx:(Math.random()-.5)*12,
-            vy:(Math.random()-.5)*12,
-            size:2+Math.random()*5,
-            life:70+Math.random()*70,
-            rot:Math.random()*6
+        p.style.width=(3+Math.random()*7)+"px";
+        p.style.height=(3+Math.random()*7)+"px";
+
+        p.style.borderRadius="50%";
+
+        p.style.background=
+            `hsl(${Math.random()*360},90%,65%)`;
+
+        p.style.zIndex="500";
+
+        const x=(Math.random()-.5)*innerWidth;
+        const y=(Math.random()-.5)*innerHeight;
+
+        p.animate([
+
+            {
+                transform:"translate(-50%,-50%) scale(0)",
+                opacity:1
+            },
+
+            {
+                transform:
+                `translate(${x}px,${y}px) scale(1)`,
+                opacity:0
+            }
+
+        ],{
+
+            duration:1000+Math.random()*1500,
+            easing:"cubic-bezier(.1,.8,.2,1)"
+
         });
+
+        document.body.appendChild(p);
+
+        setTimeout(()=>p.remove(),2600);
+
     }
 
-    function animate(){
-
-        ctx.clearRect(0,0,canvas.width,canvas.height);
-
-        particles.forEach(p=>{
-
-            p.x+=p.vx;
-            p.y+=p.vy;
-            p.vy+=.15;
-            p.life--;
-
-            ctx.save();
-            ctx.translate(p.x,p.y);
-            ctx.rotate(p.rot);
-            ctx.fillStyle=`hsl(${Math.random()*360},90%,60%)`;
-            ctx.fillRect(-p.size/2,-p.size/2,p.size,p.size*2);
-            ctx.restore();
-        });
-
-        if(particles.some(p=>p.life>0)){
-            requestAnimationFrame(animate);
-        }
-    }
-
-    animate();
 }
 
 /* =========================================================
-   EVENTOS RANDOMIZADOS
+   EVENTOS ALEATÓRIOS
 ========================================================= */
 
 setInterval(()=>{
 
-    if($("hud").style.display==="none")return;
-    if($("minigame").style.display!=="none")return;
+    if($("hud").style.display!=="block")
+        return;
+
+    if($("miniGame").style.display==="block")
+        return;
 
     const events=[
+
         ()=>{
+
             change("chaos",3);
-            log("🪣 Um balde caiu sozinho. Ninguém investigou.");
+
+            log("🍌 Uma banana apareceu no chão. Ninguém sabe de onde veio.");
+
         },
+
         ()=>{
+
+            change("shame",2);
+
+            log("👀 O namorado perguntou se isso tudo era realmente necessário.");
+
+        },
+
+        ()=>{
+
             change("sanity",-2);
-            log("📻 O rádio ligou sozinho.");
+
+            log("📻 O sistema de segurança tocou uma música inexplicável.");
+
         },
+
         ()=>{
-            change("rep",2);
-            log("❤️ Alguém disse que você está fazendo um bom trabalho.");
+
+            change("hero",2);
+
+            log("⭐ Uma testemunha reconheceu seu heroísmo.");
+
         },
+
         ()=>{
+
+            change("lover",-3);
+
+            log("😵 O namorado reclamou que está ficando cansado.");
+
+        },
+
+        ()=>{
+
             change("chaos",5);
-            log("🍌 Uma banana apareceu onde não deveria.");
+
+            log("💥 Alguma coisa explodiu ao longe.");
+
         },
+
         ()=>{
-            change("money",-2);
-            log("💸 Você descobriu uma pequena taxa administrativa que ninguém explicou.");
-        },
-        ()=>{
-            game.gossip++;
-            log("👀 Surgiu uma nova fofoca na vila.");
+
+            change("shame",5);
+
+            log("😳 Alguém gritou: “EI, O QUE VOCÊS ESTÃO FAZENDO AÍ?”");
+
         }
+
     ];
 
-    if(Math.random()<.38){
+    if(Math.random()<.45)
         random(events)();
-    }
 
-},9000);
+},8500);
 
 /* =========================================================
-   IMPEDIR ZOOM / GESTOS RUINS NO ANDROID
+   PARTICULAS
 ========================================================= */
 
-document.addEventListener("gesturestart",e=>e.preventDefault());
-document.addEventListener("gesturechange",e=>e.preventDefault());
-document.addEventListener("gestureend",e=>e.preventDefault());
+for(let i=0;i<25;i++){
 
-document.addEventListener("touchmove",e=>{
+    const p=document.createElement("div");
 
-    if(e.target.closest(".arena")){
-        e.preventDefault();
-    }
+    p.className="particle";
 
-},{passive:false});
+    const s=2+Math.random()*5;
 
-window.addEventListener("resize",()=>{
-    const canvas=$("confetti");
+    p.style.width=s+"px";
+    p.style.height=s+"px";
 
-    canvas.width=innerWidth;
-    canvas.height=innerHeight;
-});
+    p.style.left=Math.random()*100+"%";
+
+    p.style.animationDelay=
+        (-Math.random()*7)+"s";
+
+    p.style.background=
+        `hsl(${Math.random()*360},80%,65%)`;
+
+    $("particles").appendChild(p);
+
+}
+
+/* =========================================================
+   TOUCH
+========================================================= */
+
+document.addEventListener(
+    "gesturestart",
+    e=>e.preventDefault()
+);
+
+document.addEventListener(
+    "gesturechange",
+    e=>e.preventDefault()
+);
+
+document.addEventListener(
+    "gestureend",
+    e=>e.preventDefault()
+);
 
 </script>
 
