@@ -3,25 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ordem do Sistema</title>
+    <title>Alerta Nostálgico do Sistema</title>
     <style>
         body {
-            background: linear-gradient(135deg, #0c4a6e, #0284c7, #0d9488); /* Fundo refrescante de banho */
+            background: linear-gradient(135deg, #0284c7, #0369a1, #1e3a8a); /* Fundo azul clássico do desenho */
             color: #fff;
             font-family: 'Arial Black', sans-serif;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            height: 100vh;
+            min-height: 100vh;
             margin: 0;
             overflow: hidden;
             text-align: center;
             position: relative;
         }
 
-        /* Bolhas e elementos de banho flutuando no fundo */
-        .banho-bg {
+        /* Elementos flutuantes (Machados e Pica-Pau) */
+        .chuva-rachador-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,53 +31,64 @@
             z-index: 1;
         }
 
-        .elemento-banho {
+        .elemento-rachador {
             position: absolute;
-            font-size: 2.8rem;
-            bottom: -70px;
-            animation: subirBolhas 4s ease-in-out infinite;
+            top: -75px;
+            font-size: 2.5rem;
+            animation: cairRachador 4s linear infinite;
             user-select: none;
         }
 
-        /* Configuração de tempos e posições diferentes para o efeito de espuma */
-        .b1 { left: 10%; animation-duration: 3.5s; animation-delay: 0s; }
-        .b2 { left: 32%; animation-duration: 5s; animation-delay: 1.2s; font-size: 3.5rem; }
-        .b3 { left: 55%; animation-duration: 4.2s; animation-delay: 0.5s; }
-        .b4 { left: 75%; animation-duration: 4.8s; animation-delay: 1.8s; font-size: 3.2rem; }
-        .b5 { left: 90%; animation-duration: 3.8s; animation-delay: 0.8s; }
+        /* Configuração de tempos e posições diferentes */
+        .r1 { left: 10%; animation-duration: 3.5s; animation-delay: 0s; }
+        .r2 { left: 30%; animation-duration: 5s; animation-delay: 1.5s; font-size: 3rem; }
+        .r3 { left: 55%; animation-duration: 4.2s; animation-delay: 0.5s; }
+        .r4 { left: 78%; animation-duration: 4.8s; animation-delay: 2s; font-size: 3.5rem; }
+        .r5 { left: 90%; animation-duration: 3.2s; animation-delay: 0.8s; }
 
-        /* Conteúdo principal brilhante e pulsante */
+        /* Conteúdo principal */
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: pulsarBrilho 0.8s ease-in-out infinite alternate;
-            padding: 20px;
+            animation: pulsarMeme 0.8s ease-in-out infinite alternate;
+            padding: 15px;
+            max-width: 90%;
         }
 
+        /* Estilo do GIF do Meme */
+        .meme-gif {
+            width: 250px;
+            border: 5px solid #facc15; /* Borda amarela clássica */
+            border-radius: 15px;
+            box-shadow: 0 0 20px rgba(250, 204, 21, 0.6);
+            margin-bottom: 20px;
+        }
+
+        /* Textos baseados no diálogo */
         h1 {
-            font-size: 3.2rem;
-            color: #ffffff;
-            text-shadow: 0 0 15px #38bdf8, 0 0 30px #0ea5e9, 0 0 50px #38bdf8;
-            margin: 0;
-            letter-spacing: 1px;
-            line-height: 1.4;
+            font-size: 2.2rem;
+            color: #facc15; /* Amarelo Pica-Pau */
+            text-shadow: 2px 2px 10px #000;
+            margin: 5px 0;
+            line-height: 1.2;
+        }
+
+        h2 {
+            font-size: 1.8rem;
+            color: #ef4444; /* Vermelho Pica-Pau */
+            text-shadow: 2px 2px 10px #000;
+            margin: 10px 0;
         }
 
         /* Animações */
-        @keyframes subirBolhas {
-            0% {
-                transform: translateY(0) translateX(0) scale(0.8);
-                opacity: 0;
-            }
+        @keyframes cairRachador {
+            0% { transform: translateY(0) rotate(0deg); opacity: 0; }
             15% { opacity: 0.8; }
             85% { opacity: 0.8; }
-            100% {
-                transform: translateY(-110vh) translateX(15px) scale(1.1);
-                opacity: 0;
-            }
+            100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
         }
 
-        @keyframes pulsarBrilho {
+        @keyframes pulsarMeme {
             0% { transform: scale(0.97); }
             100% { transform: scale(1.03); }
         }
@@ -85,18 +96,15 @@
 </head>
 <body>
 
-    <!-- Elementos de banho subindo em segundo plano -->
-    <div class="banho-bg">
-        <div class="elemento-banho b1">🚿</div>
-        <div class="elemento-banho b2">🧼</div>
-        <div class="elemento-banho b3">💦</div>
-        <div class="elemento-banho b4">🧼</div>
-        <div class="elemento-banho b5">😏</div>
+    <!-- Machados e pássaros flutuando no fundo -->
+    <div class="chuva-rachador-bg">
+        <div class="elemento-rachador r1">🪓</div>
+        <div class="elemento-rachador r2">🐦</div>
+        <div class="elemento-rachador r3">🪓</div>
+        <div class="elemento-rachador r4">🪵</div>
+        <div class="elemento-rachador r5">🪓</div>
     </div>
 
     <div class="conteudo">
-        <h1>Vai tomar banho e lava o pipiu...<br>vou te usar! 🚿🧼😏</h1>
-    </div>
-
-</body>
-</html>
+        <!-- Puxando o GIF oficial do Pica-Pau Rachador da internet -->
+        <img class="meme-gif" src="https://tenor.com
