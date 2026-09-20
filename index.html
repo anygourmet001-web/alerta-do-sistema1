@@ -16,7 +16,7 @@
             width: 100%;
             height: 100%;
             overflow: hidden;
-            background: #180802; /* Fundo escuro cor de forno a lenha */
+            background: #180802;
             font-family: 'Arial Black', sans-serif;
             user-select: none;
             -webkit-user-select: none;
@@ -36,24 +36,33 @@
             position: absolute;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at 50% 80%, rgba(249, 115, 22, 0.12), transparent 70%);
+            background: radial-gradient(circle at 50% 80%, rgba(249, 115, 22, 0.15), transparent 70%);
             z-index: 2;
             pointer-events: none;
         }
 
-        /* Card Inicial com Efeito Glassmorphism de Forno */
-        .game-card {
-            position: relative;
+        .card-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             z-index: 3;
+            pointer-events: none; /* Deixa os cliques passarem para o fundo caso necessário */
+        }
+
+        .game-card {
+            pointer-events: auto; /* Reativa o clique apenas dentro do card */
             width: 85%;
             max-width: 400px;
             padding: 35px 25px;
-            background: rgba(36, 16, 5, 0.75);
+            background: rgba(36, 16, 5, 0.8);
             backdrop-filter: blur(15px);
             -webkit-backdrop-filter: blur(15px);
             border-radius: 28px;
             border: 2px solid rgba(245, 158, 11, 0.4);
-            box-shadow: 0 0 40px rgba(249, 115, 22, 0.25);
+            box-shadow: 0 0 40px rgba(249, 115, 22, 0.3);
             text-align: center;
             box-sizing: border-box;
             transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
@@ -78,14 +87,13 @@
             font-size: 1.1rem;
             color: #cbd5e1;
             font-family: sans-serif;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
             padding: 8px 16px;
             border-radius: 50px;
             display: inline-block;
             border: 1px solid rgba(245, 158, 11, 0.2);
         }
 
-        /* Estado de Vitória Modificado por JS */
         .vitoria h1 {
             color: #fde047 !important;
             text-shadow: 0 0 20px #eab308 !important;
@@ -93,7 +101,7 @@
         }
         .vitoria h2 {
             color: #ffffff !important;
-            font-size: 2.6rem !important;
+            font-size: 2.5rem !important;
             text-shadow: 0 0 15px #f97316 !important;
             animation: pulsar 0.4s infinite alternate;
             margin-top: 15px;
@@ -110,7 +118,7 @@
     <canvas id="game-canvas"></canvas>
     <div class="ambient-fire"></div>
 
-    <div style="position: absolute; width: 100%; height: 100%; display: flex; justify-content: center; align-items: center; z-index: 3;">
+    <div class="card-container">
         <div class="game-card" id="painel">
             <h1>Teu pai é<br>padeiro? 🥖🤔</h1>
             <h2 id="subtitulo">⚠️ Forno instável! ⚠️</h2>
@@ -138,26 +146,22 @@
         window.addEventListener('resize', resize);
         resize();
 
-        // Classe de Física dos Alimentos caindo
         class Alimento {
             constructor() {
                 this.x = Math.random() * (canvas.width - 60) + 30;
                 this.y = -50;
-                this.size = Math.random() * 15 + 35;
-                this.speedY = Math.random() * 3 + 2;
+                this.size = Math.random() * 15 + 40;
+                this.speedY = Math.random() * 3 + 3;
                 this.speedX = (Math.random() - 0.5) * 4;
                 this.angle = Math.random() * Math.PI;
                 this.spin = (Math.random() - 0.5) * 0.05;
                 this.emoji = emojis[Math.floor(Math.random() * emojis.length)];
-                this.clicado = false;
             }
             update() {
                 this.y += this.speedY;
                 this.x += this.speedX;
                 this.angle += this.spin;
-                
-                // Colisão simples nas paredes laterais
-                if (this.x < 15 || this.x > canvas.width - 40) this.speedX *= -1;
+                if (this.x < 20 || this.x > canvas.width - 20) this.speedX *= -1;
             }
             draw() {
                 ctx.save();
@@ -208,7 +212,7 @@
             } catch(e) {}
         }
 
-        // Detecção mecânica de cliques nas roscas flutuantes
+        // Correção da detecção de toque com suporte multitouch preciso do Android
         function processarClique(clientX, clientY) {
             if (finalizado) return;
             
@@ -216,12 +220,11 @@
                 let obj = objetos[i];
                 let dist = Math.hypot(clientX - obj.x, clientY - obj.y);
                 
-                if (dist < 45 && obj.emoji === '🍩') {
-                    // Explode faíscas ao capturar a rosca
-                    for(let p=0; p<15; p++) particulas.push(new Faisca(obj.x, obj.y));
+                if (dist < 55 && obj.emoji === '🍩') {
+                    for(let p=0; p<20; p++) particulas.push(new Faisca(obj.x, obj.y));
                     objetos.splice(i, 1);
                     cliques++;
-                    som(600, 0.08);
+                    som(650, 0.08);
                     
                     if (cliques < 3) {
                         placar.innerText = `Pegue 3 roscas na tela: ${cliques}/3`;
@@ -238,32 +241,31 @@
             placar.style.display = 'none';
             subtitulo.style.display = 'none';
             painel.classList.add('vitoria');
-            
-            // Troca o texto da interface dinamicamente com animação
-            painel.querySelector('h1').innerText = "Porque eu queria saber...";
+            painel.querySelector('h1').innerHTML = "Porque eu queria<br>saber...";
             
             setTimeout(() => {
                 let h2 = document.createElement('h2');
                 h2.innerText = "SE ELE QUEIMA A ROSCA! 🍩🔥🤣";
                 painel.appendChild(h2);
                 
-                // Sons cômicos de revelação
-                som(440, 0.15);
-                setTimeout(() => som(554.37, 0.15), 150);
-                setTimeout(() => som(659.25, 0.4), 300);
+                som(440, 0.12);
+                setTimeout(() => som(554.37, 0.12), 120);
+                setTimeout(() => som(659.25, 0.35), 240);
                 
-                // Super explosão de faíscas no meio do card
                 let rect = painel.getBoundingClientRect();
                 for(let k=0; k<80; k++) {
                     particulas.push(new Faisca(rect.left + rect.width/2, rect.top + rect.height/2));
                 }
-            }, 600);
+            }, 500);
         }
 
-        // Listeners táteis rápidos para o minijogo
+        // Correção estrutural dos listeners táteis para capturar as coordenadas certas no Android
         window.addEventListener('touchstart', (e) => {
-            processarClique(e.touches[0].clientX, e.touches[0].clientY);
-        });
+            if(e.touches && e.touches[0]) {
+                processarClique(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+
         window.addEventListener('mousedown', (e) => {
             processarClique(e.clientX, e.clientY);
         });
@@ -271,7 +273,7 @@
         function gameLoop() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
             
-            if (!finalizado && objetos.length < 15 && Math.random() < 0.04) {
+            if (!finalizado && objetos.length < 12 && Math.random() < 0.05) {
                 objetos.push(new Alimento());
             }
 
@@ -284,3 +286,12 @@
             for (let i = particulas.length - 1; i >= 0; i--) {
                 particulas[i].update();
                 particulas[i].draw();
+                if (particulas[i].life <= 0) particulas.splice(i, 1);
+            }
+
+            requestAnimationFrame(gameLoop);
+        }
+        gameLoop();
+    </script>
+</body>
+</html>
