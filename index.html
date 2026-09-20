@@ -3,10 +3,10 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ALERTA DO SISTEMA</title>
+    <title>Proposta Secreta do Sistema</title>
     <style>
         body {
-            background: linear-gradient(135deg, #450a0a, #7f1d1d, #78350f); /* Fundo de aviso e suspense */
+            background: linear-gradient(135deg, #18001e, #2d0036, #090011); /* Fundo cabaré neon escuro */
             color: #fff;
             font-family: 'Arial Black', sans-serif;
             display: flex;
@@ -20,8 +20,8 @@
             position: relative;
         }
 
-        /* Chuva de elementos de espionagem/alerta */
-        .alerta-bg {
+        /* Elementos geométricos e emojis simbolizando três lados */
+        .triangulo-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -31,78 +31,80 @@
             z-index: 1;
         }
 
-        .elemento-alerta {
+        .elemento-tres {
             position: absolute;
-            top: -60px;
-            font-size: 2.5rem;
-            animation: cair 3.5s linear infinite;
+            font-size: 2.8rem;
+            bottom: -70px;
+            animation: subirMisterio 5s linear infinite;
             user-select: none;
+            filter: drop-shadow(0 0 10px #df127a);
         }
 
-        /* Variações de tempo e posições da chuva */
-        .a1 { left: 10%; animation-duration: 3s; animation-delay: 0s; }
-        .a2 { left: 35%; animation-duration: 4.5s; animation-delay: 1.2s; font-size: 3rem; }
-        .a3 { left: 55%; animation-duration: 3.8s; animation-delay: 0.5s; }
-        .a4 { left: 78%; animation-duration: 4.2s; animation-delay: 1.8s; font-size: 3.5rem; }
-        .a5 { left: 90%; animation-duration: 3.2s; animation-delay: 0.8s; }
+        /* Diferentes velocidades e posições para o trio de elementos */
+        .t1 { left: 15%; animation-duration: 4s; animation-delay: 0s; }
+        .t2 { left: 35%; animation-duration: 6s; animation-delay: 1.8s; font-size: 3.5rem; }
+        .t3 { left: 50%; animation-duration: 4.8s; animation-delay: 0.5s; }
+        .t4 { left: 72%; animation-duration: 5.5s; animation-delay: 2.2s; font-size: 4rem; }
+        .t5 { left: 88%; animation-duration: 3.8s; animation-delay: 1s; }
 
-        /* Bloco de texto central em destaque */
+        /* Conteúdo principal em Néon Rosa e Roxo */
         .conteudo {
             position: relative;
             z-index: 2;
-            animation: tremer 0.15s linear infinite;
+            animation: pulsarBrilho 1s ease-in-out infinite alternate;
         }
 
         h1 {
             font-size: 4.5rem;
-            color: #fef08a; /* Amarelo brilhante de aviso */
-            text-shadow: 0 0 20px #ef4444, 0 0 40px #b91c1c;
+            text-transform: uppercase;
+            color: #ffffff;
+            letter-spacing: 5px;
             margin: 0;
-            letter-spacing: 3px;
+            text-shadow: 0 0 10px #ff007f, 0 0 20px #ff007f, 0 0 40px #aa0055;
         }
 
         h2 {
             font-size: 2.2rem;
-            color: #ffffff;
+            color: #e0aaff;
             margin-top: 15px;
-            text-shadow: 0 0 10px rgba(0, 0, 0, 0.6);
+            text-shadow: 0 0 8px rgba(224, 170, 255, 0.6);
+            letter-spacing: 1px;
         }
 
         /* Animações */
-        @keyframes cair {
+        @keyframes subirMisterio {
             0% {
-                transform: translateY(0) rotate(0deg);
+                transform: translateY(0) rotate(0deg) scale(0.8);
                 opacity: 0;
             }
-            15% { opacity: 1; }
-            85% { opacity: 1; }
+            15% { opacity: 0.9; }
+            85% { opacity: 0.9; }
             100% {
-                transform: translateY(110vh) rotate(360deg);
+                transform: translateY(-110vh) rotate(360deg) scale(1.1);
                 opacity: 0;
             }
         }
 
-        /* Efeito de tela tremendo levemente de urgência */
-        @keyframes tremer {
-            0% { transform: translate(1px, 1px) rotate(0deg); }
-            100% { transform: translate(-1px, -1px) rotate(0deg); }
+        @keyframes pulsarBrilho {
+            0% { transform: scale(0.97); filter: drop-shadow(0 0 5px #ff007f); }
+            100% { transform: scale(1.03); filter: drop-shadow(0 0 20px #ff007f); }
         }
     </style>
 </head>
 <body>
 
-    <!-- Emojis caindo no fundo -->
-    <div class="alerta-bg">
-        <div class="elemento-alerta a1">🚨</div>
-        <div class="elemento-alerta a2">👀</div>
-        <div class="elemento-alerta a3">🕵️‍♂️</div>
-        <div class="elemento-alerta a4">🚨</div>
-        <div class="elemento-alerta a5">👀</div>
+    <!-- Elementos visuais representando o trio flutuando ao fundo -->
+    <div class="triangulo-bg">
+        <div class="elemento-tres t1">😈</div>
+        <div class="elemento-tres t2">💜</div>
+        <div class="elemento-tres t3">😏</div>
+        <div class="elemento-tres t4">📐</div> <!-- Triângulo ilustrativo da dinâmica -->
+        <div class="elemento-tres t5">🔥</div>
     </div>
 
     <div class="conteudo">
-        <h1>SOGRA!!</h1>
-        <h2>Olha o perigo vindo aí! 👵🏃‍♂️💨</h2>
+        <h1>Ménage?</h1>
+        <h2>Topa colocar mais uma pessoa na roda? 😈🔥✨</h2>
     </div>
 
 </body>
