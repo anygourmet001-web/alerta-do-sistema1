@@ -20,7 +20,7 @@
             position: relative;
         }
 
-        /* Chuva invertida de doces e morangos no fundo */
+        /* Chuva de doces e morangos no fundo */
         .doces-bg {
             position: absolute;
             top: 0;
@@ -39,14 +39,12 @@
             user-select: none;
         }
 
-        /* Configuração de posições e tempos aleatórios para a subida */
         .d1 { left: 12%; animation-duration: 4s; animation-delay: 0s; }
         .d2 { left: 35%; animation-duration: 5.5s; animation-delay: 1.5s; font-size: 3.2rem; }
         .d3 { left: 58%; animation-duration: 4.8s; animation-delay: 0.5s; }
         .d4 { left: 78%; animation-duration: 5.2s; animation-delay: 2.2s; font-size: 3.5rem; }
         .d5 { left: 91%; animation-duration: 3.8s; animation-delay: 1s; }
 
-        /* Bloco de conteúdo principal */
         .conteudo {
             position: relative;
             z-index: 2;
@@ -55,7 +53,7 @@
             max-width: 90%;
         }
 
-        /* Estilo do GIF - Link de servidor estável para desenvolvedores */
+        /* Estilo do GIF - Agora puxando localmente */
         .meme-gif {
             width: 250px;
             border: 6px solid #fff;
@@ -64,7 +62,6 @@
             margin-bottom: 20px;
         }
 
-        /* Textos estilizados do meme */
         h1 {
             font-size: 2.5rem;
             color: #ffffff;
@@ -80,7 +77,6 @@
             margin: 10px 0;
         }
 
-        /* Animações */
         @keyframes subirDoce {
             0% { transform: translateY(0) rotate(0deg) scale(0.8); opacity: 0; }
             15% { opacity: 0.9; }
@@ -96,7 +92,6 @@
 </head>
 <body>
 
-    <!-- Morangos e bolos flutuando ao fundo -->
     <div class="doces-bg">
         <div class="doce-elemento d1">🍓</div>
         <div class="doce-elemento d2">🍰</div>
@@ -106,8 +101,8 @@
     </div>
 
     <div class="conteudo">
-        <!-- GIF estável do gatinho comendo bolo de morango -->
-        <img class="meme-gif" src="https://rawpixel.com" alt="Bolo de Morango">
+        <!-- Tag corrigida apontando para o arquivo que está na sua pasta -->
+        <img class="meme-gif" src="gatinho.gif" alt="Bolo de Morango">
         
         <h1>Hummmm... 🍓</h1>
         <h2>Bolo de muranguu! 🍰✨</h2>
