@@ -1,1248 +1,604 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>🏦 BANCO CENTRAL - INTRUSÃO 🏦</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Dorama — Seu Destino</title>
 
-    <style>
-        :root {
-            --bella-red: #dc2626;
-            --gold-vault: #ca8a04;
-            --metal-grey: #475569;
-        }
+<style>
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    -webkit-tap-highlight-color:transparent;
+}
 
-        * {
-            box-sizing: border-box;
-        }
+html,body{
+    width:100%;
+    height:100%;
+    overflow:hidden;
+    font-family:Arial,Helvetica,sans-serif;
+}
 
-        html,
-        body {
-            margin: 0;
-            padding: 0;
-            width: 100%;
-            height: 100%;
-            overflow: hidden;
-            background: #0f1115;
-            font-family: Arial, Helvetica, sans-serif;
-            user-select: none;
-            -webkit-user-select: none;
-            -webkit-touch-callout: none;
-            touch-action: none;
-        }
+body{
+    background:
+        radial-gradient(circle at 50% 20%, #ffe8f1 0%, transparent 35%),
+        linear-gradient(145deg,#170b1f,#3b102e,#120914);
+    color:white;
+    position:relative;
+}
 
-        #vault-canvas {
-            position: fixed;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            z-index: 1;
-        }
+#particles{
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    overflow:hidden;
+}
 
-        /* Fundo */
-        body::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            background:
-                radial-gradient(
-                    circle at 50% 50%,
-                    rgba(220, 38, 38, 0.08),
-                    transparent 45%
-                ),
-                radial-gradient(
-                    circle at 20% 80%,
-                    rgba(202, 138, 4, 0.08),
-                    transparent 35%
-                ),
-                #0f1115;
-            pointer-events: none;
-        }
+.petal{
+    position:absolute;
+    top:-40px;
+    font-size:20px;
+    animation:fall linear forwards;
+    opacity:.9;
+}
 
-        /* Interface */
-        .interface-layer {
-            position: fixed;
-            inset: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            z-index: 2;
-            pointer-events: none;
-            padding: 20px;
-        }
+@keyframes fall{
+    0%{
+        transform:translateY(-50px) rotate(0deg);
+        opacity:0;
+    }
+    10%{opacity:1;}
+    100%{
+        transform:translateY(110vh) rotate(720deg);
+        opacity:.15;
+    }
+}
 
-        .vault-card {
-            width: 86%;
-            max-width: 410px;
-            padding: 32px 20px;
-            background: rgba(15, 17, 21, 0.88);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border-radius: 28px;
-            border: 2px solid rgba(220, 38, 38, 0.4);
-            box-shadow:
-                0 0 40px rgba(220, 38, 38, 0.2),
-                inset 0 0 25px rgba(255,255,255,0.02);
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            pointer-events: none;
-            transition: .5s ease;
-        }
+.screen{
+    width:100%;
+    height:100%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    padding:22px;
+    position:relative;
+    z-index:2;
+}
 
-        h1 {
-            font-family: Arial Black, Arial, sans-serif;
-            font-size: 2rem;
-            color: #ffffff;
-            margin: 0 0 6px;
-            text-shadow:
-                0 0 12px var(--bella-red),
-                0 0 25px rgba(220,38,38,.4);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            line-height: 1.1;
-        }
+.card{
+    width:min(430px,100%);
+    min-height:560px;
+    border-radius:30px;
+    padding:30px 24px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
 
-        h2 {
-            font-size: 1.05rem;
-            color: #94a3b8;
-            font-family: Arial, sans-serif;
-            margin: 0 0 24px;
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
+    background:
+        linear-gradient(
+            145deg,
+            rgba(255,255,255,.13),
+            rgba(255,255,255,.035)
+        );
 
-        /* Área da tranca */
-        .macaneta-container {
-            width: 170px;
-            height: 170px;
-            margin-bottom: 22px;
-            position: relative;
-            cursor: grab;
-            touch-action: none;
-            pointer-events: auto;
-        }
+    border:1px solid rgba(255,255,255,.18);
+    box-shadow:
+        0 30px 80px rgba(0,0,0,.55),
+        inset 0 1px 0 rgba(255,255,255,.12);
 
-        .macaneta-container:active {
-            cursor: grabbing;
-        }
+    backdrop-filter:blur(18px);
+    -webkit-backdrop-filter:blur(18px);
+}
 
-        /* Roda */
-        .roda-aco {
-            width: 100%;
-            height: 100%;
-            position: absolute;
-            inset: 0;
+.kdrama{
+    font-size:14px;
+    letter-spacing:5px;
+    text-transform:uppercase;
+    color:#ffc8dd;
+    margin-bottom:18px;
+}
 
-            background:
-                radial-gradient(
-                    circle at 35% 30%,
-                    #94a3b8 0%,
-                    #64748b 20%,
-                    #475569 52%,
-                    #1e293b 100%
-                );
+.title{
+    font-size:42px;
+    line-height:1.02;
+    font-weight:900;
+    margin-bottom:16px;
 
-            border-radius: 50%;
-            border: 7px solid #64748b;
+    text-shadow:
+        0 0 15px rgba(255,126,180,.35);
+}
 
-            box-shadow:
-                0 0 20px rgba(0,0,0,.65),
-                inset 0 0 20px rgba(255,255,255,.2);
+.subtitle{
+    font-size:17px;
+    line-height:1.5;
+    color:#f4dfe9;
+    margin-bottom:28px;
+}
 
-            transition:
-                filter .15s ease,
-                box-shadow .15s ease;
+.heart{
+    font-size:72px;
+    margin-bottom:20px;
+    animation:heartbeat 1.3s infinite;
+    filter:drop-shadow(0 0 15px rgba(255,80,150,.7));
+}
 
-            will-change: transform;
-        }
+@keyframes heartbeat{
+    0%,100%{transform:scale(1);}
+    15%{transform:scale(1.14);}
+    30%{transform:scale(1);}
+    45%{transform:scale(1.08);}
+    60%{transform:scale(1);}
+}
 
-        /* Raios */
-        .raio {
-            position: absolute;
-            width: 13px;
-            height: 154px;
-            background:
-                linear-gradient(
-                    90deg,
-                    #334155,
-                    #64748b,
-                    #334155
-                );
-            left: calc(50% - 6.5px);
-            top: 1px;
-            border-radius: 7px;
-            box-shadow:
-                inset 1px 0 rgba(255,255,255,.2),
-                inset -1px 0 rgba(0,0,0,.4);
-        }
+button{
+    width:100%;
+    max-width:330px;
+    border:none;
+    border-radius:18px;
+    padding:17px 20px;
+    margin:8px 0;
 
-        .raio-2 {
-            transform: rotate(45deg);
-        }
+    font-size:17px;
+    font-weight:800;
+    color:white;
 
-        .raio-3 {
-            transform: rotate(90deg);
-        }
+    background:linear-gradient(135deg,#ff4f91,#a92d68);
 
-        .raio-4 {
-            transform: rotate(135deg);
-        }
+    box-shadow:
+        0 10px 30px rgba(255,55,140,.3),
+        inset 0 1px 0 rgba(255,255,255,.2);
 
-        /* Centro */
-        .centro-roda {
-            position: absolute;
-            width: 54px;
-            height: 54px;
-            background:
-                radial-gradient(
-                    circle,
-                    #334155,
-                    #0f172a
-                );
-            border: 4px solid var(--bella-red);
-            border-radius: 50%;
-            top: calc(50% - 27px);
-            left: calc(50% - 27px);
-            z-index: 5;
-            box-shadow:
-                0 0 10px var(--bella-red),
-                inset 0 0 10px rgba(0,0,0,.7);
-        }
+    cursor:pointer;
+    transition:.18s;
+}
 
-        /* Progresso */
-        .progresso-texto {
-            font-size: .95rem;
-            color: #ef4444;
-            background: rgba(0,0,0,.45);
-            padding: 9px 20px;
-            border-radius: 50px;
-            border: 1px solid rgba(220,38,38,.25);
-            font-family: Arial, sans-serif;
-            letter-spacing: 1px;
-            transition: .2s;
-        }
+button:active{
+    transform:scale(.95);
+}
 
-        /* Instrução */
-        .instrucao {
-            position: fixed;
-            bottom: 25px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 90%;
-            z-index: 4;
-            text-align: center;
-            color: rgba(255,255,255,.45);
-            font-size: .75rem;
-            pointer-events: none;
-        }
+.choice{
+    background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.13);
+}
 
-        /* Vitória */
-        .arrombado {
-            border-color: var(--gold-vault) !important;
-            box-shadow:
-                0 0 50px rgba(202,138,4,.45),
-                0 0 100px rgba(202,138,4,.12),
-                inset 0 0 30px rgba(202,138,4,.08) !important;
-            animation: pulsar .8s infinite alternate;
-        }
+.choice:hover{
+    background:rgba(255,255,255,.15);
+}
 
-        .arrombado h1 {
-            color: #ffffff !important;
-            text-shadow:
-                0 0 20px var(--gold-vault),
-                0 0 40px rgba(202,138,4,.5) !important;
-            font-size: 2.3rem !important;
-        }
+.hidden{
+    display:none!important;
+}
 
-        .arrombado h2 {
-            color: #fde047 !important;
-            font-size: 1.65rem !important;
-            font-family: Arial Black, Arial, sans-serif;
-            text-shadow:
-                0 0 15px rgba(252,211,77,.6) !important;
-            margin: 15px 0 0 !important;
-        }
+.question{
+    font-size:27px;
+    line-height:1.2;
+    font-weight:800;
+    margin-bottom:25px;
+}
 
-        @keyframes pulsar {
-            from {
-                transform: scale(.98);
-            }
+.progress{
+    width:100%;
+    max-width:330px;
+    height:6px;
+    border-radius:10px;
+    background:rgba(255,255,255,.12);
+    margin-bottom:25px;
+    overflow:hidden;
+}
 
-            to {
-                transform: scale(1.02);
-            }
-        }
+.progressBar{
+    height:100%;
+    width:0%;
+    background:linear-gradient(90deg,#ff5c9d,#ffd0e2);
+    transition:.5s;
+}
 
-        /* Flash */
-        #flash {
-            position: fixed;
-            inset: 0;
-            z-index: 20;
-            pointer-events: none;
-            opacity: 0;
-            background: rgba(220,38,38,.3);
-        }
+.resultEmoji{
+    font-size:80px;
+    margin-bottom:15px;
+    animation:pop .6s ease;
+}
 
-        #flash.ativo {
-            animation: flash .16s ease-out;
-        }
+@keyframes pop{
+    0%{transform:scale(.2);opacity:0}
+    70%{transform:scale(1.15)}
+    100%{transform:scale(1)}
+}
 
-        @keyframes flash {
-            0% {
-                opacity: 1;
-            }
+.resultTitle{
+    font-size:34px;
+    font-weight:900;
+    margin-bottom:15px;
+}
 
-            100% {
-                opacity: 0;
-            }
-        }
+.resultText{
+    font-size:17px;
+    line-height:1.55;
+    color:#f5dfe9;
+    margin-bottom:25px;
+}
 
-        /* Chuva de dinheiro */
-        .money-glow {
-            position: fixed;
-            inset: 0;
-            pointer-events: none;
-            z-index: 1;
-            opacity: 0;
-            background:
-                radial-gradient(
-                    circle at center,
-                    rgba(202,138,4,.16),
-                    transparent 55%
-                );
-            transition: opacity .8s;
-        }
+.doramaBadge{
+    padding:9px 16px;
+    border-radius:30px;
+    background:rgba(255,255,255,.09);
+    border:1px solid rgba(255,255,255,.15);
+    color:#ffd1e3;
+    font-size:13px;
+    margin-bottom:22px;
+}
 
-        .money-glow.ativo {
-            opacity: 1;
-        }
-    </style>
+.flash{
+    animation:flash .45s;
+}
+
+@keyframes flash{
+    0%{filter:brightness(1)}
+    50%{filter:brightness(2)}
+    100%{filter:brightness(1)}
+}
+</style>
 </head>
 
 <body>
 
-    <canvas id="vault-canvas"></canvas>
+<div id="particles"></div>
 
-    <div class="money-glow" id="money-glow"></div>
+<div class="screen">
 
-    <div id="flash"></div>
+    <!-- INÍCIO -->
+    <div class="card" id="start">
 
-    <div class="interface-layer">
+        <div class="heart">💗</div>
 
-        <div class="vault-card" id="painel">
-
-            <h1 id="titulo">
-                Plano de Assalto
-            </h1>
-
-            <h2 id="subtitulo">
-                Gire a tranca para abrir
-            </h2>
-
-            <div
-                class="macaneta-container"
-                id="tranca-interativa"
-            >
-
-                <div
-                    class="roda-aco"
-                    id="roda"
-                >
-
-                    <div class="raio raio-1"></div>
-                    <div class="raio raio-2"></div>
-                    <div class="raio raio-3"></div>
-                    <div class="raio raio-4"></div>
-
-                </div>
-
-                <div class="centro-roda"></div>
-
-            </div>
-
-            <div
-                class="progresso-texto"
-                id="status-trava"
-            >
-                Progresso seguro: 0%
-            </div>
-
+        <div class="kdrama">
+            K-DRAMA EXPERIENCE
         </div>
 
+        <div class="title">
+            Seu destino<br>
+            de dorama
+        </div>
+
+        <div class="subtitle">
+            Prepare o coração...<br>
+            algumas escolhas podem mudar<br>
+            completamente essa história. 👀
+        </div>
+
+        <button onclick="startGame()">
+            🎬 COMEÇAR O DORAMA
+        </button>
+
     </div>
 
-    <div
-        class="instrucao"
-        id="instrucao"
-    >
-        ☝️ Segure na tranca e faça um movimento circular
+
+    <!-- JOGO -->
+    <div class="card hidden" id="game">
+
+        <div class="doramaBadge" id="badge">
+            EPISÓDIO 1
+        </div>
+
+        <div class="progress">
+            <div class="progressBar" id="progress"></div>
+        </div>
+
+        <div class="question" id="question">
+            Você está andando pela rua...
+        </div>
+
+        <div id="choices"></div>
+
     </div>
 
 
-    <script>
+    <!-- RESULTADO -->
+    <div class="card hidden" id="result">
 
-        /* ==========================================
-           ELEMENTOS
-        ========================================== */
+        <div class="resultEmoji" id="resultEmoji">
+            💕
+        </div>
 
-        const canvas =
-            document.getElementById("vault-canvas");
+        <div class="resultTitle" id="resultTitle">
+            Seu dorama começou!
+        </div>
 
-        const ctx =
-            canvas.getContext("2d");
+        <div class="resultText" id="resultText">
+            ...
+        </div>
 
-        const roda =
-            document.getElementById("roda");
+        <div class="doramaBadge" id="resultBadge">
+            FINAL DO EPISÓDIO
+        </div>
 
-        const painel =
-            document.getElementById("painel");
+        <button onclick="restart()">
+            🔄 ASSISTIR DE NOVO
+        </button>
 
-        const statusTrava =
-            document.getElementById("status-trava");
+    </div>
 
-        const subtitulo =
-            document.getElementById("subtitulo");
+</div>
 
-        const tranca =
-            document.getElementById("tranca-interativa");
+<script>
 
-        const titulo =
-            document.getElementById("titulo");
+const particles = document.getElementById("particles");
 
-        const instrucao =
-            document.getElementById("instrucao");
+const emojis = [
+    "🌸","🌸","💗","💕","✨","💮","💖","🌷"
+];
 
-        const flash =
-            document.getElementById("flash");
+function createPetal(){
 
-        const moneyGlow =
-            document.getElementById("money-glow");
+    const el = document.createElement("div");
 
+    el.className="petal";
 
-        /* ==========================================
-           VARIÁVEIS DO JOGO
-        ========================================== */
+    el.textContent =
+        emojis[Math.floor(Math.random()*emojis.length)];
 
-        let dinheiro = [];
+    el.style.left =
+        Math.random()*100+"vw";
 
-        let totalGiro = 0;
+    el.style.fontSize =
+        (14+Math.random()*18)+"px";
 
-        let finalizado = false;
+    el.style.animationDuration =
+        (5+Math.random()*7)+"s";
 
-        let girando = false;
+    el.style.animationDelay =
+        Math.random()*2+"s";
 
-        let anguloAnterior = 0;
+    particles.appendChild(el);
 
-        let rotacaoVisual = 0;
+    setTimeout(()=>{
+        el.remove();
+    },14000);
+}
 
-        let audioCtx = null;
+setInterval(createPetal,350);
 
-
-        /* ==========================================
-           CANVAS
-        ========================================== */
-
-        function resize() {
-
-            canvas.width =
-                window.innerWidth *
-                window.devicePixelRatio;
-
-            canvas.height =
-                window.innerHeight *
-                window.devicePixelRatio;
-
-            canvas.style.width =
-                window.innerWidth + "px";
-
-            canvas.style.height =
-                window.innerHeight + "px";
-
-            ctx.setTransform(
-                window.devicePixelRatio,
-                0,
-                0,
-                window.devicePixelRatio,
-                0,
-                0
-            );
-        }
-
-        window.addEventListener(
-            "resize",
-            resize
-        );
-
-        resize();
+for(let i=0;i<12;i++){
+    setTimeout(createPetal,i*200);
+}
 
 
-        /* ==========================================
-           CÉDULAS
-        ========================================== */
+const perguntas = [
 
-        class Cedula {
+{
+    pergunta:"Você está andando pela rua quando um oppa esbarra em você. O que você faz?",
+    opcoes:[
+        ["😳 Fico olhando pra ele sem conseguir falar","romance"],
+        ["😂 Dou risada e sigo andando","comedia"],
+        ["🔥 Olho de volta e digo: 'Foi de propósito?'","ousada"]
+    ]
+},
 
-            constructor() {
+{
+    pergunta:"Ele aparece novamente no mesmo lugar no dia seguinte...",
+    opcoes:[
+        ["💕 Acho que o destino está tentando dizer alguma coisa","romance"],
+        ["👀 Começo a investigar quem ele é","misterio"],
+        ["😂 Já considero isso o começo de um dorama","comedia"]
+    ]
+},
 
-                this.x =
-                    Math.random() *
-                    window.innerWidth;
+{
+    pergunta:"Ele pergunta: 'Você acredita em destino?'",
+    opcoes:[
+        ["💗 Sim... talvez você seja meu destino","romance"],
+        ["😏 Depende. O que você está planejando?","ousada"],
+        ["😂 Só se tiver 16 episódios","comedia"]
+    ]
+},
 
-                this.y = -60;
+{
+    pergunta:"Ele segura sua mão e diz que precisa contar um segredo...",
+    opcoes:[
+        ["🥹 Escuto atentamente","romance"],
+        ["👀 'Agora fiquei curiosa...'","misterio"],
+        ["🔥 'Só se o segredo for interessante'","ousada"]
+    ]
+}
 
-                this.w =
-                    Math.random() * 15 + 50;
+];
 
-                this.h = 27;
+let perguntaAtual=0;
+let escolhas=[];
 
-                this.vy =
-                    Math.random() * 2 + 3;
+function startGame(){
 
-                this.vx =
-                    (Math.random() - .5) * 2;
+    document.getElementById("start").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
 
-                this.angle =
-                    Math.random() * Math.PI * 2;
+    perguntaAtual=0;
+    escolhas=[];
 
-                this.spin =
-                    (Math.random() - .5) * .07;
+    mostrarPergunta();
+}
 
-                this.rotacaoY =
-                    Math.random() * Math.PI * 2;
+function mostrarPergunta(){
+
+    const p=perguntas[perguntaAtual];
+
+    document.getElementById("question").textContent=p.pergunta;
+
+    document.getElementById("badge").textContent=
+        "EPISÓDIO "+(perguntaAtual+1);
+
+    document.getElementById("progress").style.width=
+        ((perguntaAtual)/perguntas.length*100)+"%";
+
+    const container=document.getElementById("choices");
+
+    container.innerHTML="";
+
+    p.opcoes.forEach(opcao=>{
+
+        const btn=document.createElement("button");
+
+        btn.className="choice";
+
+        btn.textContent=opcao[0];
+
+        btn.onclick=()=>{
+
+            escolhas.push(opcao[1]);
+
+            btn.classList.add("flash");
+
+            if(navigator.vibrate){
+                navigator.vibrate(35);
             }
 
-            update() {
+            setTimeout(()=>{
 
-                this.y += this.vy;
+                perguntaAtual++;
 
-                this.x += this.vx;
+                if(perguntaAtual>=perguntas.length){
 
-                this.angle += this.spin;
+                    mostrarResultado();
 
-                this.rotacaoY += .05;
+                }else{
 
-                this.vx +=
-                    Math.sin(this.y / 35) * .02;
-            }
+                    mostrarPergunta();
 
-            draw() {
-
-                ctx.save();
-
-                ctx.translate(
-                    this.x,
-                    this.y
-                );
-
-                ctx.rotate(
-                    this.angle
-                );
-
-                const escalaX =
-                    Math.cos(this.rotacaoY);
-
-                ctx.scale(
-                    escalaX,
-                    1
-                );
-
-                ctx.fillStyle =
-                    "#15803d";
-
-                ctx.fillRect(
-                    -this.w / 2,
-                    -this.h / 2,
-                    this.w,
-                    this.h
-                );
-
-                ctx.strokeStyle =
-                    "#bbf7d0";
-
-                ctx.lineWidth = 2;
-
-                ctx.strokeRect(
-                    -this.w / 2 + 2,
-                    -this.h / 2 + 2,
-                    this.w - 4,
-                    this.h - 4
-                );
-
-                ctx.fillStyle =
-                    "#bbf7d0";
-
-                ctx.font =
-                    "bold 10px Arial";
-
-                ctx.textAlign =
-                    "center";
-
-                ctx.textBaseline =
-                    "middle";
-
-                ctx.fillText(
-                    "$",
-                    0,
-                    0
-                );
-
-                ctx.restore();
-            }
-        }
-
-
-        /* ==========================================
-           AUDIO
-        ========================================== */
-
-        function iniciarAudio() {
-
-            try {
-
-                if (!audioCtx) {
-
-                    audioCtx =
-                        new (
-                            window.AudioContext ||
-                            window.webkitAudioContext
-                        )();
                 }
 
-                if (
-                    audioCtx &&
-                    audioCtx.state === "suspended"
-                ) {
+            },180);
 
-                    audioCtx.resume();
-                }
+        };
 
-            } catch (e) {}
+        container.appendChild(btn);
+
+    });
+}
+
+
+function mostrarResultado(){
+
+    document.getElementById("game").classList.add("hidden");
+    document.getElementById("result").classList.remove("hidden");
+
+    let contagem={
+        romance:0,
+        comedia:0,
+        ousada:0,
+        misterio:0
+    };
+
+    escolhas.forEach(e=>{
+        contagem[e]++;
+    });
+
+    let tipo=
+        Object.keys(contagem)
+        .sort((a,b)=>contagem[b]-contagem[a])[0];
+
+    const resultados={
+
+        romance:{
+            emoji:"💗",
+            titulo:"VOCÊ É A PROTAGONISTA!",
+            texto:
+            "Seu dorama seria aquele romance que começa devagar... com olhares demorados, encontros por acaso e uma trilha sonora que faz qualquer pessoa suspirar. 🌸<br><br>O problema é que o oppa já percebeu que está apaixonado. 👀",
+            badge:"ROMANCE • 16 EPISÓDIOS"
+        },
+
+        comedia:{
+            emoji:"😂",
+            titulo:"ROM-COM LIBERADA!",
+            texto:
+            "No seu dorama ninguém consegue ficar sério por mais de cinco minutos. 😂<br><br>Você tropeça, ele ri, vocês brigam, fazem as pazes... e inexplicavelmente terminam apaixonados.",
+            badge:"COMÉDIA ROMÂNTICA"
+        },
+
+        ousada:{
+            emoji:"🔥",
+            titulo:"VOCÊ QUEBROU O ROTEIRO!",
+            texto:
+            "A protagonista aqui não espera o oppa tomar iniciativa. 😏🔥<br><br>O roteiro tinha uma história planejada... mas você simplesmente decidiu improvisar.",
+            badge:"ROMANCE • PROTAGONISTA PERIGOSA"
+        },
+
+        misterio:{
+            emoji:"👀",
+            titulo:"DORAMA DE MISTÉRIO!",
+            texto:
+            "Tem alguma coisa estranha acontecendo. 👀<br><br>Você percebe detalhes que ninguém percebe e começa a descobrir que aquele encontro talvez não tenha sido por acaso...",
+            badge:"MISTÉRIO • ROMANCE"
         }
 
+    };
 
-        function somClick(
-            freq = 150,
-            dur = .05
-        ) {
+    const r=resultados[tipo];
 
-            try {
+    document.getElementById("resultEmoji").textContent=r.emoji;
+    document.getElementById("resultTitle").textContent=r.titulo;
+    document.getElementById("resultText").innerHTML=r.texto;
+    document.getElementById("resultBadge").textContent=r.badge;
 
-                iniciarAudio();
+    if(navigator.vibrate){
+        navigator.vibrate([60,40,100]);
+    }
 
-                if (!audioCtx) return;
+    explosao();
 
-                const osc =
-                    audioCtx.createOscillator();
+}
 
-                const gain =
-                    audioCtx.createGain();
 
-                osc.type =
-                    "triangle";
+function explosao(){
 
-                osc.frequency.value =
-                    freq;
+    for(let i=0;i<25;i++){
 
-                gain.gain.setValueAtTime(
-                    .07,
-                    audioCtx.currentTime
-                );
+        const el=document.createElement("div");
 
-                gain.gain.exponentialRampToValueAtTime(
-                    .01,
-                    audioCtx.currentTime + dur
-                );
+        el.textContent=
+            emojis[Math.floor(Math.random()*emojis.length)];
 
-                osc.connect(gain);
+        el.style.position="fixed";
+        el.style.left="50%";
+        el.style.top="50%";
+        el.style.fontSize=(15+Math.random()*20)+"px";
+        el.style.pointerEvents="none";
+        el.style.zIndex="10";
 
-                gain.connect(
-                    audioCtx.destination
-                );
+        const x=(Math.random()*600-300);
+        const y=(Math.random()*900-450);
 
-                osc.start();
+        el.style.transition="transform 1.2s ease, opacity 1.2s ease";
 
-                osc.stop(
-                    audioCtx.currentTime + dur
-                );
+        document.body.appendChild(el);
 
-            } catch (e) {}
-        }
+        requestAnimationFrame(()=>{
 
+            el.style.transform=
+                `translate(${x}px,${y}px) rotate(${Math.random()*720}deg)`;
 
-        function somVitoria() {
+            el.style.opacity="0";
 
-            const notas = [
-                293.66,
-                329.63,
-                349.23,
-                392,
-                523.25
-            ];
+        });
 
-            notas.forEach(
-                (nota, indice) => {
+        setTimeout(()=>el.remove(),1300);
+    }
+}
 
-                    setTimeout(
-                        () => {
 
-                            somClick(
-                                nota,
-                                .25
-                            );
+function restart(){
 
-                        },
-                        indice * 120
-                    );
+    document.getElementById("result").classList.add("hidden");
+    document.getElementById("game").classList.remove("hidden");
 
-                }
-            );
-        }
+    perguntaAtual=0;
+    escolhas=[];
 
+    mostrarPergunta();
+}
 
-        /* ==========================================
-           VIBRAÇÃO
-        ========================================== */
-
-        function vibrar(
-            tempo = 50
-        ) {
-
-            try {
-
-                if (
-                    "vibrate" in navigator
-                ) {
-
-                    navigator.vibrate(
-                        tempo
-                    );
-                }
-
-            } catch (e) {}
-        }
-
-
-        /* ==========================================
-           COORDENADA DO TOQUE
-           COMPATÍVEL COM ANDROID + PC
-        ========================================== */
-
-        function obterPonto(e) {
-
-            let clientX;
-            let clientY;
-
-            if (
-                e.touches &&
-                e.touches.length > 0
-            ) {
-
-                clientX =
-                    e.touches[0].clientX;
-
-                clientY =
-                    e.touches[0].clientY;
-
-            } else if (
-                e.changedTouches &&
-                e.changedTouches.length > 0
-            ) {
-
-                clientX =
-                    e.changedTouches[0].clientX;
-
-                clientY =
-                    e.changedTouches[0].clientY;
-
-            } else {
-
-                clientX =
-                    e.clientX;
-
-                clientY =
-                    e.clientY;
-            }
-
-            return {
-                x: clientX,
-                y: clientY
-            };
-        }
-
-
-        /* ==========================================
-           CALCULAR ÂNGULO
-        ========================================== */
-
-        function obterAngulo(e) {
-
-            const ponto =
-                obterPonto(e);
-
-            const rect =
-                tranca.getBoundingClientRect();
-
-            const centroX =
-                rect.left +
-                rect.width / 2;
-
-            const centroY =
-                rect.top +
-                rect.height / 2;
-
-            return Math.atan2(
-                ponto.y - centroY,
-                ponto.x - centroX
-            );
-        }
-
-
-        /* ==========================================
-           INICIAR GIRO
-        ========================================== */
-
-        function iniciarGiro(e) {
-
-            if (finalizado) return;
-
-            iniciarAudio();
-
-            girando = true;
-
-            anguloAnterior =
-                obterAngulo(e);
-
-            tranca.style.filter =
-                "drop-shadow(0 0 18px #dc2626)";
-
-            roda.style.boxShadow =
-                "0 0 35px rgba(220,38,38,.8), inset 0 0 20px rgba(255,255,255,.25)";
-
-            e.preventDefault?.();
-        }
-
-
-        /* ==========================================
-           EXECUTAR GIRO
-        ========================================== */
-
-        function executarGiro(e) {
-
-            if (
-                !girando ||
-                finalizado
-            ) {
-                return;
-            }
-
-            const anguloAtual =
-                obterAngulo(e);
-
-            let diferenca =
-                anguloAtual -
-                anguloAnterior;
-
-
-            /*
-             * Corrige a passagem entre
-             * -PI e +PI.
-             */
-
-            if (
-                diferenca > Math.PI
-            ) {
-
-                diferenca -=
-                    Math.PI * 2;
-            }
-
-            if (
-                diferenca < -Math.PI
-            ) {
-
-                diferenca +=
-                    Math.PI * 2;
-            }
-
-
-            /*
-             * Ignora movimentos absurdamente
-             * grandes causados por perda de toque.
-             */
-
-            if (
-                Math.abs(diferenca) >
-                Math.PI * .75
-            ) {
-
-                anguloAnterior =
-                    anguloAtual;
-
-                return;
-            }
-
-
-            /*
-             * Soma o movimento absoluto.
-             */
-
-            totalGiro +=
-                Math.abs(diferenca);
-
-
-            anguloAnterior =
-                anguloAtual;
-
-
-            /*
-             * Rotação visual contínua.
-             */
-
-            rotacaoVisual +=
-                diferenca *
-                180 /
-                Math.PI;
-
-            roda.style.transform =
-                `rotate(${rotacaoVisual}deg)`;
-
-
-            /*
-             * Progresso:
-             * 6 voltas completas.
-             */
-
-            const progresso =
-                Math.min(
-                    100,
-                    Math.floor(
-                        (
-                            totalGiro /
-                            (Math.PI * 12)
-                        ) * 100
-                    )
-                );
-
-
-            statusTrava.innerText =
-                `Progresso seguro: ${progresso}%`;
-
-
-            /*
-             * Intensidade visual
-             * acompanha o movimento.
-             */
-
-            const intensidade =
-                Math.min(
-                    35,
-                    12 +
-                    Math.abs(diferenca) * 100
-                );
-
-            tranca.style.filter =
-                `drop-shadow(0 0 ${intensidade}px #dc2626)`;
-
-
-            /*
-             * Pequenos sons mecânicos.
-             */
-
-            if (
-                Math.random() <
-                .12
-            ) {
-
-                somClick(
-                    120 +
-                    Math.random() * 80,
-                    .035
-                );
-            }
-
-
-            /*
-             * Vibração curta
-             * em pequenos intervalos.
-             */
-
-            if (
-                Math.random() <
-                .035
-            ) {
-
-                vibrar(12);
-            }
-
-
-            /*
-             * Abre o cofre.
-             */
-
-            if (
-                totalGiro >=
-                Math.PI * 12
-            ) {
-
-                explodirCofre();
-            }
-
-
-            e.preventDefault?.();
-        }
-
-
-        /* ==========================================
-           PARAR GIRO
-        ========================================== */
-
-        function pararGiro() {
-
-            girando = false;
-
-            tranca.style.filter =
-                "none";
-
-            roda.style.boxShadow =
-                "0 0 20px rgba(0,0,0,.5), inset 0 0 15px rgba(255,255,255,.2)";
-        }
-
-
-        /* ==========================================
-           EVENTOS TOUCH
-        ========================================== */
-
-        tranca.addEventListener(
-            "touchstart",
-            iniciarGiro,
-            {
-                passive: false
-            }
-        );
-
-
-        window.addEventListener(
-            "touchmove",
-            executarGiro,
-            {
-                passive: false
-            }
-        );
-
-
-        window.addEventListener(
-            "touchend",
-            pararGiro,
-            {
-                passive: false
-            }
-        );
-
-
-        window.addEventListener(
-            "touchcancel",
-            pararGiro,
-            {
-                passive: false
-            }
-        );
-
-
-        /* ==========================================
-           EVENTOS MOUSE
-        ========================================== */
-
-        tranca.addEventListener(
-            "mousedown",
-            iniciarGiro
-        );
-
-
-        window.addEventListener(
-            "mousemove",
-            executarGiro
-        );
-
-
-        window.addEventListener(
-            "mouseup",
-            pararGiro
-        );
-
-
-        /* ==========================================
-           ABERTURA DO COFRE
-        ========================================== */
-
-        function explodirCofre() {
-
-            if (finalizado) return;
-
-            finalizado = true;
-
-            girando = false;
-
-            statusTrava.style.display =
-                "none";
-
-            subtitulo.style.display =
-                "none";
-
-            tranca.style.display =
-                "none";
-
-            instrucao.style.display =
-                "none";
-
-            painel.classList.add(
-                "arrombado"
-            );
-
-            moneyGlow.classList.add(
-                "ativo"
-            );
-
-            titulo.innerText =
-                "Bella Ciao! 🎭";
-
-
-            vibrar([
-                100,
-                50,
-                100,
-                50,
-                200
-            ]);
-
-            somVitoria();
-
-
-            /*
-             * Flash inicial.
-             */
-
-            flash.classList.remove(
-                "ativo"
-            );
-
-            void flash.offsetWidth;
-
-            flash.classList.add(
-                "ativo"
-            );
-
-
-            /*
-             * Chuva inicial de dinheiro.
-             */
-
-            for (
-                let i = 0;
-                i < 35;
-                i++
-            ) {
-
-                dinheiro.push(
-                    new Cedula()
-                );
-            }
-
-
-            /*
-             * Texto final.
-             */
-
-            setTimeout(
-                () => {
-
-                    const h2 =
-                        document.createElement(
-                            "h2"
-                        );
-
-                    h2.innerText =
-                        "O COFRE FOI ARROMBADO! 💰🔥🎭";
-
-                    painel.appendChild(
-                        h2
-                    );
-
-                },
-                450
-            );
-        }
-
-
-        /* ==========================================
-           LOOP DE ANIMAÇÃO
-        ========================================== */
-
-        function render() {
-
-            ctx.clearRect(
-                0,
-                0,
-                window.innerWidth,
-                window.innerHeight
-            );
-
-
-            /*
-             * Continua criando dinheiro
-             * depois da abertura.
-             */
-
-            if (
-                finalizado &&
-                dinheiro.length < 100 &&
-                Math.random() < .18
-            ) {
-
-                dinheiro.push(
-                    new Cedula()
-                );
-            }
-
-
-            /*
-             * Atualiza cédulas.
-             */
-
-            for (
-                let i = dinheiro.length - 1;
-                i >= 0;
-                i--
-            ) {
-
-                dinheiro[i].update();
-
-                dinheiro[i].draw();
-
-
-                if (
-                    dinheiro[i].y >
-                    window.innerHeight + 60
-                ) {
-
-                    dinheiro.splice(
-                        i,
-                        1
-                    );
-                }
-            }
-
-
-            requestAnimationFrame(
-                render
-            );
-        }
-
-        render();
-
-    </script>
+</script>
 
 </body>
 </html>
