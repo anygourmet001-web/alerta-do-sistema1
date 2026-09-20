@@ -2,9 +2,13 @@
 <html lang="pt-BR">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 
-<title>Abordagem da Confeiteira</title>
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+>
+
+<title>Teste da Dorameira</title>
 
 <style>
 
@@ -15,74 +19,126 @@
     -webkit-tap-highlight-color:transparent;
 }
 
-html,body{
+html,
+body{
     width:100%;
     height:100%;
     overflow:hidden;
-    font-family:Arial,Helvetica,sans-serif;
 }
 
 body{
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    color:#fff;
+
     background:
-        radial-gradient(circle at 50% 15%,rgba(255,120,170,.25),transparent 35%),
-        linear-gradient(145deg,#210b15,#4b1225,#12070d);
-    color:white;
+        radial-gradient(
+            circle at 50% 0%,
+            rgba(255,100,170,.30),
+            transparent 38%
+        ),
+        radial-gradient(
+            circle at 10% 80%,
+            rgba(130,70,255,.18),
+            transparent 30%
+        ),
+        linear-gradient(
+            145deg,
+            #110814,
+            #2a102b,
+            #100710
+        );
 }
 
-/* PARTICULAS */
 
-#particles{
+/* =========================================================
+   FUNDO
+========================================================= */
+
+#background{
     position:fixed;
     inset:0;
-    pointer-events:none;
     overflow:hidden;
-    z-index:1;
+    pointer-events:none;
+    z-index:0;
 }
 
-.particle{
+.float{
     position:absolute;
-    top:-40px;
-    animation:fall linear forwards;
-    opacity:.8;
+
+    top:-60px;
+
+    opacity:.65;
+
+    animation:
+        fall linear forwards;
 }
 
 @keyframes fall{
-    from{
-        transform:translateY(-40px) rotate(0deg);
+
+    0%{
+        transform:
+            translateY(-50px)
+            rotate(0deg);
+
         opacity:0;
     }
 
     10%{
-        opacity:1;
+        opacity:.8;
     }
 
-    to{
-        transform:translateY(110vh) rotate(500deg);
+    100%{
+        transform:
+            translateY(110vh)
+            rotate(600deg);
+
         opacity:0;
     }
 }
 
 
-/* TELAS */
+/* =========================================================
+   CONTAINER
+========================================================= */
 
 .screen{
     width:100%;
     height:100%;
+
     display:flex;
-    justify-content:center;
     align-items:center;
-    padding:18px;
+    justify-content:center;
+
+    padding:16px;
+
     position:relative;
-    z-index:5;
+
+    z-index:2;
 }
 
 .card{
+
     width:min(440px,100%);
-    min-height:580px;
 
-    padding:28px 22px;
+    min-height:600px;
 
-    border-radius:30px;
+    max-height:calc(100vh - 32px);
+
+    padding:25px 21px;
+
+    border-radius:32px;
+
+    display:flex;
+    flex-direction:column;
+
+    align-items:center;
+    justify-content:center;
+
+    text-align:center;
 
     background:
         linear-gradient(
@@ -91,21 +147,21 @@ body{
             rgba(255,255,255,.035)
         );
 
-    border:1px solid rgba(255,255,255,.16);
+    border:
+        1px solid
+        rgba(255,255,255,.16);
 
     box-shadow:
-        0 30px 90px rgba(0,0,0,.55),
-        inset 0 1px 0 rgba(255,255,255,.12);
+        0 35px 100px
+        rgba(0,0,0,.65),
+
+        inset 0 1px 0
+        rgba(255,255,255,.12);
 
     backdrop-filter:blur(18px);
     -webkit-backdrop-filter:blur(18px);
 
-    display:flex;
-    flex-direction:column;
-    align-items:center;
-    justify-content:center;
-
-    text-align:center;
+    overflow:hidden;
 }
 
 .hidden{
@@ -113,119 +169,169 @@ body{
 }
 
 
-/* INICIO */
+/* =========================================================
+   INÍCIO
+========================================================= */
 
-.alert{
-    display:inline-flex;
-    align-items:center;
-    gap:8px;
+.korean{
 
-    padding:8px 15px;
+    font-size:30px;
 
-    border-radius:30px;
+    margin-bottom:8px;
 
-    background:rgba(255,60,110,.12);
-
-    border:1px solid rgba(255,100,150,.25);
-
-    color:#ffb4cd;
-
-    font-size:12px;
-    font-weight:bold;
-
-    letter-spacing:2px;
-
-    margin-bottom:22px;
+    opacity:.9;
 }
 
-.emojiBig{
-    font-size:78px;
+.smallTitle{
 
-    margin-bottom:15px;
+    color:#ffb8d5;
 
-    filter:
-        drop-shadow(0 0 18px rgba(255,70,140,.45));
+    font-size:11px;
 
-    animation:
-        pulse 1.5s infinite;
+    font-weight:800;
+
+    letter-spacing:4px;
+
+    margin-bottom:18px;
 }
 
-@keyframes pulse{
+.mainTitle{
 
-    0%,100%{
-        transform:scale(1);
-    }
+    font-size:40px;
 
-    50%{
-        transform:scale(1.08);
-    }
-
-}
-
-.title{
-    font-size:39px;
-    line-height:1.02;
+    line-height:1;
 
     font-weight:900;
 
     margin-bottom:17px;
 
     text-shadow:
-        0 0 20px rgba(255,100,160,.25);
+        0 0 25px
+        rgba(255,80,160,.35);
 }
 
-.subtitle{
-    color:#f5dce6;
+.intro{
 
-    font-size:16px;
+    color:#ead5e2;
+
+    font-size:15px;
 
     line-height:1.55;
 
-    margin-bottom:28px;
+    max-width:340px;
+
+    margin-bottom:25px;
 }
 
+.hero{
+
+    font-size:75px;
+
+    margin-bottom:15px;
+
+    animation:
+        heartbeat 1.4s infinite;
+}
+
+@keyframes heartbeat{
+
+    0%,100%{
+        transform:scale(1);
+    }
+
+    15%{
+        transform:scale(1.12);
+    }
+
+    30%{
+        transform:scale(1);
+    }
+
+    45%{
+        transform:scale(1.07);
+    }
+
+}
+
+
+/* =========================================================
+   BOTÕES
+========================================================= */
+
 button{
+
     width:100%;
-    max-width:340px;
+
+    max-width:350px;
 
     border:0;
 
-    border-radius:18px;
+    border-radius:17px;
 
-    padding:17px 18px;
+    padding:16px 15px;
 
-    margin:7px 0;
+    margin:6px 0;
 
-    font-size:16px;
+    color:#fff;
+
+    font-size:15px;
 
     font-weight:800;
-
-    color:white;
 
     background:
         linear-gradient(
             135deg,
-            #ff4d8b,
-            #b92762
+            #ff4d91,
+            #a82c70
         );
 
     box-shadow:
-        0 10px 30px rgba(255,50,130,.25),
-        inset 0 1px 0 rgba(255,255,255,.18);
+        0 9px 25px
+        rgba(255,50,140,.22),
 
-    transition:.15s;
+        inset 0 1px 0
+        rgba(255,255,255,.2);
 
     cursor:pointer;
+
+    transition:
+        transform .15s,
+        background .15s;
 }
 
 button:active{
+
     transform:scale(.94);
+
+}
+
+.answer{
+
+    background:
+        rgba(255,255,255,.075);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    text-align:left;
+
+    padding:15px 16px;
+}
+
+.answer:hover{
+
+    background:
+        rgba(255,255,255,.13);
 }
 
 
-/* JOGO */
+/* =========================================================
+   JOGO
+========================================================= */
 
-.gameTop{
+.top{
+
     width:100%;
 
     display:flex;
@@ -234,176 +340,54 @@ button:active{
 
     align-items:center;
 
-    margin-bottom:15px;
+    margin-bottom:13px;
 }
 
-.badge{
-    padding:8px 12px;
+.episode{
+
+    padding:7px 11px;
 
     border-radius:20px;
 
-    background:rgba(255,255,255,.08);
+    background:
+        rgba(255,255,255,.08);
 
-    border:1px solid rgba(255,255,255,.1);
+    border:
+        1px solid
+        rgba(255,255,255,.1);
 
-    font-size:11px;
+    color:#ffc5da;
+
+    font-size:10px;
+
+    font-weight:bold;
 
     letter-spacing:1px;
-
-    color:#ffd2e1;
 }
 
 .score{
-    font-size:14px;
+
+    font-size:13px;
+
+    color:#ffd1e1;
 
     font-weight:bold;
-
-    color:#ffd2e1;
-}
-
-.instruction{
-    font-size:22px;
-
-    font-weight:900;
-
-    margin-bottom:5px;
-}
-
-.instructionSmall{
-    font-size:14px;
-
-    color:#dcbac8;
-
-    margin-bottom:18px;
-}
-
-.arena{
-
-    width:100%;
-    max-width:380px;
-
-    height:340px;
-
-    position:relative;
-
-    overflow:hidden;
-
-    border-radius:24px;
-
-    background:
-        linear-gradient(
-            180deg,
-            rgba(255,255,255,.08),
-            rgba(255,255,255,.025)
-        );
-
-    border:1px solid rgba(255,255,255,.12);
-
-    box-shadow:
-        inset 0 0 35px rgba(0,0,0,.3);
-
-    touch-action:none;
-}
-
-.item{
-
-    position:absolute;
-
-    font-size:45px;
-
-    cursor:pointer;
-
-    user-select:none;
-
-    -webkit-user-select:none;
-
-    transition:transform .12s;
-
-    filter:
-        drop-shadow(0 6px 8px rgba(0,0,0,.3));
-
-    animation:
-        appear .25s ease;
-}
-
-.item:active{
-    transform:scale(1.3);
-}
-
-@keyframes appear{
-
-    from{
-        transform:scale(0);
-        opacity:0;
-    }
-
-    to{
-        transform:scale(1);
-        opacity:1;
-    }
-
-}
-
-.enemy{
-
-    position:absolute;
-
-    padding:8px 12px;
-
-    border-radius:14px;
-
-    background:rgba(20,5,10,.85);
-
-    border:1px solid rgba(255,120,160,.2);
-
-    color:#ffd5e2;
-
-    font-size:11px;
-
-    font-weight:bold;
-
-    white-space:nowrap;
-
-    animation:
-        enemyMove 2.5s linear forwards;
-
-}
-
-@keyframes enemyMove{
-
-    from{
-        transform:translateX(110%);
-        opacity:0;
-    }
-
-    10%{
-        opacity:1;
-    }
-
-    90%{
-        opacity:1;
-    }
-
-    to{
-        transform:translateX(-150%);
-        opacity:0;
-    }
-
 }
 
 .progress{
+
     width:100%;
-    max-width:380px;
 
-    height:6px;
+    height:5px;
 
-    margin-top:15px;
+    background:
+        rgba(255,255,255,.1);
 
     border-radius:10px;
 
     overflow:hidden;
 
-    background:rgba(255,255,255,.1);
+    margin-bottom:20px;
 }
 
 .progressBar{
@@ -415,156 +399,85 @@ button:active{
     background:
         linear-gradient(
             90deg,
-            #ff4b8a,
-            #ffd0df
+            #ff4f91,
+            #ffd0e2
         );
 
-    transition:.3s;
+    transition:.4s;
 }
 
+.questionEmoji{
 
-/* FINAL */
+    font-size:47px;
 
-.finalEmoji{
-
-    font-size:78px;
-
-    margin-bottom:15px;
-
-    animation:
-        finalPop .7s ease;
+    margin-bottom:10px;
 }
 
-@keyframes finalPop{
+.question{
 
-    0%{
-        transform:scale(.2) rotate(-20deg);
-        opacity:0;
-    }
+    font-size:23px;
 
-    70%{
-        transform:scale(1.15) rotate(8deg);
-    }
-
-    100%{
-        transform:scale(1) rotate(0);
-        opacity:1;
-    }
-
-}
-
-.finalTitle{
-
-    font-size:34px;
+    line-height:1.2;
 
     font-weight:900;
 
-    line-height:1.05;
+    margin-bottom:20px;
 
-    margin-bottom:18px;
+    max-width:390px;
 }
 
-.finalText{
-
-    font-size:16px;
-
-    line-height:1.6;
-
-    color:#f3dce6;
-
-    margin-bottom:22px;
-}
-
-.priceBox{
+.answers{
 
     width:100%;
 
-    max-width:330px;
-
-    padding:16px;
-
-    border-radius:20px;
-
-    background:rgba(255,255,255,.07);
-
-    border:1px solid rgba(255,255,255,.12);
-
-    margin-bottom:20px;
-}
-
-.priceLine{
-
-    display:flex;
-
-    justify-content:space-between;
-
-    margin:7px 0;
-
-    font-weight:bold;
-}
-
-.red{
-    color:#ff8fb5;
-}
-
-.gold{
-    color:#ffd48a;
-}
-
-.total{
-
-    border-top:1px solid rgba(255,255,255,.1);
-
-    margin-top:10px;
-
-    padding-top:10px;
-
-    color:white;
-
-    font-size:18px;
+    max-width:350px;
 }
 
 
-/* MENSAGENS */
+/* =========================================================
+   FEEDBACK
+========================================================= */
 
-.popup{
+.feedback{
 
     position:fixed;
 
     left:50%;
-
     top:50%;
+
+    width:min(350px,86%);
+
+    padding:25px 20px;
+
+    border-radius:25px;
 
     transform:
         translate(-50%,-50%)
-        scale(.8);
-
-    width:min(330px,85%);
-
-    padding:22px;
-
-    border-radius:22px;
-
-    text-align:center;
-
-    background:
-        rgba(30,5,15,.94);
-
-    border:1px solid rgba(255,120,170,.3);
-
-    box-shadow:
-        0 20px 80px rgba(0,0,0,.6);
-
-    z-index:100;
+        scale(.75);
 
     opacity:0;
 
     pointer-events:none;
 
+    background:
+        rgba(24,6,20,.97);
+
+    border:
+        1px solid
+        rgba(255,120,180,.35);
+
+    box-shadow:
+        0 30px 100px
+        rgba(0,0,0,.7);
+
+    z-index:100;
+
     transition:.25s;
+
+    text-align:center;
 }
 
-.popup.show{
+.feedback.show{
 
     opacity:1;
 
@@ -573,188 +486,337 @@ button:active{
         scale(1);
 }
 
-.popupEmoji{
+.feedbackEmoji{
 
-    font-size:42px;
+    font-size:55px;
 
     margin-bottom:10px;
 }
 
-.popupText{
+.feedbackTitle{
 
-    font-size:16px;
+    font-size:22px;
+
+    font-weight:900;
+
+    margin-bottom:9px;
+}
+
+.feedbackText{
+
+    font-size:14px;
+
+    line-height:1.5;
+
+    color:#e8d2df;
+}
+
+
+/* =========================================================
+   RESULTADO
+========================================================= */
+
+.resultEmoji{
+
+    font-size:82px;
+
+    margin-bottom:13px;
+
+    animation:
+        resultPop .7s ease;
+}
+
+@keyframes resultPop{
+
+    0%{
+        transform:
+            scale(.1)
+            rotate(-30deg);
+
+        opacity:0;
+    }
+
+    70%{
+        transform:
+            scale(1.15)
+            rotate(8deg);
+    }
+
+    100%{
+        transform:
+            scale(1)
+            rotate(0);
+
+        opacity:1;
+    }
+}
+
+.resultTitle{
+
+    font-size:31px;
+
+    line-height:1.05;
+
+    font-weight:900;
+
+    margin-bottom:14px;
+}
+
+.resultScore{
+
+    display:inline-block;
+
+    padding:8px 16px;
+
+    border-radius:30px;
+
+    background:
+        rgba(255,255,255,.08);
+
+    border:
+        1px solid
+        rgba(255,255,255,.12);
+
+    color:#ffc5da;
+
+    font-size:13px;
+
+    font-weight:bold;
+
+    margin-bottom:17px;
+}
+
+.resultText{
+
+    font-size:15px;
+
+    line-height:1.55;
+
+    color:#ead7e1;
+
+    max-width:350px;
+
+    margin-bottom:20px;
+}
+
+.quote{
+
+    padding:15px;
+
+    width:100%;
+
+    max-width:350px;
+
+    border-radius:18px;
+
+    background:
+        rgba(255,255,255,.06);
+
+    border-left:
+        3px solid
+        #ff5b9c;
+
+    color:#ffd9e7;
+
+    font-size:14px;
 
     line-height:1.45;
 
-    font-weight:bold;
+    margin-bottom:20px;
 }
 
-.flash{
-    animation:flash .35s;
-}
 
-@keyframes flash{
+/* =========================================================
+   CONFETES
+========================================================= */
 
-    0%,100%{
-        filter:brightness(1);
-    }
+.confetti{
 
-    50%{
-        filter:brightness(2.5);
-    }
+    position:fixed;
 
+    left:50%;
+    top:50%;
+
+    pointer-events:none;
+
+    z-index:200;
+
+    font-size:20px;
 }
 
 </style>
 </head>
 
+
 <body>
 
-<div id="particles"></div>
+
+<div id="background"></div>
+
 
 <div class="screen">
 
 
-<!-- ================= INÍCIO ================= -->
+<!-- =======================================================
+     TELA INICIAL
+======================================================= -->
 
 <div class="card" id="start">
 
-    <div class="alert">
-        🚨 ABORDAGEM DETECTADA
+    <div class="korean">
+        💕 한류 💕
     </div>
 
-    <div class="emojiBig">
-        🍓🍫
+    <div class="smallTitle">
+        TESTE DEFINITIVO
     </div>
 
-    <div class="title">
-        VOCÊ FOI<br>
-        ABORDADO!
+    <div class="hero">
+        🎬💗
     </div>
 
-    <div class="subtitle">
+    <div class="mainTitle">
+        VOCÊ É MESMO<br>
+        UMA DORAMEIRA?
+    </div>
 
-        Você estava andando tranquilamente pela rua...
+    <div class="intro">
+
+        10 perguntas.
+
+        <br>
+
+        Alguns dos doramas mais famosos.
 
         <br><br>
 
-        Até encontrar uma confeiteira
-        com <b>morangos cravejados</b>
-        e <b>brigadeiros</b>.
-
-        👀
+        E uma avaliação completamente
+        <b>científica e confiável</b>
+        sobre o nível da sua doença. 😂
 
     </div>
 
-    <button onclick="startGame()">
-        🚨 ENFRENTAR A ABORDAGEM
+    <button onclick="startQuiz()">
+        🎬 COMEÇAR O TESTE
     </button>
 
 </div>
 
 
-<!-- ================= JOGO ================= -->
+<!-- =======================================================
+     QUIZ
+======================================================= -->
 
-<div class="card hidden" id="game">
+<div class="card hidden" id="quiz">
 
-    <div class="gameTop">
+    <div class="top">
 
-        <div class="badge">
-            OPERAÇÃO DOCINHO
+        <div class="episode" id="episode">
+            EPISÓDIO 1
         </div>
 
         <div class="score">
-            🍓 <span id="score">0</span>
+            💗 <span id="score">0</span> pts
         </div>
 
     </div>
 
-    <div class="instruction">
-        PEGUE OS DOCES!
-    </div>
-
-    <div class="instructionSmall">
-        Mas cuidado com os pedidos dos clientes... 😂
-    </div>
-
-    <div class="arena" id="arena"></div>
 
     <div class="progress">
-        <div class="progressBar" id="progress"></div>
+
+        <div
+            class="progressBar"
+            id="progressBar">
+        </div>
+
+    </div>
+
+
+    <div
+        class="questionEmoji"
+        id="questionEmoji">
+        🎬
+    </div>
+
+
+    <div
+        class="question"
+        id="question">
+    </div>
+
+
+    <div
+        class="answers"
+        id="answers">
     </div>
 
 </div>
 
 
-<!-- ================= FINAL ================= -->
+<!-- =======================================================
+     RESULTADO
+======================================================= -->
 
-<div class="card hidden" id="final">
+<div class="card hidden" id="result">
 
-    <div class="finalEmoji">
-        👑🍓🍫
+    <div
+        class="resultEmoji"
+        id="resultEmoji">
+        👑
     </div>
 
-    <div class="finalTitle">
-        ABORDAGEM<br>
-        CONCLUÍDA!
+    <div
+        class="resultTitle"
+        id="resultTitle">
     </div>
 
-    <div class="finalText">
-
-        Você conseguiu sobreviver
-        à abordagem da confeiteira.
-
-        <br><br>
-
-        Mas descobriu uma coisa...
-
-        <br><br>
-
-        <b>
-        Ela não queria seu dinheiro.
-        Ela queria era te vender doce. 😂
-        </b>
-
+    <div
+        class="resultScore"
+        id="resultScore">
     </div>
 
-    <div class="priceBox">
+    <div
+        class="resultText"
+        id="resultText">
+    </div>
 
-        <div class="priceLine">
-            <span>🍓 Morango cravejado</span>
-            <span class="red">R$ 15</span>
-        </div>
-
-        <div class="priceLine">
-            <span>🍫 Brigadeiro</span>
-            <span class="gold">R$ 12</span>
-        </div>
-
-        <div class="priceLine total">
-            <span>💰 Levou os dois</span>
-            <span>R$ 27</span>
-        </div>
-
+    <div
+        class="quote"
+        id="quote">
     </div>
 
     <button onclick="restart()">
-        🔄 SER ABORDADO NOVAMENTE
+        🔄 FAZER O TESTE NOVAMENTE
     </button>
 
 </div>
 
+
 </div>
 
 
-<!-- POPUP -->
+<!-- =======================================================
+     FEEDBACK
+======================================================= -->
 
-<div class="popup" id="popup">
+<div
+    class="feedback"
+    id="feedback">
 
-    <div class="popupEmoji" id="popupEmoji">
+    <div
+        class="feedbackEmoji"
+        id="feedbackEmoji">
         😂
     </div>
 
-    <div class="popupText" id="popupText">
-        ...
+    <div
+        class="feedbackTitle"
+        id="feedbackTitle">
+    </div>
+
+    <div
+        class="feedbackText"
+        id="feedbackText">
     </div>
 
 </div>
@@ -764,58 +826,64 @@ button:active{
 
 
 /* =========================================================
-   PARTICULAS
+   FUNDO ANIMADO
 ========================================================= */
 
-const particleContainer =
-    document.getElementById("particles");
+const background =
+    document.getElementById("background");
 
-const particleEmojis = [
-    "🍓",
-    "🍫",
+const backgroundItems = [
+    "🌸",
+    "💕",
     "✨",
     "💗",
-    "🍬",
-    "🌸"
+    "🎬",
+    "☂️",
+    "🌙",
+    "💮"
 ];
 
-function createParticle(){
+function createFloat(){
 
-    const p =
+    const el =
         document.createElement("div");
 
-    p.className="particle";
+    el.className="float";
 
-    p.textContent =
-        particleEmojis[
+    el.textContent =
+        backgroundItems[
             Math.floor(
                 Math.random() *
-                particleEmojis.length
+                backgroundItems.length
             )
         ];
 
-    p.style.left =
+    el.style.left =
         Math.random()*100+"vw";
 
-    p.style.fontSize =
+    el.style.fontSize =
         (13+Math.random()*18)+"px";
 
-    p.style.animationDuration =
-        (5+Math.random()*7)+"s";
+    el.style.animationDuration =
+        (5+Math.random()*8)+"s";
 
-    particleContainer.appendChild(p);
+    background.appendChild(el);
 
-    setTimeout(()=>{
-        p.remove();
-    },13000);
+    setTimeout(
+        ()=>el.remove(),
+        14000
+    );
 }
 
-setInterval(createParticle,450);
+setInterval(
+    createFloat,
+    420
+);
 
 for(let i=0;i<15;i++){
 
     setTimeout(
-        createParticle,
+        createFloat,
         i*180
     );
 
@@ -823,465 +891,590 @@ for(let i=0;i<15;i++){
 
 
 /* =========================================================
-   VARIÁVEIS DO JOGO
+   PERGUNTAS
 ========================================================= */
 
-const arena =
-    document.getElementById("arena");
+const questions = [
+
+{
+    emoji:"🔴",
+
+    question:
+    "Em Round 6, qual número identifica o protagonista Seong Gi-hun?",
+
+    options:[
+        ["456",true,"Essa é a identificação do jogador Seong Gi-hun. 🎯"],
+        ["001",false,"Esse número pertence ao personagem conhecido como Jogador 001."],
+        ["218",false,"Esse é o número associado a Cho Sang-woo."],
+        ["067",false,"Esse número pertence a Kang Sae-byeok."]
+    ]
+},
+
+
+{
+    emoji:"💍",
+
+    question:
+    "Em Rainha das Lágrimas, qual é a relação entre Hong Hae-in e Baek Hyun-woo no início da história?",
+
+    options:[
+        ["Eles são casados",true,"Exatamente: Hae-in e Hyun-woo começam a história como marido e mulher."],
+        ["Eles são irmãos",false,"Eles não são irmãos; a relação central entre os dois é conjugal."],
+        ["Eles são colegas de faculdade",false,"A relação deles não é apresentada dessa forma."],
+        ["Eles são rivais políticos",false,"O conflito entre eles é pessoal e familiar, não uma disputa política."]
+    ]
+},
+
+
+{
+    emoji:"✈️",
+
+    question:
+    "Em Pousando no Amor, onde Yoon Se-ri acaba depois de um acidente de parapente?",
+
+    options:[
+        ["Coreia do Norte",true,"Sim. O acidente leva Se-ri para território norte-coreano."],
+        ["Japão",false,"O acidente não leva Se-ri para o Japão."],
+        ["China",false,"A história principal do acidente não se passa na China."],
+        ["Tailândia",false,"A localização central dessa situação é outra."]
+    ]
+},
+
+
+{
+    emoji:"💄",
+
+    question:
+    "Em Beleza Verdadeira, qual habilidade Lim Ju-kyung usa para transformar sua aparência?",
+
+    options:[
+        ["Maquiagem",true,"A maquiagem é justamente um elemento central da transformação de Ju-kyung."],
+        ["Feitiçaria",false,"Apesar de alguns doramas terem fantasia, essa não é a explicação para a transformação dela."],
+        ["Cirurgia plástica",false,"A transformação apresentada na história está ligada à maquiagem."],
+        ["Um aplicativo de edição",false,"A mudança de aparência não acontece por meio de um aplicativo."]
+    ]
+},
+
+
+{
+    emoji:"📱",
+
+    question:
+    "Em Pretendente Surpresa, qual é a situação que coloca Shin Ha-ri em um encontro que não era originalmente dela?",
+
+    options:[
+        ["Ela vai no lugar da amiga",true,"Ha-ri aceita substituir a amiga em um encontro às cegas."],
+        ["Ela perde uma aposta",false,"A situação nasce de uma substituição, não de uma aposta."],
+        ["Ela é contratada pela empresa",false,"A situação não começa como uma contratação profissional."],
+        ["Ela troca de identidade com a irmã",false,"Não é uma troca de identidade com uma irmã."]
+    ]
+},
+
+
+{
+    emoji:"⚔️",
+
+    question:
+    "Em Alquimia das Almas, o que torna a história tão literalmente complicada para os personagens?",
+
+    options:[
+        ["Troca de almas entre corpos",true,"A magia da história permite que almas mudem de corpo, criando boa parte da confusão."],
+        ["Viagem para outro planeta",false,"A fantasia é ambientada em um mundo próprio, mas não envolve viagem para outro planeta."],
+        ["Viagem no tempo para o futuro",false,"O elemento central não é uma viagem temporal ao futuro."],
+        ["Clonagem dos personagens",false,"Clonagem não é o mecanismo fantástico central da história."]
+    ]
+},
+
+
+{
+    emoji:"⚖️",
+
+    question:
+    "Em Uma Advogada Extraordinária, qual é a profissão de Woo Young-woo?",
+
+    options:[
+        ["Advogada",true,"Sim. Woo Young-woo trabalha como advogada e atua em casos jurídicos."],
+        ["Médica",false,"Ela não é médica; sua profissão é ligada ao Direito."],
+        ["Promotora",false,"Ela atua como advogada, não como promotora."],
+        ["Professora",false,"Ela não exerce a profissão de professora na história."]
+    ]
+},
+
+
+{
+    emoji:"🧟",
+
+    question:
+    "Em All of Us Are Dead, onde os estudantes ficam presos durante o início do surto?",
+
+    options:[
+        ["Na escola",true,"O grupo de estudantes fica preso na escola durante o apocalipse zumbi."],
+        ["Em um aeroporto",false,"O local central inicial é a escola."],
+        ["Em um shopping",false,"O shopping não é o cenário principal dessa situação."],
+        ["Em um hospital",false,"O grupo não começa preso em um hospital."]
+    ]
+},
+
+
+{
+    emoji:"👠",
+
+    question:
+    "Em Rainha das Lágrimas, Hong Hae-in pertence a uma poderosa família empresarial conhecida como qual grupo?",
+
+    options:[
+        ["Queens Group",true,"Hae-in é herdeira do Queens Group."],
+        ["Hyundai Group",false,"Hyundai é um conglomerado real, mas não é o grupo fictício da personagem."],
+        ["Samsung Group",false,"Samsung é uma empresa real e não o grupo familiar fictício da trama."],
+        ["Mirae Group",false,"Mirae não é o nome do grupo empresarial da família de Hae-in."]
+    ]
+},
+
+
+{
+    emoji:"💘",
+
+    question:
+    "Qual destas situações é praticamente uma regra não escrita dos doramas românticos?",
+
+    options:[
+        ["Dois personagens se apaixonarem depois de uma sequência absurda de coincidências",true,"Esse recurso é extremamente comum nas comédias e romances de K-dramas."],
+        ["O casal resolver tudo no primeiro episódio",false,"Isso acabaria com boa parte do drama antes de começar."],
+        ["Ninguém esconder sentimentos durante a história",false,"Mal-entendidos e sentimentos não ditos são justamente recursos frequentes do gênero."],
+        ["Todos os personagens tomarem decisões sensatas",false,"Se todos fossem sensatos, metade dos episódios simplesmente não existiria. 😂"]
+    ]
+}
+
+];
+
+
+/* =========================================================
+   ESTADO
+========================================================= */
+
+let currentQuestion=0;
+
+let score=0;
+
+let locked=false;
+
+
+/* =========================================================
+   ELEMENTOS
+========================================================= */
+
+const start =
+    document.getElementById("start");
+
+const quiz =
+    document.getElementById("quiz");
+
+const result =
+    document.getElementById("result");
+
+const question =
+    document.getElementById("question");
+
+const questionEmoji =
+    document.getElementById("questionEmoji");
+
+const answers =
+    document.getElementById("answers");
 
 const scoreElement =
     document.getElementById("score");
 
+const episode =
+    document.getElementById("episode");
+
 const progressBar =
-    document.getElementById("progress");
-
-let score=0;
-
-let objetivo=10;
-
-let gameRunning=false;
-
-let itemTimer;
-
-let enemyTimer;
+    document.getElementById("progressBar");
 
 
 /* =========================================================
    INICIAR
 ========================================================= */
 
-function startGame(){
+function startQuiz(){
 
-    document
-        .getElementById("start")
-        .classList.add("hidden");
+    start.classList.add("hidden");
 
-    document
-        .getElementById("final")
-        .classList.add("hidden");
+    result.classList.add("hidden");
 
-    document
-        .getElementById("game")
-        .classList.remove("hidden");
+    quiz.classList.remove("hidden");
+
+    currentQuestion=0;
 
     score=0;
 
+    locked=false;
+
     scoreElement.textContent="0";
 
-    progressBar.style.width="0%";
-
-    gameRunning=true;
-
-    arena.innerHTML="";
-
-    criarItens();
-
-    criarInimigos();
+    showQuestion();
 
 }
 
 
 /* =========================================================
-   CRIAR DOCES
+   MOSTRAR PERGUNTA
 ========================================================= */
 
-function criarItens(){
+function showQuestion(){
 
-    if(!gameRunning)
-        return;
+    locked=false;
 
-    const item =
-        document.createElement("div");
+    const q =
+        questions[currentQuestion];
 
-    item.className="item";
+    questionEmoji.textContent =
+        q.emoji;
 
-    const tipo =
-        Math.random() < .5
-        ? "🍓"
-        : "🍫";
+    question.textContent =
+        q.question;
 
-    item.textContent=tipo;
-
-    const arenaWidth =
-        arena.clientWidth;
-
-    const arenaHeight =
-        arena.clientHeight;
-
-    item.style.left =
-        (15+
-        Math.random()*
-        (arenaWidth-65))+"px";
-
-    item.style.top =
-        (15+
-        Math.random()*
-        (arenaHeight-70))+"px";
-
-
-    item.addEventListener(
-        "pointerdown",
-        function(e){
-
-            e.preventDefault();
-
-            pegarDoce(item,tipo);
-
-        },
-        {passive:false}
-    );
-
-
-    arena.appendChild(item);
-
-
-    setTimeout(()=>{
-
-        if(item.parentNode)
-            item.remove();
-
-    },2600);
-
-
-    itemTimer =
-        setTimeout(
-            criarItens,
-            500
-        );
-
-}
-
-
-/* =========================================================
-   PEGAR DOCE
-========================================================= */
-
-function pegarDoce(item,tipo){
-
-    if(!gameRunning)
-        return;
-
-    score++;
-
-    scoreElement.textContent=score;
+    episode.textContent =
+        "EPISÓDIO "+
+        (currentQuestion+1)+
+        " / "+
+        questions.length;
 
     progressBar.style.width =
-        Math.min(
-            score/objetivo*100,
+        (
+            currentQuestion /
+            questions.length *
             100
         )+"%";
 
-    item.classList.add("flash");
+    answers.innerHTML="";
+
+
+    q.options.forEach(
+        (option,index)=>{
+
+            const btn =
+                document.createElement("button");
+
+            btn.className="answer";
+
+            btn.textContent =
+                option[0];
+
+            btn.addEventListener(
+                "pointerdown",
+                function(e){
+
+                    e.preventDefault();
+
+                    chooseAnswer(
+                        index,
+                        option
+                    );
+
+                },
+                {passive:false}
+            );
+
+            answers.appendChild(btn);
+
+        }
+    );
+
+}
+
+
+/* =========================================================
+   RESPONDER
+========================================================= */
+
+function chooseAnswer(
+    index,
+    option
+){
+
+    if(locked)
+        return;
+
+    locked=true;
+
+    const correct =
+        option[1];
+
+    if(correct){
+
+        score++;
+
+        scoreElement.textContent =
+            score;
+
+        showFeedback(
+            "💗",
+            "ACERTOU!",
+            option[2]
+        );
+
+    }else{
+
+        showFeedback(
+            "😂",
+            "A DORAMEIRA VACILOU!",
+            option[3]
+        );
+
+    }
 
     if(navigator.vibrate){
 
-        navigator.vibrate(35);
-
-    }
-
-    criarExplosao(
-        item,
-        tipo
-    );
-
-    item.remove();
-
-
-    /* FRASES ALEATÓRIAS */
-
-    const frases=[
-
-        "Pegou! Agora vende. 😂",
-
-        "Esse já tem dono! 👀",
-
-        "R$15 entrando no caixa! 💰",
-
-        "Esse morango não escapa! 🍓",
-
-        "Brigadeiro capturado! 🍫",
-
-        "A confeiteira aprovou! 👑",
-
-        "Mais um cliente abordado! 😂"
-
-    ];
-
-    if(
-        score===3 ||
-        score===6 ||
-        score===9
-    ){
-
-        mostrarPopup(
-            "🍓",
-            frases[
-                Math.floor(
-                    Math.random()*
-                    frases.length
-                )
-            ]
+        navigator.vibrate(
+            correct
+            ? [40]
+            : [30,40,30]
         );
 
     }
 
-
-    if(score>=objetivo){
-
-        finalizar();
-
-    }
-
-}
-
-
-/* =========================================================
-   CLIENTES / INIMIGOS
-========================================================= */
-
-const pedidos=[
-
-    "Moça, tem desconto? 😂",
-
-    "Faz por R$10? 😭",
-
-    "Tem como entregar? 👀",
-
-    "É só um pouquinho... 🤏",
-
-    "Moça, separa 20 pra mim!",
-
-    "Tem como fazer pra agora? 🚨",
-
-    "Vi mais barato na internet! 🤡",
-
-    "Se eu levar 3 dá desconto? 😂",
-
-    "Moça, aceita fiado? 💀",
-
-    "Faz um brigadeiro só? 👀"
-
-];
-
-
-function criarInimigos(){
-
-    if(!gameRunning)
-        return;
-
-    const enemy =
-        document.createElement("div");
-
-    enemy.className="enemy";
-
-    enemy.textContent=
-        pedidos[
-            Math.floor(
-                Math.random()*
-                pedidos.length
-            )
-        ];
-
-    enemy.style.top =
-        (20+
-        Math.random()*280)+"px";
-
-    arena.appendChild(enemy);
 
     setTimeout(()=>{
 
-        enemy.remove();
+        currentQuestion++;
 
-    },2700);
+        if(
+            currentQuestion >=
+            questions.length
+        ){
 
+            finishQuiz();
 
-    enemyTimer =
-        setTimeout(
-            criarInimigos,
-            1800
-        );
+        }else{
 
-}
-
-
-/* =========================================================
-   EXPLOSÃO
-========================================================= */
-
-function criarExplosao(item,tipo){
-
-    const rect =
-        item.getBoundingClientRect();
-
-    const symbols =
-        tipo==="🍓"
-        ? ["🍓","✨","💗"]
-        : ["🍫","✨","🤎"];
-
-    for(let i=0;i<7;i++){
-
-        const p =
-            document.createElement("div");
-
-        p.textContent =
-            symbols[
-                Math.floor(
-                    Math.random()*
-                    symbols.length
-                )
-            ];
-
-        p.style.position="fixed";
-
-        p.style.left =
-            rect.left+"px";
-
-        p.style.top =
-            rect.top+"px";
-
-        p.style.fontSize="18px";
-
-        p.style.zIndex="200";
-
-        p.style.pointerEvents="none";
-
-        document.body.appendChild(p);
-
-        const x =
-            (Math.random()*120)-60;
-
-        const y =
-            (Math.random()*120)-60;
-
-        p.animate(
-
-            [
-                {
-                    transform:"translate(0,0) scale(1)",
-                    opacity:1
-                },
-
-                {
-                    transform:
-                        `translate(${x}px,${y}px) scale(.4)`,
-                    opacity:0
-                }
-
-            ],
-
-            {
-                duration:700,
-                easing:"ease-out"
-            }
-
-        );
-
-        setTimeout(()=>{
-            p.remove();
-        },700);
-
-    }
-
-}
-
-
-/* =========================================================
-   POPUP
-========================================================= */
-
-let popupTimeout;
-
-function mostrarPopup(emoji,texto){
-
-    const popup =
-        document.getElementById("popup");
-
-    document.getElementById(
-        "popupEmoji"
-    ).textContent=emoji;
-
-    document.getElementById(
-        "popupText"
-    ).textContent=texto;
-
-    popup.classList.add("show");
-
-    clearTimeout(popupTimeout);
-
-    popupTimeout =
-        setTimeout(()=>{
-
-            popup.classList.remove("show");
-
-        },1100);
-
-}
-
-
-/* =========================================================
-   FINAL
-========================================================= */
-
-function finalizar(){
-
-    gameRunning=false;
-
-    clearTimeout(itemTimer);
-
-    clearTimeout(enemyTimer);
-
-    setTimeout(()=>{
-
-        document
-            .getElementById("game")
-            .classList.add("hidden");
-
-        document
-            .getElementById("final")
-            .classList.remove("hidden");
-
-        explosaoFinal();
-
-        if(navigator.vibrate){
-
-            navigator.vibrate([
-                70,
-                50,
-                70,
-                100
-            ]);
+            showQuestion();
 
         }
 
-    },450);
+    },1250);
 
 }
 
 
 /* =========================================================
-   EXPLOSÃO FINAL
+   FEEDBACK
 ========================================================= */
 
-function explosaoFinal(){
+let feedbackTimer;
+
+function showFeedback(
+    emoji,
+    title,
+    text
+){
+
+    const box =
+        document.getElementById("feedback");
+
+    document.getElementById(
+        "feedbackEmoji"
+    ).textContent=emoji;
+
+    document.getElementById(
+        "feedbackTitle"
+    ).textContent=title;
+
+    document.getElementById(
+        "feedbackText"
+    ).textContent=text;
+
+    box.classList.add("show");
+
+    clearTimeout(feedbackTimer);
+
+    feedbackTimer =
+        setTimeout(()=>{
+
+            box.classList.remove("show");
+
+        },1050);
+
+}
+
+
+/* =========================================================
+   RESULTADO
+========================================================= */
+
+function finishQuiz(){
+
+    quiz.classList.add("hidden");
+
+    result.classList.remove("hidden");
+
+    progressBar.style.width="100%";
+
+
+    let data;
+
+
+    if(score>=9){
+
+        data={
+
+            emoji:"👑🔥",
+
+            title:
+            "VOCÊ NÃO ASSISTE DORAMA...",
+
+            score:
+            score+" / "+questions.length+
+            " — NÍVEL: LENDÁRIA",
+
+            text:
+            "Você não é uma simples dorameira. Você já está em um nível em que provavelmente reconhece o protagonista pelo olhar, sabe quando vai acontecer o beijo antes da trilha sonora e já desconfia do personagem bonzinho desde o episódio 2. 😂",
+
+            quote:
+            "⚠️ DIAGNÓSTICO: caso avançado.<br><br>Recomendação médica: mais um episódio.<br><br>Possíveis efeitos colaterais: madrugada, olheiras e gritos para a televisão."
+        };
+
+    }
+
+    else if(score>=7){
+
+        data={
+
+            emoji:"💗🎬",
+
+            title:
+            "DORAMEIRA PROFISSIONAL",
+
+            score:
+            score+" / "+questions.length+
+            " — RESPEITÁVEL",
+
+            text:
+            "Você sabe das coisas! Talvez ainda não consiga prever todos os plot twists, mas já sabe que quando o protagonista fala 'precisamos conversar'... alguma desgraça vem aí. 😂",
+
+            quote:
+            "Seu nível atual permite recomendar doramas para outras pessoas sem responsabilidade alguma sobre as noites de sono delas."
+        };
+
+    }
+
+    else if(score>=5){
+
+        data={
+
+            emoji:"😂🍿",
+
+            title:
+            "DORAMEIRA EM TREINAMENTO",
+
+            score:
+            score+" / "+questions.length+
+            " — TEM POTENCIAL",
+
+            text:
+            "Você conhece alguns clássicos, mas ainda precisa cumprir algumas horas de estágio na Netflix. Relaxa: ninguém nasce sabendo diferenciar o segundo protagonista do verdadeiro amor da protagonista. 😂",
+
+            quote:
+            "Missão recomendada: escolher um dorama famoso, começar 'só o primeiro episódio' e aparecer 6 horas depois perguntando por que está amanhecendo."
+        };
+
+    }
+
+    else{
+
+        data={
+
+            emoji:"😭📺",
+
+            title:
+            "VOCÊ PRECISA DE AJUDA!",
+
+            score:
+            score+" / "+questions.length+
+            " — SITUAÇÃO DELICADA",
+
+            text:
+            "Tem alguém aí que claramente precisa passar mais tempo vendo dorama. 😂 Mas não se preocupe: o tratamento é simples e completamente indolor.",
+
+            quote:
+            "💊 PRESCRIÇÃO:<br><br>1 episódio por noite.<br>Se houver recaída, assistir mais 3.<br>Se terminar a temporada de madrugada... não nos responsabilizamos."
+        };
+
+    }
+
+
+    document.getElementById(
+        "resultEmoji"
+    ).textContent =
+        data.emoji;
+
+    document.getElementById(
+        "resultTitle"
+    ).textContent =
+        data.title;
+
+    document.getElementById(
+        "resultScore"
+    ).textContent =
+        data.score;
+
+    document.getElementById(
+        "resultText"
+    ).textContent =
+        data.text;
+
+    document.getElementById(
+        "quote"
+    ).innerHTML =
+        data.quote;
+
+
+    createConfetti();
+
+
+    if(navigator.vibrate){
+
+        navigator.vibrate([
+            70,
+            50,
+            100,
+            50,
+            150
+        ]);
+
+    }
+
+}
+
+
+/* =========================================================
+   CONFETES
+========================================================= */
+
+function createConfetti(){
 
     const symbols=[
-
-        "🍓",
-        "🍫",
-        "💰",
+        "💗",
+        "🌸",
         "✨",
         "😂",
-        "💗",
-        "🍬"
-
+        "🎬",
+        "💕",
+        "🍿",
+        "🇰🇷"
     ];
 
-    for(let i=0;i<35;i++){
+    for(
+        let i=0;
+        i<40;
+        i++
+    ){
 
-        const p =
+        const c =
             document.createElement("div");
 
-        p.textContent =
+        c.className="confetti";
+
+        c.textContent =
             symbols[
                 Math.floor(
                     Math.random()*
@@ -1289,28 +1482,15 @@ function explosaoFinal(){
                 )
             ];
 
-        p.style.position="fixed";
-
-        p.style.left="50%";
-
-        p.style.top="50%";
-
-        p.style.fontSize =
-            (16+Math.random()*25)+"px";
-
-        p.style.zIndex="200";
-
-        p.style.pointerEvents="none";
-
-        document.body.appendChild(p);
-
         const x =
-            (Math.random()*700)-350;
+            Math.random()*700-350;
 
         const y =
-            (Math.random()*900)-450;
+            Math.random()*900-450;
 
-        p.animate(
+        document.body.appendChild(c);
+
+        c.animate(
 
             [
 
@@ -1327,23 +1507,21 @@ function explosaoFinal(){
                             calc(-50% + ${y}px)
                         )
                         scale(1)
-                        rotate(${Math.random()*700}deg)`,
+                        rotate(360deg)`,
 
                     opacity:1
-
                 },
 
                 {
                     transform:
                         `translate(
-                            calc(-50% + ${x*1.3}px),
+                            calc(-50% + ${x*1.2}px),
                             calc(-50% + ${y*1.3}px)
                         )
                         scale(.5)
-                        rotate(${Math.random()*1000}deg)`,
+                        rotate(720deg)`,
 
                     opacity:0
-
                 }
 
             ],
@@ -1351,18 +1529,20 @@ function explosaoFinal(){
             {
 
                 duration:
-                    1200+
-                    Math.random()*800,
+                    1300+
+                    Math.random()*900,
 
-                easing:"cubic-bezier(.2,.7,.2,1)"
+                easing:
+                    "cubic-bezier(.2,.7,.2,1)"
 
             }
 
         );
 
-        setTimeout(()=>{
-            p.remove();
-        },2200);
+        setTimeout(
+            ()=>c.remove(),
+            2400
+        );
 
     }
 
@@ -1375,17 +1555,15 @@ function explosaoFinal(){
 
 function restart(){
 
-    document
-        .getElementById("final")
-        .classList.add("hidden");
+    result.classList.add("hidden");
 
-    document
-        .getElementById("start")
-        .classList.remove("hidden");
+    start.classList.remove("hidden");
 
-    arena.innerHTML="";
+    currentQuestion=0;
 
     score=0;
+
+    scoreElement.textContent="0";
 
     progressBar.style.width="0%";
 
@@ -1393,23 +1571,26 @@ function restart(){
 
 
 /* =========================================================
-   IMPEDIR SCROLL DURANTE O JOGO
+   BLOQUEIO DE SCROLL
 ========================================================= */
 
 document.addEventListener(
     "touchmove",
     function(e){
 
-        if(gameRunning){
+        if(
+            !quiz.classList.contains("hidden")
+        ){
 
             e.preventDefault();
 
         }
 
     },
-    {passive:false}
+    {
+        passive:false
+    }
 );
-
 
 </script>
 
